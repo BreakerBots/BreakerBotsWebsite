@@ -1,57 +1,119 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="shortcut icon" href="../assets/img/iconT.png">
-    <title>Beagle</title>
-    <link rel="stylesheet" type="text/css" href="../assets/lib/perfect-scrollbar/css/perfect-scrollbar.min.css"/>
-    <link rel="stylesheet" type="text/css" href="../assets/lib/material-design-icons/css/material-design-iconic-font.min.css"/><!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <link rel="stylesheet" href="../assets/css/app.css" type="text/css"/>
-  </head>
-  <body class="be-splash-screen">
-    <div class="be-wrapper be-login">
-      <div class="be-content">
-        <div class="main-content container-fluid">
-          <div class="splash-container">
-            <div class="card card-border-color card-border-color-primary">
-              <div class="card-header">
-				<img src="../assets/img/iconT.png" alt="logo" width="50" height="50" class="logo-img"><span class="splash-description">Please enter your user information.</span></div>
-              <div class="card-body">
-                <form action="index.html" method="get">
-                  <div class="form-group">
-                    <input id="username" type="text" placeholder="Username" autocomplete="off" class="form-control">
-                  </div>
-                  <div class="form-group">
-                    <input id="password" type="password" placeholder="Password" class="form-control">
-                  </div>
-                  <div class="form-group login-submit">
-                    <button data-dismiss="modal" type="submit" class="btn btn-primary btn-xl">Sign me in</button>
-                  </div>
-                </form>
-              </div>
-            </div>
-            <div class="splash-footer"><span>Don't have an account? <a href="signup.html">Sign Up</a></span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <script src="../assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
-    <script src="../assets/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
-    <script src="../assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
-    <script src="../assets/js/app.js" type="text/javascript"></script>
-    <script type="text/javascript">
-      $(document).ready(function(){
-      	//initialize the javascript
-      	App.init();
-      });
-      
-    </script>
-  </body>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<link rel="shortcut icon" href="../assets/img/iconT.png">
+	<title>Breakerbots - Login</title>
+	<link rel="stylesheet" type="text/css" href="../assets/lib/perfect-scrollbar/css/perfect-scrollbar.min.css" />
+	<link rel="stylesheet" type="text/css" href="../assets/lib/material-design-icons/css/material-design-iconic-font.min.css" />
+	<!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	<link rel="stylesheet" href="../assets/css/app.css" type="text/css" />
+
+	<!--Firebase-->
+	<script defer src="/__/firebase/4.12.1/firebase-app.js"></script>
+	<script defer src="/__/firebase/4.12.1/firebase-auth.js"></script>
+	<script defer src="/__/firebase/4.12.1/firebase-database.js"></script>
+	<script defer src="/__/firebase/4.12.1/firebase-messaging.js"></script>
+	<script defer src="/__/firebase/4.12.1/firebase-storage.js"></script>
+	<script defer src="/__/firebase/init.js"></script>
+</head>
+<body class="be-splash-screen">
+	<div class="be-wrapper be-login">
+		<div class="be-content">
+			<div class="main-content container-fluid">
+				<div class="splash-container">
+					<div class="card card-border-color card-border-color-primary">
+						<div class="card-header">
+							<img src="../assets/img/iconT.png" alt="logo" width="50" height="50" class="logo-img"><span class="splash-description">Please enter your user information.</span>
+						</div>
+						<div class="card-body">
+							<form id="LoginForm">
+								<div class="form-group">
+									<input id="email" type="email" placeholder="Email" autocomplete="off" class="form-control" required="">
+								</div>
+								<div class="form-group">
+									<input id="password" type="password" placeholder="Password" class="form-control" required="">
+								</div>
+								<div class="form-group login-submit">
+									<button data-dismiss="modal" type="submit" class="btn btn-primary btn-xl">Sign me in</button>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="splash-footer"><span>Don't have an account? <a href="signup.html">Sign Up</a></span></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="../assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
+	<script src="../assets/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
+	<script src="../assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+	<script src="../assets/js/app.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			//initialize the javascript
+			App.init();
+		});
+
+		function processForm(e) {
+			if (e.preventDefault) e.preventDefault();
+
+			var email = document.getElementById("email").value;
+			var password = document.getElementById("password").value;
+			firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
+				var errorCode = error.code;
+				var errorMessage = error.message;
+
+				console.log(errorCode + ": " + errorMessage);
+
+				if (errorCode === 'auth/wrong-password') {
+					document.getElementById("password").setCustomValidity("Incorrect Password!");
+					document.getElementById("password").reportValidity();
+					inPass = password;
+				} else if (errorCode === 'auth/user-not-found') {
+					document.getElementById("email").setCustomValidity("There is no account registered under this email!");
+					document.getElementById("email").reportValidity();
+					unEmail = email;
+				} 
+			});
+		}
+
+		var unEmail = "";
+		var emailEl = document.getElementById("email");
+		emailEl.addEventListener("input", function (event) {
+			if (emailEl.value == unEmail) { emailEl.setCustomValidity("There is no account registered under this email!"); }
+			else { emailEl.setCustomValidity(""); }
+		});
+		var inPass = "";
+		var passEl = document.getElementById("password");
+		passEl.addEventListener("input", function (event) {
+			if (passEl.value == inPass) { passEl.setCustomValidity("Incorrect Password!"); }
+			else { passEl.setCustomValidity(""); }
+		});
+
+		document.addEventListener("DOMContentLoaded", function () {
+			firebase.auth().onAuthStateChanged(function (user) {
+				if (user) {
+					window.open('main.html', '_self', false);
+				} else {
+
+				}
+			});
+		});
+
+		var form = document.getElementById('LoginForm');
+		if (form.attachEvent) {
+			form.attachEvent("submit", processForm);
+		} else {
+			form.addEventListener("submit", processForm);
+		}
+	</script>
+</body>
 </html>

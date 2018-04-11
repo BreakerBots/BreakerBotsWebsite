@@ -1,73 +1,130 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="shortcut icon" href="../assets/img/logo-fav.png">
-    <title>Beagle</title>
-    <link rel="stylesheet" type="text/css" href="../assets/lib/perfect-scrollbar/css/perfect-scrollbar.min.css"/>
-    <link rel="stylesheet" type="text/css" href="../assets/lib/material-design-icons/css/material-design-iconic-font.min.css"/><!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <link rel="stylesheet" href="../assets/css/app.css" type="text/css"/>
-  </head>
-  <body class="be-splash-screen">
-    <div class="be-wrapper be-login be-signup">
-      <div class="be-content">
-        <div class="main-content container-fluid">
-          <div class="splash-container sign-up">
-            <div class="card card-border-color card-border-color-primary">
-              <div class="card-header"><img src="../assets/img/iconT.png" alt="logo" width="50" height="50" class="logo-img"><span class="splash-description">Please enter your user information.</span></div>
-              <div class="card-body">
-				  <form>
-				  	<span class="splash-title pb-4">Sign Up</span>
-				  	<div class="form-group">
-				  		<input type="text" name="nick" required="" placeholder="Username" autocomplete="off" class="form-control">
-				  	</div>
-				  	<div class="form-group">
-				  		<input type="email" name="email" required="" placeholder="E-mail" autocomplete="off" class="form-control">
-				  	</div>
-				  	<div class="form-group row signup-password">
-				  		<div class="col-6">
-				  			<input id="pass1" type="password" required="" placeholder="Password" class="form-control">
-				  		</div>
-				  		<div class="col-6">
-				  			<input id="pass2" type="password" required="" placeholder="Confirm" class="form-control">
-				  		</div>
-				  	</div>
-				  	<div class="form-group">
-				  		<input type="text" name="key" required="" placeholder="Ask Liam For Key" autocomplete="off" class="form-control">
-				  	</div>
-				  	<div class="form-group pt-2">
-				  		<button type="submit" class="btn btn-block btn-primary btn-xl">Sign Up</button>
-				  	</div>
-				  	<div class="form-group pt-3 mb-3">
-				  		<label class="custom-control custom-checkbox">
-				  			<input type="checkbox" class="custom-control-input"><span class="custom-control-label">By creating an account, you agree the <a href="#">terms and conditions</a>.</span>
-				  		</label>
-				  	</div>
-				  </form>
-              </div>
-            </div>
-            <div class="splash-footer">&copy; 2018 Breakerbots</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <script src="../assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
-    <script src="../assets/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
-    <script src="../assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
-    <script src="../assets/js/app.js" type="text/javascript"></script>
-    <script type="text/javascript">
-      $(document).ready(function(){
-      	//initialize the javascript
-      	App.init();
-      });
-      
-    </script>
-  </body>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<link rel="shortcut icon" href="../assets/img/iconT.png">
+	<title>Breakerbots - Signup</title>
+	<link rel="stylesheet" type="text/css" href="../assets/lib/perfect-scrollbar/css/perfect-scrollbar.min.css" />
+	<link rel="stylesheet" type="text/css" href="../assets/lib/material-design-icons/css/material-design-iconic-font.min.css" />
+	<!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	<link rel="stylesheet" href="../assets/css/app.css" type="text/css" />
+
+	<!--Firebase-->
+	<script defer src="/__/firebase/4.12.1/firebase-app.js"></script>
+	<script defer src="/__/firebase/4.12.1/firebase-auth.js"></script>
+	<script defer src="/__/firebase/4.12.1/firebase-database.js"></script>
+	<script defer src="/__/firebase/4.12.1/firebase-messaging.js"></script>
+	<script defer src="/__/firebase/4.12.1/firebase-storage.js"></script>
+	<script defer src="/__/firebase/init.js"></script>
+</head>
+<body class="be-splash-screen">
+	<div class="be-wrapper be-login be-signup">
+		<div class="be-content">
+			<div class="main-content container-fluid">
+				<div class="splash-container sign-up">
+					<div class="card card-border-color card-border-color-primary">
+						<div class="card-header"><img src="../assets/img/iconT.png" alt="logo" width="50" height="50" class="logo-img"><span class="splash-description">Please enter your user information.</span></div>
+						<div class="card-body">
+							<form id="SigninForm">
+								<span class="splash-title pb-4">Sign Up</span>
+								<div class="form-group">
+									<input type="text" name="nick" id="username" required="" placeholder="Username" autocomplete="off" class="form-control">
+								</div>
+								<div class="form-group">
+									<input type="email" name="email" id="email" required="" placeholder="E-mail" autocomplete="off" class="form-control">
+								</div>
+								<div class="form-group row signup-password">
+									<div class="col-6">
+										<input type="password" placeholder="Password" id="password" required class="form-control" minlength="6">
+									</div>
+									<div class="col-6">
+										<input type="password" placeholder="Confirm Password" id="confirm_password" required class="form-control">
+									</div>
+								</div>
+								<div class="form-group">
+									<input type="password" name="key" id="key" required="" placeholder="Key" autocomplete="off" class="form-control">
+								</div>
+								<div class="form-group pt-2">
+									<button id="submitbutton" type="submit" class="btn btn-block btn-primary btn-xl">Sign Up</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="../assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
+	<script src="../assets/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
+	<script src="../assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+	<script src="../assets/js/app.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			App.init();
+
+			//Confirm Password Validation
+			var password = document.getElementById("password"), confirm_password = document.getElementById("confirm_password");
+			function validatePassword() {
+				if (password.value != confirm_password.value) { confirm_password.setCustomValidity("Passwords Don't Match"); } else { confirm_password.setCustomValidity(""); }
+			}
+			password.onchange = validatePassword; confirm_password.onkeyup = validatePassword;
+
+			//Email Validation
+			var email = document.getElementById("email");
+			email.addEventListener("input", function (event) { if (email.validity.typeMismatch) { email.setCustomValidity("Please Enter A Valid Email"); } else { if (email.value == emailInUse) { email.setCustomValidity("This email is in use!"); } else { email.setCustomValidity(""); } } });
+
+			var key = document.getElementById("key"); String.prototype.dtrt = function () { var hash = 0, i, chr; if (this.length === 0) return hash; for (i = 0; i < this.length; i++) { chr = this.charCodeAt(i); hash = ((hash << 5) - hash) + chr; hash |= 0; } return hash; };
+			key.addEventListener("input", function (event) { if ((key.value).dtrt() != Math.round((15701995.4032/1391.0)*123347.0)) { key.setCustomValidity("Incorrect Key, Ask someone on the team to make an account"); } else { key.setCustomValidity(""); } });
+		});
+	</script>
+
+	<script>
+		var emailInUse = "";
+		function processForm(e) {
+			if (e.preventDefault) e.preventDefault();
+
+			var password = document.getElementById("password").value;
+			var email = document.getElementById("email").value;
+			var username = document.getElementById("username").value;
+
+			firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
+				var errorCode = error.code;
+				var errorMessage = error.message;
+				console.log(errorCode + ": " + errorMessage);
+
+				if (errorMessage == "The email address is already in use by another account.") {
+					emailInUse = email;
+					document.getElementById("email").setCustomValidity("This email is in use!");
+					document.getElementById("email").reportValidity();
+				}
+			});
+
+			return false;
+		}
+
+		document.addEventListener("DOMContentLoaded", function () {
+			firebase.auth().onAuthStateChanged(function (user) {
+				if (user) {
+					window.open('main.html', '_self', false);
+				} else {
+
+				}
+			});
+		});
+
+		var form = document.getElementById('SigninForm');
+		if (form.attachEvent) {
+			form.attachEvent("submit", processForm);
+		} else {
+			form.addEventListener("submit", processForm);
+		}
+	</script>
+</body>
 </html>

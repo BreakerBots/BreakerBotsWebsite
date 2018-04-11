@@ -57,3 +57,8 @@ typings/
 # dotenv environment variables file
 .env
 
+dist/
+.vs/
+
+.vs/Breakersite2/v15/.suo
+.vs/slnx.sqlite

@@ -15,6 +15,14 @@
 	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 	<link rel="stylesheet" href="../assets/css/app.css" type="text/css" />
+
+	<!--Firebase-->
+	<script defer src="/__/firebase/4.12.1/firebase-app.js"></script>
+	<script defer src="/__/firebase/4.12.1/firebase-auth.js"></script>
+	<script defer src="/__/firebase/4.12.1/firebase-database.js"></script>
+	<script defer src="/__/firebase/4.12.1/firebase-messaging.js"></script>
+	<script defer src="/__/firebase/4.12.1/firebase-storage.js"></script>
+	<script defer src="/__/firebase/init.js"></script>
 </head>
 <body>
 	<div class="be-wrapper be-nosidebar-left" style="padding-top: 0px;">
@@ -39,7 +47,8 @@
 		</nav>
 		<div class="be-content">
 			<div class="main-content container-fluid">
-
+				<!--Content-->
+				<iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=suiphcuq71fqpntbc2rojdun2g%40group.calendar.google.com&amp;color=%23125A12&amp;ctz=America%2FLos_Angeles" style="border-width:0; padding: 3%; width: 100%;" width="800" height="1000" frameborder="0" scrolling="no"></iframe>
 			</div>
 		</div>
 	</div>
@@ -49,6 +58,18 @@
 	<script src="../assets/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
 	<script src="../assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 	<script src="../assets/js/app.js" type="text/javascript"></script>
-	<script type="text/javascript">	$(document).ready(function () { App.init(); });</script>
+	<script type="text/javascript">
+		$(document).ready(function () { App.init(); });
+
+		document.addEventListener("DOMContentLoaded", function () {
+			firebase.auth().onAuthStateChanged(function (user) {
+				if (user) {
+					window.open('../portal/main.html', '_self', false);
+				} else {
+
+				}
+			});
+		});
+	</script>
 </body>
 </html>
