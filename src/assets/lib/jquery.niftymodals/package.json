@@ -1,31 +1,32 @@
 {
-  "_from": "jquery.niftymodals@git+https://github.com/foxythemes/jquery-niftymodals.git#84825a3d58c527d502a9912a83e8a12b49a5ea47",
+  "_args": [
+    [
+      "jquery.niftymodals@1.3.1",
+      "C:\\Users\\liam\\Documents\\GitHub\\Breakersite"
+    ]
+  ],
+  "_from": "jquery.niftymodals@1.3.1",
   "_id": "jquery.niftymodals@1.3.1",
   "_inBundle": false,
+  "_integrity": "sha512-TCk+MPQuBEvrONAAt5IBc4r5Y/cdYDJtI2McN/IqTIuICeEqQZneZ6YQ37fBJaHmJWO6EMtVzfs1PTZoiToAIQ==",
   "_location": "/jquery.niftymodals",
-  "_phantomChildren": {
-    "chalk": "1.1.3",
-    "maxmin": "1.1.0",
-    "object.assign": "4.0.4",
-    "uglify-js": "2.8.29",
-    "uri-path": "1.0.0"
-  },
+  "_phantomChildren": {},
   "_requested": {
-    "type": "git",
-    "raw": "jquery.niftymodals@git+https://github.com/foxythemes/jquery-niftymodals.git#84825a3d58c527d502a9912a83e8a12b49a5ea47",
+    "type": "version",
+    "registry": true,
+    "raw": "jquery.niftymodals@1.3.1",
     "name": "jquery.niftymodals",
     "escapedName": "jquery.niftymodals",
-    "rawSpec": "git+https://github.com/foxythemes/jquery-niftymodals.git#84825a3d58c527d502a9912a83e8a12b49a5ea47",
-    "saveSpec": "git+https://github.com/foxythemes/jquery-niftymodals.git#84825a3d58c527d502a9912a83e8a12b49a5ea47",
-    "fetchSpec": "https://github.com/foxythemes/jquery-niftymodals.git",
-    "gitCommittish": "84825a3d58c527d502a9912a83e8a12b49a5ea47"
+    "rawSpec": "1.3.1",
+    "saveSpec": null,
+    "fetchSpec": "1.3.1"
   },
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "git+https://github.com/foxythemes/jquery-niftymodals.git#84825a3d58c527d502a9912a83e8a12b49a5ea47",
-  "_spec": "jquery.niftymodals@git+https://github.com/foxythemes/jquery-niftymodals.git#84825a3d58c527d502a9912a83e8a12b49a5ea47",
-  "_where": "/home/miguel/projects/beagle",
+  "_resolved": "https://registry.npmjs.org/jquery.niftymodals/-/jquery.niftymodals-1.3.1.tgz",
+  "_spec": "1.3.1",
+  "_where": "C:\\Users\\liam\\Documents\\GitHub\\Breakersite",
   "author": {
     "name": "Foxy Themes",
     "url": "http://foxythemes.net/"
@@ -33,7 +34,6 @@
   "bugs": {
     "url": "https://github.com/foxythemes/jquery-niftymodals/issues"
   },
-  "bundleDependencies": false,
   "dependencies": {
     "grunt": "^1.0.0",
     "grunt-contrib-clean": "^1.0.0",
@@ -46,7 +46,6 @@
     "grunt-notify": "^0.4.5",
     "load-grunt-tasks": "^3.5.0"
   },
-  "deprecated": false,
   "description": "A jQuery plugin for Codrops modal effects https://github.com/codrops/ModalWindowEffects",
   "engines": {
     "node": ">= 0.6.0"

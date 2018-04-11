@@ -41,6 +41,7 @@
 		"moment": "^2.14.1",
 		"morris.js": "git+https://github.com/oesmith/morris.js.git#0.5.1",
 		"multiselect": "^0.9.12",
+		"npm": "^5.8.0",
 		"parsleyjs": "^2.4.3",
 		"perfect-scrollbar": "^0.6.16",
 		"raphael": "^2.1.0",
