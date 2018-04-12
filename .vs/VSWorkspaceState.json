@@ -4,9 +4,10 @@
     "\\src",
     "\\src\\assets",
     "\\src\\assets\\css",
+    "\\src\\assets\\img",
     "\\src\\portal",
     "\\src\\public"
   ],
-  "SelectedNode": "\\src\\portal\\signup.html",
+  "SelectedNode": "\\src\\portal\\enter.html",
   "PreviewInSolutionExplorer": false
 }
