@@ -22,6 +22,7 @@
 	<script defer src="/__/firebase/4.12.1/firebase-database.js"></script>
 	<script defer src="/__/firebase/4.12.1/firebase-messaging.js"></script>
 	<script defer src="/__/firebase/4.12.1/firebase-storage.js"></script>
+	<script defer src="/__/firebase/4.12.1/firebase-firestore.js"></script>
 	<script defer src="/__/firebase/init.js"></script>
 </head>
 <body class="be-splash-screen">
@@ -35,21 +36,21 @@
 							<form id="SigninForm">
 								<span class="splash-title pb-4">Sign Up</span>
 								<div class="form-group">
-									<input type="text" name="nick" id="username" required="" placeholder="Username" autocomplete="off" class="form-control">
+									<input type="text" name="nick" id="username" required="" placeholder="Username" autocomplete="on" class="form-control" value="LiamSnow">
 								</div>
 								<div class="form-group">
-									<input type="email" name="email" id="email" required="" placeholder="E-mail" autocomplete="off" class="form-control">
+									<input type="email" name="email" id="email" required="" placeholder="E-mail" autocomplete="on" class="form-control" value="liamsnow03@gmail.com">
 								</div>
 								<div class="form-group row signup-password">
 									<div class="col-6">
-										<input type="password" placeholder="Password" id="password" required class="form-control" minlength="6">
+										<input type="password" placeholder="Password" id="password" required class="form-control" minlength="6" value="asdfasdf">
 									</div>
 									<div class="col-6">
-										<input type="password" placeholder="Confirm Password" id="confirm_password" required class="form-control">
+										<input type="password" placeholder="Confirm Password" id="confirm_password" required class="form-control" value="asdfasdf">
 									</div>
 								</div>
 								<div class="form-group">
-									<input type="password" name="key" id="key" required="" placeholder="Key" autocomplete="off" class="form-control">
+									<input type="password" name="key" id="key" required="" placeholder="Key" autocomplete="on" class="form-control" value="&quot;breakers5104&quot;">
 								</div>
 								<div class="form-group pt-2">
 									<button id="submitbutton" type="submit" class="btn btn-block btn-primary btn-xl">Sign Up</button>
@@ -90,27 +91,36 @@
 		function processForm(e) {
 			if (e.preventDefault) e.preventDefault();
 
+			//Get the form values
 			var password = document.getElementById("password").value;
 			var email = document.getElementById("email").value;
 			var username = document.getElementById("username").value;
 
+			//Throw a form error if username is already in use
+
+
+			//Register the user to firebase
 			dontReroute = true;
-			console.log("Attemping To Create User...");
 			firebase.auth().createUserWithEmailAndPassword(email, password)
-				.then(function (user) {
+				.then(function(user) {
+					//Set the firebase user's name
 					user.updateProfile({
 						displayName: username,
-					}).then(function () {
-					}).catch(function (error) {
-						console.log(error);
+						photoURL: null
 					});
-					window.open('main.html', '_self', false);
-				}).catch(function (error) {
+
+					//Register the user to the database, with a default clearance
+					firebase.app().firestore().collection("users").doc(user.uid).set({ username: username, email: email, clearance: 0 })
+						.then(function () {
+							window.open('main.html', '_self', false);
+						});
+				}).catch(function(error) {
 					dontReroute = false;
 					var errorCode = error.code;
 					var errorMessage = error.message;
 					console.log(errorCode + ": " + errorMessage);
 
+					//Throw a form errror if the email is already in use
 					if (errorMessage == "The email address is already in use by another account.") {
 						emailInUse = email;
 						document.getElementById("email").setCustomValidity("This email is in use!");
@@ -123,13 +133,25 @@
 
 		var dontReroute = false;
 		document.addEventListener("DOMContentLoaded", function () {
-			firebase.auth().onAuthStateChanged(function (user) {
-				if (user && !dontReroute) {
-					window.open('main.html', '_self', false);
-				} else {
+			try {
+				let app = firebase.app();
+				let features = ['auth', 'database', 'messaging', 'storage', 'firestore'].filter(feature => typeof app[feature] === 'function');
 
-				}
-			});
+				const firebase = require("firebase");
+				require("firebase/firestore");
+
+				var db = firebase.firestore();
+
+				firebase.auth().onAuthStateChanged(function (user) {
+					if (user && !dontReroute) {
+						window.open('main.html', '_self', false);
+					} else {
+
+					}
+				});
+			} catch (e) {
+				console.log(e);
+			}
 		});
 
 		var form = document.getElementById('SigninForm');
