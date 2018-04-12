@@ -2,7 +2,7 @@
   "_args": [
     [
       "jquery-flot@0.8.3",
-      "C:\\Users\\liam\\Documents\\GitHub\\Breakersite"
+      "C:\\Users\\Liam Snow\\Documents\\GitHub\\Breakersite2"
     ]
   ],
   "_from": "jquery-flot@0.8.3",
@@ -26,7 +26,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/jquery-flot/-/jquery-flot-0.8.3.tgz",
   "_spec": "0.8.3",
-  "_where": "C:\\Users\\liam\\Documents\\GitHub\\Breakersite",
+  "_where": "C:\\Users\\Liam Snow\\Documents\\GitHub\\Breakersite2",
   "description": "## About ##",
   "devDependencies": {
     "jshint": "0.9.1"

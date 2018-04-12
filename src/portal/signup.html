@@ -94,24 +94,37 @@
 			var email = document.getElementById("email").value;
 			var username = document.getElementById("username").value;
 
-			firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
-				var errorCode = error.code;
-				var errorMessage = error.message;
-				console.log(errorCode + ": " + errorMessage);
+			dontReroute = true;
+			console.log("Attemping To Create User...");
+			firebase.auth().createUserWithEmailAndPassword(email, password)
+				.then(function (user) {
+					user.updateProfile({
+						displayName: username,
+					}).then(function () {
+						}).catch(function (error) {
+							console.log(error);
+					});
+					window.open('main.html', '_self', false);
+				}).catch(function (error) {
+					dontReroute = false;
+					var errorCode = error.code;
+					var errorMessage = error.message;
+					console.log(errorCode + ": " + errorMessage);
 
-				if (errorMessage == "The email address is already in use by another account.") {
-					emailInUse = email;
-					document.getElementById("email").setCustomValidity("This email is in use!");
-					document.getElementById("email").reportValidity();
-				}
-			});
+					if (errorMessage == "The email address is already in use by another account.") {
+						emailInUse = email;
+						document.getElementById("email").setCustomValidity("This email is in use!");
+						document.getElementById("email").reportValidity();
+					}
+				});
 
 			return false;
 		}
 
+		var dontReroute = false;
 		document.addEventListener("DOMContentLoaded", function () {
 			firebase.auth().onAuthStateChanged(function (user) {
-				if (user) {
+				if (user && !dontReroute) {
 					window.open('main.html', '_self', false);
 				} else {
 

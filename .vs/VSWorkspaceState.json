@@ -2,10 +2,10 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\assets",
     "\\src\\assets\\css",
     "\\src\\portal",
     "\\src\\public"
   ],
+  "SelectedNode": "\\src\\portal\\signup.html",
   "PreviewInSolutionExplorer": false
 }

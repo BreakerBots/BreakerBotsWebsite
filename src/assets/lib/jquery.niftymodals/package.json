@@ -2,7 +2,7 @@
   "_args": [
     [
       "jquery.niftymodals@1.3.1",
-      "C:\\Users\\liam\\Documents\\GitHub\\Breakersite"
+      "C:\\Users\\Liam Snow\\Documents\\GitHub\\Breakersite2"
     ]
   ],
   "_from": "jquery.niftymodals@1.3.1",
@@ -26,7 +26,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/jquery.niftymodals/-/jquery.niftymodals-1.3.1.tgz",
   "_spec": "1.3.1",
-  "_where": "C:\\Users\\liam\\Documents\\GitHub\\Breakersite",
+  "_where": "C:\\Users\\Liam Snow\\Documents\\GitHub\\Breakersite2",
   "author": {
     "name": "Foxy Themes",
     "url": "http://foxythemes.net/"

@@ -2,7 +2,7 @@
   "_args": [
     [
       "dropzone@4.3.0",
-      "C:\\Users\\liam\\Documents\\GitHub\\Breakersite"
+      "C:\\Users\\Liam Snow\\Documents\\GitHub\\Breakersite2"
     ]
   ],
   "_from": "dropzone@4.3.0",
@@ -26,7 +26,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/dropzone/-/dropzone-4.3.0.tgz",
   "_spec": "4.3.0",
-  "_where": "C:\\Users\\liam\\Documents\\GitHub\\Breakersite",
+  "_where": "C:\\Users\\Liam Snow\\Documents\\GitHub\\Breakersite2",
   "bugs": {
     "url": "https://github.com/enyo/dropzone/issues",
     "email": "m@tias.me"

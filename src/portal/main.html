@@ -23,6 +23,12 @@
 	<script defer src="/__/firebase/4.12.1/firebase-messaging.js"></script>
 	<script defer src="/__/firebase/4.12.1/firebase-storage.js"></script>
 	<script defer src="/__/firebase/init.js"></script>
+
+	<!--Tab Showing And Hiding-->
+	<style>
+		.tab { display: none; }
+		.tab.active { display: block; }
+	</style>
 </head>
 <body>
 	<div class="be-wrapper">
@@ -30,16 +36,16 @@
 			<div class="container-fluid">
 				<div class="be-navbar-header">
 					<a href="main.html">
-						<h1 style="display:inline;">Breakerbots</h1>
+						<h1 style="display:inline; color: #d50000;">&nbsp; Breakerbots</h1>
 					</a>
 				</div>
 				<div class="be-right-navbar">
 					<ul class="nav navbar-nav float-right be-user-nav">
 						<li class="nav-item dropdown">
-							<a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle"><img src="../assets/img/iconT.png" alt="Avatar"><span class="user-name">Liam Snow</span></a>
+							<a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle"><img src="../assets/img/iconT.png" alt="Avatar"><span class="user-name" id="UserNameL"></span></a>
 							<div role="menu" class="dropdown-menu">
 								<div class="user-info">
-									<div class="user-name">Liam Snow</div>
+									<div class="user-name" id="UserNameR"></div>
 								</div>
 								<div class="dropdown-item" onclick="logout()"><span class="icon mdi mdi-power"></span> Logout</div>
 							</div>
@@ -68,34 +74,37 @@
 		</nav>
 		<div class="be-left-sidebar">
 			<div class="left-sidebar-wrapper">
-				<a href="#" class="left-sidebar-toggle">Blank Page</a>
+				<a href="#" class="left-sidebar-toggle">Menu</a>
 				<div class="left-sidebar-spacer">
 					<div class="left-sidebar-scroll">
 						<div class="left-sidebar-content">
 							<ul class="sidebar-elements">
 								<li class="divider">Menu</li>
+								<li class="active">
+									<a href="?tab=General"><i class="icon mdi mdi-image" style="color: #d50000;"></i><span style="color: #d50000;">General</span></a>
+								</li>
 								<li class="parent">
-									<a href="#"><i class="icon mdi mdi-wrench"></i><span>Parts</span></a>
+									<a href="#"><i class="icon mdi mdi-wrench" style="color: #d50000;"></i><span style="color: #d50000;">Parts</span></a>
 									<ul class="sub-menu">
 										<li class="active">
-											<a href=".html">All</a>
+											<a href="?tab=PartsAll" style="color: #d50000;">All</a>
 										</li>
 										<li>
-											<a href=".html">Ordered</a>
+											<a href="?tab=PartsOrdered" style="color: #d50000;">Ordered</a>
 										</li>
 										<li>
-											<a href=".html">Recieved</a>
+											<a href="?tab=PartsRecieved" style="color: #d50000;">Recieved</a>
 										</li>
 									</ul>
 								</li>
 								<li class="active">
-									<a href="#"><i class="icon mdi mdi-format-list-bulleted"></i><span>Trello</span></a>
+									<a href="?tab=Trello"><i class="icon mdi mdi-format-list-bulleted" style="color: #d50000;"></i><span style="color: #d50000;">Trello</span></a>
 								</li>
 								<li class="active">
-									<a href="#"><i class="icon mdi mdi-calendar"></i><span>Calendar</span></a>
+									<a href="?tab=Calendar"><i class="icon mdi mdi-calendar" style="color: #d50000;"></i><span style="color: #d50000;">Calendar</span></a>
 								</li>
 								<li class="active">
-									<a href="#"><i class="icon mdi mdi-github"></i><span>Github</span></a>
+									<a href="?tab=Github"><i class="icon mdi mdi-github" style="color: #d50000;"></i><span style="color: #d50000;">Github</span></a>
 								</li>
 							</ul>
 						</div>
@@ -105,8 +114,29 @@
 		</div>
 		<div class="be-content">
 			<div class="main-content container-fluid">
-				<!--Page Content-->
-				<iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=suiphcuq71fqpntbc2rojdun2g%40group.calendar.google.com&amp;color=%23125A12&amp;ctz=America%2FLos_Angeles" style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+				<!--Tabs-->
+
+				<div id="General" class="tab">
+
+				</div>
+				<div id="PartsAll" class="tab">
+
+				</div>
+				<div id="PartsOrdered" class="tab">
+
+				</div>
+				<div id="PartsRecieved" class="tab">
+
+				</div>
+				<div id="Trello" class="tab">
+
+				</div>
+				<div id="Calendar" class="tab">
+					<iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=suiphcuq71fqpntbc2rojdun2g%40group.calendar.google.com&amp;color=%23125A12&amp;ctz=America%2FLos_Angeles" style="border-width:0; padding: 3%; width: 100%;" width="800" height="1000" frameborder="0" scrolling="no"></iframe>
+				</div>
+				<div id="Github" class="tab">
+
+				</div>
 			</div>
 		</div>
 	</div>
@@ -128,12 +158,18 @@
 		document.addEventListener('DOMContentLoaded', function () {
 			firebase.auth().onAuthStateChanged(function (user) {
 				if (user) {
-
-				} else {
+					document.getElementById("UserNameL").innerHTML = user.displayName;
+					document.getElementById("UserNameR").innerHTML = user.displayName;
+				} else { //If not signed in reroute to public page
 					window.open('../index.html', '_self', false);
 				}
 			});
 		});
+
+		//Switch To Tab To Select Tab From Url
+		var ctab = getUrlParameterByName('tab', ''); if (ctab == null) { ctab = 'General'; }
+		document.getElementById(ctab).classList.add('active');
+		function getUrlParameterByName(name, url) { if (!url) url = window.location.href; name = name.replace(/[\[\]]/g, "\\$&"); var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), results = regex.exec(url); if (!results) return null; if (!results[2]) return ''; return decodeURIComponent(results[2].replace(/\+/g, " ")); }
 	</script>
 </body>
 </html>
