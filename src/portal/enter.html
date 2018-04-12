@@ -42,7 +42,7 @@
 									<input id="password" type="password" placeholder="Password" class="form-control" required="">
 								</div>
 								<div class="form-group login-submit">
-									<button data-dismiss="modal" type="submit" class="btn btn-primary btn-xl">Sign me in</button>
+									<button data-dismiss="modal" id="SubmitButton" type="submit" class="btn btn-primary btn-xl">Sign me in</button>
 								</div>
 							</form>
 						</div>
@@ -62,6 +62,7 @@
 			App.init();
 		});
 
+		var pa7 = 0;
 		function processForm(e) {
 			if (e.preventDefault) e.preventDefault();
 
@@ -81,7 +82,12 @@
 					document.getElementById("email").setCustomValidity("There is no account registered under this email!");
 					document.getElementById("email").reportValidity();
 					unEmail = email;
-				} 
+				}
+				else if (errorCode === 'auth/invalid-email') {
+					document.getElementById("email").setCustomValidity("This is not an email!");
+					document.getElementById("email").reportValidity();
+					unEmail = email;
+				}
 			});
 		}
 
@@ -106,6 +112,11 @@
 
 				}
 			});
+		});
+
+		document.getElementById("SubmitButton").addEventListener('click', function () {
+			form.valid
+			pa7++; if (pa7 > 4) { alert("Forgot Password"); } 
 		});
 
 		var form = document.getElementById('LoginForm');
