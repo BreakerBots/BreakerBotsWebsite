@@ -25,6 +25,12 @@
 	<script defer src="/__/firebase/4.12.1/firebase-messaging.js"></script>
 	<script defer src="/__/firebase/4.12.1/firebase-storage.js"></script>
 	<script defer src="/__/firebase/init.js"></script>
+
+	<!--Tab Showing And Hiding-->
+	<style>
+		.tab { display: none; }
+		.tab.active { display: block; }
+	</style>
 </head>
   <body>
 	  <div class="be-wrapper be-nosidebar-left" style="padding-top: 0px;">
@@ -38,19 +44,41 @@
 				<a href="#" id="sub-navigation" data-toggle="collapse" aria-expanded="false" data-target="#be-navbar-collapse" class="be-toggle-top-header-menu collapsed">Menu</a>
 				<div id="be-navbar-collapse" class="navbar-collapse collapse">
 					<ul class="navbar-nav">
-						<li class="nav-item"><a href="public/AboutUs.html" class="nav-link">About Us</a></li>
-						<li class="nav-item"><a href="public/Mechanical.html" class="nav-link">Mechanical</a></li>
-						<li class="nav-item"><a href="public/Programming.html" class="nav-link">Programming</a></li>
-						<li class="nav item"><a href="public/Calendar.html" class="nav-link">Calendar</a></li>
+						<li class="nav-item"><a href="?tab=AboutUs" class="nav-link">About Us</a></li>
+						<li class="nav-item"><a href="?tab=Mechanical" class="nav-link">Mechanical</a></li>
+						<li class="nav-item"><a href="?tab=Programming" class="nav-link">Programming</a></li>
+						<li class="nav item"><a href="?tab=Calendar" class="nav-link">Calendar</a></li>
 						<li class="nav item"><a href="portal/enter.html" class="nav-link">Portal</a></li>
 					</ul>
 				</div>
 			</div>
 		  </nav>
 	  	<div class="be-content">
-	  		<div class="main-content container-fluid">
-				<div id="Hero">
+			<div class="main-content container-fluid">
+				<!--Home-->
+				<div id="Home" class="tab">
 					<h1 style="text-align: center; padding-top: 3%; font-size: 300%;"><span style="">FRC Team 5104</span></h1>
+				</div>
+
+				<!--About Us-->
+				<div id="AboutUs" class="tab">
+					<h1 style="text-align: center; padding-top: 3%; font-size: 300%;"><span style="">About Us</span></h1>
+				</div>
+
+				<!--Mechanical-->
+				<div id="Mechanical" class="tab">
+					<h1 style="text-align: center; padding-top: 3%; font-size: 300%;"><span style="">Mechanical</span></h1>
+				</div>
+
+				<!--Programming-->
+				<div id="Programming" class="tab">
+					<h1 style="text-align: center; padding-top: 3%; font-size: 300%;"><span style="">Programming</span></h1>
+				</div>
+
+				<!--Calendar-->
+				<div id="Calendar" class="tab">
+					<h1 style="text-align: center; padding-top: 3%; font-size: 300%;"><span style="">Calendar</span></h1>
+					<iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=suiphcuq71fqpntbc2rojdun2g%40group.calendar.google.com&amp;color=%23125A12&amp;ctz=America%2FLos_Angeles" style="border-width:0; padding: 3%; width: 100%;" width="800" height="1000" frameborder="0" scrolling="no"></iframe>
 				</div>
 			</div>
 	  	</div>
@@ -74,6 +102,11 @@
 				}
 			});
 		});
+
+		//Switch To Tab To Select Tab From Url
+		var ctab = getUrlParameterByName('tab', ''); if (ctab == null) { ctab = 'Home'; }
+		document.getElementById(ctab).classList.add('active');
+		function getUrlParameterByName(name, url) { if (!url) url = window.location.href; name = name.replace(/[\[\]]/g, "\\$&"); var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), results = regex.exec(url); if (!results) return null; if (!results[2]) return ''; return decodeURIComponent(results[2].replace(/\+/g, " ")); }
 	</script>
 
 	<!--Beagle-->

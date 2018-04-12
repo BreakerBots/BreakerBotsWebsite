@@ -22,6 +22,7 @@
 	<script defer src="/__/firebase/4.12.1/firebase-database.js"></script>
 	<script defer src="/__/firebase/4.12.1/firebase-messaging.js"></script>
 	<script defer src="/__/firebase/4.12.1/firebase-storage.js"></script>
+	<script defer src="/__/firebase/4.12.1/firebase-firestore.js"></script>
 	<script defer src="/__/firebase/init.js"></script>
 </head>
 <body class="be-splash-screen">
@@ -90,13 +91,18 @@
 		function processForm(e) {
 			if (e.preventDefault) e.preventDefault();
 
+			//Get the form values
 			var password = document.getElementById("password").value;
 			var email = document.getElementById("email").value;
 			var username = document.getElementById("username").value;
 
+			//Throw a form error if username is already in use
+
+
+			//Register the user to firebase
 			dontReroute = true;
-			console.log("Attemping To Create User...");
 			firebase.auth().createUserWithEmailAndPassword(email, password)
+<<<<<<< HEAD
 				.then(function (user) {
 					/*
 					user.updateProfile({
@@ -111,14 +117,27 @@
 						email: email,
 						username: username,
 						clearance: 0
+=======
+				.then(function(user) {
+					//Set the firebase user's name
+					user.updateProfile({
+						displayName: username,
+						photoURL: null
+>>>>>>> 3abfa55d6e1ab123ebdc2356d45092419f4e368b
 					});
-					window.open('main.html', '_self', false);
-				}).catch(function (error) {
+
+					//Register the user to the database, with a default clearance
+					firebase.app().firestore().collection("users").doc(user.uid).set({ username: username, email: email, clearance: 0 })
+						.then(function () {
+							window.open('main.html', '_self', false);
+						});
+				}).catch(function(error) {
 					dontReroute = false;
 					var errorCode = error.code;
 					var errorMessage = error.message;
 					console.log(errorCode + ": " + errorMessage);
 
+					//Throw a form errror if the email is already in use
 					if (errorMessage == "The email address is already in use by another account.") {
 						emailInUse = email;
 						document.getElementById("email").setCustomValidity("This email is in use!");
@@ -131,13 +150,25 @@
 
 		var dontReroute = false;
 		document.addEventListener("DOMContentLoaded", function () {
-			firebase.auth().onAuthStateChanged(function (user) {
-				if (user && !dontReroute) {
-					window.open('main.html', '_self', false);
-				} else {
+			try {
+				let app = firebase.app();
+				let features = ['auth', 'database', 'messaging', 'storage', 'firestore'].filter(feature => typeof app[feature] === 'function');
 
-				}
-			});
+				const firebase = require("firebase");
+				require("firebase/firestore");
+
+				var db = firebase.firestore();
+
+				firebase.auth().onAuthStateChanged(function (user) {
+					if (user && !dontReroute) {
+						window.open('main.html', '_self', false);
+					} else {
+
+					}
+				});
+			} catch (e) {
+				console.log(e);
+			}
 		});
 
 		var form = document.getElementById('SigninForm');
