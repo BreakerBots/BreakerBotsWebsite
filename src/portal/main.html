@@ -576,7 +576,8 @@
 			firebase.app().firestore().collection("PMS").doc(partFolderDeleting).get()
 				.then(function (doc) {
 					var json = doc.data();
-					delete json.partDeleting;
+
+					delete json[partDeleting];
 
 					firebase.app().firestore().collection("PMS").doc(partFolderDeleting).set(json).then(function () {
 						DeletePartDialogue.close();
