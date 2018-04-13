@@ -22,6 +22,7 @@
 	<script defer src="/__/firebase/4.12.1/firebase-database.js"></script>
 	<script defer src="/__/firebase/4.12.1/firebase-messaging.js"></script>
 	<script defer src="/__/firebase/4.12.1/firebase-storage.js"></script>
+	<script defer src="/__/firebase/4.12.1/firebase-firestore.js"></script>
 	<script defer src="/__/firebase/init.js"></script>
 </head>
 <body class="be-splash-screen">
@@ -36,7 +37,7 @@
 						<div class="card-body">
 							<form id="LoginForm">
 								<div class="form-group">
-									<input id="email" type="email" placeholder="Email" autocomplete="off" class="form-control" required="">
+									<input id="email" type="text" placeholder="Username or Email" autocomplete="off" class="form-control" required="">
 								</div>
 								<div class="form-group">
 									<input id="password" type="password" placeholder="Password" class="form-control" required="">
@@ -66,7 +67,25 @@
 		function processForm(e) {
 			if (e.preventDefault) e.preventDefault();
 
+			//Get the email or username value
 			var email = document.getElementById("email").value;
+
+			//If username then replace with the corresponding email
+			var re = /(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/;
+			if (!re.test(email)) {
+				firebase.app().firestore().collection("users").where("username", "==", email)
+					.get()
+					.then(function (querySnapshot) {
+						email = (querySnapshot.docs[0].data().email);
+						processSignIn(email);
+					});
+			}
+			else {
+				processSignIn(email);
+			}
+		}
+
+		function processSignIn(email) {
 			var password = document.getElementById("password").value;
 			firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
 				var errorCode = error.code;
@@ -89,6 +108,7 @@
 					unEmail = email;
 				}
 			});
+
 		}
 
 		var unEmail = "";
