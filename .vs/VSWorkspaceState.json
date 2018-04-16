@@ -3,10 +3,9 @@
     "",
     "\\src",
     "\\src\\assets",
-    "\\src\\assets\\css",
-    "\\src\\assets\\img",
-    "\\src\\portal",
-    "\\src\\public"
+    "\\src\\assets\\mdc",
+    "\\src\\portal"
   ],
+  "SelectedNode": "\\src\\assets\\mdc\\material-components-web.js",
   "PreviewInSolutionExplorer": false
 }

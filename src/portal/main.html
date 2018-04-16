@@ -25,14 +25,14 @@
 	<script defer src="/__/firebase/4.12.1/firebase-firestore.js"></script>
 	<script defer src="/__/firebase/init.js"></script>
 
-	<!--Dialogues-->
+	<!--MDC-->
 	<link rel="stylesheet" href="../assets/mdc/material-components-web.css">
 
 	<!--Tab Showing And Hiding-->
-	<style>
-		.tab { display: none; }
-		.tab.active { display: block; }
-	</style>
+	<link rel="stylesheet" href="assets/Tabs/tabs.css" type="text/css" />
+
+	<!--Autocomplete When Creating A Part-->
+	<link rel="stylesheet" href="assets/Autocomplete/Autocomplete.css" type="text/css" />
 </head>
 <body>
 	<div class="be-wrapper">
@@ -97,7 +97,7 @@
 											<a href="?tab=PartsOrdered" style="color: #d50000;">Ordered</a>
 										</li>
 										<li>
-											<a href="?tab=PartsRecieved" style="color: #d50000;">Recieved</a>
+											<a href="?tab=PartsArchived" style="color: #d50000;">Archived</a>
 										</li>
 									</ul>
 								</li>
@@ -127,51 +127,7 @@
 					<div class="row" id="PartsAllWrapper">
 						<!--Parts Wrapper Start-->
 						<div class="col-lg-6">
-							<div class="card card-table">
-								<div class="card-header">
-									Folder 1
-									<div class="tools dropdown">
-										<a role="button" data-toggle="dropdown" class="dropdown-toggle"><span class="icon mdi mdi-more-vert"></span></a>
-										<div role="menu" class="dropdown-menu">
-											<a onclick="alert()" href="#" class="dropdown-item">Rename</a>
-											<a onclick="alert()" href="#" class="dropdown-item">History</a>
-											<a onclick="openCreatePartDialogue(this)" class="dropdown-item">Add</a>
-											<div class="dropdown-divider"></div>
-											<a onclick="alert()" class="dropdown-item">Delete</a>
-										</div>
-									</div>
-								</div>
-								<div class="card-body">
-									<table class="table">
-										<thead>
-											<tr>
-												<th style="width:50%;">Item</th>
-												<th style="width:10%;">Urgency</th>
-												<th class="number">#</th>
-												<th class="number">$</th>
-												<th>Status</th>
-												<th class="actions"></th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td>TalonSRX</td>
-												<td>Regular</td>
-												<td class="number">10</td>
-												<td class="number">$10</td>
-												<td>Ordered</td>
-												<td class="actions">
-													<a href="#" role="button" data-toggle="dropdown" class="dropdown-toggle"><span class="icon mdi mdi-more-vert"></span></a>
-													<div role="menu" class="dropdown-menu">
-														<a href="#" class="dropdown-item">Edit</a>
-														<div class="dropdown-divider"></div><a href="#" class="dropdown-item">Delete</a>
-													</div>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
+
 						</div>
 						<!--Parts Wrapper End-->
 					</div>
@@ -186,10 +142,38 @@
 					</div>
 				</div>
 				<div id="PartsOrdered" class="tab">
-
+					<div class="row">
+						<!--Parts Wrapper Start-->
+						<div style="width: 100%;">
+							<div class="card card-table">
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table table-striped">
+											<thead>
+												<tr>
+													<th>Item</th>
+													<th>Desc</th>
+													<th>Folder</th>
+													<th class="number">#</th>
+													<th class="number">$</th>
+												</tr>
+											</thead>
+											<tbody id="PartsOrderedWrapper"></tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div id="PartsRecieved" class="tab">
+				<div id="PartsArchived" class="tab">
+					<div class="row" id="PartsArchiveWrapper">
+						<!--Parts Wrapper Start-->
+						<div class="col-lg-6">
 
+						</div>
+						<!--Parts Wrapper End-->
+					</div>
 				</div>
 				<div id="Trello" class="tab">
 
@@ -203,187 +187,368 @@
 			</div>
 		</div><!--End Of Content-->
 	</div><!--End Of Wrapper-->
-	<!--Create Folder Dialogue-->
-	<aside id="create-folder-dialog"
-		   class="mdc-dialog"
-		   role="alertdialog"
-		   aria-labelledby="my-mdc-dialog-label"
-		   aria-describedby="my-mdc-dialog-description">
-		<div class="mdc-dialog__surface">
-			<header class="mdc-dialog__header">
-				<h2 id="create-folder-mdc-dialog-label" class="mdc-dialog__header__title">
-					Create A New Folder
-				</h2>
-			</header>
-			<form id="CreateFolderForm">
-				<section id="create-folder-mdc-dialog-description" class="mdc-dialog__body">
-					<input id="CreateFolderInput" type="text" class="form-control" placeholder="Enter A Name" required="">
-				</section>
-				<footer class="mdc-dialog__footer">
-					<button type="submit" class="btn btn-space btn-primary">Create Folder</button>
-					<button id="CreateFolderCancel" class="btn btn-space btn-secondary">Cancel</button>
-				</footer>
-			</form>
-		</div>
-		<div class="mdc-dialog__backdrop"></div>
-	</aside>
-	<!--Edit Folder Dialogue-->
-	<aside id="edit-folder-dialog"
-		   class="mdc-dialog"
-		   role="alertdialog"
-		   aria-labelledby="my-mdc-dialog-label"
-		   aria-describedby="my-mdc-dialog-description">
-		<div class="mdc-dialog__surface">
-			<header class="mdc-dialog__header">
-				<h2 id="edit-folder-mdc-dialog-label" class="mdc-dialog__header__title">
-					Edit Folder
-				</h2>
-			</header>
-			<form id="EditFolderForm">
-				<section id="edit-folder-mdc-dialog-description" class="mdc-dialog__body">
-					<input id="EditFolderInput" type="text" class="form-control" placeholder="Enter A Name" required="">
-				</section>
-				<footer class="mdc-dialog__footer">
-					<button type="submit" class="btn btn-space btn-primary">Submit</button>
-					<button id="EditFolderCancel" class="btn btn-space btn-secondary">Cancel</button>
-				</footer>
-			</form>
-		</div>
-		<div class="mdc-dialog__backdrop"></div>
-	</aside>
-	<!--Delete Folder Dialogue-->
-	<aside id="delete-folder-dialog"
-		   class="mdc-dialog"
-		   role="alertdialog"
-		   aria-labelledby="my-mdc-dialog-label"
-		   aria-describedby="my-mdc-dialog-description">
-		<div class="mdc-dialog__surface">
-			<form id="DeleteFolderForm">
-				<div class="modal-body">
-					<div class="text-center">
-						<div class="text-success"><span class="modal-main-icon mdi mdi-close" style="color: red;"></span></div>
-						<h3 id="DeleteFolderText">Are You Sure You Want To Delete This Project/Folder?</h3>
-						<p></p>
-						<div class="mt-8">
-							<button id="DeleteFolderCancel" class="btn btn-space btn-secondary">Cancel</button>
-							<button type="submit" class="btn btn-space btn-danger">Proceed</button>
-						</div>
-					</div>
-				</div>
-			</form>
-		</div>
-		<div class="mdc-dialog__backdrop"></div>
-	</aside>
-	<!--History Folderr Dialogue-->
-	<aside id="history-folder-dialog"
-		   class="mdc-dialog"
-		   role="alertdialog"
-		   aria-labelledby="my-mdc-dialog-label"
-		   aria-describedby="my-mdc-dialog-description">
-		<div class="mdc-dialog__surface">
-			<div>
-				<div class="card card-table">
-					<div class="card-header">
-						<div class="title">History</div>
-					</div>
-					<div class="card-body table-responsive">
-						<table class="table table-striped table-hover">
-							<thead>
-								<tr>
-									<th style="width:36%;">User</th>
-									<th style="width:36%;">Change</th>
-									<th>Time</th>
-								</tr>
-							</thead>
-							<tbody id="HistoryFolderContentWrapper">
-								<tr>
-									<td>Dweb 1</td>
-									<td>Added ....</td>
-									<td>Aug 16, 2016</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
+	<!--Parts Dialogues-->
+	<div>
+		<!--Create Folder Dialogue-->
+		<aside id="create-folder-dialog"
+			   class="mdc-dialog"
+			   role="alertdialog"
+			   aria-labelledby="my-mdc-dialog-label"
+			   aria-describedby="my-mdc-dialog-description">
+			<div class="mdc-dialog__surface">
+				<header class="mdc-dialog__header">
+					<h2 id="create-folder-mdc-dialog-label" class="mdc-dialog__header__title">
+						Create A New Project / Folder
+					</h2>
+				</header>
+				<form id="CreateFolderForm">
+					<section id="create-folder-mdc-dialog-description" class="mdc-dialog__body">
+						<input id="CreateFolderInput" type="text" class="form-control" placeholder="Enter A Name" required="">
+					</section>
+					<footer class="mdc-dialog__footer">
+						<button type="submit" class="btn btn-space btn-primary">Create Folder</button>
+						<button type="button" id="CreateFolderCancel" class="btn btn-space btn-secondary">Cancel</button>
+					</footer>
+				</form>
 			</div>
-			<button id="HistoryFolderCancel" class="btn btn-space btn-secondary">Close</button>
-		</div>
-		<div class="mdc-dialog__backdrop"></div>
-	</aside>
-	<!--Create Part Dialogue-->
-	<aside id="create-part-dialog"
-		   class="mdc-dialog"
-		   role="alertdialog"
-		   aria-labelledby="my-mdc-dialog-label"
-		   aria-describedby="my-mdc-dialog-description">
-		<div class="mdc-dialog__surface">
-			<header class="mdc-dialog__header">
-				<h2 id="create-folder-mdc-dialog-label" class="mdc-dialog__header__title">
-					Add A Part
-				</h2>
-			</header>
-			<form id="CreatePartForm">
-				<section id="create-folder-mdc-dialog-description" class="mdc-dialog__body">
-					<div class="form-group">
-						<label for="CreatePartInput">Name</label>
-						<input id="CreatePartInput" type="text" class="form-control" placeholder="Name" required="" autocomplete="off">
+			<div class="mdc-dialog__backdrop"></div>
+		</aside>
+		<!--Edit Folder Dialogue-->
+		<aside id="edit-folder-dialog"
+			   class="mdc-dialog"
+			   role="alertdialog"
+			   aria-labelledby="my-mdc-dialog-label"
+			   aria-describedby="my-mdc-dialog-description">
+			<div class="mdc-dialog__surface">
+				<header class="mdc-dialog__header">
+					<h2 id="edit-folder-mdc-dialog-label" class="mdc-dialog__header__title">
+						Edit Project / Folder
+					</h2>
+				</header>
+				<form id="EditFolderForm">
+					<section id="edit-folder-mdc-dialog-description" class="mdc-dialog__body">
+						<input id="EditFolderInput" type="text" class="form-control" placeholder="Enter A Name" required="">
+					</section>
+					<footer class="mdc-dialog__footer">
+						<button type="submit" class="btn btn-space btn-primary">Submit</button>
+						<button type="button" id="EditFolderCancel" class="btn btn-space btn-secondary">Cancel</button>
+					</footer>
+				</form>
+			</div>
+			<div class="mdc-dialog__backdrop"></div>
+		</aside>
+		<!--Delete Folder Dialogue-->
+		<aside id="delete-folder-dialog"
+			   class="mdc-dialog"
+			   role="alertdialog"
+			   aria-labelledby="my-mdc-dialog-label"
+			   aria-describedby="my-mdc-dialog-description">
+			<div class="mdc-dialog__surface">
+				<form id="DeleteFolderForm">
+					<div class="modal-body">
+						<div class="text-center">
+							<div class="text-success"><span class="modal-main-icon mdi mdi-close" style="color: red;"></span></div>
+							<h3 id="DeleteFolderText">Are You Sure You Want To Delete This Project/Folder?</h3>
+							<p>Archiving This Project Would Be Recomended</p>
+							<div class="mt-8">
+								<button type="button" id="DeleteFolderCancel" class="btn btn-space btn-secondary">Cancel</button>
+								<button type="submit" class="btn btn-space btn-danger">Proceed</button>
+							</div>
+						</div>
 					</div>
-
-					<div class="form-group">
-						<label for="CreatePartInputQ">Quantity</label>
-						<input id="CreatePartInputQ" type="number" class="form-control" placeholder="Quantity" required="" autocomplete="off" min="1" value="1">
+				</form>
+			</div>
+			<div class="mdc-dialog__backdrop"></div>
+		</aside>
+		<!--Archive Folder Dialogue-->
+		<aside id="archive-folder-dialog"
+			   class="mdc-dialog"
+			   role="alertdialog"
+			   aria-labelledby="my-mdc-dialog-label"
+			   aria-describedby="my-mdc-dialog-description">
+			<div class="mdc-dialog__surface">
+				<form id="ArchiveFolderForm">
+					<div class="modal-body">
+						<div class="text-center">
+							<div class="text-success"><span class="modal-main-icon mdi mdi-archive" style="color: red;"></span></div>
+							<h3 id="ArchiveFolderText">Are You Sure You Want To Archive This Project/Folder?</h3>
+							<p>This will basically mark it as finished.</p>
+							<div class="mt-8">
+								<button type="button" id="ArchiveFolderCancel" class="btn btn-space btn-secondary">Cancel</button>
+								<button type="submit" class="btn btn-space btn-danger">Proceed</button>
+							</div>
+						</div>
 					</div>
-
-					<div class="form-group">
-						<label for="CreatePartInputP">Price Per Item</label>
-						<input id="CreatePartInputP" type="number" class="form-control" placeholder="Price Per Item" required="" autocomplete="off" min="1">
-					</div>
-
-					<div class="form-group">
-						<label for="CreatePartInputUrl">Url</label>
-						<input id="CreatePartInputUrl" type="text" class="form-control" placeholder="Url" required="" autocomplete="off">
-					</div>
-
-					<div class="form-group">
-						<label for="CreatePartInputU">Urgency / Priority</label>
-						<select id="CreatePartInputU" class="form-control">
-							<option value="Low" selected="">Low - We Need This A Soon As We Can Get It</option>
-							<option value="Medium">Medium - We Need This Soon</option>
-							<option value="High">High - We Need This Now</option>
-						</select>
-					</div>
-				</section>
-				<footer class="mdc-dialog__footer">
-					<button type="submit" class="btn btn-space btn-primary">Add Part</button>
-					<button id="CreatePartCancel" class="btn btn-space btn-secondary">Cancel</button>
-				</footer>
-			</form>
-		</div>
-		<div class="mdc-dialog__backdrop"></div>
-	</aside>
-	<!--Delete Part Dialogue-->
-	<aside id="delete-part-dialog"
-		   class="mdc-dialog"
-		   role="alertdialog"
-		   aria-labelledby="my-mdc-dialog-label"
-		   aria-describedby="my-mdc-dialog-description">
-		<div class="mdc-dialog__surface">
-			<form id="DeletePartForm">
-				<div class="modal-body">
-					<div class="text-center">
-						<div class="text-success"><span class="modal-main-icon mdi mdi-close" style="color: red;"></span></div>
-						<h3 id="DeletePartText">Are You Sure You Want To Remove This Part?</h3>
-						<p></p>
-						<div class="mt-8">
-							<button id="DeletePartCancel" class="btn btn-space btn-secondary">Cancel</button>
-							<button type="submit" class="btn btn-space btn-danger">Proceed</button>
+				</form>
+			</div>
+			<div class="mdc-dialog__backdrop"></div>
+		</aside>
+		<!--History Folderr Dialogue-->
+		<aside id="history-folder-dialog"
+			   class="mdc-dialog"
+			   role="alertdialog"
+			   aria-labelledby="my-mdc-dialog-label"
+			   aria-describedby="my-mdc-dialog-description">
+			<div class="mdc-dialog__surface">
+				<div>
+					<div class="card card-table mdc-dialog__body--scrollable" style="max-height: 60vh;">
+						<div class="card-header">
+							<div class="title" id="FolderHistoryTitle">History</div>
+						</div>
+						<div class="card-body table-responsive">
+							<table class="table table-striped table-hover" style="max-width: 100%; overflow-x: hidden;">
+								<thead>
+									<tr>
+										<th style="width: 20%">User</th>
+										<th>Change</th>
+										<th style="width: 20%">Time</th>
+									</tr>
+								</thead>
+								<tbody id="HistoryFolderContentWrapper">
+									<tr>
+										<td>Dweb 1</td>
+										<td>Added ....</td>
+										<td>Aug 16, 2016</td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>
-			</form>
-		</div>
-		<div class="mdc-dialog__backdrop"></div>
-	</aside>
+				<button id="HistoryFolderCancel" class="btn btn-space btn-secondary">Close</button>
+			</div>
+			<div class="mdc-dialog__backdrop"></div>
+		</aside>
+		<!--Create Part Dialogue-->
+		<aside id="create-part-dialog"
+			   class="mdc-dialog"
+			   role="alertdialog"
+			   aria-labelledby="my-mdc-dialog-label"
+			   aria-describedby="my-mdc-dialog-description">
+			<div class="mdc-dialog__surface">
+				<header class="mdc-dialog__header">
+					<h2 id="create-folder-mdc-dialog-label" class="mdc-dialog__header__title">
+						Add A Part
+					</h2>
+				</header>
+				<form id="CreatePartForm" class="mdc-dialog__body mdc-dialog__body--scrollable" style="max-height: 60vh;">
+					<section id="create-folder-mdc-dialog-description">
+						<br />
+						<div class="form-group autocomplete" style="width: 100%;">
+							<label for="CreatePartInput">Name</label>
+							<input id="CreatePartInput" type="text" class="form-control" placeholder="Enter A Name" required="" autocomplete="off">
+						</div>
+
+						<div class="form-group">
+							<label for="CreatePartInputD">Description</label>
+							<input id="CreatePartInputD" type="text" class="form-control" placeholder="What is this item going to be for?" autocomplete="off">
+						</div>
+
+						<div class="form-group">
+							<label for="CreatePartInputQ">Quantity</label>
+							<input id="CreatePartInputQ" type="number" class="form-control" placeholder="Quantity" required="" autocomplete="off" min="1" value="1">
+						</div>
+
+						<div class="form-group">
+							<label for="CreatePartInputP">Price Per Item</label>
+							<div class="input-group mb-3">
+								<span class="input-group-prepend"><span class="input-group-text">$</span></span>
+								<input id="CreatePartInputP" type="number" class="form-control" placeholder="Price Per Item" required="" autocomplete="off" min="1">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="CreatePartInputUrl">Url</label>
+							<input id="CreatePartInputUrl" type="text" class="form-control" placeholder="Url" autocomplete="off">
+						</div>
+
+						<div class="form-group">
+							<label for="CreatePartInputU">Urgency / Priority</label>
+							<select id="CreatePartInputU" class="form-control">
+								<option value="Low" selected="">Low - We Need This A Soon As We Can Get It</option>
+								<option value="Medium">Medium - We Need This Soon</option>
+								<option value="High">High - We Need This Now</option>
+							</select>
+						</div>
+					</section>
+					<footer class="mdc-dialog__footer">
+						<button type="submit" class="btn btn-space btn-primary">Add Part</button>
+						<button type="button" id="CreatePartCancel" class="btn btn-space btn-secondary">Cancel</button>
+					</footer>
+				</form>
+			</div>
+			<div class="mdc-dialog__backdrop"></div>
+		</aside>
+		<!--Edit Part Dialogue-->
+		<aside id="edit-part-dialog"
+			   class="mdc-dialog"
+			   role="alertdialog"
+			   aria-labelledby="my-mdc-dialog-label"
+			   aria-describedby="my-mdc-dialog-description">
+			<div class="mdc-dialog__surface">
+				<header class="mdc-dialog__header">
+					<h2 id="edit-folder-mdc-dialog-label" class="mdc-dialog__header__title">
+						Edit Part
+					</h2>
+				</header>
+				<form id="EditPartForm" class="mdc-dialog__body mdc-dialog__body--scrollable" style="max-height: 60vh;">
+					<section id="edit-folder-mdc-dialog-description">
+						<br />
+						<div class="form-group">
+							<label for="EditPartInput">Name</label>
+							<input id="EditPartInput" type="text" class="form-control" placeholder="Enter A Name" required="" autocomplete="off">
+						</div>
+
+						<div class="form-group">
+							<label for="EditPartInputD">Description</label>
+							<input id="EditPartInputD" type="text" class="form-control" placeholder="What is this item going to be for?" autocomplete="off">
+						</div>
+
+						<div class="form-group">
+							<label for="EditPartInputQ">Quantity</label>
+							<input id="EditPartInputQ" type="number" class="form-control" placeholder="Quantity" required="" autocomplete="off" min="1" value="1">
+						</div>
+
+						<div class="form-group">
+							<label for="EditPartInputP">Price Per Item</label>
+							<div class="input-group mb-3">
+								<span class="input-group-prepend"><span class="input-group-text">$</span></span>
+								<input id="EditPartInputP" type="number" class="form-control" placeholder="Price Per Item" required="" autocomplete="off" min="1">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="EditPartInputUrl">Url</label>
+							<input id="EditPartInputUrl" type="text" class="form-control" placeholder="Url" autocomplete="off">
+						</div>
+
+						<div class="form-group">
+							<label for="EditPartInputU">Urgency / Priority</label>
+							<select id="EditPartInputU" class="form-control">
+								<option value="Low" selected="">Low - We Need This A Soon As We Can Get It</option>
+								<option value="Medium">Medium - We Need This Soon</option>
+								<option value="High">High - We Need This Now</option>
+							</select>
+						</div>
+					</section>
+					<footer class="mdc-dialog__footer">
+						<button type="submit" class="btn btn-space btn-primary">Submit</button>
+						<button type="button" id="EditPartCancel" class="btn btn-space btn-secondary">Cancel</button>
+					</footer>
+				</form>
+			</div>
+			<div class="mdc-dialog__backdrop"></div>
+		</aside>
+		<!--Delete Part Dialogue-->
+		<aside id="delete-part-dialog"
+			   class="mdc-dialog"
+			   role="alertdialog"
+			   aria-labelledby="my-mdc-dialog-label"
+			   aria-describedby="my-mdc-dialog-description">
+			<div class="mdc-dialog__surface">
+				<form id="DeletePartForm">
+					<div class="modal-body">
+						<div class="text-center">
+							<div class="text-success"><span class="modal-main-icon mdi mdi-close" style="color: red;"></span></div>
+							<h3 id="DeletePartText">Are You Sure You Want To Remove This Part?</h3>
+							<p></p>
+							<div class="mt-8">
+								<button type="button" id="DeletePartCancel" class="btn btn-space btn-secondary">Cancel</button>
+								<button type="submit" class="btn btn-space btn-danger">Proceed</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="mdc-dialog__backdrop"></div>
+		</aside>
+	</div>
+
+	<!--Archive Dialogues-->
+	<div>
+		<!--Archive Delete Dialogue-->
+		<aside id="archivedelete-folder-dialog"
+			   class="mdc-dialog"
+			   role="alertdialog"
+			   aria-labelledby="my-mdc-dialog-label"
+			   aria-describedby="my-mdc-dialog-description">
+			<div class="mdc-dialog__surface">
+				<form id="ArchivedeleteFolderForm">
+					<div class="modal-body">
+						<div class="text-center">
+							<div class="text-success"><span class="modal-main-icon mdi mdi-close" style="color: red;"></span></div>
+							<h3 id="ArchivedeleteFolderText">Are You Sure You Want To Delete This Project/Folder?</h3>
+							<p></p>
+							<div class="mt-8">
+								<button type="button" id="ArchivedeleteFolderCancel" class="btn btn-space btn-secondary">Cancel</button>
+								<button type="submit" class="btn btn-space btn-danger">Proceed</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="mdc-dialog__backdrop"></div>
+		</aside>
+		<!--Unarchive Folder Dialogue-->
+		<aside id="unarchive-folder-dialog"
+			   class="mdc-dialog"
+			   role="alertdialog"
+			   aria-labelledby="my-mdc-dialog-label"
+			   aria-describedby="my-mdc-dialog-description">
+			<div class="mdc-dialog__surface">
+				<form id="UnarchiveFolderForm">
+					<div class="modal-body">
+						<div class="text-center">
+							<div class="text-success"><span class="modal-main-icon mdi mdi-upload" style="color: red;"></span></div>
+							<h3 id="UnarchiveFolderText">Are You Sure You Want To Unarchive This Project/Folder?</h3>
+							<p>This will bring the project back into use.</p>
+							<div class="mt-8">
+								<button type="button" id="UnarchiveFolderCancel" class="btn btn-space btn-secondary">Cancel</button>
+								<button type="submit" class="btn btn-space btn-danger">Proceed</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="mdc-dialog__backdrop"></div>
+		</aside>
+		<!--Archive History Dialogue-->
+		<aside id="archivehistory-folder-dialog"
+			   class="mdc-dialog"
+			   role="alertdialog"
+			   aria-labelledby="my-mdc-dialog-label"
+			   aria-describedby="my-mdc-dialog-description">
+			<div class="mdc-dialog__surface">
+				<div>
+					<div class="card card-table">
+						<div class="card-header">
+							<div class="title" id="FolderArchiveHistoryTitle">ArchiveHistory</div>
+						</div>
+						<div class="card-body table-responsive">
+							<table class="table table-striped table-hover" style="max-width: 100%; overflow-x: hidden;">
+								<thead>
+									<tr>
+										<th>User</th>
+										<th>Change</th>
+										<th>Time</th>
+									</tr>
+								</thead>
+								<tbody id="ArchiveHistoryFolderContentWrapper">
+									<tr>
+										<td>Dweb 1</td>
+										<td>Added ....</td>
+										<td>Aug 16, 2016</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<button id="ArchiveHistoryFolderCancel" class="btn btn-space btn-secondary">Close</button>
+			</div>
+			<div class="mdc-dialog__backdrop"></div>
+		</aside>
+	</div>
 
 	<!--Imports-->
 	<script src="../assets/mdc/material-components-web.js"></script>
@@ -394,265 +559,35 @@
 
 	<!--Main Script-->
 	<script type="text/javascript">
-		$(document).ready(function () { App.init(); });
-
-		//Create Folder Handling
-		const CreateFolderDialogue = new mdc.dialog.MDCDialog(document.querySelector('#create-folder-dialog'));
-		document.getElementById('CreateFolderButton').addEventListener('click', function () { CreateFolderDialogue.show(); }); //Open the dialog
-		document.getElementById('CreateFolderCancel').addEventListener('click', function () { CreateFolderDialogue.close(); }); //Close the dialog
-		function CreateFolder(e) {
-			if (e.preventDefault) e.preventDefault();
-			var folderName = document.getElementById('CreateFolderInput').value;
-			firebase.app().firestore().collection("PMS").get().then((querySnapshot) => {
-				var FolderExists = false;
-				querySnapshot.forEach((doc) => {
-					if (doc.id.substr(1) == folderName) { FolderExists = true; }
-				});
-				if (FolderExists) {
-					document.getElementById("CreateFolderInput").setCustomValidity("This folder already exists!");
-					document.getElementById("CreateFolderInput").reportValidity();
-				} else {
-					console.log(querySnapshot.docs.length > 0);
-					if (querySnapshot.docs.length > 0) { folderName = (Number(querySnapshot.docs[querySnapshot.docs.length - 1].id.charAt(0)) + 1) + folderName; } else { folderName = "0" + folderName; }
-					firebase.app().firestore().collection("PMS").doc(folderName).set({ History: {}, index: 0 })
-						.then(function () {
-							CreateFolderDialogue.close();
-						});
-				}
-			});
-		} var form = document.getElementById('CreateFolderForm'); if (form.attachEvent) { form.attachEvent("submit", CreateFolder); } else { form.addEventListener("submit", CreateFolder); }
-		document.getElementById('CreateFolderInput').addEventListener("input", function (event) { document.getElementById("CreateFolderInput").setCustomValidity(""); });
-
-		//Edit Folder Handling
-		const EditFolderDialogue = new mdc.dialog.MDCDialog(document.querySelector('#edit-folder-dialog'));
-		var folderEditing = "";
-		function editFolder(folder) { EditFolderDialogue.show(); folderEditing = folder; } //Open the dialog
-		document.getElementById('EditFolderCancel').addEventListener('click', function () { EditFolderDialogue.close(); }); //Close the dialog
-		function submitEditFolder(e) {
-			if (e.preventDefault) e.preventDefault();
-			const folderName = document.getElementById('EditFolderInput').value;
-			firebase.app().firestore().collection("PMS").get().then((querySnapshot) => {
-				var FolderExists = false;
-				querySnapshot.forEach((doc) => {
-					if (doc.id.substr(1) == folderName.substr(1)) { FolderExists = true; }
-				});
-				if (FolderExists) {
-					document.getElementById("EditFolderInput").setCustomValidity("This folder already exists!");
-					document.getElementById("EditFolderInput").reportValidity();
-				} else {
-					firebase.app().firestore().collection("PMS").doc(folderEditing).get().then(function (doc) {
-						var savedFolder = doc.data();
-						firebase.app().firestore().collection("PMS").doc(folderEditing).delete().then(function (doc) {
-							firebase.app().firestore().collection("PMS").doc("" + folderEditing.charAt(0) + folderName).set(savedFolder)
-								.then(function () {
-									EditFolderDialogue.close();
-								});
-						});
-					});
-				}
-			});
-		} var form3 = document.getElementById('EditFolderForm'); if (form3.attachEvent) { form3.attachEvent("submit", submitEditFolder); } else { form3.addEventListener("submit", submitEditFolder); }
-		document.getElementById('EditFolderInput').addEventListener("input", function (event) { document.getElementById("EditFolderInput").setCustomValidity(""); });
-
-		//Delete Folder Handling
-		const DeleteFolderDialogue = new mdc.dialog.MDCDialog(document.querySelector('#delete-folder-dialog'));
-		var folderDeleting = "";
-		function deleteFolder(folder) { DeleteFolderDialogue.show(); folderDeleting = folder; document.getElementById("DeleteFolderText").innerHTML = 'Are You Sure You Want To Delete ' + folder.substr(1) + "?"; } //Open the dialog
-		document.getElementById('DeleteFolderCancel').addEventListener('click', function () { DeleteFolderDialogue.close(); }); //Close the dialog
-		function submitDeleteFolder(e) {
-			if (e.preventDefault) e.preventDefault();
-			firebase.app().firestore().collection("PMS").doc(folderDeleting).delete().then(function (doc) {
-				DeleteFolderDialogue.close();
-			});
-		} var form4 = document.getElementById('DeleteFolderForm'); if (form4.attachEvent) { form4.attachEvent("submit", submitDeleteFolder); } else { form4.addEventListener("submit", submitDeleteFolder); }
-
-
-		//PMS UI
-		function startPMS() {
-			firebase.app().firestore().collection("PMS")
-				.onSnapshot(function (snapshot) {
-					var html = '';
-					snapshot.forEach((doc) => {
-						html += `<div class="col-lg-6">
-												<div class="card card-table">
-													<div class="card-header">
-														` + doc.id.substr(1) + `
-														<div class="tools dropdown">
-														<a role="button" data-toggle="dropdown" class="dropdown-toggle"><span class="icon mdi mdi-more-vert"></span></a>
-															<div role="menu" class="dropdown-menu">
-																<a onclick="editFolder(this.id)" href="#" id="` + doc.id + `" class="dropdown-item">Edit</a>
-																<a onclick="openHistory(this.id)" id="` + doc.id + `" href="#" class="dropdown-item">History</a>
-																<a onclick="openCreatePartDialogue(this)" id="` + doc.id + `" class="dropdown-item">Add</a>
-																<div class="dropdown-divider"></div>
-																<a onclick="deleteFolder(this.id)" id="` + doc.id + `" class="dropdown-item">Delete</a>
-															</div>
-														</div>
-													</div>
-													<div class="card-body">
-														<table class="table">
-															<thead>
-																<tr>
-																	<th style="width:50%;">Item</th>
-																	<th style="width:10%;">Urgency</th>
-																	<th class="number">#</th>
-																	<th class="number">$</th>
-																	<th>Status</th>
-																	<th class="actions"></th>
-																</tr>
-															</thead>
-															<tbody>`;
-
-						for (var data in doc.data()) {
-							if (data != "History" && data != "index") {
-								var part = (doc.data()[data]);
-								html += `<tr>
-														<td><a target="_blank" href="` + part.url + `">` + part.name + `</a></td>
-														<td>`+ part.urgency + `</td>
-														<td class="number">` + part.quantity + `</td>
-														<td class="number">$` + part.priceper + `</td>
-														<td>` + part.status + `</td>
-														<td class="actions">
-															<a href="#" role="button" data-toggle="dropdown" class="dropdown-toggle"><span class="icon mdi mdi-more-vert"></span></a>
-															<div role="menu" class="dropdown-menu">
-																<a href="#" class="dropdown-item">Edit</a>
-																<div class="dropdown-divider"></div><a onclick="deletePart('`+ doc.id + `','` + data + `','` + part.name + `','` + part.quantity + `')" class="dropdown-item">Delete</a>
-															</div>
-														</td>
-													</tr>`;
-							}
-						}
-
-						html += `</tbody> </table> </div> </div> </div>`;
-					});
-					document.getElementById('PartsAllWrapper').innerHTML = html;
-				}, function (error) {
-
-				});
-		}
-
-		//Create Part Handling
-		const CreatePartDialogue = new mdc.dialog.MDCDialog(document.querySelector('#create-part-dialog'));
-		var addingPartTo = "Ref";
-		function openCreatePartDialogue(from) { CreatePartDialogue.show(); addingPartTo = from.id; } //Open the dialog
-		document.getElementById('CreatePartCancel').addEventListener('click', function () { CreatePartDialogue.close(); }); //Close the dialog
-		function CreatePart(e) {
-			if (e.preventDefault) e.preventDefault();
-
-			const partName = document.getElementById('CreatePartInput').value;
-			const partUr = document.getElementById('CreatePartInputU').value;
-			const partQu = document.getElementById('CreatePartInputQ').value;
-			const partPr = document.getElementById('CreatePartInputP').value;
-			var partUrl = document.getElementById('CreatePartInputUrl').value; if (!partUrl.match(/^[a-zA-Z]+:\/\//)) { partUrl = 'http://' + partUrl; }
-			firebase.app().firestore().collection("PMS").doc(addingPartTo).get().then(function (doc) {
-				var currentIndex = (doc.data().index + ":" + Math.random().toString(36).substring(3));
-				var json = { index: (doc.data().index + 1) };
-				json[currentIndex] = {
-					name: partName,
-					urgency: partUr,
-					quantity: partQu,
-					priceper: partPr,
-					url: partUrl,
-					status: "Unordered",
-					createdBy: firebase.auth().currentUser.uid
-				};
-				var addedHistory = {}; addedHistory[Object.keys(doc.data().History).length] = { User: firebase.auth().currentUser.displayName, Change: "Added " + partQu + " " + partName + (partQu > 1 ? "s" : ""), Date: new Date().getTime() };
-				json["History"] = Object.assign(doc.data().History, addedHistory);;
-
-				firebase.app().firestore().collection("PMS").doc(addingPartTo).update(json)
-					.then(function () {
-						CreatePartDialogue.close();
-					});
-			});
-
-		} var form2 = document.getElementById('CreatePartForm'); if (form2.attachEvent) { form2.attachEvent("submit", CreatePart); } else { form2.addEventListener("submit", CreatePart); }
-
-		//Delete Part Handling
-		const DeletePartDialogue = new mdc.dialog.MDCDialog(document.querySelector('#delete-part-dialog'));
-		var partDeleting = ""; var partFolderDeleting = "";
-		function deletePart(folder, part, partName, partAmount) { DeletePartDialogue.show(); partFolderDeleting = folder; partDeleting = part; document.getElementById("DeletePartText").innerHTML = "Are You Sure You Want To Remove " + partAmount + " " + partName + (partAmount > 1 ? "s" : "") + " from " + folder.substr(1) + "?"; } //Open the dialog
-		document.getElementById('DeletePartCancel').addEventListener('click', function () { DeleteFolderDialogue.close(); }); //Close the dialog
-		function submitDeletePart(e) {
-			if (e.preventDefault) e.preventDefault();
-			firebase.app().firestore().collection("PMS").doc(partFolderDeleting).get()
-				.then(function (doc) {
-					var json = doc.data();
-
-					delete json[partDeleting];
-
-					firebase.app().firestore().collection("PMS").doc(partFolderDeleting).set(json).then(function () {
-						DeletePartDialogue.close();
-					});
-				});
-		} var form5 = document.getElementById('DeletePartForm'); if (form5.attachEvent) { form5.attachEvent("submit", submitDeletePart); } else { form5.addEventListener("submit", submitDeletePart); }
-
-
-		//Folder History Handler
-		const FolderHistoryDialogue = new mdc.dialog.MDCDialog(document.querySelector('#history-folder-dialog')); var folderHistoryToUITarget = "";
-		function openHistory(folder) { FolderHistoryDialogue.show(); folderHistoryToUITarget = folder; } //Open the dialogue
-		document.getElementById('HistoryFolderCancel').addEventListener('click', function () { FolderHistoryDialogue.close(); }); //Close the dialog
-		setInterval(folderHistoryToUI, 60);
-		function folderHistoryToUI(folder) {
-			var folder = folderHistoryToUITarget;
-			if (folder != "") {
-				var html = '';
-				firebase.app().firestore().collection("PMS").doc(folder).get().then(function (doc) {
-					for (var his = Object.keys(doc.data().History).length - 1; his > -1; his--) {
-						var change = doc.data().History[his].Change; var user = doc.data().History[his].User; var timeSince = dateDistance(new Date().getTime(), doc.data().History[his].Date);
-
-						html += `
-									<tr>
-										<td>` + user + `</td>
-										<td>` + change + `</td>
-										<td>` + timeSince + `</td>
-									</tr>
-									`;
-					}
-
-					document.getElementById('HistoryFolderContentWrapper').innerHTML = html;
-				});
-			}
-
-			function dateDistance(d1, d2) {
-				var d, h, m, s;
-				s = Math.floor(Math.abs(d1 - d2) / 1000);
-				m = Math.floor(s / 60);
-				h = Math.floor(m / 60);
-				d = Math.floor(h / 24);
-
-				s = s % 60;
-				m = m % 60;
-				h = h % 24;
-
-				var n = (Math.abs((new Date(d1).getMonth()) - (new Date(d2).getMonth())));
-				var y = (Math.abs((new Date(d1).getFullYear()) - (new Date(d2).getFullYear())));
-
-				if (y > 0) { return y + " year" + (y > 1 ? "s" : "") + " ago"; }
-				else if (n > 0) { return n + " month" + (n > 1 ? "s" : "") + " ago"; }
-				else if (d > 0) { return d + " day" + (d > 1 ? "s" : "") + " ago"; }
-				else if (h > 0) { return h + " hour" + (h > 1 ? "s" : "") + " ago"; }
-				else if (m > 0) { return m + " minute" + (m > 1 ? "s" : "") + " ago"; }
-				else { return s + " second" + (s > 1 ? "s" : "") + " ago"; }
-			}
-		}
-
-		//Account Handling
-		function logout() { firebase.auth().signOut(); }
-		document.addEventListener('DOMContentLoaded', function () {
-			firebase.auth().onAuthStateChanged(function (user) {
-				if (user) { //Set the page names to the username of the user signed in
-					document.getElementById("UserNameL").innerHTML = user.displayName;
-					document.getElementById("UserNameR").innerHTML = user.displayName;
-				} else { //If not signed in reroute to public page
-					window.open('../index.html', '_self', false);
-				}
-			});
-			startPMS();
+		$(document).ready(function () {
+			App.init();
 		});
 
-		//Switch To Tab To Select Tab From Url
-		var ctab = getUrlParameterByName('tab', ''); if (ctab == null) { ctab = 'General'; }
-		document.getElementById(ctab).classList.add('active');
-		function getUrlParameterByName(name, url) { if (!url) url = window.location.href; name = name.replace(/[\[\]]/g, "\\$&"); var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), results = regex.exec(url); if (!results) return null; if (!results[2]) return ''; return decodeURIComponent(results[2].replace(/\+/g, " ")); }
+		document.addEventListener('DOMContentLoaded', function () {
+			startPMS();
+			startPMSArchived();
+			startPMSOrdered();
+		});
 	</script>
+
+	<script src="assets/Parts/FolderHistory.js"></script>
+	<script src="assets/Parts/CreatePart.js"></script>
+	<script src="assets/Parts/EditPart.js"></script>
+	<script src="assets/Parts/DeletePart.js"></script>
+	<script src="assets/Parts/CreateFolder.js"></script>
+	<script src="assets/Parts/EditFolder.js"></script>
+	<script src="assets/Parts/DeleteFolder.js"></script>
+	<script src="assets/Parts/ArchiveFolder.js"></script>
+	<script src="assets/Parts/UI.js"></script>
+	<script src="assets/Parts/Archive/ArchiveTab.js"></script>
+	<script src="assets/Parts/Archive/UnarchiveFolder.js"></script>
+	<script src="assets/Parts/Archive/ArchiveHistory.js"></script>
+	<script src="assets/Parts/Archive/ArchiveDelete.js"></script>
+	<script src="assets/Parts/Ordered/OrderedParts.js"></script>
+	<script src="assets/Parts/StatusPart.js"></script>
+
+	<script src="assets/Autocomplete/Autocomplete.js"></script>
+	<script src="assets/Tabs/tabs.js"></script>
+	<script src="assets/Accounting/accountHandler.js"></script>
 </body>
 </html>
