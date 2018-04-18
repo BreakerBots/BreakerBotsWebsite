@@ -180,9 +180,10 @@
 				</div>
 				<div id="Calendar" class="tab">
 					<iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=suiphcuq71fqpntbc2rojdun2g%40group.calendar.google.com&amp;color=%23125A12&amp;ctz=America%2FLos_Angeles" style="border-width:0; padding: 3%; width: 100%;" width="800" height="1000" frameborder="0" scrolling="no"></iframe>
+				
 				</div>
 				<div id="Github" class="tab">
-
+					
 				</div>
 			</div>
 		</div><!--End Of Content-->
@@ -562,6 +563,29 @@
 		$(document).ready(function () {
 			App.init();
 		});
+
+		var request = new XMLHttpRequest();
+		request.open('GET', 'https://www.googleapis.com/calendar/v3/calendars/suiphcuq71fqpntbc2rojdun2g@group.calendar.google.com/events?key=AIzaSyCR3-ptjHE-_douJsn8o20oRwkxt-zHStY', true);
+
+		request.onload = () => {
+			if (request.status >= 200 && request.status < 400) {
+				var data = JSON.parse(request.responseText);
+				for (var i in data.items) {
+					var iten = data.items[i];
+					//if (Number(iten.created.substring(0, 4)) >= 2018) {
+					console.log(iten.start.dateTime);
+					//}
+				}
+			} else {
+				console.error(err);
+			}
+		};
+
+		request.onerror = () => {
+			console.error(err);
+		};
+
+		request.send();
 
 		document.addEventListener('DOMContentLoaded', function () {
 			startPMS();
