@@ -14,6 +14,8 @@ function openEditPartDialogue(folder, part) {
 		document.getElementById('EditPartInputP').value = doc.data()[editingPart].priceper;
 		document.getElementById('EditPartInputD').value = doc.data()[editingPart].desc;
 		document.getElementById('EditPartInputUrl').value = (doc.data()[editingPart].url == "http://" ? "" : doc.data()[editingPart].url);
+		document.getElementById('EditPartInputUnit').value = doc.data()[editingPart].unit;
+		document.getElementById('EditPartInputPN').value = doc.data()[editingPart].partNumber;
 	});
 } //Open the dialog
 document.getElementById('EditPartCancel').addEventListener('click', function () { EditPartDialogue.close(); }); //Close the dialog
@@ -26,6 +28,8 @@ function EditPart(e) {
 	const partPr = document.getElementById('EditPartInputP').value;
 	const partDe = document.getElementById('EditPartInputD').value;
 	var partUrl = document.getElementById('EditPartInputUrl').value; if (!partUrl.match(/^[a-zA-Z]+:\/\//)) { partUrl = 'http://' + partUrl; }
+	const partUnit = document.getElementById('EditPartInputUnit').value;
+	const partPN = document.getElementById('EditPartInputPN').value;
 	firebase.app().firestore().collection("PMS").doc(editingPartFolder).get().then(function (doc) {
 		var currentIndex = editingPart;
 		var json = { index: (doc.data().index + 1) };
@@ -36,7 +40,8 @@ function EditPart(e) {
 			quantity: partQu,
 			priceper: partPr,
 			url: partUrl,
-			status: "No",
+			partNumber: partPN,
+			unit: partUnit
 		};
 		var EditingChange = []; var nd = editingPartData.name + (editingPartData.desc != "" ? " for " + editingPartData.desc : "");
 		if (partName != editingPartData.name || partDe != editingPartData.desc) {
@@ -89,7 +94,7 @@ function EditPart(e) {
 		};
 		json["History"] = Object.assign(doc.data().History, addedHistory);
 
-		firebase.app().firestore().collection("PMS").doc(editingPartFolder).update(json)
+		firebase.app().firestore().collection("PMS").doc(editingPartFolder).set(json, { merge: true })
 			.then(function () {
 				EditPartDialogue.close();
 			});

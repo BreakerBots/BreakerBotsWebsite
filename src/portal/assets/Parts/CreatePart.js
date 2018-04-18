@@ -22,6 +22,8 @@ function CreatePart(e) {
 	const partPr = document.getElementById('CreatePartInputP').value;
 	const partDe = document.getElementById('CreatePartInputD').value;
 	var partUrl = document.getElementById('CreatePartInputUrl').value; if (!partUrl.match(/^[a-zA-Z]+:\/\//)) { partUrl = 'http://' + partUrl; }
+	const partUnit = document.getElementById('CreatePartInputUnit').value;
+	const partPN = document.getElementById('CreatePartInputPN').value;
 	firebase.app().firestore().collection("PMS").doc(addingPartTo).get().then(function (doc) {
 		var currentIndex = (doc.data().index + ":" + Math.random().toString(36).substring(3));
 		var json = { index: (doc.data().index + 1) };
@@ -32,8 +34,12 @@ function CreatePart(e) {
 			quantity: partQu,
 			priceper: partPr,
 			url: partUrl,
-			status: "No",
-			createdBy: firebase.auth().currentUser.uid
+			status: "Not Ready",
+			createdBy: firebase.auth().currentUser.uid,
+			orderDate: null,
+			arriveDate: null,
+			partNumber: partPN,
+			unit: partUnit
 		};
 		var addedHistory = {}; addedHistory[Object.keys(doc.data().History).length] = { User: firebase.auth().currentUser.displayName, Change: "Added " + partQu + " " + partName + (partQu > 1 ? "s" : "") + (partDe == "" ? "" : " for " + partDe), Date: new Date().getTime() };
 		json["History"] = Object.assign(doc.data().History, addedHistory);
