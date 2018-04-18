@@ -13,8 +13,8 @@ function drawOrderedTableElement(data, doc) {
 	firebase.app().firestore().collection("PMS").doc(folder).get().then(function (doc) {
 		var html = '';
 		var part = (doc.data()[data]);
-		if (part != undefined ? part.status == "Yes" : false) {
-			html += `<tr ` + (part.status == "No" ? (`style="background-color: rgba(214,0,0,` + (part.urgency == "Low" ? 0 : (part.urgency == "Medium" ? 0.2 : 0.4))) : "") + `);">
+		if (part != undefined ? part.status == "Ordered" : false) {
+			html += `<tr ` + part.status + `);">
 					<td>`+ (part.url == undefined || part.url == "http://" ? part.name : `<a target="_blank" href="` + part.url + `">` + part.name + `</a>`) + `</td>
 					<td>`+ (part.desc == undefined || part.desc == "" ? "None" : part.desc) + `</td>
 					<td>`+ doc.id.substring(FolderNumberPadding) + `</td>

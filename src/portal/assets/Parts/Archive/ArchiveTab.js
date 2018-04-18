@@ -23,10 +23,10 @@ function startPMSArchived() {
 											<tr>
 												<th style="width:20%;">Item</th>
 												<th style="width:21%;">Desc</th>
-												<th style="width:15%;">Prio.</th>
+												<th style="width:15%;">Priority</th>
 												<th style="width:11%;" class="number">#</th>
 												<th style="width:13%;" class="number">$</th>
-												<th style="width:15%;">Ord.</th>
+												<th style="width:15%;">Status</th>
 												<th class="actions"></th>
 											</tr>
 										</thead>

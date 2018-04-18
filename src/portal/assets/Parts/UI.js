@@ -27,36 +27,54 @@ function startPMS() {
 											<tr>
 												<th>Item</th>
 												<th>Desc</th>
-												<th>Prio.</th>
-												<th class="number">#</th>
-												<th class="number">$</th>
-												<th>Ordered</th>
+												<th>Priority</th>
+												<th>Part Number</th>
+												<th class="number">Quantity</th>
+												<th>Unit</th>
+												<th class="number">Unit Price</th>
+												<th class="number">Total Price</th>
+												<th>Status</th>
 												<th class="actions"></th>
 											</tr>
 										</thead>
 										<tbody>`;
 
+				var GrandTotalPrice = 0;
 				for (var data in doc.data()) {
 					if (data != "History" && data != "index") {
 						var part = (doc.data()[data]);
-						html += `<tr ` + (part.status == "No" ? (`style="background-color: rgba(214,0,0,` + (part.urgency == "Low" ? 0 : (part.urgency == "Medium" ? 0.2 : 0.4))) : "") + `);">
+						GrandTotalPrice += (part.priceper * part.quantity);
+						html += `<tr style="background-color: rgba(` + (part.status == "Ordered" ? (`0,255,0,0.2`) : (part.status == "Ready" || part.status == "Not Ready" ? (part.urgency == "Low" ? '0,0,0,0' : (part.urgency == "Medium" ? '214,0,0,0.2' : '214,0,0,0.4')) : '0,0,0,0')) + `);">
 									<td>`+ (part.url == undefined || part.url == "http://" ? part.name : `<a target="_blank" href="` + part.url + `">` + part.name + `</a>`) + `</td>
 									<td>`+ (part.desc == undefined || part.desc == "" ? "None" : part.desc) + `</td>
 									<td>`+ part.urgency + `</td>
+									<td>` + part.partNumber + `</td>
 									<td class="number">` + part.quantity + `</td>
+									<td>` + part.unit + `</td>
 									<td class="number">$` + part.priceper + `</td>
-									<td>` + part.status + `</td>
+									<td class="number">$` + (part.priceper * part.quantity) + `</td>
+									<td>` + part.status + (part.status == "Ordered" ? (": " + part.orderDate) : (part.status == "Arrived") ? (": " + part.arriveDate) : ('')) + `</td>
 									<td class="actions">
 										<a href="#" role="button" data-toggle="dropdown" class="dropdown-toggle"><span class="icon mdi mdi-more-vert"></span></a>
 										<div role="menu" class="dropdown-menu">
 											<a onclick="openEditPartDialogue('` + doc.id + `','` + data + `')" class="dropdown-item">Edit</a>
-											<a onclick="flipPartStatus('` + doc.id + `','` + data + `',this.id)" id="` + data + doc.id + Math.random().toString(36).substring(3) + `" class="dropdown-item">` + "Mark as " + (part.status == "No" ? "Ordered" : "Unordered") + `</a>
+											<a onclick="changePartStatus('` + doc.id + `','` + data + `')" id="` + data + doc.id + Math.random().toString(36).substring(3) + `" class="dropdown-item">Change Status</a>
 											<div class="dropdown-divider"></div><a onclick="deletePart('`+ doc.id + `','` + data + `','` + part.name + `','` + part.quantity + `', '` + part.desc + `')" class="dropdown-item">Delete</a>
 										</div>
 									</td>
 								</tr>`;
 					}
 				}
+				html += `<tr>
+							<td style="background-color: white;"></td>
+							<td style="background-color: white;"></td>
+							<td style="background-color: white;"></td>
+							<td style="background-color: white;"></td>
+							<td style="background-color: white;"></td>
+							<td style="background-color: white;" class="number"></td>
+							<td style="background-color: white;"></td>
+							<td style="background-color: white;" class="number"> GT = $` + GrandTotalPrice + `</td>
+						</tr>`
 				html += `</tbody> </div> </table> </div> </div> </div> </div>`;
 			});
 			document.getElementById('PartsAllWrapper').innerHTML = html;

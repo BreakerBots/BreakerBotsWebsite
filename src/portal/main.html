@@ -15,6 +15,7 @@
 	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 	<link rel="stylesheet" href="../assets/css/app.css" type="text/css" />
+	<link rel="stylesheet" href="../assets/lib/datetimepicker/css/bootstrap-datetimepicker.min.css">
 
 	<!--Firebase-->
 	<script defer src="/__/firebase/4.12.1/firebase-app.js"></script>
@@ -102,7 +103,7 @@
 									</ul>
 								</li>
 								<li class="active">
-									<a href="?tab=Trello"><i class="icon mdi mdi-format-list-bulleted" style="color: #d50000;"></i><span style="color: #d50000;">Trello</span></a>
+									<a href="?tab=Todo"><i class="icon mdi mdi-format-list-bulleted" style="color: #d50000;"></i><span style="color: #d50000;">Todo</span></a>
 								</li>
 								<li class="active">
 									<a href="?tab=Calendar"><i class="icon mdi mdi-calendar" style="color: #d50000;"></i><span style="color: #d50000;">Calendar</span></a>
@@ -175,8 +176,59 @@
 						<!--Parts Wrapper End-->
 					</div>
 				</div>
-				<div id="Trello" class="tab">
+				<div id="Todo" class="tab">
+					<div class="row">
+						<div id="accordion" class="accordion">
+							<div class="card">
+								<div id="headingOne" class="card-header">
+									<button data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" class="btn">
+										<i class="icon mdi mdi-chevron-right"></i>
+										Todo Project 1
+									</button>
+								</div>
+								<div id="collapseOne" aria-labelledby="headingOne" data-parent="#accordion" class="collapse show" style="">
+									<div class="card-body">
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed vestibulum quam. Pellentesque non feugiat neque, non volutpat orci. Integer ligula lacus, ornare eget lobortis ut, molestie quis risus.
 
+
+									</div>
+								</div>
+							</div>
+							<div class="card">
+								<div id="headingTwo" class="card-header">
+									<button data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapsetwo" class="btn collapsed">
+										<i class="icon mdi mdi-chevron-right"></i>
+										Todo Project 2
+									</button>
+								</div>
+								<div id="collapseTwo" aria-labelledby="headingTwo" data-parent="#accordion" class="collapse" style="">
+									<div class="card-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed vestibulum quam. Pellentesque non feugiat neque, non volutpat orci. Integer ligula lacus, ornare eget lobortis ut, molestie quis risus. </div>
+								</div>
+							</div>
+							<div class="card">
+								<div id="headingThree" class="card-header">
+									<button data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" class="btn collapsed">
+										<i class="icon mdi mdi-chevron-right"></i>
+										Todo Project 3
+									</button>
+								</div>
+								<div id="collapseThree" aria-labelledby="headingThree" data-parent="#accordion" class="collapse" style="">
+									<div class="card-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed vestibulum quam. Pellentesque non feugiat neque, non volutpat orci. Integer ligula lacus, ornare eget lobortis ut, molestie quis risus. </div>
+								</div>
+							</div>
+							<div class="card">
+								<div id="headingFour" role="tab" class="card-header">
+									<button data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour" class="btn collapsed">
+										<i class="icon mdi mdi-chevron-right"></i>
+										Todo Project 4
+									</button>
+								</div>
+								<div id="collapseFour" aria-labelledby="headingFour" data-parent="#accordion" class="collapse" style="">
+									<div class="card-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed vestibulum quam. Pellentesque non feugiat neque, non volutpat orci. Integer ligula lacus, ornare eget lobortis ut, molestie quis risus.</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div id="Calendar" class="tab">
 					<iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=suiphcuq71fqpntbc2rojdun2g%40group.calendar.google.com&amp;color=%23125A12&amp;ctz=America%2FLos_Angeles" style="border-width:0; padding: 3%; width: 100%;" width="800" height="1000" frameborder="0" scrolling="no"></iframe>
@@ -346,15 +398,25 @@
 						</div>
 
 						<div class="form-group">
+							<label for="CreatePartInputPN">Part Number</label>
+							<input id="CreatePartInputPN" type="text" class="form-control" placeholder="The Part Number For The Item (If Applicable)" autocomplete="off">
+						</div>
+
+						<div class="form-group">
 							<label for="CreatePartInputQ">Quantity</label>
 							<input id="CreatePartInputQ" type="number" class="form-control" placeholder="Quantity" required="" autocomplete="off" min="1" value="1">
+						</div>
+
+						<div class="form-group">
+							<label for="CreatePartInputUnit">Unit</label>
+							<input id="CreatePartInputUnit" type="text" class="form-control" placeholder="The Unit Of Issue For The Quantity (Ex. Feet, Inch, Bag of 2)" autocomplete="off">
 						</div>
 
 						<div class="form-group">
 							<label for="CreatePartInputP">Price Per Item</label>
 							<div class="input-group mb-3">
 								<span class="input-group-prepend"><span class="input-group-text">$</span></span>
-								<input id="CreatePartInputP" type="number" class="form-control" placeholder="Price Per Item" required="" autocomplete="off" min="1">
+								<input id="CreatePartInputP" type="number" class="form-control" placeholder="Price Per Unit" required="" autocomplete="off" min="1">
 							</div>
 						</div>
 
@@ -406,8 +468,18 @@
 						</div>
 
 						<div class="form-group">
+							<label for="EditPartInputPN">Part Number</label>
+							<input id="EditPartInputPN" type="text" class="form-control" placeholder="The Part Number For The Item (If Applicable)" autocomplete="off">
+						</div>
+
+						<div class="form-group">
 							<label for="EditPartInputQ">Quantity</label>
 							<input id="EditPartInputQ" type="number" class="form-control" placeholder="Quantity" required="" autocomplete="off" min="1" value="1">
+						</div>
+
+						<div class="form-group">
+							<label for="EditPartInputUnit">Unit</label>
+							<input id="EditPartInputUnit" type="text" class="form-control" placeholder="The Unit Of Issue For The Quantity (Ex. Feet, Inch, Bag of 2)" autocomplete="off">
 						</div>
 
 						<div class="form-group">
@@ -459,6 +531,46 @@
 							</div>
 						</div>
 					</div>
+				</form>
+			</div>
+			<div class="mdc-dialog__backdrop"></div>
+		</aside>
+		<!--Change Part Status Dialogue-->
+		<aside id="part-status-dialog"
+			   class="mdc-dialog"
+			   role="alertdialog"
+			   aria-labelledby="my-mdc-dialog-label"
+			   aria-describedby="my-mdc-dialog-description">
+			<div class="mdc-dialog__surface">
+				<header class="mdc-dialog__header">
+					<h2 class="mdc-dialog__header__title">
+						Change Part Status
+					</h2>
+				</header>
+				<form id="PartStatusForm">
+					<section class="mdc-dialog__body">
+						<div class="form-group">
+							<label for="PartStatusInput">Status</label>
+							<select id="PartStatusInput" class="form-control">
+								<option value="Not Ready" selected="">Not Ready To Be Ordered</option>
+								<option value="Ready">Ready To Be Ordered</option>
+								<option value="Ordered">This Item Has Been Ordered</option>
+								<option value="Arrived">This Item Has Arrived</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="PartStatusOrderDate">Order Date</label>
+							<input type="text" id="PartStatusOrderDate" value="" placeholder="The Order Date (If Applicable)" class="form-control datetimepicker">
+						</div>
+						<div class="form-group">
+							<label for="PartStatusArriveDate">Arrive Date</label>
+							<input type="text" id="PartStatusArriveDate" value="" placeholder="The Date Of Arrival (If Applicable)" class="form-control datetimepicker">
+						</div>
+					</section>
+					<footer class="mdc-dialog__footer">
+						<button type="submit" class="btn btn-space btn-primary">Submit</button>
+						<button type="button" id="PartStatusCancel" class="btn btn-space btn-secondary">Cancel</button>
+					</footer>
 				</form>
 			</div>
 			<div class="mdc-dialog__backdrop"></div>
@@ -557,6 +669,7 @@
 	<script src="../assets/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
 	<script src="../assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 	<script src="../assets/js/app.js" type="text/javascript"></script>
+	<script src="../assets/lib/datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
 
 	<!--Main Script-->
 	<script type="text/javascript">
@@ -564,6 +677,10 @@
 			App.init();
 		});
 
+<<<<<<< HEAD
+=======
+		/*
+>>>>>>> cc6cf78dd78b8e47d8818a3da67f9ccf03d28fe7
 		var request = new XMLHttpRequest();
 		request.open('GET', 'https://www.googleapis.com/calendar/v3/calendars/suiphcuq71fqpntbc2rojdun2g@group.calendar.google.com/events?key=AIzaSyCR3-ptjHE-_douJsn8o20oRwkxt-zHStY', true);
 
@@ -579,6 +696,7 @@
 			} else {
 				console.error(err);
 			}
+<<<<<<< HEAD
 		};
 
 		request.onerror = () => {
@@ -586,6 +704,11 @@
 		};
 
 		request.send();
+=======
+		}; request.onerror = () => { console.error(err); };
+		request.send();
+		*/
+>>>>>>> cc6cf78dd78b8e47d8818a3da67f9ccf03d28fe7
 
 		document.addEventListener('DOMContentLoaded', function () {
 			startPMS();
