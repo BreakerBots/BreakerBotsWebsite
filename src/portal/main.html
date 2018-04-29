@@ -154,9 +154,14 @@
 												<tr>
 													<th>Item</th>
 													<th>Desc</th>
+													<th>Priority</th>
+													<th>Part Number</th>
+													<th class="number">Quantity</th>
+													<th>Unit</th>
+													<th class="number">Unit Price</th>
+													<th class="number">Total Price</th>
+													<th>Status</th>
 													<th>Folder</th>
-													<th class="number">#</th>
-													<th class="number">$</th>
 												</tr>
 											</thead>
 											<tbody id="PartsOrderedWrapper"></tbody>
@@ -177,67 +182,10 @@
 					</div>
 				</div>
 				<div id="Todo" class="tab">
-					<div class="row">
-						<div id="accordion" class="accordion">
-							<div class="card">
-								<div id="headingOne" class="card-header">
-									<button data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" class="btn">
-										<i class="icon mdi mdi-chevron-right"></i>
-										Todo Project 1
-									</button>
-								</div>
-								<div id="collapseOne" aria-labelledby="headingOne" data-parent="#accordion" class="collapse show" style="">
-									<div class="card-body">
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed vestibulum quam. Pellentesque non feugiat neque, non volutpat orci. Integer ligula lacus, ornare eget lobortis ut, molestie quis risus.
-
-
-									</div>
-								</div>
-							</div>
-							<div class="card">
-								<div id="headingTwo" class="card-header">
-									<button data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapsetwo" class="btn collapsed">
-										<i class="icon mdi mdi-chevron-right"></i>
-										Todo Project 2
-									</button>
-								</div>
-								<div id="collapseTwo" aria-labelledby="headingTwo" data-parent="#accordion" class="collapse" style="">
-									<div class="card-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed vestibulum quam. Pellentesque non feugiat neque, non volutpat orci. Integer ligula lacus, ornare eget lobortis ut, molestie quis risus. </div>
-								</div>
-							</div>
-							<div class="card">
-								<div id="headingThree" class="card-header">
-									<button data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" class="btn collapsed">
-										<i class="icon mdi mdi-chevron-right"></i>
-										Todo Project 3
-									</button>
-								</div>
-								<div id="collapseThree" aria-labelledby="headingThree" data-parent="#accordion" class="collapse" style="">
-									<div class="card-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed vestibulum quam. Pellentesque non feugiat neque, non volutpat orci. Integer ligula lacus, ornare eget lobortis ut, molestie quis risus. </div>
-								</div>
-							</div>
-							<div class="card">
-								<div id="headingFour" role="tab" class="card-header">
-									<button data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour" class="btn collapsed">
-										<i class="icon mdi mdi-chevron-right"></i>
-										Todo Project 4
-									</button>
-								</div>
-								<div id="collapseFour" aria-labelledby="headingFour" data-parent="#accordion" class="collapse" style="">
-									<div class="card-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed vestibulum quam. Pellentesque non feugiat neque, non volutpat orci. Integer ligula lacus, ornare eget lobortis ut, molestie quis risus.</div>
-								</div>
-							</div>
-						</div>
-					</div>
+					
 				</div>
 				<div id="Calendar" class="tab">
-<<<<<<< HEAD
-					<iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=suiphcuq71fqpntbc2rojdun2g%40group.calendar.google.com&amp;color=%23125A12&amp;ctz=America%2FLos_Angeles" style="border-width:0px; padding: 3%; width: 100%;" width="800" height="1000" frameborder="0" scrolling="no">
-					</iframe>
-=======
 					<iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=suiphcuq71fqpntbc2rojdun2g%40group.calendar.google.com&amp;color=%23125A12&amp;ctz=America%2FLos_Angeles" style="border-width:0; padding: 3%; width: 100%;" width="800" height="1000" frameborder="0" scrolling="no"></iframe>
-				
->>>>>>> 01f3796da64d99ec5b6fae988af268d6e3546363
 				</div>
 				<div id="Github" class="tab">
 					
@@ -682,10 +630,15 @@
 			App.init();
 		});
 
-<<<<<<< HEAD
-=======
+		document.addEventListener('DOMContentLoaded', function () {
+			switch (getUrlParameterByName('tab', '')) {
+				case "PartsAll": startPMS(); break;
+				case "PartsArchived": startPMSArchived(); break;
+				case "PartsOrdered": startPMSOrdered(); break;
+			}
+		});
+
 		/*
->>>>>>> cc6cf78dd78b8e47d8818a3da67f9ccf03d28fe7
 		var request = new XMLHttpRequest();
 		request.open('GET', 'https://www.googleapis.com/calendar/v3/calendars/suiphcuq71fqpntbc2rojdun2g@group.calendar.google.com/events?key=AIzaSyCR3-ptjHE-_douJsn8o20oRwkxt-zHStY', true);
 
@@ -694,14 +647,13 @@
 				var data = JSON.parse(request.responseText);
 				for (var i in data.items) {
 					var iten = data.items[i];
-					//if (Number(iten.created.substring(0, 4)) >= 2018) {
-					console.log(iten.start.dateTime);
-					//}
+					if (Number(iten.created.substring(0, 4)) >= 2017) {
+						console.log(iten.start.dateTime);
+					}
 				}
 			} else {
 				console.error(err);
 			}
-<<<<<<< HEAD
 		};
 
 		request.onerror = () => {
@@ -709,17 +661,8 @@
 		};
 
 		request.send();
-=======
-		}; request.onerror = () => { console.error(err); };
-		request.send();
+		request.onerror = () => { console.error(err); };
 		*/
->>>>>>> cc6cf78dd78b8e47d8818a3da67f9ccf03d28fe7
-
-		document.addEventListener('DOMContentLoaded', function () {
-			startPMS();
-			startPMSArchived();
-			startPMSOrdered();
-		});
 	</script>
 
 	<script src="assets/Parts/FolderHistory.js"></script>

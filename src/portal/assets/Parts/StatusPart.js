@@ -46,13 +46,13 @@ function markPartStatus(e) {
 		firebase.app().firestore().collection("PMS").doc(PartStatusFolder).set(json1, { merge: true })
 			.then(function () {
 				PartStatusDialogue.close();
-			});
 
-		if (doc.data()[PartStatusPart].status == "Ordered") {
-			var json2 = {};
-			json2[PartStatusPart] = folder;
-			firebase.app().firestore().collection("PMS-Extra").doc("Ordered").set(json2, { merge: true });
-		}
+				if (PartStatusInput == "Ordered") {
+					var json2 = {};
+					json2[PartStatusPart] = Object.assign(doc.data()[PartStatusPart], { folder: PartStatusFolder });
+					firebase.app().firestore().collection("PMS-Extra").doc("Ordered").set(json2, { merge: true });
+				}
+			});
 	});
 }
 

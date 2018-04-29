@@ -18,34 +18,41 @@ function startPMSArchived() {
 									</div>
 								</div>
 								<div class="card-body">
-									<table class="table table-striped" style=" width: 100%; table-layout: fixed;">
+									<div class="table-responsive">
+									<table class="table table-striped">
 										<thead>
 											<tr>
-												<th style="width:20%;">Item</th>
-												<th style="width:21%;">Desc</th>
-												<th style="width:15%;">Priority</th>
-												<th style="width:11%;" class="number">#</th>
-												<th style="width:13%;" class="number">$</th>
-												<th style="width:15%;">Status</th>
-												<th class="actions"></th>
+												<th>Item</th>
+												<th>Desc</th>
+												<th>Priority</th>
+												<th>Part Number</th>
+												<th class="number">Quantity</th>
+												<th>Unit</th>
+												<th class="number">Unit Price</th>
+												<th class="number">Total Price</th>
+												<th>Status</th>
 											</tr>
 										</thead>
 										<tbody>`;
-
+				var GrandTotalPrice2 = 0;
 				for (var data in doc.data()) {
 					if (data != "History" && data != "index") {
 						var part = (doc.data()[data]);
-						html3 += `<tr>
+						GrandTotalPrice2 += (part.priceper * part.quantity);
+						html3 += `<tr style="background-color: rgba(` + (part.status == "Ordered" ? (`0,255,0,0.2`) : (part.status == "Ready" || part.status == "Not Ready" ? (part.urgency == "Low" ? '0,0,0,0' : (part.urgency == "Medium" ? '214,0,0,0.2' : '214,0,0,0.4')) : '0,0,0,0')) + `);">
 									<td>`+ (part.url == undefined || part.url == "http://" ? part.name : `<a target="_blank" href="` + part.url + `">` + part.name + `</a>`) + `</td>
 									<td>`+ (part.desc == undefined || part.desc == "" ? "None" : part.desc) + `</td>
 									<td>`+ part.urgency + `</td>
+									<td>` + part.partNumber + `</td>
 									<td class="number">` + part.quantity + `</td>
+									<td>` + part.unit + `</td>
 									<td class="number">$` + part.priceper + `</td>
-									<td>` + part.status + `</td>
-								</tr>`;
+									<td class="number">$` + (part.priceper * part.quantity) + `</td>
+									<td>` + part.status + (part.status == "Ordered" ? (": " + part.orderDate) : (part.status == "Arrived") ? (": " + part.arriveDate) : ('')) + `</td>
+							</tr>`;
 					}
 				}
-				html3 += `</tbody> </table> </div> </div> </div>`;
+				html3 += `</tbody> </table> </div> </div> </div> </div>`;
 			});
 			document.getElementById('PartsArchiveWrapper').innerHTML = html3;
 		}, function (error) {

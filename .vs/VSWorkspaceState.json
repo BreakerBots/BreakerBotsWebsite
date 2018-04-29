@@ -2,14 +2,13 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\assets",
-    "\\src\\assets\\js",
-    "\\src\\assets\\lib\\datetimepicker\\css",
-    "\\src\\assets\\lib\\datetimepicker\\js",
+    "\\src\\assets\\img",
+    "\\src\\assets\\vit\\vendor",
     "\\src\\portal",
     "\\src\\portal\\assets",
     "\\src\\portal\\assets\\Parts",
-    "\\src\\portal\\assets\\Parts\\Ordered"
+    "\\src\\portal\\assets\\Parts\\Archive",
+    "\\src\\portal\\assets\\Tabs"
   ],
   "SelectedNode": "\\src\\portal\\assets\\Parts\\UI.js",
   "PreviewInSolutionExplorer": false
