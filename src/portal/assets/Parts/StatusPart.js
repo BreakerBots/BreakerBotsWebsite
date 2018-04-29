@@ -21,7 +21,7 @@ function changePartStatus(folder, part) {
 		autoclose: true,
 		minView: 2,
 		pickTime: false,
-		format: 'dd/mm/yyyy',
+		format: 'mm/dd/yyyy',
 	});
 } //Open the dialog
 

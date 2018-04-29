@@ -3,9 +3,14 @@
     "",
     "\\src",
     "\\src\\assets",
-    "\\src\\assets\\mdc",
-    "\\src\\portal"
+    "\\src\\assets\\js",
+    "\\src\\assets\\lib\\datetimepicker\\css",
+    "\\src\\assets\\lib\\datetimepicker\\js",
+    "\\src\\portal",
+    "\\src\\portal\\assets",
+    "\\src\\portal\\assets\\Parts",
+    "\\src\\portal\\assets\\Parts\\Ordered"
   ],
-  "SelectedNode": "\\src\\assets\\mdc\\material-components-web.js",
+  "SelectedNode": "\\src\\portal\\assets\\Parts\\UI.js",
   "PreviewInSolutionExplorer": false
 }
