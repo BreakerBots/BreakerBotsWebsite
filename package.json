@@ -16,6 +16,7 @@
 		"code-prettify": "^0.1.0",
 		"codemirror": "^5.19.0",
 		"countUp.js": "git+https://github.com/inorganik/countUp.js.git#1.5.3",
+		"curlconverter": "^1.14.0",
 		"datatables.net": "^1.10.16",
 		"datatables.net-bs4": "^1.10.16",
 		"datatables.net-buttons": "^1.4.2",
