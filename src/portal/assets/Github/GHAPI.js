@@ -1,26 +1,39 @@
-function getGPD(url) {
+function getGPD(url, func) {
 	var Gde = {};
+	var PDD = false;
 	getGAPI(url, function (data) {
+		var prosL = Object.keys(data).length;
+		var prosI = 0;
 		for (var project in data) {
 			//Each Project
 			Gde[data[project].name] = {};
-			getGAPIK(data[project].columns_url, function (data, pro) {
+			getGAPIK(data[project].columns_url, function (data, proD) {
+				var colsL = Object.keys(data).length;
+				var colsI = 0;
 				for (var column in data) {
 					//Each Column
-					Gde[pro][data[column].name] = {};
-					getGAPIK(data[column].cards_url, function (data, col) {
+					Gde[proD.pro][data[column].name] = {};
+					getGAPIK(data[column].cards_url, function (data, colD) {
 						for (var card in data) {
 							//Each Card
 							var cardNote = data[card].note;
 							var cardId = data[card].id;
-							Gde[pro][col][cardId] = { cardNote };
+							Gde[colD.pro][colD.col][cardId] = { cardNote };
+							//console.log(colD.pro + "/" + colD.col + "/" + cardId + "/" + cardNote);
 						}
-					}, data[column].name);
+						if ((colD.prosI == (colD.prosL-1)) && (colD.colsI == (colD.colsL-1))) {
+							//if (PDD) {
+								func(Gde);
+							//}
+							//PDD = true;
+						}
+					}, { col: data[column].name, colsL: colsL, colsI, colsI, pro: proD.pro, prosL: proD.prosL, prosI: proD.prosI });
+					colsI++;
 				}
-			}, data[project].name);
+			}, { pro: data[project].name, prosL: prosL, prosI: prosI });
+			prosI++;
 		}
 	});
-	return Gde;
 }
 
 function getGAPIK(url, func, keepIY) {
@@ -32,13 +45,8 @@ function getGAPIK(url, func, keepIY) {
 			func(data, keepIY);
 		},
 		error: function () { },
-		beforeSend: setHeader
+		beforeSend: setGHHeader
 	});
-
-	function setHeader(xhr) {
-		xhr.setRequestHeader('Accept', 'application/vnd.github.inertia-preview+json');
-		xhr.setRequestHeader('Authorization', 'token 82bf8d77b8dd9212ebc9aab15aff4df4d430afea');
-	}
 }
 
 function getGAPI(url, func) {
@@ -50,11 +58,22 @@ function getGAPI(url, func) {
 			func(data);
 		},
 		error: function () { },
-		beforeSend: setHeader
+		beforeSend: setGHHeader
 	});
+}
 
-	function setHeader(xhr) {
-		xhr.setRequestHeader('Accept', 'application/vnd.github.inertia-preview+json');
-		xhr.setRequestHeader('Authorization', 'token 82bf8d77b8dd9212ebc9aab15aff4df4d430afea');
-	}
+function getGAPINA(url, func) {
+	var request = new XMLHttpRequest();
+	request.open('GET', url, true);
+
+	request.onload = () => {
+		func(JSON.parse(request.responseText));		
+	};
+	
+	request.send();
+}
+
+function setGHHeader(xhr) {
+	xhr.setRequestHeader('Accept', 'application/vnd.github.inertia-preview+json');
+	xhr.setRequestHeader('Authorization', 'token f29ec838673639aa53c5faa39cc8d0615a18be29');
 }
