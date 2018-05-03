@@ -2,14 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\assets\\img",
-    "\\src\\assets\\vit\\vendor",
+    "\\src\\assets",
+    "\\src\\assets\\lib",
+    "\\src\\assets\\lib\\datetimepicker\\js",
+    "\\src\\assets\\lib\\octokit",
     "\\src\\portal",
     "\\src\\portal\\assets",
-    "\\src\\portal\\assets\\Parts",
-    "\\src\\portal\\assets\\Parts\\Archive",
-    "\\src\\portal\\assets\\Tabs"
+    "\\src\\portal\\assets\\Github",
+    "\\src\\portal\\assets\\Parts"
   ],
-  "SelectedNode": "\\src\\portal\\assets\\Parts\\UI.js",
+  "SelectedNode": "\\src\\assets\\lib\\octokit",
   "PreviewInSolutionExplorer": false
 }

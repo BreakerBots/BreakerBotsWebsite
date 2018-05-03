@@ -17,6 +17,7 @@
 	<![endif]-->
 	<link rel="stylesheet" href="../assets/css/app.css" type="text/css" />
 	<link rel="stylesheet" href="../assets/lib/datetimepicker/css/bootstrap-datetimepicker.min.css">
+	<link rel="stylesheet" href="../assets/lib/fullcalendar/fullcalendar.min.css" />
 
 	<!--Firebase-->
 	<script defer src="/__/firebase/4.12.1/firebase-app.js"></script>
@@ -87,30 +88,30 @@
 							<ul class="sidebar-elements">
 								<li class="divider">Menu</li>
 								<li class="active">
-									<a href="?tab=General"><i class="icon mdi mdi-image" style="color: #d50000;"></i><span style="color: #d50000;">General</span></a>
+									<a href="#tab=General"><i class="icon mdi mdi-image" style="color: #d50000;"></i><span style="color: #d50000;">General</span></a>
 								</li>
 								<li class="parent">
-									<a href="#"><i class="icon mdi mdi-wrench" style="color: #d50000;"></i><span style="color: #d50000;">Parts</span></a>
+									<a><i class="icon mdi mdi-wrench" style="color: #d50000;"></i><span style="color: #d50000;">Parts</span></a>
 									<ul class="sub-menu">
 										<li class="active">
-											<a href="?tab=PartsAll" style="color: #d50000;">All</a>
+											<a href="#tab=PartsAll" style="color: #d50000;">All</a>
 										</li>
 										<li>
-											<a href="?tab=PartsOrdered" style="color: #d50000;">Ordered</a>
+											<a href="#tab=PartsOrdered" style="color: #d50000;">Ordered</a>
 										</li>
 										<li>
-											<a href="?tab=PartsArchived" style="color: #d50000;">Archived</a>
+											<a href="#tab=PartsArchived" style="color: #d50000;">Archived</a>
 										</li>
 									</ul>
 								</li>
 								<li class="active">
-									<a href="?tab=Todo"><i class="icon mdi mdi-format-list-bulleted" style="color: #d50000;"></i><span style="color: #d50000;">Todo</span></a>
+									<a href="#tab=Todo"><i class="icon mdi mdi-format-list-bulleted" style="color: #d50000;"></i><span style="color: #d50000;">Todo</span></a>
 								</li>
 								<li class="active">
-									<a href="?tab=Calendar"><i class="icon mdi mdi-calendar" style="color: #d50000;"></i><span style="color: #d50000;">Calendar</span></a>
+									<a href="#tab=Calendar"><i class="icon mdi mdi-calendar" style="color: #d50000;"></i><span style="color: #d50000;">Calendar</span></a>
 								</li>
 								<li class="active">
-									<a href="?tab=Github"><i class="icon mdi mdi-github" style="color: #d50000;"></i><span style="color: #d50000;">Github</span></a>
+									<a href="#tab=Github"><i class="icon mdi mdi-github" style="color: #d50000;"></i><span style="color: #d50000;">Github</span></a>
 								</li>
 							</ul>
 						</div>
@@ -123,7 +124,7 @@
 				<!--Tabs-->
 
 				<div id="General" class="tab">
-
+					<h1>General</h1>
 				</div>
 				<div id="PartsAll" class="tab">
 					<div class="row" id="PartsAllWrapper">
@@ -183,10 +184,12 @@
 					</div>
 				</div>
 				<div id="Todo" class="tab">
-					<div id="images"></div>
+					<h1>Todo</h1>
 				</div>
 				<div id="Calendar" class="tab">
-					<iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=suiphcuq71fqpntbc2rojdun2g%40group.calendar.google.com&amp;color=%23125A12&amp;ctz=America%2FLos_Angeles" style="border-width:0; padding: 3%; width: 100%;" width="800" height="1000" frameborder="0" scrolling="no"></iframe>
+					<!--<iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=suiphcuq71fqpntbc2rojdun2g%40group.calendar.google.com&amp;color=%23125A12&amp;ctz=America%2FLos_Angeles" style="border-width:0; padding: 3%; width: 100%;" width="800" height="1000" frameborder="0" scrolling="no"></iframe>
+					-->
+					<div id="calendar"></div>
 				</div>
 				<div id="Github" class="tab">
 					<div class="row" id="GithubRows">
@@ -634,20 +637,30 @@
 	<script src="../assets/js/app.js" type="text/javascript"></script>
 	<script src="../assets/lib/datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
 
+	<script src='../assets/lib/fullcalendar/lib/moment.min.js'></script>
+	<script src="../assets/lib/fullcalendar/lib/jquery-ui.min.js"></script>
+	<script src='../assets/lib/fullcalendar/fullcalendar.js'></script>
+	<script src='../assets/lib/fullcalendar/gcal.min.js'></script>
+
 	<!--Main Script-->
 	<script type="text/javascript">
-		$(document).ready(function () {
+		document.addEventListener('DOMContentLoaded', function () {
 			App.init();
 		});
 
-		document.addEventListener('DOMContentLoaded', function () {
-			switch (getUrlParameterByName('tab', '')) {
-				case "PartsAll": startPMS(); break;
-				case "PartsArchived": startPMSArchived(); break;
-				case "PartsOrdered": startPMSOrdered(); break;
-			}
+		$(function () {
+			$('#calendar').fullCalendar({
+				googleCalendarApiKey: 'AIzaSyCA8Z_Xvhp8FkjK7KedPtVo6XO0Y7FtEtw',
+				events: {
+					googleCalendarId: 'suiphcuq71fqpntbc2rojdun2g@group.calendar.google.com',
+				},
+				header: {
+					left: 'prev, next, today',
+					center: 'title',
+					right: 'month,agendaWeek,agendaDay'
+				}
+			});
 		});
-
 	</script>
 
 	<script src="assets/Parts/FolderHistory.js"></script>

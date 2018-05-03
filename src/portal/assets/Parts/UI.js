@@ -1,5 +1,8 @@
+function nulloutPMS() { };
+
 //PMS UI
 function startPMS() {
+	startPMS = nulloutPMS();
 	firebase.app().firestore().collection("PMS")
 		.onSnapshot(function (snapshot) {
 			var html = '';

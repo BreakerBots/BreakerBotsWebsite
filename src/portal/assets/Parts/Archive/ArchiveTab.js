@@ -1,5 +1,6 @@
 //PMS UI for Archived Folders
 function startPMSArchived() {
+	startPMSArchived = nulloutPMS();
 	firebase.app().firestore().collection("PMS-Archived")
 		.onSnapshot(function (snapshot) {
 			var html3 = '';

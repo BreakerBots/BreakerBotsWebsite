@@ -1,4 +1,5 @@
 function startPMSOrdered() {
+	startPMSOrdered = nulloutPMS();
 	firebase.app().firestore().collection("PMS-Extra").doc("Ordered")
 		.onSnapshot(function (doc) {
 			document.getElementById('PartsOrderedWrapper').innerHTML = "";

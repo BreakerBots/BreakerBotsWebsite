@@ -40,12 +40,12 @@ function drawProjects() {
 				`
 		document.querySelector("#GithubRows").innerHTML += html;
 	});
-} drawProjects();
+} //drawProjects();
 
 function drawCommits() {
 	getGAPINA('https://api.github.com/repos/frc5104/Power-Up-2018/commits', function (data) {
 		var html = '';
-		console.log(data);
+		//console.log(data);
 		html += `
 		<div class="table-responsive">
 			<table class="table table-striped">
@@ -65,7 +65,7 @@ function drawCommits() {
 						<td>` + data[commitTP].commit.message + `</td>
 						<td>` + data[commitTP].commit.author.date + `</td>
 					</tr>`;
-				console.log(data[commitTP].author == null ? data[commitTP].commit.author.name : data[commitTP].author.login);
+				//console.log(data[commitTP].author == null ? data[commitTP].commit.author.name : data[commitTP].author.login);
 			}
 
 		html += `

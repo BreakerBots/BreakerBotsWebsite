@@ -5,6 +5,7 @@
 	"author": "Breakerbots",
 	"dependencies": {
 		"@foxythemes/material-design-iconic-font": "^2.2.1",
+		"@octokit/rest": "^15.2.7",
 		"Gritter": "git+https://github.com/foxythemes/Gritter.git#master",
 		"Sparkline": "git+https://github.com/kapusta/jquery.sparkline.git#2.1.3",
 		"beagle-resources": "git+https://github.com/foxythemes/beagle-resources.git",
