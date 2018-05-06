@@ -28,7 +28,7 @@ The PMS is complex system organized into projects. Each Project has a name, hist
     The parts-archived tab shows all the past projects.
     
 - Todo
-aa
+The TLS system is a easily accessible system used for organization of tasks. Inside the tab first you will see yearfolders, yearfolders contain all of the projects and project-groups from that year. Inside of the yearfolder are projects and project-groups. Project-groups are basically folders containing project, and can be nested up to 50 times. Inside Each Project are three columns ( Todo, In Progress and Done ). Each Column then contains notes/tasks that have a corresponding team or member to handle them. Each Note/Task, Project, Project-Group and Yearfolder have a title and description.
 
 - Calendar
 The Calendar Tab displays all of the events from the google calendar. It is running a custom display of the google calendar through fullcalendar as the embedded google calendar is umm... not good.
