@@ -2,7 +2,7 @@
 const FolderHistoryDialogue = new mdc.dialog.MDCDialog(document.querySelector('#history-folder-dialog')); var folderHistoryToUITarget = "";
 function openHistory(folder) { FolderHistoryDialogue.show(); folderHistoryToUITarget = folder; document.getElementById('FolderHistoryTitle').innerHTML = folder.substr(FolderNumberPadding) + "'s History"; } //Open the dialogue
 document.getElementById('HistoryFolderCancel').addEventListener('click', function () { FolderHistoryDialogue.close(); }); //Close the dialog
-setInterval(folderHistoryToUI, 60);
+setInterval(folderHistoryToUI, 1000);
 function folderHistoryToUI(folder) {
 	if (FolderHistoryDialogue.open == true) { //Only update if the client is viewing the history
 		var folder = folderHistoryToUITarget;
@@ -20,7 +20,7 @@ function folderHistoryToUI(folder) {
 
 						html += `
 												<tr>
-													<td>` + user + `</td>
+													<td>` + (users.isUid(user) ? ('<a href="?profile=' + user + '#tab=Profile">' + users.getUsername(user) + '</a>') : (users.isUsername(user) ? ('<a href="?profile=' + users.getUid(user) + '#tab=Profile">' + user + '</a>') : (user))) + `</td>
 													<td>` + change + `</td>
 													<td>` + timeSince + `</td>
 												</tr>

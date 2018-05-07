@@ -16,7 +16,7 @@ function CreateFolder(e) {
 			FormCreateFolder.querySelector('[type="submit"]').disabled = false;
 		} else {
 			if (querySnapshot.docs.length > 0) { folderName = (FolderNumberPad(Number(querySnapshot.docs[querySnapshot.docs.length - 1].id.substring(0, 4)) + 1)) + folderName; } else { folderName = FolderNumberPad(0) + folderName; }
-			firebase.app().firestore().collection("PMS").doc(folderName).set({ History: { 0: { User: firebase.auth().currentUser.displayName, Change: "Created This Project, " + folderName.substr(FolderNumberPadding), Date: new Date().getTime() } }, index: 0 })
+			firebase.app().firestore().collection("PMS").doc(folderName).set({ History: { 0: { User: users.getCurrentUid(), Change: "Created This Project, " + folderName.substr(FolderNumberPadding), Date: new Date().getTime() } }, index: 0 })
 				.then(function () {
 					CreateFolderDialogue.close();
 				});

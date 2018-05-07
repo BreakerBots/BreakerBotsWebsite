@@ -16,7 +16,7 @@ function submitDeletePart(e) {
 				DeletePartDialogue.close();
 
 				var json = {};
-				var addedHistory = {}; addedHistory[Object.keys(doc.data().History).length] = { User: firebase.auth().currentUser.displayName, Change: "Deleted the " + partDeletingAmount + " " + partDeletingName + (partDeletingAmount > 1 ? "s" : "") + (partDeletingDesc == "" ? "" : " for " + partDeletingDesc), Date: new Date().getTime() };
+				var addedHistory = {}; addedHistory[Object.keys(doc.data().History).length] = { User: users.getCurrentUid(), Change: "Deleted the " + partDeletingAmount + " " + partDeletingName + (partDeletingAmount > 1 ? "s" : "") + (partDeletingDesc == "" ? "" : " for " + partDeletingDesc), Date: new Date().getTime() };
 				json["History"] = Object.assign(doc.data().History, addedHistory);
 				firebase.app().firestore().collection("PMS").doc(partFolderDeleting).update(json);
 			});

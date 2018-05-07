@@ -2,15 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\assets",
     "\\src\\assets\\lib",
-    "\\src\\assets\\lib\\datetimepicker\\js",
-    "\\src\\assets\\lib\\octokit",
+    "\\src\\assets\\lib\\croppie",
     "\\src\\portal",
     "\\src\\portal\\assets",
-    "\\src\\portal\\assets\\Github",
-    "\\src\\portal\\assets\\Parts"
+    "\\src\\portal\\assets\\Accounting",
+    "\\src\\portal\\assets\\Accounting\\Profile",
+    "\\src\\portal\\assets\\Parts\\Archive",
+    "\\src\\portal\\assets\\Parts\\Ordered"
   ],
-  "SelectedNode": "\\src\\assets\\lib\\octokit",
+  "SelectedNode": "\\src\\portal\\assets\\Accounting\\Profile\\ProfileTab.js",
   "PreviewInSolutionExplorer": false
 }

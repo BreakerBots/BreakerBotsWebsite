@@ -43,6 +43,14 @@
 								<div class="form-group">
 									<input id="password" type="password" placeholder="Password" class="form-control" required="">
 								</div>
+								<div class="form-group row login-tools">
+									<div class="col-6 login-remember">
+										<label class="custom-control custom-checkbox">
+											<input type="checkbox" class="custom-control-input" id="RememberMe"><span class="custom-control-label">Remember Me</span>
+										</label>
+									</div>
+									<div class="col-6 login-forgot-password"><a href="AuthPages/forgot-password.html">Forgot Password?</a></div>
+								</div>
 								<div class="form-group login-submit">
 									<button data-dismiss="modal" id="SubmitButton" type="submit" class="btn btn-primary btn-xl">Sign me in</button>
 								</div>
@@ -77,8 +85,15 @@
 				firebase.app().firestore().collection("users").where("username", "==", email)
 					.get()
 					.then(function (querySnapshot) {
-						email = (querySnapshot.docs[0].data().email);
-						processSignIn(email);
+						if (querySnapshot.docs[0] != undefined) {
+							email = (querySnapshot.docs[0].data().email);
+							processSignIn(email);
+						}
+						else {
+							document.getElementById("email").setCustomValidity("This is not a username!");
+							document.getElementById("email").reportValidity();
+							unEmail = email;
+						}
 					});
 			}
 			else {
@@ -88,28 +103,29 @@
 
 		function processSignIn(email) {
 			var password = document.getElementById("password").value;
-			firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
-				var errorCode = error.code;
-				var errorMessage = error.message;
+			firebase.auth().setPersistence(document.querySelector('#RememberMe').checked ? firebase.auth.Auth.Persistence.SESSION : firebase.auth.Auth.Persistence.LOCAL).then(function () { 
+				firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
+					var errorCode = error.code;
+					var errorMessage = error.message;
 
-				console.log(errorCode + ": " + errorMessage);
+					console.log(errorCode + ": " + errorMessage);
 
-				if (errorCode === 'auth/wrong-password') {
-					document.getElementById("password").setCustomValidity("Incorrect Password!");
-					document.getElementById("password").reportValidity();
-					inPass = password;
-				} else if (errorCode === 'auth/user-not-found') {
-					document.getElementById("email").setCustomValidity("There is no account registered under this email!");
-					document.getElementById("email").reportValidity();
-					unEmail = email;
-				}
-				else if (errorCode === 'auth/invalid-email') {
-					document.getElementById("email").setCustomValidity("This is not an email!");
-					document.getElementById("email").reportValidity();
-					unEmail = email;
-				}
+					if (errorCode === 'auth/wrong-password') {
+						document.getElementById("password").setCustomValidity("Incorrect Password!");
+						document.getElementById("password").reportValidity();
+						inPass = password;
+					} else if (errorCode === 'auth/user-not-found') {
+						document.getElementById("email").setCustomValidity("There is no account registered under this email!");
+						document.getElementById("email").reportValidity();
+						unEmail = email;
+					}
+					else if (errorCode === 'auth/invalid-email') {
+						document.getElementById("email").setCustomValidity("This is not an email!");
+						document.getElementById("email").reportValidity();
+						unEmail = email;
+					}
+				});
 			});
-
 		}
 
 		var unEmail = "";

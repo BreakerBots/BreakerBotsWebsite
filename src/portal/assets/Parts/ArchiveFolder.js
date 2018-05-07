@@ -27,7 +27,7 @@ function submitArchiveFolder(e) {
 
 							firebase.app().firestore().collection("PMS-Archived").doc(folderArchiving).get().then(function (doc) {
 								var json = {};
-								var addedHistory = {}; addedHistory[Object.keys(doc.data().History).length] = { User: firebase.auth().currentUser.displayName, Change: "Archived The Project", Date: new Date().getTime() };
+								var addedHistory = {}; addedHistory[Object.keys(doc.data().History).length] = { User: users.getCurrentUid(), Change: "Archived The Project", Date: new Date().getTime() };
 								json["History"] = Object.assign(doc.data().History, addedHistory);
 								firebase.app().firestore().collection("PMS-Archived").doc(folderArchiving).update(json);
 							});

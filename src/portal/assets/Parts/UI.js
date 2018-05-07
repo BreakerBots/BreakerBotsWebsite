@@ -14,8 +14,8 @@ function startPMS() {
 									<div class="tools dropdown">
 									<a role="button" data-toggle="dropdown" class="dropdown-toggle"><span class="icon mdi mdi-more-vert"></span></a>
 										<div role="menu" class="dropdown-menu">
-											<a onclick="editFolder(this.id)" href="#" id="` + doc.id + `" class="dropdown-item">Edit</a>
-											<a onclick="openHistory(this.id)" id="` + doc.id + `" href="#" class="dropdown-item">History</a>
+											<a onclick="editFolder(this.id)" id="` + doc.id + `" class="dropdown-item">Edit</a>
+											<a onclick="openHistory(this.id)" id="` + doc.id + `" class="dropdown-item">History</a>
 											<a onclick="openCreatePartDialogue(this)" id="` + doc.id + `" class="dropdown-item">Add</a>
 											<div class="dropdown-divider"></div>
 											<a onclick="deleteFolder(this.id)" id="` + doc.id + `" class="dropdown-item">Delete</a>
@@ -58,7 +58,7 @@ function startPMS() {
 									<td class="number">$` + (part.priceper * part.quantity) + `</td>
 									<td>` + part.status + (part.status == "Ordered" ? (": " + part.orderDate) : (part.status == "Arrived") ? (": " + part.arriveDate) : ('')) + `</td>
 									<td class="actions">
-										<a href="#" role="button" data-toggle="dropdown" class="dropdown-toggle"><span class="icon mdi mdi-more-vert"></span></a>
+										<a role="button" data-toggle="dropdown" class="dropdown-toggle"><span class="icon mdi mdi-more-vert"></span></a>
 										<div role="menu" class="dropdown-menu">
 											<a onclick="openEditPartDialogue('` + doc.id + `','` + data + `')" class="dropdown-item">Edit</a>
 											<a onclick="changePartStatus('` + doc.id + `','` + data + `')" id="` + data + doc.id + Math.random().toString(36).substring(3) + `" class="dropdown-item">Change Status</a>

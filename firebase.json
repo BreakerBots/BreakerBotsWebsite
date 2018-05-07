@@ -6,14 +6,20 @@
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   },
-  "hosting": {
-    "public": "src",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ]
-  },
+	"hosting": {
+		"public": "src",
+		"ignore": [
+			"firebase.json",
+			"**/.*",
+			"**/node_modules/**"
+		],
+					"cleanUrls": true,
+					"resetpassword": "/portal/AuthPages/ResetPassword.html",
+					"dashboard": "/portal/main.html",
+					"signin": "/portal/enter.html",
+					"signup": "/portal/signup.html",
+					"404": "404.html"
+	},
   "functions": {
     "predeploy": [
       "npm --prefix \"$RESOURCE_DIR\" run lint"

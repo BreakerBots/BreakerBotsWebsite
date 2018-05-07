@@ -12,7 +12,7 @@ function startPMSArchived() {
 									<div class="tools dropdown">
 									<a role="button" data-toggle="dropdown" class="dropdown-toggle"><span class="icon mdi mdi-more-vert"></span></a>
 										<div role="menu" class="dropdown-menu">
-											<a onclick="openArchiveHistory(this.id)" id="` + doc.id + `" href="#" class="dropdown-item">History</a>
+											<a onclick="openArchiveHistory(this.id)" id="` + doc.id + `"  class="dropdown-item">History</a>
 											<a onclick="archivedeleteFolder(this.id)" id="` + doc.id + `" class="dropdown-item">Delete</a>
 											<a onclick="unarchiveFolder('` + doc.id + `')" class="dropdown-item">Unarchive</a>
 										</div>

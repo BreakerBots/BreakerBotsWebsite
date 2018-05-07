@@ -124,7 +124,18 @@
 							});
 
 							//Register the user to the database, with a default clearance
-							firebase.app().firestore().collection("users").doc(user.uid).set({ username: username, email: email, clearance: 0 })
+							firebase.app().firestore().collection("users").doc(user.uid).set({
+								username: username,
+								email: email,
+								clearance: 0,
+								github: "",
+								slack: "",
+								grade: "",
+								phone: "",
+								role: "",
+								name: username,
+								desc: "Just another robotics fan..."
+							})
 								.then(function () {
 									window.open('main.html', '_self', false);
 								});

@@ -36,7 +36,7 @@ function markPartStatus(e) {
 
 	firebase.app().firestore().collection("PMS").doc(PartStatusFolder).get().then(function (doc) {
 		var addedHistory = {}; addedHistory[Object.keys(doc.data().History).length] = {
-			User: firebase.auth().currentUser.displayName,
+			User: users.getCurrentUid(),
 			Change: "Marked the " + doc.data()[PartStatusPart].name + (doc.data()[PartStatusPart].desc != "" ? " for " + doc.data()[PartStatusPart].desc : "") + " as " + doc.data()[PartStatusPart].status,
 			Date: new Date().getTime()
 		};

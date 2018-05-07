@@ -41,7 +41,7 @@ function CreatePart(e) {
 			partNumber: partPN,
 			unit: partUnit
 		};
-		var addedHistory = {}; addedHistory[Object.keys(doc.data().History).length] = { User: firebase.auth().currentUser.displayName, Change: "Added " + partQu + " " + partName + (partQu > 1 ? "s" : "") + (partDe == "" ? "" : " for " + partDe), Date: new Date().getTime() };
+		var addedHistory = {}; addedHistory[Object.keys(doc.data().History).length] = { User: users.getCurrentUid(), Change: "Added " + partQu + " " + partName + (partQu > 1 ? "s" : "") + (partDe == "" ? "" : " for " + partDe), Date: new Date().getTime() };
 		json["History"] = Object.assign(doc.data().History, addedHistory);
 
 		firebase.app().firestore().collection("PMS").doc(addingPartTo).update(json)

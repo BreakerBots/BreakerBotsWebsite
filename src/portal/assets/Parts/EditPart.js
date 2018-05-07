@@ -88,7 +88,7 @@ function EditPart(e) {
 		}
 
 		var addedHistory = {}; addedHistory[Object.keys(doc.data().History).length] = {
-			User: firebase.auth().currentUser.displayName,
+			User: users.getCurrentUid(),
 			Change: EditingChangeString,
 			Date: new Date().getTime()
 		};

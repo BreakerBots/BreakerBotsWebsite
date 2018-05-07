@@ -28,7 +28,7 @@ function submitEditFolder(e) {
 
 								firebase.app().firestore().collection("PMS").doc(folderEditing.substr(0, FolderNumberPadding) + folderName).get().then(function (doc) {
 									var json = {};
-									var addedHistory = {}; addedHistory[Object.keys(doc.data().History).length] = { User: firebase.auth().currentUser.displayName, Change: "Renamed the project from " + folderEditing.substr(FolderNumberPadding) + " to " + folderName, Date: new Date().getTime() };
+									var addedHistory = {}; addedHistory[Object.keys(doc.data().History).length] = { User: users.getCurrentUid(), Change: "Renamed the project from " + folderEditing.substr(FolderNumberPadding) + " to " + folderName, Date: new Date().getTime() };
 									json["History"] = Object.assign(doc.data().History, addedHistory);
 									firebase.app().firestore().collection("PMS").doc(folderEditing.substr(0, FolderNumberPadding) + folderName).update(json);
 								});

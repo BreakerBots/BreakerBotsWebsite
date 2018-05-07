@@ -20,7 +20,7 @@ function folderArchiveHistoryToUI(folder) {
 
 						html += `
 						<tr>
-							<td>` + user + `</td>
+							<td>` + (users.isUid(user) ? ('<a href="?profile=' + user + '#tab=Profile">' + users.getUsername(user) + '</a>') : (users.isUsername(user) ? ('<a href="?profile=' + users.getUid(user) + '#tab=Profile">' + user + '</a>') : (user))) + `</td>
 							<td>` + change + `</td>
 							<td>` + timeSince + `</td>
 						</tr>
