@@ -55,13 +55,14 @@
 					<ul class="nav navbar-nav float-right be-user-nav">
 						<li class="nav-item dropdown">
 							<a data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
-							<img id="AvatarPicture" src="" alt="Avatar"><span class="user-name" id="UserNameL"></span></a>
+								<img id="AvatarPicture" src="" alt="Avatar"><span class="user-name" id="UserNameL"></span>
+							</a>
 							<div role="menu" class="dropdown-menu">
 								<div class="user-info">
 									<div class="user-name" id="UserNameR"></div>
 								</div>
 								<a class="dropdown-item" href="?profile=this#tab=Profile"><span class="icon mdi mdi-face"></span> Account</a>
-								<div class="dropdown-item" onclick="logout()">
+								<div class="dropdown-item" onclick="firebase.auth().signOut();">
 									<span class="icon mdi mdi-power"></span> Logout
 								</div>
 							</div>
@@ -128,6 +129,9 @@
 								<li class="active">
 									<a href="#tab=Github"><i class="icon mdi mdi-github" style="color: #d50000;"></i><span style="color: #d50000;">Github</span></a>
 								</li>
+								<li class="active">
+									<a href="#tab=Teams"><i class="icon mdi mdi-accounts-alt" style="color: #d50000;"></i><span style="color: #d50000;">Teams</span></a>
+								</li>
 							</ul>
 						</div>
 					</div>
@@ -148,15 +152,11 @@
 						</div>
 						<!--Parts Wrapper End-->
 					</div>
-					<div class="row">
-						<div class="col-lg-6">
-							<div class="card-header">
-								<button id="CreateFolderButton" class="btn btn-space btn-secondary" style="width: 60px; height: 60px;">
-									<i class="icon mdi mdi-plus" style="font-size:30px; color: #808080;"></i>
-								</button>
-							</div>
-						</div>
-					</div>
+					<button id="AddFolderFab" class="mdc-fab demo-fixed-fab mdc-ripple-upgraded mdc-fab--exited">
+						<span class="mdc-fab__icon">
+							<i class="material-icons">add</i>
+						</span>
+					</button>
 				</div>
 				<div id="PartsOrdered" class="tab">
 					<div class="row">
@@ -245,12 +245,12 @@
 											<div class="counter" id="PE-Clearance"></div>
 										</div>
 										<div class="col-4">
-											<div class="title">Projects</div>
-											<div class="counter" id="PE-Projects">26</div>
+											<div class="title">Tasks</div>
+											<div class="counter" id="PE-Tasks">0</div>
 										</div>
 										<div class="col-4">
 											<div class="title">Contributions</div>
-											<div class="counter" id="PE-Contributions">104</div>
+											<div class="counter" id="PE-Contributions">0</div>
 										</div>
 									</div>
 								</div>
@@ -276,6 +276,18 @@
 												</td>
 												<td>
 													<input id="PE-Role" class="ProfileEdit" type="text" value="" style="border: none; width: 100%;" readonly />
+												</td>
+											</tr>
+											<tr>
+												<td class="icon">
+													<span class="mdi mdi-accounts-alt"></span>
+												</td>
+												<td class="item">
+													Teams
+													<span class="icon s7-portfolio"></span>
+												</td>
+												<td>
+													<input id="PE-Teams" type="text" value="" style="border: none; width: 100%;" readonly />
 												</td>
 											</tr>
 											<tr>
@@ -385,6 +397,16 @@
 					<button id="EditAccountFab" class="mdc-fab demo-fixed-fab mdc-ripple-upgraded mdc-fab--exited" style="--mdc-ripple-fg-size:33.6px; --mdc-ripple-fg-scale:2.65464; --mdc-ripple-fg-translate-start:14.2px, 16.2px; --mdc-ripple-fg-translate-end:11.2px, 11.2px;">
 						<span class="mdc-fab__icon">
 							<i class="material-icons" id="EditAccountFabIcon">save</i>
+						</span>
+					</button>
+				</div>
+				<div id="Teams" class="tab">
+					<div id="TeamsWrapper">
+						<!--Autofilled-->
+					</div>
+					<button id="AddTeamFab" class="mdc-fab demo-fixed-fab mdc-ripple-upgraded mdc-fab--exited">
+						<span class="mdc-fab__icon">
+							<i class="material-icons">add</i>
 						</span>
 					</button>
 				</div>
@@ -869,7 +891,7 @@
 				<section id="my-mdc-dialog-description" class="mdc-dialog__body" style="text-align: center;">
 					<div class="upload-btn-wrapper" style="position: relative; overflow: hidden; display: inline-block;">
 						<button class="btn btn-space btn-primary" id="fileButtonButton" style="display: none;">Choose a file</button>
-						<input type="file" name="myfile" id="fileButton" style="font-size: 100px; position: absolute; left: 0; top: 0; opacity: 0;"/>
+						<input type="file" name="myfile" id="fileButton" style="font-size: 100px; position: absolute; left: 0; top: 0; opacity: 0;" />
 					</div>
 					<div id="avatarPreview">
 
@@ -881,6 +903,98 @@
 				<footer class="mdc-dialog__footer">
 					<button type="button" id="ProfilePictureCancel" class="btn btn-space btn-secondary">Cancel</button>
 				</footer>
+			</div>
+			<div class="mdc-dialog__backdrop"></div>
+		</aside>
+	</div>
+
+	<!--Teams Tab Dialogues-->
+	<div>
+		<!--Create Team-->
+		<aside id="create-team-dialog"
+			   class="mdc-dialog"
+			   role="alertdialog"
+			   aria-labelledby="my-mdc-dialog-label"
+			   aria-describedby="my-mdc-dialog-description">
+			<div class="mdc-dialog__surface">
+				<header class="mdc-dialog__header">
+					<h2 class="mdc-dialog__header__title">
+						Create Team
+					</h2>
+				</header>
+				<form id="CreateTeamForm" class="mdc-dialog__body mdc-dialog__body--scrollable" style="max-height: 60vh;">
+					<section>
+						<br />
+						<div class="form-group autocomplete" style="width: 100%;">
+							<label for="CreateTeamName">Name</label>
+							<input id="CreateTeamName" type="text" class="form-control" placeholder="Enter A Name" required="" autocomplete="off">
+						</div>
+						<div class="form-group autocomplete" style="width: 100%;">
+							<label for="CreateTeamDesc">Description</label>
+							<textarea id="CreateTeamDesc" class="form-control" style="z-index: auto; position: relative; line-height: 21.4277px; font-size: 14.9994px; transition: none; background: transparent !important;"></textarea>
+						</div>
+					</section>
+					<footer class="mdc-dialog__footer">
+						<button type="submit" class="btn btn-space btn-primary">Submit</button>
+						<button type="button" id="CreateTeamCancel" class="btn btn-space btn-secondary">Cancel</button>
+					</footer>
+				</form>
+			</div>
+			<div class="mdc-dialog__backdrop"></div>
+		</aside>
+		<!--Delete Team-->
+		<aside id="delete-team-dialog"
+			   class="mdc-dialog"
+			   role="alertdialog"
+			   aria-labelledby="my-mdc-dialog-label"
+			   aria-describedby="my-mdc-dialog-description">
+			<div class="mdc-dialog__surface">
+				<form id="DeleteTeamForm">
+					<div class="modal-body">
+						<div class="text-center">
+							<div class="text-success">
+								<span class="modal-main-icon mdi mdi-close" style="color: red;"></span>
+							</div>
+							<h3 id="DeleteTeamTitle">Are You Sure You Want To Delete This Team?</h3>
+							<div class="mt-8">
+								<button type="button" id="DeleteTeamCancel" class="btn btn-space btn-secondary">Cancel</button>
+								<button type="submit" class="btn btn-space btn-danger">Proceed</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="mdc-dialog__backdrop"></div>
+		</aside>
+		<!--Edit Team-->
+		<aside id="edit-team-dialog"
+			   class="mdc-dialog"
+			   role="alertdialog"
+			   aria-labelledby="my-mdc-dialog-label"
+			   aria-describedby="my-mdc-dialog-description">
+			<div class="mdc-dialog__surface">
+				<header class="mdc-dialog__header">
+					<h2 class="mdc-dialog__header__title">
+						Edit Team
+					</h2>
+				</header>
+				<form id="EditTeamForm" class="mdc-dialog__body mdc-dialog__body--scrollable" style="max-height: 60vh;">
+					<section>
+						<br />
+						<div class="form-group autocomplete" style="width: 100%;">
+							<label for="EditTeamName">Name</label>
+							<input id="EditTeamName" type="text" class="form-control" placeholder="Enter A Name" required="" autocomplete="off">
+						</div>
+						<div class="form-group autocomplete" style="width: 100%;">
+							<label for="EditTeamDesc">Description</label>
+							<textarea id="EditTeamDesc" class="form-control" style="z-index: auto; position: relative; line-height: 21.4277px; font-size: 14.9994px; transition: none; background: transparent !important;"></textarea>
+						</div>
+					</section>
+					<footer class="mdc-dialog__footer">
+						<button type="submit" class="btn btn-space btn-primary">Submit</button>
+						<button type="button" id="EditTeamCancel" class="btn btn-space btn-secondary">Cancel</button>
+					</footer>
+				</form>
 			</div>
 			<div class="mdc-dialog__backdrop"></div>
 		</aside>
@@ -900,9 +1014,58 @@
 	<script src='../assets/lib/fullcalendar/gcal.min.js'></script>
 	<script src='../assets/lib/croppie/croppie.js'></script>
 
+	<!--General Functions-->
+	<script src="assets/Resources/functions.js"></script>
+
+	<!--Firebase Account Management and Profile Tab-->
+	<script src="assets/Accounting/accountHandler.js"></script>
+	<script src="assets/Accounting/avatarInit.js"></script>
+	<script src="assets/Accounting/Profile/ChangeEmail.js"></script>
+	<script src="assets/Accounting/Profile/Graph.js"></script>
+	<script src="assets/Accounting/Profile/ProfileTab.js"></script>
+	<script src="assets/Accounting/Profile/ProfilePicture.js"></script>
+
+	<!--Parts Tabs-->
+	<script src="assets/Parts/FolderHistory.js"></script>
+	<script src="assets/Parts/CreatePart.js"></script>
+	<script src="assets/Parts/EditPart.js"></script>
+	<script src="assets/Parts/DeletePart.js"></script>
+	<script src="assets/Parts/CreateFolder.js"></script>
+	<script src="assets/Parts/EditFolder.js"></script>
+	<script src="assets/Parts/DeleteFolder.js"></script>
+	<script src="assets/Parts/ArchiveFolder.js"></script>
+	<script src="assets/Parts/UI.js"></script>
+	<script src="assets/Parts/Archive/ArchiveTab.js"></script>
+	<script src="assets/Parts/Archive/UnarchiveFolder.js"></script>
+	<script src="assets/Parts/Archive/ArchiveHistory.js"></script>
+	<script src="assets/Parts/Archive/ArchiveDelete.js"></script>
+	<script src="assets/Parts/Ordered/OrderedParts.js"></script>
+	<script src="assets/Parts/StatusPart.js"></script>
+
+	<!--Other-->
+	<script src="assets/Autocomplete/Autocomplete.js"></script>
+	<script src="assets/Calendar/CalendarTab.js"></script>
+
+	<!--Github API and Tab-->
+	<script src="assets/Github/GHAPI.js"></script>
+	<script src="assets/Github/GHUI.js"></script>
+
+	<!--Teams Tab and Resources-->
+	<script src="assets/Teams/TeamsTab.js"></script>
+	<script src="assets/Teams/JLTeam.js"></script>
+	<script src="assets/Teams/CreateTeam.js"></script>
+	<script src="assets/Teams/DeleteTeam.js"></script>
+	<script src="assets/Teams/EditTeam.js"></script>
+
+	<!--Main Tab Bar Handler-->
+	<script src="assets/Tabs/tabs.js"></script>
+
+
+
 	<!--Main Script-->
 	<script type="text/javascript">
 		document.addEventListener('DOMContentLoaded', function () {
+			//Init Beagle
 			App.init();
 		});
 
@@ -921,36 +1084,5 @@
 			return;
 		}
 	</script>
-
-	<script src="assets/Accounting/allUser.js"></script>
-	<script src="assets/Accounting/accountHandler.js"></script>
-	<script src="assets/Accounting/Profile/TextAreaExpandable.js"></script>
-	<script src="assets/Accounting/Profile/ChangeEmail.js"></script>
-	<script src="assets/Accounting/Profile/Graph.js"></script>
-	<script src="assets/Accounting/Profile/ProfileTab.js"></script>
-	<script src="assets/Accounting/Profile/ProfilePicture.js"></script>
-
-	<script src="assets/Parts/FolderHistory.js"></script>
-	<script src="assets/Parts/CreatePart.js"></script>
-	<script src="assets/Parts/EditPart.js"></script>
-	<script src="assets/Parts/DeletePart.js"></script>
-	<script src="assets/Parts/CreateFolder.js"></script>
-	<script src="assets/Parts/EditFolder.js"></script>
-	<script src="assets/Parts/DeleteFolder.js"></script>
-	<script src="assets/Parts/ArchiveFolder.js"></script>
-	<script src="assets/Parts/UI.js"></script>
-	<script src="assets/Parts/Archive/ArchiveTab.js"></script>
-	<script src="assets/Parts/Archive/UnarchiveFolder.js"></script>
-	<script src="assets/Parts/Archive/ArchiveHistory.js"></script>
-	<script src="assets/Parts/Archive/ArchiveDelete.js"></script>
-	<script src="assets/Parts/Ordered/OrderedParts.js"></script>
-	<script src="assets/Parts/StatusPart.js"></script>
-
-	<script src="assets/Autocomplete/Autocomplete.js"></script>
-	<script src="assets/Tabs/tabs.js"></script>
-	<script src="assets/Calendar/CalendarTab.js"></script>
-
-	<script src="assets/Github/GHAPI.js"></script>
-	<script src="assets/Github/GHUI.js"></script>
 </body>
 </html>

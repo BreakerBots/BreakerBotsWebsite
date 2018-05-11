@@ -2,15 +2,13 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\assets\\lib",
-    "\\src\\assets\\lib\\croppie",
     "\\src\\portal",
     "\\src\\portal\\assets",
     "\\src\\portal\\assets\\Accounting",
-    "\\src\\portal\\assets\\Accounting\\Profile",
     "\\src\\portal\\assets\\Parts\\Archive",
-    "\\src\\portal\\assets\\Parts\\Ordered"
+    "\\src\\portal\\assets\\Resources",
+    "\\src\\portal\\assets\\Teams"
   ],
-  "SelectedNode": "\\src\\portal\\assets\\Accounting\\Profile\\ProfileTab.js",
+  "SelectedNode": "\\src\\portal\\assets\\Teams\\EditTeam.js",
   "PreviewInSolutionExplorer": false
 }

@@ -13,6 +13,7 @@ function updateTabs(tab) {
 		case "PartsArchived": if (startPMSArchived) startPMSArchived(); break;
 		case "PartsOrdered": if (startPMSOrdered) startPMSOrdered(); break;
 		case "Profile": if (startProfile) startProfile(); break;
+		case "Teams": if (startTeams) startTeams(); break;
 	}
 }
 document.addEventListener('DOMContentLoaded', function () { updateTabs(); });

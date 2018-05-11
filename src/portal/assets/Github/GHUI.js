@@ -75,7 +75,7 @@ function drawCommits() {
 
 		document.querySelector("#GithubRecentCommitsWrapper").innerHTML += html;
 	});
-} drawCommits();
+} //drawCommits();
 
 `
 <table class="table table-striped table-hover">

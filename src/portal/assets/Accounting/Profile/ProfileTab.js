@@ -4,7 +4,7 @@ function startProfile() {
 	if (FolderHistoryDialogue.open) { FolderHistoryDialogue.close(); }
 	if (FolderArchiveHistoryDialogue.open) { FolderArchiveHistoryDialogue.close(); }
 
-	authLoaded.wait(function () {
+	authLoadedWait(function () {
 		//Find if the user is viewing his own profile
 		var onThisProfile = (getUrlParameterByName("profile", null) == "this") || (getUrlParameterByName("profile", null) == users.getCurrentUid());
 
@@ -23,23 +23,19 @@ function startProfile() {
 			document.querySelector('#PE-Slack').value = doc.data().slack;
 			document.querySelector('#PE-Github').value = doc.data().github;
 			document.querySelector('#PE-Clearance').innerHTML = doc.data().clearance;
+			document.querySelector('#PE-Contributions').innerHTML = 0; 
+			document.querySelector('#PE-Tasks').innerHTML = 0;
+			document.querySelector('#PE-Teams').value = formatTeamArray(doc.data().teams);
 		});
 
+		//doc.data().teams.length
+
 		//Download and display the profile picture
-		function refreshAvatar() {
-			var storageRef = firebase.storage().ref('Avatars/' + profileId);
-			storageRef.getDownloadURL().then(function (url) {
-				// Insert Into IMG
-				document.querySelector('#ProfilePicture').src = url;
-				document.querySelector('#AvatarPicture').src = url;
-			}).catch(function (error) {
-				if (error.code == "storage/object-not-found") {
-					document.querySelector('#ProfilePicture').src = "../assets/img/iconT.png"; 
-					document.querySelector('#AvatarPicture').src = "../assets/img/iconT.png";
-				}
-			});
-		} refreshAvatar();
-		startProfile.refreshAvatar = refreshAvatar;
+		function refreshProfileAvatar() {
+			document.querySelector('#ProfilePicture').src = users.getAvatar(profileId);
+			if (onThisProfile) document.querySelector('#AvatarPicture').src = users.getAvatar(profileId);
+		} refreshProfileAvatar();
+		startProfile.refreshProfileAvatar = refreshProfileAvatar;
 
 		//Viewing Own Account
 		if (onThisProfile) {
@@ -108,4 +104,14 @@ function startProfile() {
 
 		}
 	});
+}
+
+function formatTeamArray(teams) {
+	var ret = "";
+	teams.forEach(function (tm, i, arr) {
+		ret += tm;
+		if (i != arr.length - 1 && arr.length > 2) ret += ", ";
+		if (i == arr.length - 2) { ret += (arr.length > 2 ? "" : " ") + "and "; }
+	});
+	return ret;
 }

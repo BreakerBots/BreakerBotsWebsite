@@ -1,6 +1,6 @@
 //Create Folder Handling
 const CreateFolderDialogue = new mdc.dialog.MDCDialog(document.querySelector('#create-folder-dialog'));
-document.getElementById('CreateFolderButton').addEventListener('click', function () { FormCreateFolder.querySelector('[type="submit"]').disabled = false; CreateFolderDialogue.show(); document.getElementById('CreateFolderInput').value = ""; }); //Open the dialog
+document.getElementById('AddFolderFab').addEventListener('click', function () { FormCreateFolder.querySelector('[type="submit"]').disabled = false; CreateFolderDialogue.show(); document.getElementById('CreateFolderInput').value = ""; }); //Open the dialog
 document.getElementById('CreateFolderCancel').addEventListener('click', function () { CreateFolderDialogue.close(); }); //Close the dialog
 function CreateFolder(e) {
 	if (e.preventDefault) e.preventDefault(); FormCreateFolder.querySelector('[type="submit"]').disabled = true;

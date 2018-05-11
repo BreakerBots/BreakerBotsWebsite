@@ -1,8 +1,14 @@
-function nulloutPMS() { };
+function nulloutPMS() { }; //NOT JUST FOR THIS CLASS (!)
+
+
 
 //PMS UI
 function startPMS() {
 	startPMS = nulloutPMS();
+
+	var AddFolderFab = document.querySelector('#AddFolderFab'); mdc.ripple.MDCRipple.attachTo(AddFolderFab);
+	AddFolderFab.classList.remove('mdc-fab--exited');
+
 	firebase.app().firestore().collection("PMS")
 		.onSnapshot(function (snapshot) {
 			var html = '';
@@ -18,8 +24,8 @@ function startPMS() {
 											<a onclick="openHistory(this.id)" id="` + doc.id + `" class="dropdown-item">History</a>
 											<a onclick="openCreatePartDialogue(this)" id="` + doc.id + `" class="dropdown-item">Add</a>
 											<div class="dropdown-divider"></div>
-											<a onclick="deleteFolder(this.id)" id="` + doc.id + `" class="dropdown-item">Delete</a>
-											<a onclick="archiveFolder('` + doc.id + `')" class="dropdown-item">Archive</a>
+											<a onclick="deleteFolder(this.id)" id="` + doc.id + `" class="dropdown-item" style="color: red;">Delete</a>
+											<a onclick="archiveFolder('` + doc.id + `')" class="dropdown-item" style="color: green;">Archive</a>
 										</div>
 									</div>
 								</div>
