@@ -1,6 +1,9 @@
 //PMS UI for Archived Folders
 function startPMSArchived() {
 	startPMSArchived = nulloutPMS();
+
+	showMainLoader(true);
+
 	firebase.app().firestore().collection("PMS-Archived")
 		.onSnapshot(function (snapshot) {
 			var html3 = '';
@@ -56,6 +59,7 @@ function startPMSArchived() {
 				html3 += `</tbody> </table> </div> </div> </div> </div>`;
 			});
 			document.getElementById('PartsArchiveWrapper').innerHTML = html3;
+			showMainLoader(false);
 		}, function (error) {
 
 		});

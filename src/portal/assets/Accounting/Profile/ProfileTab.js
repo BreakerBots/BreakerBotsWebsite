@@ -4,6 +4,8 @@ function startProfile() {
 	if (FolderHistoryDialogue.open) { FolderHistoryDialogue.close(); }
 	if (FolderArchiveHistoryDialogue.open) { FolderArchiveHistoryDialogue.close(); }
 
+	showMainLoader(true);
+
 	authLoadedWait(function () {
 		//Find if the user is viewing his own profile
 		var onThisProfile = (getUrlParameterByName("profile", null) == "this") || (getUrlParameterByName("profile", null) == users.getCurrentUid());
@@ -36,6 +38,8 @@ function startProfile() {
 			if (onThisProfile) document.querySelector('#AvatarPicture').src = users.getAvatar(profileId);
 		} refreshProfileAvatar();
 		startProfile.refreshProfileAvatar = refreshProfileAvatar;
+
+		showMainLoader(false);
 
 		//Viewing Own Account
 		if (onThisProfile) {
@@ -101,7 +105,7 @@ function startProfile() {
 		}
 		//Viewing Other Account
 		else {
-
+			
 		}
 	});
 }

@@ -13,6 +13,7 @@ function joinTeam(team) {
 				firebase.app().firestore().collection("Teams").doc(team).get().then(function (doc) {
 					var newData = doc.data();
 					newData.Members.push(users.getCurrentUid());
+					newData.NOM = newData.Members.length;
 					firebase.app().firestore().collection("Teams").doc(team).set(newData).then(function () {
 
 					});
@@ -36,6 +37,7 @@ function leaveTeam(team) {
 				firebase.app().firestore().collection("Teams").doc(team).get().then(function (doc) {
 					var newData = doc.data();
 					newData.Members.remove(users.getCurrentUid());
+					newData.NOM = newData.Members.length;
 					firebase.app().firestore().collection("Teams").doc(team).set(newData).then(function () {
 
 					});

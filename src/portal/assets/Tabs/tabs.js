@@ -14,11 +14,15 @@ function updateTabs(tab) {
 		case "PartsOrdered": if (startPMSOrdered) startPMSOrdered(); break;
 		case "Profile": if (startProfile) startProfile(); break;
 		case "Teams": if (startTeams) startTeams(); break;
+		default: showMainLoader(false);
 	}
 }
 document.addEventListener('DOMContentLoaded', function () { updateTabs(); });
 $(window).on('hashchange', function () { updateTabs(); });
 
+function showMainLoader(state) {
+	document.querySelector("#MainLoader").style.display = state ? "block" : "none";
+}
 
 function getTabFromURL() {
 	return window.location.hash == "" ? null : window.location.hash.substring(5);

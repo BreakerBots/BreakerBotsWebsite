@@ -6,6 +6,8 @@ function nulloutPMS() { }; //NOT JUST FOR THIS CLASS (!)
 function startPMS() {
 	startPMS = nulloutPMS();
 
+	showMainLoader(true);
+
 	var AddFolderFab = document.querySelector('#AddFolderFab'); mdc.ripple.MDCRipple.attachTo(AddFolderFab);
 	AddFolderFab.classList.remove('mdc-fab--exited');
 
@@ -87,6 +89,7 @@ function startPMS() {
 				html += `</tbody> </div> </table> </div> </div> </div> </div>`;
 			});
 			document.getElementById('PartsAllWrapper').innerHTML = html;
+			showMainLoader(false);
 		}, function (error) {
 
 		});

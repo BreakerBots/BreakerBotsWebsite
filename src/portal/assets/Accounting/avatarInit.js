@@ -8,10 +8,9 @@ function throwInAvatar() {
 
 	//Wait until AllUser is loaded
 	authLoadedFullWait(function () {
-
 		function SAAFR() {
 			//Prevent undefined error throwing
-			if (users.getCurrentUid() != undefined && (users.getCurrentUid() != (users.getAvatar(users.getCurrentUid()) != undefined) ? "" : false)) {
+			if (users.getCurrentUid() != undefined && (users.getCurrentUid() != undefined ? (users.getAvatar(users.getCurrentUid()) != undefined) : false)) {
 				//Set the avatar to the recieved download url
 				document.querySelector('#AvatarPicture').src = users.getAvatar(users.getCurrentUid());
 
