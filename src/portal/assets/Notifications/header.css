@@ -1,0 +1,66 @@
+﻿/*Toggle the "Show All Notifications" in the dashboard header.*/
+.notification-menu {
+	transform-origin: 75% 0%;
+}
+
+/*Animation for width and height*/
+#notanimWidthTarget {
+	transition: width 0.8s, transform 0.3s, top 0.3s;
+	transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+#notanimHeightTarget {
+	transition: height 0.8s;
+	transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/*Non-Mobile*/
+@media (min-width: 768px) {
+	.notanimHeight {
+		height: 80vh !important;
+	}
+
+	.notanimWidth {
+		width: 80vw !important;
+	}
+
+	#profileMenu {
+		transform-origin: 95% 0%;
+	}
+
+	.headerDTI {
+		color: grey;
+	}
+}
+
+/*Mobile*/
+@media (max-width: 768px) {
+	.notanimHeight {
+		height: 40vh !important;
+	}
+
+	.notanimWidth {
+		width: 100vw !important;
+	}
+
+	#profileMenu {
+		transform-origin: 5% 0%;
+	}
+
+	.headerDTI {
+		color: white;
+	}
+}
+
+/*For All Menus*/
+.dropdown-menu {
+	display: block !important;
+	transform: scale(0);
+
+	transition: transform 0.3s, top 0.3s;
+	transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.showMenu {
+	transform: scale(1);
+}

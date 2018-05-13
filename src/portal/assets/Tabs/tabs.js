@@ -1,28 +1,33 @@
 function updateTabs(tab) {
+	showMainLoader(true);
+
 	//Switch To Tab To Select Tab From Url
 	if (tab == undefined) { tab = getTabFromURL('tab'); if (tab == null) { tab = 'General'; } }
 
-	if (document.querySelector('.tab.active')) {
-		document.querySelector('.tab.active').classList.remove('active');
+	var lastTab = document.querySelector('.tab.active');
+	if (lastTab) {
+		lastTab.classList.remove('active');
+		lastTab.classList.add('exit');
+		lastTab.addEventListener("animationend", function () { event.srcElement.classList.remove('exit'); });
 	}
 
 	document.getElementById(tab).classList.add('active');
 
 	switch (tab) {
-		case "PartsAll": if (startPMS) startPMS(); break;
-		case "PartsArchived": if (startPMSArchived) startPMSArchived(); break;
-		case "PartsOrdered": if (startPMSOrdered) startPMSOrdered(); break;
-		case "Profile": if (startProfile) startProfile(); break;
-		case "Teams": if (startTeams) startTeams(); break;
-		default: showMainLoader(false);
+		case "PartsAll": if (startPMS) startPMS(); else setTimeout(hideML, 500); break;
+		case "PartsArchived": if (startPMSArchived) startPMSArchived(); else setTimeout(hideML, 500); break;
+		case "PartsOrdered": if (startPMSOrdered) startPMSOrdered(); else setTimeout(hideML, 500); break;
+		case "Profile": if (startProfile) startProfile(); else setTimeout(hideML, 500); break;
+		case "Teams": if (startTeams) startTeams(); else setTimeout(hideML, 500); break;
+		default: setTimeout(hideML, 500); break;
 	}
 }
 document.addEventListener('DOMContentLoaded', function () { updateTabs(); });
 $(window).on('hashchange', function () { updateTabs(); });
 
 function showMainLoader(state) {
-	document.querySelector("#MainLoader").style.display = state ? "block" : "none";
-}
+	document.querySelector("#MainLoader").style.opacity = (state ? 1 : 0);
+} function hideML() { showMainLoader(false); }
 
 function getTabFromURL() {
 	return window.location.hash == "" ? null : window.location.hash.substring(5);
