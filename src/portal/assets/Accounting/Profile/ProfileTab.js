@@ -1,3 +1,7 @@
+//ProfileTab.js
+
+var ProfileTab = new RegisteredTab("Profile", null, startProfile, null);
+
 //Called when user transitions to the profile tab
 function startProfile() {
 	//Close dialogues possibly opened when moved to this tab

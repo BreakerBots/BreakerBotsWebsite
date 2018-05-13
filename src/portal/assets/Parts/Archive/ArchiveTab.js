@@ -1,7 +1,9 @@
+//ArchiveTab.js
+
+var ArchiveTab = new RegisteredTab("PartsArchived", startPMSArchived, function () { }, function () { }, true);
+
 //PMS UI for Archived Folders
 function startPMSArchived() {
-	startPMSArchived = nulloutPMS();
-
 	showMainLoader(true);
 
 	firebase.app().firestore().collection("PMS-Archived")

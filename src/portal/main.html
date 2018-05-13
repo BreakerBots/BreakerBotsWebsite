@@ -61,7 +61,7 @@
 							<a onclick="toggleMenu('#profileMenu')" role="button" class="nav-link">
 								<img id="AvatarPicture" src="" alt="Avatar"><span class="user-name" id="UserNameL" style="color: white; transition: color 0.3s;"></span>
 							</a>
-							<div role="menu" class="dropdown-menu mdc-elevation--z10" id="profileMenu">
+							<div role="menu" class="dropdown-menu-c dropdown-menu mdc-elevation--z10" id="profileMenu">
 								<div class="user-info">
 									<div class="user-name" id="UserNameR"></div>
 								</div>
@@ -76,8 +76,8 @@
 					<ul class="nav navbar-nav float-right be-icons-nav">
 						<!--Apps-->
 						<li class="nav-item dropdown">
-							<a role="button"class="nav-link" onclick="toggleMenu('#appsMenu')"><span class="icon mdi mdi-apps headerDTI" style="transition: color 0.3s;"></span></a>
-							<ul class="dropdown-menu be-connections" id="appsMenu" style="transform-origin: 65% 0%;">
+							<a role="button" class="nav-link" onclick="toggleMenu('#appsMenu')"><span class="icon mdi mdi-apps headerDTI" style="transition: color 0.3s;"></span></a>
+							<ul class="dropdown-menu-c dropdown-menu be-connections" id="appsMenu" style="transform-origin: 65% 0%;">
 								<li class="mdc-elevation--z10">
 									<div class="list">
 										<div class="content">
@@ -100,7 +100,7 @@
 								<span class="icon mdi mdi-notifications headerDTI" style="transition: color 0.3s;"></span>
 								<span class="indicator"></span>
 							</a>
-							<ul class="be-notifications dropdown-menu notification-menu" id="notanimWidthTarget">
+							<ul class="be-notifications dropdown-menu-c dropdown-menu notification-menu" id="notanimWidthTarget">
 								<li class="mdc-elevation--z10">
 									<div class="title">Notifications<span class="badge badge-pill">0</span></div>
 									<div class="list">
@@ -1155,6 +1155,10 @@
 	<!--General Functions-->
 	<script src="assets/Resources/functions.js"></script>
 
+	<!--Main Tab Bar Handler-->
+	<script src="assets/Tabs/tabs.js"></script>
+	<script src="assets/Tabs/registerTab.js"></script>
+
 	<!--Firebase Account Management and Profile Tab-->
 	<script src="assets/Accounting/accountHandler.js"></script>
 	<script src="assets/Accounting/avatarInit.js"></script>
@@ -1162,6 +1166,24 @@
 	<script src="assets/Accounting/Profile/Graph.js"></script>
 	<script src="assets/Accounting/Profile/ProfileTab.js"></script>
 	<script src="assets/Accounting/Profile/ProfilePicture.js"></script>
+
+	<!--Other-->
+	<script src="assets/Autocomplete/Autocomplete.js"></script>
+	<script src="assets/Calendar/CalendarTab.js"></script>
+
+	<!--Github API and Tab-->
+	<script src="assets/Github/GHAPI.js"></script>
+	<script src="assets/Github/GHUI.js"></script>
+
+	<!--Teams Tab and Resources-->
+	<script src="assets/Teams/TeamsTab.js"></script>
+	<script src="assets/Teams/JLTeam.js"></script>
+	<script src="assets/Teams/CreateTeam.js"></script>
+	<script src="assets/Teams/DeleteTeam.js"></script>
+	<script src="assets/Teams/EditTeam.js"></script>
+
+	<!--Notification-->
+	<script src="assets/Notifications/header.js"></script>
 
 	<!--Parts Tabs-->
 	<script src="assets/Parts/FolderHistory.js"></script>
@@ -1180,26 +1202,12 @@
 	<script src="assets/Parts/Ordered/OrderedParts.js"></script>
 	<script src="assets/Parts/StatusPart.js"></script>
 
-	<!--Other-->
-	<script src="assets/Autocomplete/Autocomplete.js"></script>
-	<script src="assets/Calendar/CalendarTab.js"></script>
+	<!--Todo Tab-->
+	<script src="assets/Todo/TodoTab.js"></script>
 
-	<!--Github API and Tab-->
-	<script src="assets/Github/GHAPI.js"></script>
-	<script src="assets/Github/GHUI.js"></script>
+	<!--General Tab-->
+	<script src="assets/General/GeneralTab.js"></script>
 
-	<!--Teams Tab and Resources-->
-	<script src="assets/Teams/TeamsTab.js"></script>
-	<script src="assets/Teams/JLTeam.js"></script>
-	<script src="assets/Teams/CreateTeam.js"></script>
-	<script src="assets/Teams/DeleteTeam.js"></script>
-	<script src="assets/Teams/EditTeam.js"></script>
-
-	<!--Main Tab Bar Handler-->
-	<script src="assets/Tabs/tabs.js"></script>
-
-	<!--Notification-->
-	<script src="assets/Notifications/header.js"></script>
 
 	<!--Main Script-->
 	<script type="text/javascript">

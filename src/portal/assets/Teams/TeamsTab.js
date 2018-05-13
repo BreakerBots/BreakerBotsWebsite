@@ -1,15 +1,12 @@
+//TeamsTab.js
+
+var TeamsTab = new RegisteredTab("Teams", startTeams, teamSwitch, teamExit, true);
+
 //Teams Tab UI
 function startTeams() {
-	startTeams = nulloutPMS();
-
-	var AddTeamFab = document.querySelector('#AddTeamFab');
-	mdc.ripple.MDCRipple.attachTo(AddTeamFab);
-
 	showMainLoader(true);
 
 	authLoadedWait(function () {
-
-		if (users.amMasterAdmin()) AddTeamFab.classList.remove('mdc-fab--exited');
 
 		firebase.app().firestore().collection("Teams")
 			.orderBy("NOM")
@@ -75,4 +72,27 @@ function startTeams() {
 
 			});
 	});
+}
+
+//Team Tab Switched To
+var teamsFabTimeout;
+function teamSwitch() {
+	authLoadedWait(function () {
+		teamsFabTimeout = setTimeout(
+			function () {
+				if (users.amMasterAdmin()) {
+					var AddTeamFab = document.querySelector('#AddTeamFab');
+					mdc.ripple.MDCRipple.attachTo(AddTeamFab);
+					AddTeamFab.classList.remove('mdc-fab--exited');
+					mdc.ripple.MDCRipple.attachTo(AddTeamFab);
+				}
+			}, 1000
+		);
+	});
+}
+
+//Team Tab Exited
+function teamExit() {
+	if (teamsFabTimeout) clearTimeout(teamsFabTimeout);
+	document.querySelector('#AddTeamFab').classList.add('mdc-fab--exited');
 }

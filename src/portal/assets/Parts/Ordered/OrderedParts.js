@@ -1,6 +1,8 @@
-function startPMSOrdered() {
-	startPMSOrdered = nulloutPMS();
+//OrderedParts.js
 
+var OrderedTab = new RegisteredTab("PartsOrdered", startPMSOrdered, function () { }, function () { }, true);
+
+function startPMSOrdered() {
 	showMainLoader(true);
 
 	firebase.app().firestore().collection("PMS-Extra").doc("Ordered")
