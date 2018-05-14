@@ -17,7 +17,7 @@
 /*Non-Mobile*/
 @media (min-width: 768px) {
 	.notanimHeight {
-		height: 80vh !important;
+		height: calc(100vh - 200px) !important;
 	}
 
 	.notanimWidth {

@@ -42,8 +42,9 @@
 	<!--CSS For Account View-->
 	<link rel="stylesheet" href="assets/Accounting/account.css" type="text/css" />
 
-	<!--CSS For the Main Header-->
+	<!--CSS For the Main Header and Notifications-->
 	<link rel="stylesheet" href="assets/Notifications/header.css" type="text/css" />
+	<link rel="manifest" href="assets/Notifications/manifest.json">
 </head>
 <body>
 	<div class="be-wrapper">
@@ -98,128 +99,19 @@
 						<li class="nav-item dropdown">
 							<a role="button" class="nav-link" onclick="toggleNotificationMenu()">
 								<span class="icon mdi mdi-notifications headerDTI" style="transition: color 0.3s;"></span>
-								<span class="indicator"></span>
+								<span class="indicator" id="MainNotificationIndicator" hidden></span>
 							</a>
 							<ul class="be-notifications dropdown-menu-c dropdown-menu notification-menu" id="notanimWidthTarget">
-								<li class="mdc-elevation--z10">
-									<div class="title">Notifications<span class="badge badge-pill">0</span></div>
+								<li class="mdc-elevation--z10" id="NotificationBox">
+									<div class="title" style="max-height: 50px !important;">
+										Notifications
+										<span class="badge badge-pill">0</span>
+										<a onclick="getNotificationPermission()" id="MainNotificationIcon" class="icon mdi mdi-notifications-off" style="font-size: 140%; margin-left: 10px; transform: translate(0, 3px);"></a>
+									</div>
 									<div class="list">
 										<div class="be-scroller" id="notanimHeightTarget">
 											<div class="content">
-												<ul>
-													<li class="notification notification-unread">
-														<a>
-															<div class="image"><img src="../assets/img/avatar2.png" alt="Avatar"></div>
-															<div class="notification-info">
-																<div class="text"><span class="user-name">Jessica Caruso</span> accepted your invitation to join the team.</div><span class="date">2 min ago</span>
-															</div>
-														</a>
-													</li>
-													<li class="notification notification-read">
-														<a>
-															<div class="image"><img src="../assets/img/avatar2.png" alt="Avatar"></div>
-															<div class="notification-info">
-																<div class="text"><span class="user-name">Jessica Caruso</span> accepted your invitation to join the team.</div><span class="date">2 min ago</span>
-															</div>
-														</a>
-													</li>
-													<li class="notification notification-unread">
-														<a>
-															<div class="image"><img src="../assets/img/avatar2.png" alt="Avatar"></div>
-															<div class="notification-info">
-																<div class="text"><span class="user-name">Jessica Caruso</span> accepted your invitation to join the team.</div><span class="date">2 min ago</span>
-															</div>
-														</a>
-													</li>
-													<li class="notification notification-read">
-														<a>
-															<div class="image"><img src="../assets/img/avatar2.png" alt="Avatar"></div>
-															<div class="notification-info">
-																<div class="text"><span class="user-name">Jessica Caruso</span> accepted your invitation to join the team.</div><span class="date">2 min ago</span>
-															</div>
-														</a>
-													</li>
-													<li class="notification notification-unread">
-														<a>
-															<div class="image"><img src="../assets/img/avatar2.png" alt="Avatar"></div>
-															<div class="notification-info">
-																<div class="text"><span class="user-name">Jessica Caruso</span> accepted your invitation to join the team.</div><span class="date">2 min ago</span>
-															</div>
-														</a>
-													</li>
-													<li class="notification notification-read">
-														<a>
-															<div class="image"><img src="../assets/img/avatar2.png" alt="Avatar"></div>
-															<div class="notification-info">
-																<div class="text"><span class="user-name">Jessica Caruso</span> accepted your invitation to join the team.</div><span class="date">2 min ago</span>
-															</div>
-														</a>
-													</li>
-													<li class="notification notification-unread">
-														<a>
-															<div class="image"><img src="../assets/img/avatar2.png" alt="Avatar"></div>
-															<div class="notification-info">
-																<div class="text"><span class="user-name">Jessica Caruso</span> accepted your invitation to join the team.</div><span class="date">2 min ago</span>
-															</div>
-														</a>
-													</li>
-													<li class="notification notification-read">
-														<a>
-															<div class="image"><img src="../assets/img/avatar2.png" alt="Avatar"></div>
-															<div class="notification-info">
-																<div class="text"><span class="user-name">Jessica Caruso</span> accepted your invitation to join the team.</div><span class="date">2 min ago</span>
-															</div>
-														</a>
-													</li>
-													<li class="notification notification-unread">
-														<a>
-															<div class="image"><img src="../assets/img/avatar2.png" alt="Avatar"></div>
-															<div class="notification-info">
-																<div class="text"><span class="user-name">Jessica Caruso</span> accepted your invitation to join the team.</div><span class="date">2 min ago</span>
-															</div>
-														</a>
-													</li>
-													<li class="notification notification-read">
-														<a>
-															<div class="image"><img src="../assets/img/avatar2.png" alt="Avatar"></div>
-															<div class="notification-info">
-																<div class="text"><span class="user-name">Jessica Caruso</span> accepted your invitation to join the team.</div><span class="date">2 min ago</span>
-															</div>
-														</a>
-													</li>
-													<li class="notification notification-unread">
-														<a>
-															<div class="image"><img src="../assets/img/avatar2.png" alt="Avatar"></div>
-															<div class="notification-info">
-																<div class="text"><span class="user-name">Jessica Caruso</span> accepted your invitation to join the team.</div><span class="date">2 min ago</span>
-															</div>
-														</a>
-													</li>
-													<li class="notification notification-read">
-														<a>
-															<div class="image"><img src="../assets/img/avatar2.png" alt="Avatar"></div>
-															<div class="notification-info">
-																<div class="text"><span class="user-name">Jessica Caruso</span> accepted your invitation to join the team.</div><span class="date">2 min ago</span>
-															</div>
-														</a>
-													</li>
-													<li class="notification notification-unread">
-														<a>
-															<div class="image"><img src="../assets/img/avatar2.png" alt="Avatar"></div>
-															<div class="notification-info">
-																<div class="text"><span class="user-name">Jessica Caruso</span> accepted your invitation to join the team.</div><span class="date">2 min ago</span>
-															</div>
-														</a>
-													</li>
-													<li class="notification notification-read">
-														<a>
-															<div class="image"><img src="../assets/img/avatar2.png" alt="Avatar"></div>
-															<div class="notification-info">
-																<div class="text"><span class="user-name">Jessica Caruso</span> accepted your invitation to join the team.</div><span class="date">2 min ago</span>
-															</div>
-														</a>
-													</li>
-												</ul>
+												<ul id="InSiteNotificationWrapper"></ul>
 											</div>
 										</div>
 									</div>
@@ -539,7 +431,7 @@
 					</button>
 				</div>
 				<div id="Teams" class="tab">
-					<div id="TeamsWrapper">
+					<div id="TeamsWrapper" class="row">
 						<!--Autofilled-->
 					</div>
 					<button id="AddTeamFab" class="mdc-fab demo-fixed-fab mdc-ripple-upgraded mdc-fab--exited">
@@ -1184,6 +1076,8 @@
 
 	<!--Notification-->
 	<script src="assets/Notifications/header.js"></script>
+	<script src="assets/Notifications/SWNotifications.js"></script>
+	<script src="assets/Notifications/IHNotifications.js"></script>
 
 	<!--Parts Tabs-->
 	<script src="assets/Parts/FolderHistory.js"></script>

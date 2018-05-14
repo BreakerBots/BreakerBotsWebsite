@@ -83,11 +83,13 @@ Array.prototype.lforEach = function (callback, thisArg) { for (var i = 0; i < th
 //Get Avatar Url Through Callback
 function getAvatarUrl(uid, func, rem) {
 	var storageRef = firebase.storage().ref('Avatars/' + uid);
-	storageRef.getDownloadURL().then(function (url) {
-		func(url, rem); return; //Return the download url for the avatar
-	}).catch(function (error) {
-		if (error.code == "storage/object-not-found") {
-			func("../assets/img/iconT.png", rem); return; //Default Avatar Fallback
-		}
-	});
+	storageRef.getDownloadURL()
+		.catch(function (error) {
+			if (error.code == "storage/object-not-found") {
+				func("../assets/img/iconT.png", rem); return; //Default Avatar Fallback
+			}
+		})
+		.then(function (url) {
+			func(url, rem); return; //Return the download url for the avatar
+		});
 }

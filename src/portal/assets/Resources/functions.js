@@ -1,7 +1,9 @@
 //Remove item from array
 Array.prototype.remove = function (item) {
-	var index = this.indexOf(item);
-	if (index !== -1) this.splice(index, 1);
+	if (this.includes(item)) {
+		var index = this.indexOf(item);
+		if (index !== -1) this.splice(index, 1);
+	}
 }
 
 //Expanding textarea
