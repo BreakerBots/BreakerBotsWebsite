@@ -21,8 +21,38 @@ function updateTabs(tab) {
 		lastTab.addEventListener("animationend", function () { event.srcElement.classList.remove('exit'); });
 	}
 
+	//Update the selected item in menu
+	var LeftNavLists = document.querySelectorAll('.LeftNavList');
+	[].forEach.call(LeftNavLists, function (lnl) {
+		if (lnl.querySelector(".mdc-list-item--activated")) lnl.querySelector(".mdc-list-item--activated").classList.remove('mdc-list-item--activated');
+		if (lnl.querySelector('[href="#tab=' + tab + '"]')) { lnl.querySelector('[href="#tab=' + tab + '"]').classList.add('mdc-list-item--activated'); }
+	});
+
 	//Open the new tab and play animation
 	document.getElementById(tab).classList.add('active');
+}
+
+function clearTab() {
+	var lastTab = document.querySelector('.tab.active');
+	if (lastTab) {
+		//Send Exit Callback to tab handlers
+		sendTabExitCallback(lastTab.id);
+
+		//Exit the last tab and play animation
+		lastTab.classList.remove('active');
+		lastTab.classList.add('exit');
+		lastTab.addEventListener("animationend", function () { event.srcElement.classList.remove('exit'); });
+	}
+
+	//Update the selected item in menu
+	var LeftNavLists = document.querySelectorAll('.LeftNavList');
+	[].forEach.call(LeftNavLists, function (lnl) {
+		if (lnl.querySelector(".mdc-list-item--activated")) lnl.querySelector(".mdc-list-item--activated").classList.remove('mdc-list-item--activated');
+	});
+}
+
+function willHrefReload(href) {
+	return window.location.search != href;
 }
 
 //Update the tab on refresh

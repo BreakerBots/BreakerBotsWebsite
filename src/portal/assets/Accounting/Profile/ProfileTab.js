@@ -37,9 +37,17 @@ function startProfile() {
 		//doc.data().teams.length
 
 		//Download and display the profile picture
-		function refreshProfileAvatar() {
-			document.querySelector('#ProfilePicture').src = users.getAvatar(profileId);
-			if (onThisProfile) document.querySelector('#AvatarPicture').src = users.getAvatar(profileId);
+		function refreshProfileAvatar(avatar) {
+			if (avatar) {
+				getAvatarUrl(users.getCurrentUid(), function (url) {
+					document.querySelector('#ProfilePicture').src = url;
+					if (onThisProfile) document.querySelector('#AvatarPicture').src = url;
+				}, false);
+			}
+			else {
+				document.querySelector('#ProfilePicture').src = users.getAvatar(profileId);
+				if (onThisProfile) document.querySelector('#AvatarPicture').src = users.getAvatar(profileId);
+			}
 		} refreshProfileAvatar();
 		startProfile.refreshProfileAvatar = refreshProfileAvatar;
 

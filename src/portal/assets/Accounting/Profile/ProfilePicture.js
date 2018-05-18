@@ -65,10 +65,7 @@ fileButton.addEventListener('change', function (e) {
 							ProfilePictureDialogue.close();
 							document.querySelector('#avatarUploaderWrapper').clear();
 							document.querySelector('#avatarPreview').clear();
-							refreshAllUser();
-							authLoadedFullWait(function () {
-								startProfile.refreshProfileAvatar();
-							});
+							startProfile.refreshProfileAvatar(true);
 						}
 					);
 				});

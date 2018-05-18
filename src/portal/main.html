@@ -30,7 +30,7 @@
 	<script defer src="/__/firebase/init.js"></script>
 
 	<!--MDC-->
-	<link rel="stylesheet" href="../assets/mdc/material-components-web.css">
+	<link rel="stylesheet" href="../assets/mdc/material.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 	<!--Tab Showing And Hiding-->
@@ -43,1087 +43,1120 @@
 	<link rel="stylesheet" href="assets/Accounting/account.css" type="text/css" />
 
 	<!--CSS For the Main Header and Notifications-->
-	<link rel="stylesheet" href="assets/Notifications/header.css" type="text/css" />
+	<link rel="stylesheet" href="assets/Header/header.css" type="text/css" />
 	<link rel="manifest" href="assets/Notifications/manifest.json">
+
+	<style>
+		.ProfileEdit {
+			transition: all 0.2s;
+		}
+		.ProfileEdit:focus {
+			box-shadow: 0px 6px 6px -3px rgba(0, 0, 0, 0.2), 0px 10px 14px 1px rgba(0, 0, 0, 0.14), 0px 4px 18px 3px rgba(0, 0, 0, 0.12);
+		}
+	</style>
 </head>
 <body>
-	<div class="be-wrapper">
-		<nav class="navbar navbar-expand fixed-top be-top-header mdc-elevation--z2">
-			<div class="container-fluid">
-				<div class="be-navbar-header">
-					<a href="main.html">
-						<h1 style="display:inline; color: #d50000;">&nbsp; Breakerbots</h1>
-					</a>
-				</div>
-				<div class="be-right-navbar">
-					<ul class="nav navbar-nav float-right be-user-nav">
-						<!--User-->
-						<li class="nav-item dropdown">
-							<a onclick="toggleMenu('#profileMenu')" role="button" class="nav-link">
-								<img id="AvatarPicture" src="" alt="Avatar"><span class="user-name" id="UserNameL" style="color: white; transition: color 0.3s;"></span>
-							</a>
-							<div role="menu" class="dropdown-menu-c dropdown-menu mdc-elevation--z10" id="profileMenu">
-								<div class="user-info">
-									<div class="user-name" id="UserNameR"></div>
+	<header class="mdc-top-app-bar mdc-top-app-bar--fixed" style="z-index: 10;">
+		<div class="mdc-top-app-bar__row">
+			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+				<button id="OpenDrawer" class="material-icons mdc-top-app-bar__navigation-icon mdc-ripple-upgraded--unbounded mdc-ripple-upgraded">menu</button>
+				<img src="../assets/img/iconT.png" class="mdc-top-app-bar__navigation-icon" style="width: 64px; height: auto; padding-top: 8px; padding-bottom: 8px; margin-bottom: 0; margin-left: 10px;"/>
+				<span class="mdc-top-app-bar__title deleteOverflow" style="font-size: 2em; font-weight: 400; font-family: Roboto !important;">
+					&nbsp; Breakersite - Dashboard
+				</span>
+			</section>
+			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
+				<!--Apps-->
+				<button onclick="toggleMenu('#appsMenu', true)" class="material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" aria-label="Apps">apps</button>
+				<ul class="dropdown-menu-c dropdown-menu be-connections" id="appsMenu" style="padding: 0;">
+					<li class="mdc-elevation--z10">
+						<div class="list">
+							<div class="content">
+								<div class="row">
+									<div class="col mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">
+										<a style="border: none;" href="https://github.com/frc5104/" onclick="toggleMenu('#appsMenu', false)" class="connection-item"><img src="../assets/img/github.png" alt="Github"><span>GitHub</span></a>
+									</div>
+									<div class="col mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">
+										<a style="border: none;" href="https://breakerbots.slack.com/messages/C0HNZANTE/" onclick="toggleMenu('#appsMenu', false)" class="connection-item"><img src="../assets/img/slack.png" alt="Slack"><span>Slack</span></a>
+									</div>
 								</div>
-								<a class="dropdown-item" href="?profile=this#tab=Profile" onclick="toggleMenu('#profileMenu');"><span class="icon mdi mdi-face"></span> Account</a>
-								<div class="dropdown-item" onclick="firebase.auth().signOut(); toggleMenu('#profileMenu');"> <span class="icon mdi mdi-power"></span> Logout </div>
 							</div>
-						</li>
-					</ul>
-					<div class="page-title">
-						<span>Dashboard</span>
-					</div>
-					<ul class="nav navbar-nav float-right be-icons-nav">
-						<!--Apps-->
-						<li class="nav-item dropdown">
-							<a role="button" class="nav-link" onclick="toggleMenu('#appsMenu')"><span class="icon mdi mdi-apps headerDTI" style="transition: color 0.3s;"></span></a>
-							<ul class="dropdown-menu-c dropdown-menu be-connections" id="appsMenu" style="transform-origin: 65% 0%;">
-								<li class="mdc-elevation--z10">
-									<div class="list">
-										<div class="content">
-											<div class="row">
-												<div class="col">
-													<a href="https://github.com/frc5104/" onclick="toggleMenu('#appsMenu')" class="connection-item"><img src="../assets/img/github.png" alt="Github"><span>GitHub</span></a>
+						</div>
+					</li>
+				</ul>
+
+				<!--Notifications-->
+				<button onclick="toggleNotificationMenu(true); toggleMenu('#notanimWidthTarget', true);" class="material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" aria-label="Notifications">notifications</button>
+				<ul class="be-notifications dropdown-menu-c dropdown-menu notification-menu" id="notanimWidthTarget" style="padding: 0;">
+					<li class="mdc-elevation--z10" id="NotificationBox">
+						<div class="title" style="max-height: 50px !important;">
+							Notifications
+							<span class="badge badge-pill">0</span>
+							<a onclick="getNotificationPermission()" id="MainNotificationIcon" class="icon mdi mdi-notifications-off" style="font-size: 140%; margin-left: 10px; transform: translate(0, 3px);"></a>
+						</div>
+						<div class="list">
+							<div class="be-scroller" id="notanimHeightTarget">
+								<div class="content">
+									<ul id="InSiteNotificationWrapper">
+										<li class="notification notification-unread">
+											<a>
+												<div class="image"><img src="../assets/img/avatar2.png" alt="Avatar"></div>
+												<div class="notification-info">
+													<div class="text"><span class="user-name">Jessica Caruso</span> accepted your invitation to join the team.</div><span class="date">2 min ago</span>
 												</div>
-												<div class="col">
-													<a href="https://breakerbots.slack.com/messages/C0HNZANTE/" onclick="toggleMenu('#appsMenu')" class="connection-item"><img src="../assets/img/slack.png" alt="Slack"><span>Slack</span></a>
+											</a>
+										</li>
+										<li class="notification notification-read">
+											<a>
+												<div class="image"><img src="../assets/img/avatar2.png" alt="Avatar"></div>
+												<div class="notification-info">
+													<div class="text"><span class="user-name">Jessica Caruso</span> accepted your invitation to join the team.</div><span class="date">2 min ago</span>
 												</div>
-											</div>
-										</div>
-									</div>
-								</li>
-							</ul>
-						</li>
-						<!--Notifications-->
-						<li class="nav-item dropdown">
-							<a role="button" class="nav-link" onclick="toggleNotificationMenu()">
-								<span class="icon mdi mdi-notifications headerDTI" style="transition: color 0.3s;"></span>
-								<span class="indicator" id="MainNotificationIndicator" hidden></span>
-							</a>
-							<ul class="be-notifications dropdown-menu-c dropdown-menu notification-menu" id="notanimWidthTarget">
-								<li class="mdc-elevation--z10" id="NotificationBox">
-									<div class="title" style="max-height: 50px !important;">
-										Notifications
-										<span class="badge badge-pill">0</span>
-										<a onclick="getNotificationPermission()" id="MainNotificationIcon" class="icon mdi mdi-notifications-off" style="font-size: 140%; margin-left: 10px; transform: translate(0, 3px);"></a>
-									</div>
-									<div class="list">
-										<div class="be-scroller" id="notanimHeightTarget">
-											<div class="content">
-												<ul id="InSiteNotificationWrapper"></ul>
-											</div>
-										</div>
-									</div>
-									<div class="footer"> <a onclick="notanimToggle()">View all notifications</a></div>
-								</li>
-							</ul>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</nav>
-		<div class="be-left-sidebar mdc-elevation--z4" style="height: 100%;">
-			<div class="left-sidebar-wrapper">
-				<a class="left-sidebar-toggle">Menu</a>
-				<div class="left-sidebar-spacer">
-					<div class="left-sidebar-scroll">
-						<div class="left-sidebar-content">
-							<ul class="sidebar-elements">
-								<li class="divider">Menu</li>
-								<li class="active">
-									<a href="#tab=General"><i class="icon mdi mdi-image" style="color: #d50000;"></i><span style="color: #d50000;">General</span></a>
-								</li>
-								<li class="parent">
-									<a><i class="icon mdi mdi-wrench" style="color: #d50000;"></i><span style="color: #d50000;">Parts</span></a>
-									<ul class="sub-menu">
-										<li class="active">
-											<a href="#tab=PartsAll" style="color: #d50000;">All</a>
-										</li>
-										<li>
-											<a href="#tab=PartsOrdered" style="color: #d50000;">Ordered</a>
-										</li>
-										<li>
-											<a href="#tab=PartsArchived" style="color: #d50000;">Archived</a>
+											</a>
 										</li>
 									</ul>
-								</li>
-								<li class="active">
-									<a href="#tab=Todo"><i class="icon mdi mdi-format-list-bulleted" style="color: #d50000;"></i><span style="color: #d50000;">Todo</span></a>
-								</li>
-								<li class="active">
-									<a href="#tab=Calendar"><i class="icon mdi mdi-calendar" style="color: #d50000;"></i><span style="color: #d50000;">Calendar</span></a>
-								</li>
-								<li class="active">
-									<a href="#tab=Github"><i class="icon mdi mdi-github" style="color: #d50000;"></i><span style="color: #d50000;">Github</span></a>
-								</li>
-								<li class="active">
-									<a href="#tab=Teams"><i class="icon mdi mdi-accounts-alt" style="color: #d50000;"></i><span style="color: #d50000;">Teams</span></a>
-								</li>
-							</ul>
+								</div>
+							</div>
 						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="be-content" style="height: 100%;">
-			<!--Loader-->
-			<div id="MainLoader" role="progressbar" class="mdc-linear-progress mdc-linear-progress--indeterminate" style="opacity: 0; transition: opacity 0.5s ease; transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);"> <div class="mdc-linear-progress__buffering-dots"></div> <div class="mdc-linear-progress__buffer"></div> <div class="mdc-linear-progress__bar mdc-linear-progress__primary-bar"> <span class="mdc-linear-progress__bar-inner"></span> </div> <div class="mdc-linear-progress__bar mdc-linear-progress__secondary-bar"> <span class="mdc-linear-progress__bar-inner"></span> </div> </div>
-			<div class="main-content container-fluid" style="overflow-x: hidden; overflow-y: scroll; position: relative; height: 100vh; ">
-				<!--Tabs-->
-				<div id="General" class="tab">
-					<h1>General</h1>
-				</div>
-				<div id="PartsAll" class="tab">
-					<div class="row" id="PartsAllWrapper">
-						<!--Parts Wrapper Start-->
-						<div class="col-lg-6">
+						<div class="footer"> <a onclick="notanimToggle()">View all notifications</a></div>
+					</li>
+				</ul>
 
+
+				<!--Avatar-->
+				<button id="AvatarButton" style="clear: both; position: relative;" onclick="toggleMenu('#profileMenu', false); currentMenuAnchors['#profileMenu'] = this; updateMenuAnchors();" class="mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded">
+					<img id="AvatarPicture" src="../assets/img/iconT.png" style="width: 100%; border-radius: 50%; transform: scale(1.6);" />
+				</button>
+				<div role="menu" class="dropdown-menu-c dropdown-menu mdc-elevation--z10" id="profileMenu" style="width: 300px; padding: 0; border: 0; position: absolute;">
+					<div id="header">
+						<img id="profileMenu-Avatar" style="border-radius: 50%; width: 30%; margin-left: 4%; margin-top: 3%;" alt="profilePicture" />
+						<div style="width: 50%; text-align: right; float: right; margin-right: 10%;">
+							<h2 id="profileMenu-Name" style="margin-bottom: 5px;"></h2>
+							<p id="profileMenu-Role"></p>
 						</div>
-						<!--Parts Wrapper End-->
+						<div style="clear: both"></div>
 					</div>
-					<button id="AddFolderFab" class="mdc-fab demo-fixed-fab mdc-ripple-upgraded mdc-fab--exited">
-						<span class="mdc-fab__icon">
-							<i class="material-icons">add</i>
-						</span>
-					</button>
+					<div id="footer" style="background-color: rgba(0 ,0, 0, 0.1); height: 50px; margin-top: 3%;">
+						<button onclick="toggleMenu('#profileMenu'); if (willHrefReload('?profile=this')) { clearTab(); setTimeout(function () { location.href = '?profile=this#tab=Profile'; }, 500); } else location.href = '?profile=this#tab=Profile';" class="mdc-button mdc-button--raised mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" style="margin-top: 6px; margin-left: 6px; background-color: rgb(160, 160, 160);">Edit Account</button>
+						<button onclick="toggleMenu('#profileMenu'); firebase.auth().signOut();" class="mdc-button mdc-button--raised mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" style="float: right; margin-top: 6px; margin-right: 6px; background-color: rgb(214, 50, 50);">Signout</button>
+					</div>
 				</div>
-				<div id="PartsOrdered" class="tab">
-					<div class="row">
-						<!--Parts Wrapper Start-->
-						<div style="width: 100%;">
-							<div class="card card-table">
-								<div class="card-body">
-									<div class="table-responsive">
-										<table class="table table-striped">
-											<thead>
+			</section>
+		</div>
+	</header>
+	<main>
+		<!--Left Nav Drawer (Collabsible and Permament)-->
+		<aside class="mdc-drawer mdc-drawer--temporary mdc-typography" style="z-index: 9;"></aside>
+		<div class="permanent-drawer mdc-elevation--z10" style="width: 320px; position: fixed; left: 0; z-index: 9; height: 100%; transition: transform 0.5s, top 0.5s; transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);">
+			<nav class="mdc-drawer__drawer">
+				<h1 style="font-family: Roboto !important; text-align: center; font-size: 1.17em;">Menu (User On Mobile)</h1>
+				<nav class="mdc-drawer__content mdc-list LeftNavList">
+					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" href="#tab=General">
+						<i class="material-icons mdc-list-item__graphic">image</i>General
+					</a>
+					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="toggleNavSubMenu('#PartsSubmenu')">
+						<i class="material-icons mdc-list-item__graphic mdi-wrench"></i>Parts
+					</a>
+					<div class="side-nav__submenu-wrapper">
+						<ul class="side-nav__submenu" id="PartsSubmenu">
+							<li>
+								<a href="#tab=PartsAll" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded" tabindex="0">
+									All
+								</a>
+							</li>
+							<li>
+								<a href="#tab=PartsOrdered" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded" tabindex="0">
+									Ordered
+								</a>
+							</li>
+							<li>
+								<a href="#tab=PartsArchived" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded" tabindex="0">
+									Archived
+								</a>
+							</li>
+						</ul>
+					</div>
+					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" href="#tab=Todo">
+						<i class="material-icons mdc-list-item__graphic">format_list_numbered </i>Todo
+					</a>
+					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" href="#tab=Calendar">
+						<i class="material-icons mdc-list-item__graphic">calendar_today</i>Calendar
+					</a>
+					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" href="#tab=Github">
+						<i class="material-icons mdi-github mdc-list-item__graphic"></i>Github
+					</a>
+					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" href="#tab=Teams">
+						<i class="material-icons mdc-list-item__graphic">supervisor_account</i>Teams
+					</a>
+				</nav>
+			</nav>
+		</div>
+
+		<!--Loader-->
+		<div id="MainLoader" role="progressbar" class="mdc-linear-progress mdc-linear-progress--indeterminate" style="opacity: 0; transition: opacity 0.5s ease; transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);"> <div class="mdc-linear-progress__buffering-dots"></div> <div class="mdc-linear-progress__buffer"></div> <div class="mdc-linear-progress__bar mdc-linear-progress__primary-bar"> <span class="mdc-linear-progress__bar-inner"></span> </div> <div class="mdc-linear-progress__bar mdc-linear-progress__secondary-bar"> <span class="mdc-linear-progress__bar-inner"></span> </div> </div>
+
+		<div class="page-content" style="margin-left: 320px; padding-left: 25px; transition: margin-left 0.5s;">
+			<div class="" style="height: 100%;">
+				<div style="overflow-x: hidden; overflow-y: scroll; position: relative; height: 100vh; ">
+					<!--Tabs-->
+					<div id="General" class="tab">
+						<h1>General</h1>
+					</div>
+					<div id="PartsAll" class="tab">
+						<div class="row" id="PartsAllWrapper">
+							<!--Parts Wrapper Start-->
+							<div class="col-lg-6">
+
+							</div>
+							<!--Parts Wrapper End-->
+						</div>
+						<button id="AddFolderFab" class="mdc-fab demo-fixed-fab mdc-ripple-upgraded mdc-fab--exited">
+							<span class="mdc-fab__icon">
+								<i class="material-icons">add</i>
+							</span>
+						</button>
+					</div>
+					<div id="PartsOrdered" class="tab">
+						<div class="row">
+							<!--Parts Wrapper Start-->
+							<div style="width: 100%;">
+								<div class="card card-table">
+									<div class="card-body">
+										<div class="table-responsive">
+											<table class="table table-striped">
+												<thead>
+													<tr>
+														<th>Item</th>
+														<th>Desc</th>
+														<th>Priority</th>
+														<th>Part Number</th>
+														<th class="number">Quantity</th>
+														<th>Unit</th>
+														<th class="number">Unit Price</th>
+														<th class="number">Total Price</th>
+														<th>Status</th>
+														<th>Folder</th>
+													</tr>
+												</thead>
+												<tbody id="PartsOrderedWrapper"></tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="PartsArchived" class="tab">
+						<div class="row" id="PartsArchiveWrapper">
+							<!--Parts Wrapper Start-->
+							<div class="col-lg-6">
+
+							</div>
+							<!--Parts Wrapper End-->
+						</div>
+					</div>
+					<div id="Todo" class="tab">
+						<h1>Todo</h1>
+					</div>
+					<div id="Calendar" class="tab">
+						<div id="calendar"></div>
+					</div>
+					<div id="Github" class="tab">
+						<div class="row" id="GithubRows">
+							<div class="col-lg-4">
+								<div class="card card-contrast card-table">
+									<div class="card-header card-header-contrast">Recent Commits</div>
+									<div class="card-body" id="GithubRecentCommitsWrapper">
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="Profile" class="tab">
+						<div class="row">
+							<div class="col-lg-5">
+								<!--User Display-->
+								<div class="user-display">
+									<div class="user-display-bg">
+										<img src="../assets/img/user-profile-display.png" alt="Profile Background">
+									</div>
+									<div class="user-display-bottom">
+										<div class="user-display-avatar">
+											<img class="user-display-avatar-image" src="" alt="Avatar" id="ProfilePicture">
+											<button class="user-display-avatar-overlay" id="ProfileEditPictureButton" hidden>
+												<span style="color: rgb(170,170,170);"><i style="display: block; text-align: center; font-size: 48px; line-height: 2.3;" class="material-icons">photo_camera</i></span>
+											</button>
+										</div>
+										<div class="user-display-info">
+											<div class="name">
+												<input id="PE-Name" class="ProfileEdit" type="text" value="" style="border: none; width: 100%;" readonly />
+											</div>
+											<div class="nick">
+												<span class="mdi mdi-account" style="display: inline;"></span>
+												<input id="PE-User" class="ProfileEdit" type="text" value="" style="border: none; width: 80%; display: inline-block;" readonly />
+											</div>
+										</div>
+										<div class="row user-display-details">
+											<div class="col-4">
+												<div class="title">Clearace</div>
+												<div class="counter" id="PE-Clearance"></div>
+											</div>
+											<div class="col-4">
+												<div class="title">Tasks</div>
+												<div class="counter" id="PE-Tasks">0</div>
+											</div>
+											<div class="col-4">
+												<div class="title">Contributions</div>
+												<div class="counter" id="PE-Contributions">0</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!--About Me-->
+								<div class="user-info-list card">
+									<div class="card-header card-header-divider">
+										About Me
+										<span class="card-subtitle">
+											<textarea id="PE-Desc" class="ProfileEdit" type="text" rows="1" spellcheck="false" style="border: none; width: 100%; resize: none; outline: none; overflow: hidden;" readonly></textarea>
+										</span>
+									</div>
+									<div class="card-body">
+										<table class="no-border no-strip skills">
+											<tbody class="no-border-x no-border-y">
 												<tr>
-													<th>Item</th>
-													<th>Desc</th>
-													<th>Priority</th>
-													<th>Part Number</th>
-													<th class="number">Quantity</th>
-													<th>Unit</th>
-													<th class="number">Unit Price</th>
-													<th class="number">Total Price</th>
-													<th>Status</th>
-													<th>Folder</th>
+													<td class="icon">
+														<span class="mdi mdi-case"></span>
+													</td>
+													<td class="item">
+														Role
+														<span class="icon s7-portfolio"></span>
+													</td>
+													<td>
+														<input id="PE-Role" class="ProfileEdit" type="text" value="" style="border: none; width: 100%;" readonly />
+													</td>
 												</tr>
-											</thead>
-											<tbody id="PartsOrderedWrapper"></tbody>
+												<tr>
+													<td class="icon">
+														<span class="mdi mdi-accounts-alt"></span>
+													</td>
+													<td class="item">
+														Teams
+														<span class="icon s7-portfolio"></span>
+													</td>
+													<td>
+														<input id="PE-Teams" type="text" value="" style="border: none; width: 100%;" readonly />
+													</td>
+												</tr>
+												<tr>
+													<td class="icon">
+														<span class="mdi mdi-graduation-cap"></span>
+													</td>
+													<td class="item">
+														Grade
+														<span class="icon s7-gift"></span>
+													</td>
+													<td>
+														<input id="PE-Grade" class="ProfileEdit" type="text" value="" style="border: none; width: 100%;" readonly />
+													</td>
+												</tr>
+												<tr>
+													<td class="icon">
+														<span class="mdi mdi-smartphone-android"></span>
+													</td>
+													<td class="item">
+														Mobile
+														<span class="icon s7-phone"></span>
+													</td>
+													<td>
+														<input id="PE-Phone" class="ProfileEdit" type="text" value="" style="border: none; width: 100%;" readonly />
+													</td>
+												</tr>
+												<tr>
+													<td class="icon">
+														<span class="mdi mdi-globe-alt"></span>
+													</td>
+													<td class="item">
+														Email
+														<span class="icon s7-map-marker"></span>
+													</td>
+													<td>
+														<input id="PE-Email" class="ProfileEdit" type="text" value="" style="border: none; width: 100%;" readonly />
+													</td>
+												</tr>
+												<tr>
+													<td class="icon">
+														<img style="filter: grayscale(100%);" src="../assets/img/slack_logo.png" class="mdi" width="18" />
+													</td>
+													<td class="item">
+														Slack
+														<span class="icon s7-map-marker"></span>
+													</td>
+													<td>
+														<input id="PE-Slack" class="ProfileEdit" type="text" value="" style="border: none; width: 100%;" readonly />
+													</td>
+												</tr>
+												<tr>
+													<td class="icon">
+														<span class="mdi mdi-github"></span>
+													</td>
+													<td class="item">
+														Github
+														<span class="icon s7-map-marker"></span>
+													</td>
+													<td>
+														<input id="PE-Github" class="ProfileEdit" type="text" value="" style="border: none; width: 100%;" readonly />
+													</td>
+												</tr>
+											</tbody>
 										</table>
 									</div>
 								</div>
 							</div>
-						</div>
-					</div>
-				</div>
-				<div id="PartsArchived" class="tab">
-					<div class="row" id="PartsArchiveWrapper">
-						<!--Parts Wrapper Start-->
-						<div class="col-lg-6">
-
-						</div>
-						<!--Parts Wrapper End-->
-					</div>
-				</div>
-				<div id="Todo" class="tab">
-					<h1>Todo</h1>
-				</div>
-				<div id="Calendar" class="tab">
-					<div id="calendar"></div>
-				</div>
-				<div id="Github" class="tab">
-					<div class="row" id="GithubRows">
-						<div class="col-lg-4">
-							<div class="card card-contrast card-table">
-								<div class="card-header card-header-contrast">Recent Commits</div>
-								<div class="card-body" id="GithubRecentCommitsWrapper">
-
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div id="Profile" class="tab">
-					<div class="row">
-						<div class="col-lg-5">
-							<!--User Display-->
-							<div class="user-display">
-								<div class="user-display-bg">
-									<img src="../assets/img/user-profile-display.png" alt="Profile Background">
-								</div>
-								<div class="user-display-bottom">
-									<div class="user-display-avatar">
-										<img class="user-display-avatar-image" src="" alt="Avatar" id="ProfilePicture">
-										<button class="user-display-avatar-overlay" id="ProfileEditPictureButton" hidden>
-											<span style="color: rgb(170,170,170);"><i style="display: block; text-align: center; font-size: 48px; line-height: 2.3;" class="material-icons">photo_camera</i></span>
-										</button>
+							<div class="col-lg-6">
+								<!--Latest Activity-->
+								<div class="card">
+									<div class="card-header card-header-divider">
+										Latest Activity
+										<span class="card-subtitle">The Users History</span>
 									</div>
-									<div class="user-display-info">
-										<div class="name">
-											<input id="PE-Name" class="ProfileEdit" type="text" value="" style="border: none; width: 100%;" readonly />
-										</div>
-										<div class="nick">
-											<span class="mdi mdi-account" style="display: inline;"></span>
-											<input id="PE-User" class="ProfileEdit" type="text" value="" style="border: none; width: 80%; display: inline-block;" readonly />
-										</div>
+									<div class="card-body">
+										<ul class="user-timeline">
+											<li class="latest">
+												<div class="user-timeline-date">Just Now</div>
+												<div class="user-timeline-title">Create New Page</div>
+												<div class="user-timeline-description">Quisque sed est felis. Vestibulum lectus nulla, maximus in eros non, tristique consectetur lorem. Nulla molestie sem quis imperdiet facilisis</div>
+											</li>
+											<li>
+												<div class="user-timeline-date">Today - 15:35</div>
+												<div class="user-timeline-title">Back Up Theme</div>
+												<div class="user-timeline-description">Quisque sed est felis. Vestibulum lectus nulla, maximus in eros non, tristique consectetur lorem. Nulla molestie sem quis imperdiet facilisis</div>
+											</li>
+											<li>
+												<div class="user-timeline-date">Yesterday - 10:41</div>
+												<div class="user-timeline-title">Changes In The Structure</div>
+												<div class="user-timeline-description">Quisque sed est felis. Vestibulum lectus nulla, maximus in eros non, tristique consectetur lorem. Nulla molestie sem quis imperdiet facilisis</div>
+											</li>
+										</ul>
 									</div>
-									<div class="row user-display-details">
-										<div class="col-4">
-											<div class="title">Clearace</div>
-											<div class="counter" id="PE-Clearance"></div>
-										</div>
-										<div class="col-4">
-											<div class="title">Tasks</div>
-											<div class="counter" id="PE-Tasks">0</div>
-										</div>
-										<div class="col-4">
-											<div class="title">Contributions</div>
-											<div class="counter" id="PE-Contributions">0</div>
-										</div>
+								</div>
+								<!--Contribution Graph-->
+								<div class="card">
+									<div class="card-header card-header-divider">
+										<span class="title">Contribution History</span>
+										<span class="card-subtitle">The Users Contribution History Accross Breakersite and Github</span>
+									</div>
+									<div class="card-body">
+										<canvas id="line-chart" style="display: block; width: 341px; height: 170px;" width="895" height="446" class="chartjs-render-monitor"></canvas>
 									</div>
 								</div>
 							</div>
-							<!--About Me-->
-							<div class="user-info-list card">
-								<div class="card-header card-header-divider">
-									About Me
-									<span class="card-subtitle">
-										<textarea id="PE-Desc" class="ProfileEdit" type="text" rows="1" spellcheck="false" style="border: none; width: 100%; resize: none; outline: none; overflow: hidden;" readonly></textarea>
-									</span>
-								</div>
-								<div class="card-body">
-									<table class="no-border no-strip skills">
-										<tbody class="no-border-x no-border-y">
-											<tr>
-												<td class="icon">
-													<span class="mdi mdi-case"></span>
-												</td>
-												<td class="item">
-													Role
-													<span class="icon s7-portfolio"></span>
-												</td>
-												<td>
-													<input id="PE-Role" class="ProfileEdit" type="text" value="" style="border: none; width: 100%;" readonly />
-												</td>
-											</tr>
-											<tr>
-												<td class="icon">
-													<span class="mdi mdi-accounts-alt"></span>
-												</td>
-												<td class="item">
-													Teams
-													<span class="icon s7-portfolio"></span>
-												</td>
-												<td>
-													<input id="PE-Teams" type="text" value="" style="border: none; width: 100%;" readonly />
-												</td>
-											</tr>
-											<tr>
-												<td class="icon">
-													<span class="mdi mdi-graduation-cap"></span>
-												</td>
-												<td class="item">
-													Grade
-													<span class="icon s7-gift"></span>
-												</td>
-												<td>
-													<input id="PE-Grade" class="ProfileEdit" type="text" value="" style="border: none; width: 100%;" readonly />
-												</td>
-											</tr>
-											<tr>
-												<td class="icon">
-													<span class="mdi mdi-smartphone-android"></span>
-												</td>
-												<td class="item">
-													Mobile
-													<span class="icon s7-phone"></span>
-												</td>
-												<td>
-													<input id="PE-Phone" class="ProfileEdit" type="text" value="" style="border: none; width: 100%;" readonly />
-												</td>
-											</tr>
-											<tr>
-												<td class="icon">
-													<span class="mdi mdi-globe-alt"></span>
-												</td>
-												<td class="item">
-													Email
-													<span class="icon s7-map-marker"></span>
-												</td>
-												<td>
-													<input id="PE-Email" class="ProfileEdit" type="text" value="" style="border: none; width: 100%;" readonly />
-												</td>
-											</tr>
-											<tr>
-												<td class="icon">
-													<img style="filter: grayscale(100%);" src="../assets/img/slack_logo.png" class="mdi" width="18" />
-												</td>
-												<td class="item">
-													Slack
-													<span class="icon s7-map-marker"></span>
-												</td>
-												<td>
-													<input id="PE-Slack" class="ProfileEdit" type="text" value="" style="border: none; width: 100%;" readonly />
-												</td>
-											</tr>
-											<tr>
-												<td class="icon">
-													<span class="mdi mdi-github"></span>
-												</td>
-												<td class="item">
-													Github
-													<span class="icon s7-map-marker"></span>
-												</td>
-												<td>
-													<input id="PE-Github" class="ProfileEdit" type="text" value="" style="border: none; width: 100%;" readonly />
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
 						</div>
-						<div class="col-lg-6">
-							<!--Latest Activity-->
-							<div class="card">
-								<div class="card-header card-header-divider">
-									Latest Activity
-									<span class="card-subtitle">The Users History</span>
-								</div>
-								<div class="card-body">
-									<ul class="user-timeline">
-										<li class="latest">
-											<div class="user-timeline-date">Just Now</div>
-											<div class="user-timeline-title">Create New Page</div>
-											<div class="user-timeline-description">Quisque sed est felis. Vestibulum lectus nulla, maximus in eros non, tristique consectetur lorem. Nulla molestie sem quis imperdiet facilisis</div>
-										</li>
-										<li>
-											<div class="user-timeline-date">Today - 15:35</div>
-											<div class="user-timeline-title">Back Up Theme</div>
-											<div class="user-timeline-description">Quisque sed est felis. Vestibulum lectus nulla, maximus in eros non, tristique consectetur lorem. Nulla molestie sem quis imperdiet facilisis</div>
-										</li>
-										<li>
-											<div class="user-timeline-date">Yesterday - 10:41</div>
-											<div class="user-timeline-title">Changes In The Structure</div>
-											<div class="user-timeline-description">Quisque sed est felis. Vestibulum lectus nulla, maximus in eros non, tristique consectetur lorem. Nulla molestie sem quis imperdiet facilisis</div>
-										</li>
-									</ul>
-								</div>
-							</div>
-							<!--Contribution Graph-->
-							<div class="card">
-								<div class="card-header card-header-divider">
-									<span class="title">Contribution History</span>
-									<span class="card-subtitle">The Users Contribution History Accross Breakersite and Github</span>
-								</div>
-								<div class="card-body">
-									<canvas id="line-chart" style="display: block; width: 341px; height: 170px;" width="895" height="446" class="chartjs-render-monitor"></canvas>
-								</div>
-							</div>
-						</div>
+						<button id="EditAccountFab" class="mdc-fab demo-fixed-fab mdc-ripple-upgraded mdc-fab--exited" style="--mdc-ripple-fg-size:33.6px; --mdc-ripple-fg-scale:2.65464; --mdc-ripple-fg-translate-start:14.2px, 16.2px; --mdc-ripple-fg-translate-end:11.2px, 11.2px;">
+							<span class="mdc-fab__icon">
+								<i class="material-icons" id="EditAccountFabIcon">save</i>
+							</span>
+						</button>
 					</div>
-					<button id="EditAccountFab" class="mdc-fab demo-fixed-fab mdc-ripple-upgraded mdc-fab--exited" style="--mdc-ripple-fg-size:33.6px; --mdc-ripple-fg-scale:2.65464; --mdc-ripple-fg-translate-start:14.2px, 16.2px; --mdc-ripple-fg-translate-end:11.2px, 11.2px;">
-						<span class="mdc-fab__icon">
-							<i class="material-icons" id="EditAccountFabIcon">save</i>
-						</span>
-					</button>
-				</div>
-				<div id="Teams" class="tab">
-					<div id="TeamsWrapper" class="row">
-						<!--Autofilled-->
-					</div>
-					<button id="AddTeamFab" class="mdc-fab demo-fixed-fab mdc-ripple-upgraded mdc-fab--exited">
-						<span class="mdc-fab__icon">
-							<i class="material-icons">add</i>
-						</span>
-					</button>
-				</div>
-			</div>
-		</div><!--End Of Content-->
-	</div><!--End Of Wrapper-->
-	<!--Parts Dialogues-->
-	<div>
-		<!--Create Folder Dialogue-->
-		<aside id="create-folder-dialog"
-			   class="mdc-dialog"
-			   role="alertdialog"
-			   aria-labelledby="my-mdc-dialog-label"
-			   aria-describedby="my-mdc-dialog-description">
-			<div class="mdc-dialog__surface">
-				<header class="mdc-dialog__header">
-					<h2 id="create-folder-mdc-dialog-label" class="mdc-dialog__header__title">
-						Create A New Project / Folder
-					</h2>
-				</header>
-				<form id="CreateFolderForm">
-					<section id="create-folder-mdc-dialog-description" class="mdc-dialog__body">
-						<input id="CreateFolderInput" type="text" class="form-control" placeholder="Enter A Name" required="">
-					</section>
-					<footer class="mdc-dialog__footer">
-						<button type="submit" class="btn btn-space btn-primary">Create Folder</button>
-						<button type="button" id="CreateFolderCancel" class="btn btn-space btn-secondary">Cancel</button>
-					</footer>
-				</form>
-			</div>
-			<div class="mdc-dialog__backdrop"></div>
-		</aside>
-		<!--Edit Folder Dialogue-->
-		<aside id="edit-folder-dialog"
-			   class="mdc-dialog"
-			   role="alertdialog"
-			   aria-labelledby="my-mdc-dialog-label"
-			   aria-describedby="my-mdc-dialog-description">
-			<div class="mdc-dialog__surface">
-				<header class="mdc-dialog__header">
-					<h2 id="edit-folder-mdc-dialog-label" class="mdc-dialog__header__title">
-						Edit Project / Folder
-					</h2>
-				</header>
-				<form id="EditFolderForm">
-					<section id="edit-folder-mdc-dialog-description" class="mdc-dialog__body">
-						<input id="EditFolderInput" type="text" class="form-control" placeholder="Enter A Name" required="">
-					</section>
-					<footer class="mdc-dialog__footer">
-						<button type="submit" class="btn btn-space btn-primary">Submit</button>
-						<button type="button" id="EditFolderCancel" class="btn btn-space btn-secondary">Cancel</button>
-					</footer>
-				</form>
-			</div>
-			<div class="mdc-dialog__backdrop"></div>
-		</aside>
-		<!--Delete Folder Dialogue-->
-		<aside id="delete-folder-dialog"
-			   class="mdc-dialog"
-			   role="alertdialog"
-			   aria-labelledby="my-mdc-dialog-label"
-			   aria-describedby="my-mdc-dialog-description">
-			<div class="mdc-dialog__surface">
-				<form id="DeleteFolderForm">
-					<div class="modal-body">
-						<div class="text-center">
-							<div class="text-success">
-								<span class="modal-main-icon mdi mdi-close" style="color: red;"></span>
-							</div>
-							<h3 id="DeleteFolderText">Are You Sure You Want To Delete This Project/Folder?</h3>
-							<p>Archiving This Project Would Be Recomended</p>
-							<div class="mt-8">
-								<button type="button" id="DeleteFolderCancel" class="btn btn-space btn-secondary">Cancel</button>
-								<button type="submit" class="btn btn-space btn-danger">Proceed</button>
-							</div>
+					<div id="Teams" class="tab">
+						<div id="TeamsWrapper" class="row">
+							<!--Autofilled-->
 						</div>
-					</div>
-				</form>
-			</div>
-			<div class="mdc-dialog__backdrop"></div>
-		</aside>
-		<!--Archive Folder Dialogue-->
-		<aside id="archive-folder-dialog"
-			   class="mdc-dialog"
-			   role="alertdialog"
-			   aria-labelledby="my-mdc-dialog-label"
-			   aria-describedby="my-mdc-dialog-description">
-			<div class="mdc-dialog__surface">
-				<form id="ArchiveFolderForm">
-					<div class="modal-body">
-						<div class="text-center">
-							<div class="text-success">
-								<span class="modal-main-icon mdi mdi-archive" style="color: red;"></span>
-							</div>
-							<h3 id="ArchiveFolderText">Are You Sure You Want To Archive This Project/Folder?</h3>
-							<p>This will basically mark it as finished.</p>
-							<div class="mt-8">
-								<button type="button" id="ArchiveFolderCancel" class="btn btn-space btn-secondary">Cancel</button>
-								<button type="submit" class="btn btn-space btn-danger">Proceed</button>
-							</div>
-						</div>
-					</div>
-				</form>
-			</div>
-			<div class="mdc-dialog__backdrop"></div>
-		</aside>
-		<!--History Folderr Dialogue-->
-		<aside id="history-folder-dialog"
-			   class="mdc-dialog"
-			   role="alertdialog"
-			   aria-labelledby="my-mdc-dialog-label"
-			   aria-describedby="my-mdc-dialog-description">
-			<div class="mdc-dialog__surface">
-				<div>
-					<div class="card card-table mdc-dialog__body--scrollable" style="max-height: 60vh;">
-						<div class="card-header">
-							<div class="title" id="FolderHistoryTitle">History</div>
-						</div>
-						<div class="card-body table-responsive">
-							<table class="table table-striped table-hover" style="max-width: 100%; overflow-x: hidden;">
-								<thead>
-									<tr>
-										<th style="width: 20%">User</th>
-										<th>Change</th>
-										<th style="width: 20%">Time</th>
-									</tr>
-								</thead>
-								<tbody id="HistoryFolderContentWrapper">
-									<tr>
-										<td>Dweb 1</td>
-										<td>Added ....</td>
-										<td>Aug 16, 2016</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
+						<button id="AddTeamFab" class="mdc-fab demo-fixed-fab mdc-ripple-upgraded mdc-fab--exited">
+							<span class="mdc-fab__icon">
+								<i class="material-icons">add</i>
+							</span>
+						</button>
 					</div>
 				</div>
-				<button id="HistoryFolderCancel" class="btn btn-space btn-secondary">Close</button>
-			</div>
-			<div class="mdc-dialog__backdrop"></div>
-		</aside>
-		<!--Create Part Dialogue-->
-		<aside id="create-part-dialog"
-			   class="mdc-dialog"
-			   role="alertdialog"
-			   aria-labelledby="my-mdc-dialog-label"
-			   aria-describedby="my-mdc-dialog-description">
-			<div class="mdc-dialog__surface">
-				<header class="mdc-dialog__header">
-					<h2 id="create-folder-mdc-dialog-label" class="mdc-dialog__header__title">
-						Add A Part
-					</h2>
-				</header>
-				<form id="CreatePartForm" class="mdc-dialog__body mdc-dialog__body--scrollable" style="max-height: 60vh;">
-					<section id="create-folder-mdc-dialog-description">
-						<br />
-						<div class="form-group autocomplete" style="width: 100%;">
-							<label for="CreatePartInput">Name</label>
-							<input id="CreatePartInput" type="text" class="form-control" placeholder="Enter A Name" required="" autocomplete="off">
-						</div>
-
-						<div class="form-group">
-							<label for="CreatePartInputD">Description</label>
-							<input id="CreatePartInputD" type="text" class="form-control" placeholder="What is this item going to be for?" autocomplete="off">
-						</div>
-
-						<div class="form-group">
-							<label for="CreatePartInputPN">Part Number</label>
-							<input id="CreatePartInputPN" type="text" class="form-control" placeholder="The Part Number For The Item (If Applicable)" autocomplete="off">
-						</div>
-
-						<div class="form-group">
-							<label for="CreatePartInputQ">Quantity</label>
-							<input id="CreatePartInputQ" type="number" class="form-control" placeholder="Quantity" required="" autocomplete="off" min="1" value="1">
-						</div>
-
-						<div class="form-group">
-							<label for="CreatePartInputUnit">Unit</label>
-							<input id="CreatePartInputUnit" type="text" class="form-control" placeholder="The Unit Of Issue For The Quantity (Ex. Feet, Inch, Bag of 2)" autocomplete="off">
-						</div>
-
-						<div class="form-group">
-							<label for="CreatePartInputP">Price Per Item</label>
-							<div class="input-group mb-3">
-								<span class="input-group-prepend"><span class="input-group-text">$</span></span>
-								<input id="CreatePartInputP" type="number" class="form-control" placeholder="Price Per Unit" required="" autocomplete="off" min="1">
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label for="CreatePartInputUrl">Url</label>
-							<input id="CreatePartInputUrl" type="text" class="form-control" placeholder="Url" autocomplete="off">
-						</div>
-
-						<div class="form-group">
-							<label for="CreatePartInputU">Urgency / Priority</label>
-							<select id="CreatePartInputU" class="form-control">
-								<option value="Low" selected="">Low - We Need This A Soon As We Can Get It</option>
-								<option value="Medium">Medium - We Need This Soon</option>
-								<option value="High">High - We Need This Now</option>
-							</select>
-						</div>
-					</section>
-					<footer class="mdc-dialog__footer">
-						<button type="submit" class="btn btn-space btn-primary">Add Part</button>
-						<button type="button" id="CreatePartCancel" class="btn btn-space btn-secondary">Cancel</button>
-					</footer>
-				</form>
-			</div>
-			<div class="mdc-dialog__backdrop"></div>
-		</aside>
-		<!--Edit Part Dialogue-->
-		<aside id="edit-part-dialog"
-			   class="mdc-dialog"
-			   role="alertdialog"
-			   aria-labelledby="my-mdc-dialog-label"
-			   aria-describedby="my-mdc-dialog-description">
-			<div class="mdc-dialog__surface">
-				<header class="mdc-dialog__header">
-					<h2 id="edit-folder-mdc-dialog-label" class="mdc-dialog__header__title">
-						Edit Part
-					</h2>
-				</header>
-				<form id="EditPartForm" class="mdc-dialog__body mdc-dialog__body--scrollable" style="max-height: 60vh;">
-					<section id="edit-folder-mdc-dialog-description">
-						<br />
-						<div class="form-group">
-							<label for="EditPartInput">Name</label>
-							<input id="EditPartInput" type="text" class="form-control" placeholder="Enter A Name" required="" autocomplete="off">
-						</div>
-
-						<div class="form-group">
-							<label for="EditPartInputD">Description</label>
-							<input id="EditPartInputD" type="text" class="form-control" placeholder="What is this item going to be for?" autocomplete="off">
-						</div>
-
-						<div class="form-group">
-							<label for="EditPartInputPN">Part Number</label>
-							<input id="EditPartInputPN" type="text" class="form-control" placeholder="The Part Number For The Item (If Applicable)" autocomplete="off">
-						</div>
-
-						<div class="form-group">
-							<label for="EditPartInputQ">Quantity</label>
-							<input id="EditPartInputQ" type="number" class="form-control" placeholder="Quantity" required="" autocomplete="off" min="1" value="1">
-						</div>
-
-						<div class="form-group">
-							<label for="EditPartInputUnit">Unit</label>
-							<input id="EditPartInputUnit" type="text" class="form-control" placeholder="The Unit Of Issue For The Quantity (Ex. Feet, Inch, Bag of 2)" autocomplete="off">
-						</div>
-
-						<div class="form-group">
-							<label for="EditPartInputP">Price Per Item</label>
-							<div class="input-group mb-3">
-								<span class="input-group-prepend"><span class="input-group-text">$</span></span>
-								<input id="EditPartInputP" type="number" class="form-control" placeholder="Price Per Item" required="" autocomplete="off" min="1">
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label for="EditPartInputUrl">Url</label>
-							<input id="EditPartInputUrl" type="text" class="form-control" placeholder="Url" autocomplete="off">
-						</div>
-
-						<div class="form-group">
-							<label for="EditPartInputU">Urgency / Priority</label>
-							<select id="EditPartInputU" class="form-control">
-								<option value="Low" selected="">Low - We Need This A Soon As We Can Get It</option>
-								<option value="Medium">Medium - We Need This Soon</option>
-								<option value="High">High - We Need This Now</option>
-							</select>
-						</div>
-					</section>
-					<footer class="mdc-dialog__footer">
-						<button type="submit" class="btn btn-space btn-primary">Submit</button>
-						<button type="button" id="EditPartCancel" class="btn btn-space btn-secondary">Cancel</button>
-					</footer>
-				</form>
-			</div>
-			<div class="mdc-dialog__backdrop"></div>
-		</aside>
-		<!--Delete Part Dialogue-->
-		<aside id="delete-part-dialog"
-			   class="mdc-dialog"
-			   role="alertdialog"
-			   aria-labelledby="my-mdc-dialog-label"
-			   aria-describedby="my-mdc-dialog-description">
-			<div class="mdc-dialog__surface">
-				<form id="DeletePartForm">
-					<div class="modal-body">
-						<div class="text-center">
-							<div class="text-success">
-								<span class="modal-main-icon mdi mdi-close" style="color: red;"></span>
-							</div>
-							<h3 id="DeletePartText">Are You Sure You Want To Remove This Part?</h3>
-							<p></p>
-							<div class="mt-8">
-								<button type="button" id="DeletePartCancel" class="btn btn-space btn-secondary">Cancel</button>
-								<button type="submit" class="btn btn-space btn-danger">Proceed</button>
-							</div>
-						</div>
-					</div>
-				</form>
-			</div>
-			<div class="mdc-dialog__backdrop"></div>
-		</aside>
-		<!--Change Part Status Dialogue-->
-		<aside id="part-status-dialog"
-			   class="mdc-dialog"
-			   role="alertdialog"
-			   aria-labelledby="my-mdc-dialog-label"
-			   aria-describedby="my-mdc-dialog-description">
-			<div class="mdc-dialog__surface">
-				<header class="mdc-dialog__header">
-					<h2 class="mdc-dialog__header__title">
-						Change Part Status
-					</h2>
-				</header>
-				<form id="PartStatusForm">
-					<section class="mdc-dialog__body">
-						<div class="form-group">
-							<label for="PartStatusInput">Status</label>
-							<select id="PartStatusInput" class="form-control">
-								<option value="Not Ready" selected="">Not Ready To Be Ordered</option>
-								<option value="Ready">Ready To Be Ordered</option>
-								<option value="Ordered">This Item Has Been Ordered</option>
-								<option value="Arrived">This Item Has Arrived</option>
-							</select>
-						</div>
-						<div class="form-group">
-							<label for="PartStatusOrderDate">Order Date (Month/Day/Year)</label>
-							<input type="text" id="PartStatusOrderDate" value="" placeholder="The Order Date (If Applicable)" class="form-control datetimepicker">
-						</div>
-						<div class="form-group">
-							<label for="PartStatusArriveDate">Arrive Date (Month/Day/Year)</label>
-							<input type="text" id="PartStatusArriveDate" value="" placeholder="The Date Of Arrival (If Applicable)" class="form-control datetimepicker">
-						</div>
-					</section>
-					<footer class="mdc-dialog__footer">
-						<button type="submit" class="btn btn-space btn-primary">Submit</button>
-						<button type="button" id="PartStatusCancel" class="btn btn-space btn-secondary">Cancel</button>
-					</footer>
-				</form>
-			</div>
-			<div class="mdc-dialog__backdrop"></div>
-		</aside>
-	</div>
-
-	<!--Archive Dialogues-->
-	<div>
-		<!--Archive Delete Dialogue-->
-		<aside id="archivedelete-folder-dialog"
-			   class="mdc-dialog"
-			   role="alertdialog"
-			   aria-labelledby="my-mdc-dialog-label"
-			   aria-describedby="my-mdc-dialog-description">
-			<div class="mdc-dialog__surface">
-				<form id="ArchivedeleteFolderForm">
-					<div class="modal-body">
-						<div class="text-center">
-							<div class="text-success">
-								<span class="modal-main-icon mdi mdi-close" style="color: red;"></span>
-							</div>
-							<h3 id="ArchivedeleteFolderText">Are You Sure You Want To Delete This Project/Folder?</h3>
-							<p></p>
-							<div class="mt-8">
-								<button type="button" id="ArchivedeleteFolderCancel" class="btn btn-space btn-secondary">Cancel</button>
-								<button type="submit" class="btn btn-space btn-danger">Proceed</button>
-							</div>
-						</div>
-					</div>
-				</form>
-			</div>
-			<div class="mdc-dialog__backdrop"></div>
-		</aside>
-		<!--Unarchive Folder Dialogue-->
-		<aside id="unarchive-folder-dialog"
-			   class="mdc-dialog"
-			   role="alertdialog"
-			   aria-labelledby="my-mdc-dialog-label"
-			   aria-describedby="my-mdc-dialog-description">
-			<div class="mdc-dialog__surface">
-				<form id="UnarchiveFolderForm">
-					<div class="modal-body">
-						<div class="text-center">
-							<div class="text-success">
-								<span class="modal-main-icon mdi mdi-upload" style="color: red;"></span>
-							</div>
-							<h3 id="UnarchiveFolderText">Are You Sure You Want To Unarchive This Project/Folder?</h3>
-							<p>This will bring the project back into use.</p>
-							<div class="mt-8">
-								<button type="button" id="UnarchiveFolderCancel" class="btn btn-space btn-secondary">Cancel</button>
-								<button type="submit" class="btn btn-space btn-danger">Proceed</button>
-							</div>
-						</div>
-					</div>
-				</form>
-			</div>
-			<div class="mdc-dialog__backdrop"></div>
-		</aside>
-		<!--Archive History Dialogue-->
-		<aside id="archivehistory-folder-dialog"
-			   class="mdc-dialog"
-			   role="alertdialog"
-			   aria-labelledby="my-mdc-dialog-label"
-			   aria-describedby="my-mdc-dialog-description">
-			<div class="mdc-dialog__surface">
-				<div>
-					<div class="card card-table">
-						<div class="card-header">
-							<div class="title" id="FolderArchiveHistoryTitle">ArchiveHistory</div>
-						</div>
-						<div class="card-body table-responsive">
-							<table class="table table-striped table-hover" style="max-width: 100%; overflow-x: hidden;">
-								<thead>
-									<tr>
-										<th>User</th>
-										<th>Change</th>
-										<th>Time</th>
-									</tr>
-								</thead>
-								<tbody id="ArchiveHistoryFolderContentWrapper">
-									<tr>
-										<td>Dweb 1</td>
-										<td>Added ....</td>
-										<td>Aug 16, 2016</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
+			</div><!--End Of Content-->
+		</div><!--End Of Wrapper-->
+		<!--Parts Dialogues-->
+		<div>
+			<!--Create Folder Dialogue-->
+			<aside id="create-folder-dialog"
+				   class="mdc-dialog"
+				   role="alertdialog"
+				   aria-labelledby="my-mdc-dialog-label"
+				   aria-describedby="my-mdc-dialog-description">
+				<div class="mdc-dialog__surface">
+					<header class="mdc-dialog__header">
+						<h2 id="create-folder-mdc-dialog-label" class="mdc-dialog__header__title">
+							Create A New Project / Folder
+						</h2>
+					</header>
+					<form id="CreateFolderForm">
+						<section id="create-folder-mdc-dialog-description" class="mdc-dialog__body">
+							<input id="CreateFolderInput" type="text" class="form-control" placeholder="Enter A Name" required="">
+						</section>
+						<footer class="mdc-dialog__footer">
+							<button type="submit" class="btn btn-space btn-primary">Create Folder</button>
+							<button type="button" id="CreateFolderCancel" class="btn btn-space btn-secondary">Cancel</button>
+						</footer>
+					</form>
 				</div>
-				<button id="ArchiveHistoryFolderCancel" class="btn btn-space btn-secondary">Close</button>
-			</div>
-			<div class="mdc-dialog__backdrop"></div>
-		</aside>
-	</div>
-
-	<!--Profile Dialogues-->
-	<div>
-		<!--Confirm Password To Change Email-->
-		<aside id="change-email-dialog"
-			   class="mdc-dialog"
-			   role="alertdialog"
-			   aria-labelledby="my-mdc-dialog-label"
-			   aria-describedby="my-mdc-dialog-description">
-			<div class="mdc-dialog__surface">
-				<header class="mdc-dialog__header">
-					<h2 class="mdc-dialog__header__title">
-						Confirm Password
-					</h2>
-				</header>
-				<form id="ChangeEmailForm" class="mdc-dialog__body mdc-dialog__body--scrollable" style="max-height: 60vh;">
-					<section>
-						<br />
-						<div class="form-group autocomplete" style="width: 100%;">
-							<label for="ChangeEmailInput">Password</label>
-							<input id="ChangeEmailInput" type="password" class="form-control" placeholder="Enter Password" required="" autocomplete="off">
-						</div>
-					</section>
-					<footer class="mdc-dialog__footer">
-						<button type="submit" class="btn btn-space btn-primary">Submit</button>
-						<button type="button" id="ChangeEmailCancel" class="btn btn-space btn-secondary">Cancel</button>
-					</footer>
-				</form>
-			</div>
-			<div class="mdc-dialog__backdrop"></div>
-		</aside>
-		<!--Upload Profile Picture-->
-		<aside id="profile-picture-dialog"
-			   class="mdc-dialog"
-			   role="alertdialog"
-			   aria-labelledby="my-mdc-dialog-label"
-			   aria-describedby="my-mdc-dialog-description">
-			<div class="mdc-dialog__surface">
-				<header class="mdc-dialog__header">
-					<h2 class="mdc-dialog__header__title">
-						Upload Profile Picture
-					</h2>
-				</header>
-				<section id="my-mdc-dialog-description" class="mdc-dialog__body" style="text-align: center;">
-					<div class="upload-btn-wrapper" style="position: relative; overflow: hidden; display: inline-block;">
-						<button class="btn btn-space btn-primary" id="fileButtonButton" style="display: none;">Choose a file</button>
-						<input type="file" name="myfile" id="fileButton" style="font-size: 100px; position: absolute; left: 0; top: 0; opacity: 0;" />
-					</div>
-					<div id="avatarPreview">
-
-					</div>
-					<div id="avatarUploaderWrapper">
-
-					</div>
-				</section>
-				<footer class="mdc-dialog__footer">
-					<button type="button" id="ProfilePictureCancel" class="btn btn-space btn-secondary">Cancel</button>
-				</footer>
-			</div>
-			<div class="mdc-dialog__backdrop"></div>
-		</aside>
-	</div>
-
-	<!--Teams Tab Dialogues-->
-	<div>
-		<!--Create Team-->
-		<aside id="create-team-dialog"
-			   class="mdc-dialog"
-			   role="alertdialog"
-			   aria-labelledby="my-mdc-dialog-label"
-			   aria-describedby="my-mdc-dialog-description">
-			<div class="mdc-dialog__surface">
-				<header class="mdc-dialog__header">
-					<h2 class="mdc-dialog__header__title">
-						Create Team
-					</h2>
-				</header>
-				<form id="CreateTeamForm" class="mdc-dialog__body mdc-dialog__body--scrollable" style="max-height: 60vh;">
-					<section>
-						<br />
-						<div class="form-group autocomplete" style="width: 100%;">
-							<label for="CreateTeamName">Name</label>
-							<input id="CreateTeamName" type="text" class="form-control" placeholder="Enter A Name" required="" autocomplete="off">
-						</div>
-						<div class="form-group autocomplete" style="width: 100%;">
-							<label for="CreateTeamDesc">Description</label>
-							<textarea id="CreateTeamDesc" class="form-control" style="z-index: auto; position: relative; line-height: 21.4277px; font-size: 14.9994px; transition: none; background: transparent !important;"></textarea>
-						</div>
-					</section>
-					<footer class="mdc-dialog__footer">
-						<button type="submit" class="btn btn-space btn-primary">Submit</button>
-						<button type="button" id="CreateTeamCancel" class="btn btn-space btn-secondary">Cancel</button>
-					</footer>
-				</form>
-			</div>
-			<div class="mdc-dialog__backdrop"></div>
-		</aside>
-		<!--Delete Team-->
-		<aside id="delete-team-dialog"
-			   class="mdc-dialog"
-			   role="alertdialog"
-			   aria-labelledby="my-mdc-dialog-label"
-			   aria-describedby="my-mdc-dialog-description">
-			<div class="mdc-dialog__surface">
-				<form id="DeleteTeamForm">
-					<div class="modal-body">
-						<div class="text-center">
-							<div class="text-success">
-								<span class="modal-main-icon mdi mdi-close" style="color: red;"></span>
+				<div class="mdc-dialog__backdrop"></div>
+			</aside>
+			<!--Edit Folder Dialogue-->
+			<aside id="edit-folder-dialog"
+				   class="mdc-dialog"
+				   role="alertdialog"
+				   aria-labelledby="my-mdc-dialog-label"
+				   aria-describedby="my-mdc-dialog-description">
+				<div class="mdc-dialog__surface">
+					<header class="mdc-dialog__header">
+						<h2 id="edit-folder-mdc-dialog-label" class="mdc-dialog__header__title">
+							Edit Project / Folder
+						</h2>
+					</header>
+					<form id="EditFolderForm">
+						<section id="edit-folder-mdc-dialog-description" class="mdc-dialog__body">
+							<input id="EditFolderInput" type="text" class="form-control" placeholder="Enter A Name" required="">
+						</section>
+						<footer class="mdc-dialog__footer">
+							<button type="submit" class="btn btn-space btn-primary">Submit</button>
+							<button type="button" id="EditFolderCancel" class="btn btn-space btn-secondary">Cancel</button>
+						</footer>
+					</form>
+				</div>
+				<div class="mdc-dialog__backdrop"></div>
+			</aside>
+			<!--Delete Folder Dialogue-->
+			<aside id="delete-folder-dialog"
+				   class="mdc-dialog"
+				   role="alertdialog"
+				   aria-labelledby="my-mdc-dialog-label"
+				   aria-describedby="my-mdc-dialog-description">
+				<div class="mdc-dialog__surface">
+					<form id="DeleteFolderForm">
+						<div class="modal-body">
+							<div class="text-center">
+								<div class="text-success">
+									<span class="modal-main-icon mdi mdi-close" style="color: red;"></span>
+								</div>
+								<h3 id="DeleteFolderText">Are You Sure You Want To Delete This Project/Folder?</h3>
+								<p>Archiving This Project Would Be Recomended</p>
+								<div class="mt-8">
+									<button type="button" id="DeleteFolderCancel" class="btn btn-space btn-secondary">Cancel</button>
+									<button type="submit" class="btn btn-space btn-danger">Proceed</button>
+								</div>
 							</div>
-							<h3 id="DeleteTeamTitle">Are You Sure You Want To Delete This Team?</h3>
-							<div class="mt-8">
-								<button type="button" id="DeleteTeamCancel" class="btn btn-space btn-secondary">Cancel</button>
-								<button type="submit" class="btn btn-space btn-danger">Proceed</button>
+						</div>
+					</form>
+				</div>
+				<div class="mdc-dialog__backdrop"></div>
+			</aside>
+			<!--Archive Folder Dialogue-->
+			<aside id="archive-folder-dialog"
+				   class="mdc-dialog"
+				   role="alertdialog"
+				   aria-labelledby="my-mdc-dialog-label"
+				   aria-describedby="my-mdc-dialog-description">
+				<div class="mdc-dialog__surface">
+					<form id="ArchiveFolderForm">
+						<div class="modal-body">
+							<div class="text-center">
+								<div class="text-success">
+									<span class="modal-main-icon mdi mdi-archive" style="color: red;"></span>
+								</div>
+								<h3 id="ArchiveFolderText">Are You Sure You Want To Archive This Project/Folder?</h3>
+								<p>This will basically mark it as finished.</p>
+								<div class="mt-8">
+									<button type="button" id="ArchiveFolderCancel" class="btn btn-space btn-secondary">Cancel</button>
+									<button type="submit" class="btn btn-space btn-danger">Proceed</button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="mdc-dialog__backdrop"></div>
+			</aside>
+			<!--History Folderr Dialogue-->
+			<aside id="history-folder-dialog"
+				   class="mdc-dialog"
+				   role="alertdialog"
+				   aria-labelledby="my-mdc-dialog-label"
+				   aria-describedby="my-mdc-dialog-description">
+				<div class="mdc-dialog__surface">
+					<div>
+						<div class="card card-table mdc-dialog__body--scrollable" style="max-height: 60vh;">
+							<div class="card-header">
+								<div class="title" id="FolderHistoryTitle">History</div>
+							</div>
+							<div class="card-body table-responsive">
+								<table class="table table-striped table-hover" style="max-width: 100%; overflow-x: hidden;">
+									<thead>
+										<tr>
+											<th style="width: 20%">User</th>
+											<th>Change</th>
+											<th style="width: 20%">Time</th>
+										</tr>
+									</thead>
+									<tbody id="HistoryFolderContentWrapper">
+										<tr>
+											<td>Dweb 1</td>
+											<td>Added ....</td>
+											<td>Aug 16, 2016</td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
-				</form>
-			</div>
-			<div class="mdc-dialog__backdrop"></div>
-		</aside>
-		<!--Edit Team-->
-		<aside id="edit-team-dialog"
-			   class="mdc-dialog"
-			   role="alertdialog"
-			   aria-labelledby="my-mdc-dialog-label"
-			   aria-describedby="my-mdc-dialog-description">
-			<div class="mdc-dialog__surface">
-				<header class="mdc-dialog__header">
-					<h2 class="mdc-dialog__header__title">
-						Edit Team
-					</h2>
-				</header>
-				<form id="EditTeamForm" class="mdc-dialog__body mdc-dialog__body--scrollable" style="max-height: 60vh;">
-					<section>
-						<br />
-						<div class="form-group autocomplete" style="width: 100%;">
-							<label for="EditTeamName">Name</label>
-							<input id="EditTeamName" type="text" class="form-control" placeholder="Enter A Name" required="" autocomplete="off">
+					<button id="HistoryFolderCancel" class="btn btn-space btn-secondary">Close</button>
+				</div>
+				<div class="mdc-dialog__backdrop"></div>
+			</aside>
+			<!--Create Part Dialogue-->
+			<aside id="create-part-dialog"
+				   class="mdc-dialog"
+				   role="alertdialog"
+				   aria-labelledby="my-mdc-dialog-label"
+				   aria-describedby="my-mdc-dialog-description">
+				<div class="mdc-dialog__surface">
+					<header class="mdc-dialog__header">
+						<h2 id="create-folder-mdc-dialog-label" class="mdc-dialog__header__title">
+							Add A Part
+						</h2>
+					</header>
+					<form id="CreatePartForm" class="mdc-dialog__body mdc-dialog__body--scrollable" style="max-height: 60vh;">
+						<section id="create-folder-mdc-dialog-description">
+							<br />
+							<div class="form-group autocomplete" style="width: 100%;">
+								<label for="CreatePartInput">Name</label>
+								<input id="CreatePartInput" type="text" class="form-control" placeholder="Enter A Name" required="" autocomplete="off">
+							</div>
+
+							<div class="form-group">
+								<label for="CreatePartInputD">Description</label>
+								<input id="CreatePartInputD" type="text" class="form-control" placeholder="What is this item going to be for?" autocomplete="off">
+							</div>
+
+							<div class="form-group">
+								<label for="CreatePartInputPN">Part Number</label>
+								<input id="CreatePartInputPN" type="text" class="form-control" placeholder="The Part Number For The Item (If Applicable)" autocomplete="off">
+							</div>
+
+							<div class="form-group">
+								<label for="CreatePartInputQ">Quantity</label>
+								<input id="CreatePartInputQ" type="number" class="form-control" placeholder="Quantity" required="" autocomplete="off" min="1" value="1">
+							</div>
+
+							<div class="form-group">
+								<label for="CreatePartInputUnit">Unit</label>
+								<input id="CreatePartInputUnit" type="text" class="form-control" placeholder="The Unit Of Issue For The Quantity (Ex. Feet, Inch, Bag of 2)" autocomplete="off">
+							</div>
+
+							<div class="form-group">
+								<label for="CreatePartInputP">Price Per Item</label>
+								<div class="input-group mb-3">
+									<span class="input-group-prepend"><span class="input-group-text">$</span></span>
+									<input id="CreatePartInputP" type="number" class="form-control" placeholder="Price Per Unit" required="" autocomplete="off" min="1">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="CreatePartInputUrl">Url</label>
+								<input id="CreatePartInputUrl" type="text" class="form-control" placeholder="Url" autocomplete="off">
+							</div>
+
+							<div class="form-group">
+								<label for="CreatePartInputU">Urgency / Priority</label>
+								<select id="CreatePartInputU" class="form-control">
+									<option value="Low" selected="">Low - We Need This A Soon As We Can Get It</option>
+									<option value="Medium">Medium - We Need This Soon</option>
+									<option value="High">High - We Need This Now</option>
+								</select>
+							</div>
+						</section>
+						<footer class="mdc-dialog__footer">
+							<button type="submit" class="btn btn-space btn-primary">Add Part</button>
+							<button type="button" id="CreatePartCancel" class="btn btn-space btn-secondary">Cancel</button>
+						</footer>
+					</form>
+				</div>
+				<div class="mdc-dialog__backdrop"></div>
+			</aside>
+			<!--Edit Part Dialogue-->
+			<aside id="edit-part-dialog"
+				   class="mdc-dialog"
+				   role="alertdialog"
+				   aria-labelledby="my-mdc-dialog-label"
+				   aria-describedby="my-mdc-dialog-description">
+				<div class="mdc-dialog__surface">
+					<header class="mdc-dialog__header">
+						<h2 id="edit-folder-mdc-dialog-label" class="mdc-dialog__header__title">
+							Edit Part
+						</h2>
+					</header>
+					<form id="EditPartForm" class="mdc-dialog__body mdc-dialog__body--scrollable" style="max-height: 60vh;">
+						<section id="edit-folder-mdc-dialog-description">
+							<br />
+							<div class="form-group">
+								<label for="EditPartInput">Name</label>
+								<input id="EditPartInput" type="text" class="form-control" placeholder="Enter A Name" required="" autocomplete="off">
+							</div>
+
+							<div class="form-group">
+								<label for="EditPartInputD">Description</label>
+								<input id="EditPartInputD" type="text" class="form-control" placeholder="What is this item going to be for?" autocomplete="off">
+							</div>
+
+							<div class="form-group">
+								<label for="EditPartInputPN">Part Number</label>
+								<input id="EditPartInputPN" type="text" class="form-control" placeholder="The Part Number For The Item (If Applicable)" autocomplete="off">
+							</div>
+
+							<div class="form-group">
+								<label for="EditPartInputQ">Quantity</label>
+								<input id="EditPartInputQ" type="number" class="form-control" placeholder="Quantity" required="" autocomplete="off" min="1" value="1">
+							</div>
+
+							<div class="form-group">
+								<label for="EditPartInputUnit">Unit</label>
+								<input id="EditPartInputUnit" type="text" class="form-control" placeholder="The Unit Of Issue For The Quantity (Ex. Feet, Inch, Bag of 2)" autocomplete="off">
+							</div>
+
+							<div class="form-group">
+								<label for="EditPartInputP">Price Per Item</label>
+								<div class="input-group mb-3">
+									<span class="input-group-prepend"><span class="input-group-text">$</span></span>
+									<input id="EditPartInputP" type="number" class="form-control" placeholder="Price Per Item" required="" autocomplete="off" min="1">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="EditPartInputUrl">Url</label>
+								<input id="EditPartInputUrl" type="text" class="form-control" placeholder="Url" autocomplete="off">
+							</div>
+
+							<div class="form-group">
+								<label for="EditPartInputU">Urgency / Priority</label>
+								<select id="EditPartInputU" class="form-control">
+									<option value="Low" selected="">Low - We Need This A Soon As We Can Get It</option>
+									<option value="Medium">Medium - We Need This Soon</option>
+									<option value="High">High - We Need This Now</option>
+								</select>
+							</div>
+						</section>
+						<footer class="mdc-dialog__footer">
+							<button type="submit" class="btn btn-space btn-primary">Submit</button>
+							<button type="button" id="EditPartCancel" class="btn btn-space btn-secondary">Cancel</button>
+						</footer>
+					</form>
+				</div>
+				<div class="mdc-dialog__backdrop"></div>
+			</aside>
+			<!--Delete Part Dialogue-->
+			<aside id="delete-part-dialog"
+				   class="mdc-dialog"
+				   role="alertdialog"
+				   aria-labelledby="my-mdc-dialog-label"
+				   aria-describedby="my-mdc-dialog-description">
+				<div class="mdc-dialog__surface">
+					<form id="DeletePartForm">
+						<div class="modal-body">
+							<div class="text-center">
+								<div class="text-success">
+									<span class="modal-main-icon mdi mdi-close" style="color: red;"></span>
+								</div>
+								<h3 id="DeletePartText">Are You Sure You Want To Remove This Part?</h3>
+								<p></p>
+								<div class="mt-8">
+									<button type="button" id="DeletePartCancel" class="btn btn-space btn-secondary">Cancel</button>
+									<button type="submit" class="btn btn-space btn-danger">Proceed</button>
+								</div>
+							</div>
 						</div>
-						<div class="form-group autocomplete" style="width: 100%;">
-							<label for="EditTeamDesc">Description</label>
-							<textarea id="EditTeamDesc" class="form-control" style="z-index: auto; position: relative; line-height: 21.4277px; font-size: 14.9994px; transition: none; background: transparent !important;"></textarea>
+					</form>
+				</div>
+				<div class="mdc-dialog__backdrop"></div>
+			</aside>
+			<!--Change Part Status Dialogue-->
+			<aside id="part-status-dialog"
+				   class="mdc-dialog"
+				   role="alertdialog"
+				   aria-labelledby="my-mdc-dialog-label"
+				   aria-describedby="my-mdc-dialog-description">
+				<div class="mdc-dialog__surface">
+					<header class="mdc-dialog__header">
+						<h2 class="mdc-dialog__header__title">
+							Change Part Status
+						</h2>
+					</header>
+					<form id="PartStatusForm">
+						<section class="mdc-dialog__body">
+							<div class="form-group">
+								<label for="PartStatusInput">Status</label>
+								<select id="PartStatusInput" class="form-control">
+									<option value="Not Ready" selected="">Not Ready To Be Ordered</option>
+									<option value="Ready">Ready To Be Ordered</option>
+									<option value="Ordered">This Item Has Been Ordered</option>
+									<option value="Arrived">This Item Has Arrived</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="PartStatusOrderDate">Order Date (Month/Day/Year)</label>
+								<input type="text" id="PartStatusOrderDate" value="" placeholder="The Order Date (If Applicable)" class="form-control datetimepicker">
+							</div>
+							<div class="form-group">
+								<label for="PartStatusArriveDate">Arrive Date (Month/Day/Year)</label>
+								<input type="text" id="PartStatusArriveDate" value="" placeholder="The Date Of Arrival (If Applicable)" class="form-control datetimepicker">
+							</div>
+						</section>
+						<footer class="mdc-dialog__footer">
+							<button type="submit" class="btn btn-space btn-primary">Submit</button>
+							<button type="button" id="PartStatusCancel" class="btn btn-space btn-secondary">Cancel</button>
+						</footer>
+					</form>
+				</div>
+				<div class="mdc-dialog__backdrop"></div>
+			</aside>
+		</div>
+
+		<!--Archive Dialogues-->
+		<div>
+			<!--Archive Delete Dialogue-->
+			<aside id="archivedelete-folder-dialog"
+				   class="mdc-dialog"
+				   role="alertdialog"
+				   aria-labelledby="my-mdc-dialog-label"
+				   aria-describedby="my-mdc-dialog-description">
+				<div class="mdc-dialog__surface">
+					<form id="ArchivedeleteFolderForm">
+						<div class="modal-body">
+							<div class="text-center">
+								<div class="text-success">
+									<span class="modal-main-icon mdi mdi-close" style="color: red;"></span>
+								</div>
+								<h3 id="ArchivedeleteFolderText">Are You Sure You Want To Delete This Project/Folder?</h3>
+								<p></p>
+								<div class="mt-8">
+									<button type="button" id="ArchivedeleteFolderCancel" class="btn btn-space btn-secondary">Cancel</button>
+									<button type="submit" class="btn btn-space btn-danger">Proceed</button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="mdc-dialog__backdrop"></div>
+			</aside>
+			<!--Unarchive Folder Dialogue-->
+			<aside id="unarchive-folder-dialog"
+				   class="mdc-dialog"
+				   role="alertdialog"
+				   aria-labelledby="my-mdc-dialog-label"
+				   aria-describedby="my-mdc-dialog-description">
+				<div class="mdc-dialog__surface">
+					<form id="UnarchiveFolderForm">
+						<div class="modal-body">
+							<div class="text-center">
+								<div class="text-success">
+									<span class="modal-main-icon mdi mdi-upload" style="color: red;"></span>
+								</div>
+								<h3 id="UnarchiveFolderText">Are You Sure You Want To Unarchive This Project/Folder?</h3>
+								<p>This will bring the project back into use.</p>
+								<div class="mt-8">
+									<button type="button" id="UnarchiveFolderCancel" class="btn btn-space btn-secondary">Cancel</button>
+									<button type="submit" class="btn btn-space btn-danger">Proceed</button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="mdc-dialog__backdrop"></div>
+			</aside>
+			<!--Archive History Dialogue-->
+			<aside id="archivehistory-folder-dialog"
+				   class="mdc-dialog"
+				   role="alertdialog"
+				   aria-labelledby="my-mdc-dialog-label"
+				   aria-describedby="my-mdc-dialog-description">
+				<div class="mdc-dialog__surface">
+					<div>
+						<div class="card card-table">
+							<div class="card-header">
+								<div class="title" id="FolderArchiveHistoryTitle">ArchiveHistory</div>
+							</div>
+							<div class="card-body table-responsive">
+								<table class="table table-striped table-hover" style="max-width: 100%; overflow-x: hidden;">
+									<thead>
+										<tr>
+											<th>User</th>
+											<th>Change</th>
+											<th>Time</th>
+										</tr>
+									</thead>
+									<tbody id="ArchiveHistoryFolderContentWrapper">
+										<tr>
+											<td>Dweb 1</td>
+											<td>Added ....</td>
+											<td>Aug 16, 2016</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<button id="ArchiveHistoryFolderCancel" class="btn btn-space btn-secondary">Close</button>
+				</div>
+				<div class="mdc-dialog__backdrop"></div>
+			</aside>
+		</div>
+
+		<!--Profile Dialogues-->
+		<div>
+			<!--Confirm Password To Change Email-->
+			<aside id="change-email-dialog"
+				   class="mdc-dialog"
+				   role="alertdialog"
+				   aria-labelledby="my-mdc-dialog-label"
+				   aria-describedby="my-mdc-dialog-description">
+				<div class="mdc-dialog__surface">
+					<header class="mdc-dialog__header">
+						<h2 class="mdc-dialog__header__title">
+							Confirm Password
+						</h2>
+					</header>
+					<form id="ChangeEmailForm" class="mdc-dialog__body mdc-dialog__body--scrollable" style="max-height: 60vh;">
+						<section>
+							<br />
+							<div class="form-group autocomplete" style="width: 100%;">
+								<label for="ChangeEmailInput">Password</label>
+								<input id="ChangeEmailInput" type="password" class="form-control" placeholder="Enter Password" required="" autocomplete="off">
+							</div>
+						</section>
+						<footer class="mdc-dialog__footer">
+							<button type="submit" class="btn btn-space btn-primary">Submit</button>
+							<button type="button" id="ChangeEmailCancel" class="btn btn-space btn-secondary">Cancel</button>
+						</footer>
+					</form>
+				</div>
+				<div class="mdc-dialog__backdrop"></div>
+			</aside>
+			<!--Upload Profile Picture-->
+			<aside id="profile-picture-dialog"
+				   class="mdc-dialog"
+				   role="alertdialog"
+				   aria-labelledby="my-mdc-dialog-label"
+				   aria-describedby="my-mdc-dialog-description">
+				<div class="mdc-dialog__surface">
+					<header class="mdc-dialog__header">
+						<h2 class="mdc-dialog__header__title">
+							Upload Profile Picture
+						</h2>
+					</header>
+					<section id="my-mdc-dialog-description" class="mdc-dialog__body" style="text-align: center;">
+						<div class="upload-btn-wrapper" style="position: relative; overflow: hidden; display: inline-block;">
+							<button class="btn btn-space btn-primary" id="fileButtonButton" style="display: none;">Choose a file</button>
+							<input type="file" name="myfile" id="fileButton" style="font-size: 100px; position: absolute; left: 0; top: 0; opacity: 0;" />
+						</div>
+						<div id="avatarPreview">
+
+						</div>
+						<div id="avatarUploaderWrapper">
+
 						</div>
 					</section>
 					<footer class="mdc-dialog__footer">
-						<button type="submit" class="btn btn-space btn-primary">Submit</button>
-						<button type="button" id="EditTeamCancel" class="btn btn-space btn-secondary">Cancel</button>
+						<button type="button" id="ProfilePictureCancel" class="btn btn-space btn-secondary">Cancel</button>
 					</footer>
-				</form>
-			</div>
-			<div class="mdc-dialog__backdrop"></div>
-		</aside>
-	</div>
+				</div>
+				<div class="mdc-dialog__backdrop"></div>
+			</aside>
+		</div>
 
-	<!--Imports-->
-	<script src="../assets/mdc/material-components-web.js"></script>
-	<script src="../assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
-	<script src="../assets/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
-	<script src="../assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
-	<script src="../assets/js/app.js" type="text/javascript"></script>
-	<script src="../assets/lib/datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
-	<script src="../assets/lib/chartjs/Chart.min.js" type="text/javascript"></script>
-	<script src='../assets/lib/fullcalendar/lib/moment.min.js'></script>
-	<script src="../assets/lib/fullcalendar/lib/jquery-ui.min.js"></script>
-	<script src='../assets/lib/fullcalendar/fullcalendar.js'></script>
-	<script src='../assets/lib/fullcalendar/gcal.min.js'></script>
-	<script src='../assets/lib/croppie/croppie.js'></script>
+		<!--Teams Tab Dialogues-->
+		<div>
+			<!--Create Team-->
+			<aside id="create-team-dialog"
+				   class="mdc-dialog"
+				   role="alertdialog"
+				   aria-labelledby="my-mdc-dialog-label"
+				   aria-describedby="my-mdc-dialog-description">
+				<div class="mdc-dialog__surface">
+					<header class="mdc-dialog__header">
+						<h2 class="mdc-dialog__header__title">
+							Create Team
+						</h2>
+					</header>
+					<form id="CreateTeamForm" class="mdc-dialog__body mdc-dialog__body--scrollable" style="max-height: 60vh;">
+						<section>
+							<br />
+							<div class="form-group autocomplete" style="width: 100%;">
+								<label for="CreateTeamName">Name</label>
+								<input id="CreateTeamName" type="text" class="form-control" placeholder="Enter A Name" required="" autocomplete="off">
+							</div>
+							<div class="form-group autocomplete" style="width: 100%;">
+								<label for="CreateTeamDesc">Description</label>
+								<textarea id="CreateTeamDesc" class="form-control" style="z-index: auto; position: relative; line-height: 21.4277px; font-size: 14.9994px; transition: none; background: transparent !important;"></textarea>
+							</div>
+						</section>
+						<footer class="mdc-dialog__footer">
+							<button type="submit" class="btn btn-space btn-primary">Submit</button>
+							<button type="button" id="CreateTeamCancel" class="btn btn-space btn-secondary">Cancel</button>
+						</footer>
+					</form>
+				</div>
+				<div class="mdc-dialog__backdrop"></div>
+			</aside>
+			<!--Delete Team-->
+			<aside id="delete-team-dialog"
+				   class="mdc-dialog"
+				   role="alertdialog"
+				   aria-labelledby="my-mdc-dialog-label"
+				   aria-describedby="my-mdc-dialog-description">
+				<div class="mdc-dialog__surface">
+					<form id="DeleteTeamForm">
+						<div class="modal-body">
+							<div class="text-center">
+								<div class="text-success">
+									<span class="modal-main-icon mdi mdi-close" style="color: red;"></span>
+								</div>
+								<h3 id="DeleteTeamTitle">Are You Sure You Want To Delete This Team?</h3>
+								<div class="mt-8">
+									<button type="button" id="DeleteTeamCancel" class="btn btn-space btn-secondary">Cancel</button>
+									<button type="submit" class="btn btn-space btn-danger">Proceed</button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="mdc-dialog__backdrop"></div>
+			</aside>
+			<!--Edit Team-->
+			<aside id="edit-team-dialog"
+				   class="mdc-dialog"
+				   role="alertdialog"
+				   aria-labelledby="my-mdc-dialog-label"
+				   aria-describedby="my-mdc-dialog-description">
+				<div class="mdc-dialog__surface">
+					<header class="mdc-dialog__header">
+						<h2 class="mdc-dialog__header__title">
+							Edit Team
+						</h2>
+					</header>
+					<form id="EditTeamForm" class="mdc-dialog__body mdc-dialog__body--scrollable" style="max-height: 60vh;">
+						<section>
+							<br />
+							<div class="form-group autocomplete" style="width: 100%;">
+								<label for="EditTeamName">Name</label>
+								<input id="EditTeamName" type="text" class="form-control" placeholder="Enter A Name" required="" autocomplete="off">
+							</div>
+							<div class="form-group autocomplete" style="width: 100%;">
+								<label for="EditTeamDesc">Description</label>
+								<textarea id="EditTeamDesc" class="form-control" style="z-index: auto; position: relative; line-height: 21.4277px; font-size: 14.9994px; transition: none; background: transparent !important;"></textarea>
+							</div>
+						</section>
+						<footer class="mdc-dialog__footer">
+							<button type="submit" class="btn btn-space btn-primary">Submit</button>
+							<button type="button" id="EditTeamCancel" class="btn btn-space btn-secondary">Cancel</button>
+						</footer>
+					</form>
+				</div>
+				<div class="mdc-dialog__backdrop"></div>
+			</aside>
+		</div>
 
-	<!--General Functions-->
-	<script src="assets/Resources/functions.js"></script>
+		<!--Imports-->
+		<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+		<script src="../assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
+		<script src="../assets/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
+		<script src="../assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+		<script src="../assets/js/app.js" type="text/javascript"></script>
+		<script src="../assets/lib/datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+		<script src="../assets/lib/chartjs/Chart.min.js" type="text/javascript"></script>
+		<script src='../assets/lib/fullcalendar/lib/moment.min.js'></script>
+		<script src="../assets/lib/fullcalendar/lib/jquery-ui.min.js"></script>
+		<script src='../assets/lib/fullcalendar/fullcalendar.js'></script>
+		<script src='../assets/lib/fullcalendar/gcal.min.js'></script>
+		<script src='../assets/lib/croppie/croppie.js'></script>
 
-	<!--Main Tab Bar Handler-->
-	<script src="assets/Tabs/tabs.js"></script>
-	<script src="assets/Tabs/registerTab.js"></script>
+		<!--General Functions-->
+		<script src="assets/Resources/functions.js"></script>
 
-	<!--Firebase Account Management and Profile Tab-->
-	<script src="assets/Accounting/accountHandler.js"></script>
-	<script src="assets/Accounting/avatarInit.js"></script>
-	<script src="assets/Accounting/Profile/ChangeEmail.js"></script>
-	<script src="assets/Accounting/Profile/Graph.js"></script>
-	<script src="assets/Accounting/Profile/ProfileTab.js"></script>
-	<script src="assets/Accounting/Profile/ProfilePicture.js"></script>
+		<!--Main Tab Bar Handler-->
+		<script src="assets/Tabs/tabs.js"></script>
+		<script src="assets/Tabs/registerTab.js"></script>
 
-	<!--Other-->
-	<script src="assets/Autocomplete/Autocomplete.js"></script>
-	<script src="assets/Calendar/CalendarTab.js"></script>
+		<!--Firebase Account Management and Profile Tab-->
+		<script src="assets/Accounting/accountHandler.js"></script>
+		<script src="assets/Accounting/avatarInit.js"></script>
+		<script src="assets/Accounting/Profile/ChangeEmail.js"></script>
+		<script src="assets/Accounting/Profile/Graph.js"></script>
+		<script src="assets/Accounting/Profile/ProfileTab.js"></script>
+		<script src="assets/Accounting/Profile/ProfilePicture.js"></script>
 
-	<!--Github API and Tab-->
-	<script src="assets/Github/GHAPI.js"></script>
-	<script src="assets/Github/GHUI.js"></script>
+		<!--Header-->
+		<script src="assets/Header/header.js"></script>
+		<script src="assets/Header/PeTeSwitcher.js"></script>
 
-	<!--Teams Tab and Resources-->
-	<script src="assets/Teams/TeamsTab.js"></script>
-	<script src="assets/Teams/JLTeam.js"></script>
-	<script src="assets/Teams/CreateTeam.js"></script>
-	<script src="assets/Teams/DeleteTeam.js"></script>
-	<script src="assets/Teams/EditTeam.js"></script>
+		<!--Other-->
+		<script src="assets/Autocomplete/Autocomplete.js"></script>
+		<script src="assets/Calendar/CalendarTab.js"></script>
 
-	<!--Notification-->
-	<script src="assets/Notifications/header.js"></script>
-	<script src="assets/Notifications/SWNotifications.js"></script>
-	<script src="assets/Notifications/IHNotifications.js"></script>
+		<!--Github API and Tab-->
+		<script src="assets/Github/GHAPI.js"></script>
+		<script src="assets/Github/GHUI.js"></script>
 
-	<!--Parts Tabs-->
-	<script src="assets/Parts/FolderHistory.js"></script>
-	<script src="assets/Parts/CreatePart.js"></script>
-	<script src="assets/Parts/EditPart.js"></script>
-	<script src="assets/Parts/DeletePart.js"></script>
-	<script src="assets/Parts/CreateFolder.js"></script>
-	<script src="assets/Parts/EditFolder.js"></script>
-	<script src="assets/Parts/DeleteFolder.js"></script>
-	<script src="assets/Parts/ArchiveFolder.js"></script>
-	<script src="assets/Parts/UI.js"></script>
-	<script src="assets/Parts/Archive/ArchiveTab.js"></script>
-	<script src="assets/Parts/Archive/UnarchiveFolder.js"></script>
-	<script src="assets/Parts/Archive/ArchiveHistory.js"></script>
-	<script src="assets/Parts/Archive/ArchiveDelete.js"></script>
-	<script src="assets/Parts/Ordered/OrderedParts.js"></script>
-	<script src="assets/Parts/StatusPart.js"></script>
+		<!--Teams Tab and Resources-->
+		<script src="assets/Teams/TeamsTab.js"></script>
+		<script src="assets/Teams/JLTeam.js"></script>
+		<script src="assets/Teams/CreateTeam.js"></script>
+		<script src="assets/Teams/DeleteTeam.js"></script>
+		<script src="assets/Teams/EditTeam.js"></script>
 
-	<!--Todo Tab-->
-	<script src="assets/Todo/TodoTab.js"></script>
+		<!--Notification-->
+		<script src="assets/Notifications/SWNotifications.js"></script>
+		<script src="assets/Notifications/IHNotifications.js"></script>
 
-	<!--General Tab-->
-	<script src="assets/General/GeneralTab.js"></script>
+		<!--Parts Tabs-->
+		<script src="assets/Parts/FolderHistory.js"></script>
+		<script src="assets/Parts/CreatePart.js"></script>
+		<script src="assets/Parts/EditPart.js"></script>
+		<script src="assets/Parts/DeletePart.js"></script>
+		<script src="assets/Parts/CreateFolder.js"></script>
+		<script src="assets/Parts/EditFolder.js"></script>
+		<script src="assets/Parts/DeleteFolder.js"></script>
+		<script src="assets/Parts/ArchiveFolder.js"></script>
+		<script src="assets/Parts/UI.js"></script>
+		<script src="assets/Parts/Archive/ArchiveTab.js"></script>
+		<script src="assets/Parts/Archive/UnarchiveFolder.js"></script>
+		<script src="assets/Parts/Archive/ArchiveHistory.js"></script>
+		<script src="assets/Parts/Archive/ArchiveDelete.js"></script>
+		<script src="assets/Parts/Ordered/OrderedParts.js"></script>
+		<script src="assets/Parts/StatusPart.js"></script>
+
+		<!--Todo Tab-->
+		<script src="assets/Todo/TodoTab.js"></script>
+
+		<!--General Tab-->
+		<script src="assets/General/GeneralTab.js"></script>
 
 
-	<!--Main Script-->
-	<script type="text/javascript">
-		document.addEventListener('DOMContentLoaded', function () {
-			//Init Beagle
-			App.init();
-		});
-
-		function slack(message) {
-			$.ajax({
-				"async": true,
-				"crossDomain": true,
-				"dataType": "json",
-				"url": "https://hooks.slack.com/services/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",
-				"method": "POST",
-				"data": '{ "text": "' + message + '" }',
-				"headers": {
-					"accept": "application/json",
-				}
+		<!--Main Script-->
+		<script type="text/javascript">
+			document.addEventListener('DOMContentLoaded', function () {
+				App.init(); //Beagle
 			});
-			return;
-		}
-	</script>
+
+			window.mdc.autoInit(); //MDC
+
+			function slack(message) {
+				$.ajax({
+					"async": true,
+					"crossDomain": true,
+					"dataType": "json",
+					"url": "https://hooks.slack.com/services/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",
+					"method": "POST",
+					"data": '{ "text": "' + message + '" }',
+					"headers": {
+						"accept": "application/json",
+					}
+				});
+				return;
+			}
+		</script>
+	</main>
 </body>
 </html>

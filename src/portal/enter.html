@@ -25,34 +25,44 @@
 	<script defer src="/__/firebase/4.12.1/firebase-storage.js"></script>
 	<script defer src="/__/firebase/4.12.1/firebase-firestore.js"></script>
 	<script defer src="/__/firebase/init.js"></script>
+
+	<!--MDC-->
+	<link rel="stylesheet" href="../assets/mdc/material.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body class="be-splash-screen">
 	<div class="be-wrapper be-login">
 		<div class="be-content">
 			<div class="main-content container-fluid">
 				<div class="splash-container">
-					<div class="card card-border-color card-border-color-primary">
+					<div class="card card-border-color card-border-color-primary mdc-elevation--z10">
 						<div class="card-header">
 							<img src="../assets/img/iconT.png" alt="logo" width="50" height="50" class="logo-img"><span class="splash-description">Please enter your user information.</span>
 						</div>
 						<div class="card-body">
 							<form id="LoginForm">
 								<div class="form-group">
-									<input id="email" type="text" placeholder="Username or Email" autocomplete="off" class="form-control" required="">
+									<input style="transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);" id="email" type="text" placeholder="Username or Email" autocomplete="off" class="form-control" required="">
 								</div>
 								<div class="form-group">
-									<input id="password" type="password" placeholder="Password" class="form-control" required="">
+									<input style="transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);" id="password" type="password" placeholder="Password" class="form-control" required="">
 								</div>
 								<div class="form-group row login-tools">
 									<div class="col-6 login-remember">
-										<label class="custom-control custom-checkbox">
-											<input type="checkbox" class="custom-control-input" id="RememberMe"><span class="custom-control-label">Remember Me</span>
-										</label>
+										<div class="mdc-checkbox" id="RememberMe">
+											<input type="checkbox"
+												   class="mdc-checkbox__native-control" />
+											<div class="mdc-checkbox__background">
+												<svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24"> <path class="mdc-checkbox__checkmark-path" fill="none" stroke="white" d="M1.73,12.91 8.1,19.28 22.79,4.59" /> </svg>
+												<div class="mdc-checkbox__mixedmark"></div>
+											</div>
+											<p style="margin-left: 25px; margin-top: -2px;">Remember Me</p>
+										</div>
 									</div>
 									<div class="col-6 login-forgot-password"><a href="AuthPages/forgot-password.html">Forgot Password?</a></div>
 								</div>
 								<div class="form-group login-submit">
-									<button data-dismiss="modal" id="SubmitButton" type="submit" class="btn btn-primary btn-xl">Sign me in</button>
+									<button id="SubmitButton" type="submit" data-mdc-auto-init="MDCRipple" style="width: 90%; display: block; margin: auto;" class="mdc-button mdc-button--raised mdc-ripple-upgraded">Sign me in</button>
 								</div>
 							</form>
 						</div>
@@ -62,15 +72,14 @@
 			</div>
 		</div>
 	</div>
+	<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
 	<script src="../assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
 	<script src="../assets/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
 	<script src="../assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 	<script src="../assets/js/app.js" type="text/javascript"></script>
 	<script type="text/javascript">
-		$(document).ready(function () {
-			//initialize the javascript
-			App.init();
-		});
+		$(document).ready(function () { App.init(); });
+		window.mdc.autoInit();
 
 		var pa7 = 0;
 		function processForm(e) {
@@ -101,9 +110,11 @@
 			}
 		}
 
+		var RemeberMeCheckbox = new mdc.checkbox.MDCCheckbox(document.querySelector('#RememberMe'));
+
 		function processSignIn(email) {
 			var password = document.getElementById("password").value;
-			firebase.auth().setPersistence(document.querySelector('#RememberMe').checked ? firebase.auth.Auth.Persistence.SESSION : firebase.auth.Auth.Persistence.LOCAL).then(function () { 
+			firebase.auth().setPersistence(RemeberMeCheckbox.checked ? firebase.auth.Auth.Persistence.SESSION : firebase.auth.Auth.Persistence.LOCAL).then(function () {
 				firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
 					var errorCode = error.code;
 					var errorMessage = error.message;
@@ -153,7 +164,7 @@
 
 		document.getElementById("SubmitButton").addEventListener('click', function () {
 			form.valid
-			pa7++; if (pa7 > 4) { alert("Forgot Password"); } 
+			pa7++; if (pa7 > 4) { alert("Forgot Password"); }
 		});
 
 		var form = document.getElementById('LoginForm');

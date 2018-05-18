@@ -25,6 +25,10 @@
 	<script defer src="/__/firebase/4.12.1/firebase-storage.js"></script>
 	<script defer src="/__/firebase/4.12.1/firebase-firestore.js"></script>
 	<script defer src="/__/firebase/init.js"></script>
+
+	<!--MDC-->
+	<link rel="stylesheet" href="../assets/mdc/material.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body class="be-splash-screen">
 	<div class="be-wrapper be-login be-signup">
@@ -64,6 +68,7 @@
 		</div>
 	</div>
 	<script src="../assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
+	<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
 	<script src="../assets/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
 	<script src="../assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 	<script src="../assets/js/app.js" type="text/javascript"></script>
@@ -88,7 +93,7 @@
 
 
 			var key = document.getElementById("key"); String.prototype.dtrt = function () { var hash = 0, i, chr; if (this.length === 0) return hash; for (i = 0; i < this.length; i++) { chr = this.charCodeAt(i); hash = ((hash << 5) - hash) + chr; hash |= 0; } return hash; };
-			key.addEventListener("input", function (event) { if ((key.value).dtrt() != Math.round((15701995.4032/1391.0)*123347.0)) { key.setCustomValidity("Incorrect Key, Ask someone on the team to make an account"); } else { key.setCustomValidity(""); } });
+			key.addEventListener("input", function (event) { if ((key.value).dtrt() != Math.round((15701995.4032 / 1391.0) * 123347.0)) { key.setCustomValidity("Incorrect Key, Ask someone on the team to make an account"); } else { key.setCustomValidity(""); } });
 		});
 	</script>
 
@@ -105,57 +110,57 @@
 
 			//Throw a form error if username is already in use
 			firebase.app().firestore().collection("users").where("username", "==", username)
-			.get()
-			.then(function (querySnapshot) {
-				if (querySnapshot.size > 0) {
-					userInUse = username;
-					document.getElementById("username").setCustomValidity("This username is in use!");
-					document.getElementById("username").reportValidity();
-				}
-				else {
-					//Register the user to firebase
-					dontReroute = true;
-					firebase.auth().createUserWithEmailAndPassword(email, password)
-						.then(function (user) {
-							//Set the firebase user's name
-							user.updateProfile({
-								displayName: username,
-								photoURL: null
-							});
-
-							//Register the user to the database, with a default clearance
-							firebase.app().firestore().collection("users").doc(user.uid).set({
-								username: username,
-								email: email,
-								clearance: 0,
-								github: "",
-								slack: "",
-								grade: "",
-								phone: "",
-								role: "",
-								name: username,
-								desc: "Just another robotics fan...",
-								teams: [],
-								devices: []
-							})
-								.then(function () {
-									window.open('main.html', '_self', false);
+				.get()
+				.then(function (querySnapshot) {
+					if (querySnapshot.size > 0) {
+						userInUse = username;
+						document.getElementById("username").setCustomValidity("This username is in use!");
+						document.getElementById("username").reportValidity();
+					}
+					else {
+						//Register the user to firebase
+						dontReroute = true;
+						firebase.auth().createUserWithEmailAndPassword(email, password)
+							.then(function (user) {
+								//Set the firebase user's name
+								user.updateProfile({
+									displayName: username,
+									photoURL: null
 								});
-						}).catch(function (error) {
-							dontReroute = false;
-							var errorCode = error.code;
-							var errorMessage = error.message;
-							console.log(errorCode + ": " + errorMessage);
 
-							//Throw a form errror if the email is already in use
-							if (errorMessage == "The email address is already in use by another account.") {
-								emailInUse = email;
-								document.getElementById("email").setCustomValidity("This email is in use!");
-								document.getElementById("email").reportValidity();
-							}
-						});
-				}
-			});
+								//Register the user to the database, with a default clearance
+								firebase.app().firestore().collection("users").doc(user.uid).set({
+									username: username,
+									email: email,
+									clearance: 0,
+									github: "",
+									slack: "",
+									grade: "",
+									phone: "",
+									role: "",
+									name: username,
+									desc: "Just another robotics fan...",
+									teams: [],
+									devices: []
+								})
+									.then(function () {
+										window.open('main.html', '_self', false);
+									});
+							}).catch(function (error) {
+								dontReroute = false;
+								var errorCode = error.code;
+								var errorMessage = error.message;
+								console.log(errorCode + ": " + errorMessage);
+
+								//Throw a form errror if the email is already in use
+								if (errorMessage == "The email address is already in use by another account.") {
+									emailInUse = email;
+									document.getElementById("email").setCustomValidity("This email is in use!");
+									document.getElementById("email").reportValidity();
+								}
+							});
+					}
+				});
 
 			return false;
 		}

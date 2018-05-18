@@ -33,8 +33,6 @@ function getNotificationPermission() {
 					return messaging.getToken();
 				})
 				.then(function (token) {
-					console.log("Token => ");
-					console.log(token);
 					addDeviceToAccount(token, users.getCurrentUid());
 				})
 				.catch(function (err) {
@@ -68,16 +66,6 @@ function addDeviceToAccount(token, uid) {
 	});
 }
 
-function removeDevicesToAccount(tokens, uid) {
-	firebase.firestore().collection("users").doc(uid).get().then(function (doc) {
-		var newDeviceList = doc.data().devices;
-		for (var t = 0; t < tokens.length; t++) {
-			newDeviceList.remove(tokens[t]);
-		}
-		firebase.firestore().collection("users").doc(uid).set({ devices: newDeviceList }, { merge: true });
-	});
-}
-
 function NotificatioPermissionGranted() {
 	var mainicon = document.querySelector('#MainNotificationIcon');
 	mainicon.classList.remove('mdi-notifications-off'); mainicon.classList.add('mdi-notifications-active');
@@ -90,47 +78,13 @@ function NotificationPermissionDenied() {
 
 }
 
-function sendSWNToUser(uid) {
-	var badDevices = [];
-	var deRe = 0;
-	for (var d = 0; d < Object.keys(users.getCurrentUser().devices).length; d++) {
-		SWNOT(users.getCurrentUser().devices[d], function (good, device) {
-			++deRe;
-			if (!good) badDevices.push(device);
-			if (deRe == Object.keys(users.getCurrentUser().devices).length - 1) {
-				removeDevicesToAccount(badDevices, uid);
-			}
-		});
-	}
-}
-
-function SWNOT(device, callback) {
-	var request = new XMLHttpRequest();
-	request.open('POST', "https://fcm.googleapis.com/fcm/send", true);
-	request.setRequestHeader('Content-Type', 'application/json');
-	request.setRequestHeader('Authorization', "key=AAAAomzg7cg:APA91bFg19CrzrQJxHoFCTNGmF4_-t3mKy_iYtZWcjrgKPSBjzilPkPUweXTLxzVnuAA7-QN5mevqYDan-pnHlcBLt3dXw_16Nv_aRdr36TVLVC4r9bmuFVDhITjXxDmwE9zdWowAb0X");
-
-	var notificationTemplate = 
-		{
-			notification: {
-				title: "Portugal vs. Denmark",
-				body: "5 to 1",
-				click_action: "http://localhost:5000"
-			},
-			to: device
-		};
-
-	request.send(JSON.stringify(notificationTemplate));
-
-	request.onreadystatechange = function () {
-		if (request.readyState === 4) {
-			var response = JSON.parse(request.responseText);
-
-			if (response["results"]["0"]["error"] == "InvalidRegistration" || response["results"]["0"]["error"] == "NotRegistered") {
-				callback(false, device); return;
-			} else {
-				callback(true, device); return;
-			}
-		}
-	};
+function sendSWNToUser(uid, desc, icon) {
+	var userRef = firebase.firestore().collection("Notifications").doc(uid);
+	userRef.get()
+		.then(function (doc) {
+			var newData = doc.data();
+			newData["Notifications"].push({ desc: desc, icon: icon });
+			userRef.set(newData);
+		})
+		.catch(function (err) { });
 }

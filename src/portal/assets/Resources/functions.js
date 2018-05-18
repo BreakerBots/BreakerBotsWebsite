@@ -22,3 +22,22 @@ function initAutoResizeTextArea(textarea) {
 		}, 0);
 	}
 } initAutoResizeTextArea(document.querySelector('textarea'));
+
+//JSON Contains
+function jsoncontains (json, value) {
+	for (key in json) {
+		if (typeof (json[key]) === "object") {}
+		else if (json[key] === value) {
+			return true;
+		}
+	}
+	return false;
+}
+
+//2d Collision
+function pointInBox(px, py, bx, by, bw, bh) {
+	if ((px >= bx && px <= bx + bw) && (py >= by && py <= by + bh))
+		return true;
+	else
+		return false;
+}
