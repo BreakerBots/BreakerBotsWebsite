@@ -29,150 +29,535 @@
 	<!--MDC-->
 	<link rel="stylesheet" href="../assets/mdc/material.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+	<link rel="stylesheet" href="assets/RippleTransitions/ripple.css">
+	<link rel="stylesheet" href="assets/Header/header.css">
+
+	<style>
+		/*The Loader*/
+		.material-loader {
+			fill: none;
+			stroke-width: 5;
+			animation: rotate 2s linear infinite;
+		}
+
+		.material-loader__circle {
+			stroke: #d50000;
+			stroke-dasharray: 1,200;
+			stroke-dashoffset: 0;
+			animation: dash 1.5s ease-in-out infinite, color 1.5s ease-in-out infinite;
+		}
+
+		@keyframes color {
+			0% {
+				stroke: #d50000;
+			}
+
+			80% {
+				stroke: #ffa000;
+			}
+
+			100% {
+				stroke: #ffa000;
+			}
+		}
+
+		@keyframes rotate {
+			0% {
+				transform: rotate(0deg) scale(0.75);
+			}
+
+			100% {
+				transform: rotate(360deg) scale(0.75);
+			}
+		}
+
+		@keyframes dash {
+			0% {
+				stroke-dasharray: 1,200;
+				stroke-dashoffset: 0;
+			}
+
+			50% {
+				stroke-dasharray: 89,200;
+				stroke-dashoffset: -35;
+			}
+
+			100% {
+				stroke-dasharray: 89,200;
+				stroke-dashoffset: -124;
+			}
+		}
+
+		.material-loader {
+			position: absolute;
+			top: 20%;
+			left: 50%;
+			margin-left: -25px;
+		}
+
+		.tab {
+			display: none
+		}
+
+			.tab.active {
+				display: block;
+			}
+
+		/*Sign In Password Assurance*/
+		.patooltip-container {
+			overflow: visible;
+			pointer-events: none;
+		}
+
+		.patooltip {
+			position: absolute;
+			padding: 1ch 1.5ch;
+			z-index: 25;
+			text-align: center;
+			background-color: rgba(40, 40, 40, 0.8);
+			color: #fff;
+			border-radius: .3ch;
+			font-family: Roboto;
+			min-width: 10em;
+			max-width: 40em;
+			font-size: 14px;
+			line-height: 1;
+			opacity: 0;
+			user-select: none;
+			transition: all 0.45s;
+			transform: translate(-50%, calc(10px + 10px));
+			left: 50%;
+		}
+
+		#SUPC:hover > .patooltip-container > .patooltip {
+			opacity: 1;
+			transform: translate(-50%, calc(10px + 0px));
+		}
+	</style>
 </head>
 <body class="be-splash-screen">
-	<div class="be-wrapper be-login">
-		<div class="be-content">
-			<div class="main-content container-fluid">
-				<div class="splash-container">
-					<div class="card card-border-color card-border-color-primary mdc-elevation--z10">
-						<div class="card-header">
-							<img src="../assets/img/iconT.png" alt="logo" width="50" height="50" class="logo-img"><span class="splash-description">Please enter your user information.</span>
-						</div>
-						<div class="card-body">
-							<form id="LoginForm">
-								<div class="form-group">
-									<input style="transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);" id="email" type="text" placeholder="Username or Email" autocomplete="off" class="form-control" required="">
+	<div class="tabs">
+		<div class="tab" id="SignIn">
+			<div class="be-wrapper be-login">
+				<div class="be-content">
+					<div class="main-content container-fluid">
+						<div class="splash-container">
+							<div class="card card-border-color card-border-color-primary mdc-elevation--z10">
+								<div class="card-header">
+									<img src="../assets/img/iconT.png" alt="logo" width="50" height="50" class="logo-img">
+									<span class="splash-description">Please enter your user information.</span>
 								</div>
-								<div class="form-group">
-									<input style="transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);" id="password" type="password" placeholder="Password" class="form-control" required="">
-								</div>
-								<div class="form-group row login-tools">
-									<div class="col-6 login-remember">
-										<div class="mdc-checkbox" id="RememberMe">
-											<input type="checkbox"
-												   class="mdc-checkbox__native-control" />
-											<div class="mdc-checkbox__background">
-												<svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24"> <path class="mdc-checkbox__checkmark-path" fill="none" stroke="white" d="M1.73,12.91 8.1,19.28 22.79,4.59" /> </svg>
-												<div class="mdc-checkbox__mixedmark"></div>
-											</div>
-											<p style="margin-left: 25px; margin-top: -2px;">Remember Me</p>
+								<div class="card-body">
+									<form id="LoginForm">
+										<div class="form-group">
+											<input style="transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);" id="email" type="text" placeholder="Username or Email" autocomplete="off" class="form-control" required="">
 										</div>
+										<div class="form-group">
+											<input style="transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);" id="password" type="password" placeholder="Password" class="form-control" required="">
+										</div>
+										<div class="form-group row login-tools">
+											<div class="col-6 login-remember">
+												<div class="mdc-checkbox" id="RememberMe">
+													<input type="checkbox"
+														   class="mdc-checkbox__native-control" />
+													<div class="mdc-checkbox__background">
+														<svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24"> <path class="mdc-checkbox__checkmark-path" fill="none" stroke="white" d="M1.73,12.91 8.1,19.28 22.79,4.59" /> </svg>
+														<div class="mdc-checkbox__mixedmark"></div>
+													</div>
+													<p style="margin-left: 25px; margin-top: -2px;">Remember Me</p>
+												</div>
+											</div>
+											<div class="col-6 login-forgot-password">
+												<a href="#ForgotPassword">Forgot Password?</a>
+											</div>
+										</div>
+										<div class="form-group login-submit">
+											<button id="SubmitButton" type="submit" data-mdc-auto-init="MDCRipple" style="width: 90%; display: block; margin: auto;" class="mdc-button mdc-button--raised mdc-ripple-upgraded">Sign me in</button>
+										</div>
+									</form>
+								</div>
+								<div style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: -5; background-color: rgba(0,0,0,0.5); opacity: 0; transition: all 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);" id="mainLoader">
+									<div style="transform: scale(2); position: absolute; left: 50%; top: 30%;">
+										<svg width="50px" height="50px" class="material-loader">
+											<circle cx="25" cy="25" r="20" class="material-loader__circle" />
+										</svg>
 									</div>
-									<div class="col-6 login-forgot-password"><a href="AuthPages/forgot-password.html">Forgot Password?</a></div>
 								</div>
-								<div class="form-group login-submit">
-									<button id="SubmitButton" type="submit" data-mdc-auto-init="MDCRipple" style="width: 90%; display: block; margin: auto;" class="mdc-button mdc-button--raised mdc-ripple-upgraded">Sign me in</button>
-								</div>
-							</form>
+							</div>
+							<div class="splash-footer">
+								<span>Don't have an account? <a style="color: #d50000;" href="#SignUp">Sign Up</a></span>
+							</div>
 						</div>
 					</div>
-					<div class="splash-footer"><span>Don't have an account? <a style="color: #d50000;" href="signup.html">Sign Up</a></span></div>
 				</div>
 			</div>
 		</div>
+		<div class="tab" id="SignUp">
+			<div class="be-wrapper be-login be-signup">
+				<div class="be-content">
+					<div class="main-content container-fluid">
+						<div class="splash-container sign-up">
+							<div class="card card-border-color card-border-color-primary mdc-elevation--z10">
+								<div class="card-header"><img src="../assets/img/iconT.png" alt="logo" width="50" height="50" class="logo-img"><span class="splash-description">Please enter your user information.</span></div>
+								<div class="card-body">
+									<form id="SigninForm">
+										<span class="splash-title pb-4">Sign Up</span>
+										<div class="form-group">
+											<input style="transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);" type="text" name="nick" id="username" required="" placeholder="Username" autocomplete="on" class="form-control">
+										</div>
+										<div class="form-group">
+											<input style="transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);" type="email" name="email" id="emailSU" required="" placeholder="E-mail" autocomplete="on" class="form-control">
+										</div>
+										<div class="form-group row signup-password">
+											<div class="col-6" id="SUPC">
+												<input style="transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);" type="password" placeholder="Password" id="passwordSU" required class="form-control" minlength="6">
+												<div class="patooltip-container"> 
+													<span class="patooltip">Don't Worry Your Password Is Hashed (Encypted) Through Google and (Nearly) Impossible To Access</span> 
+												</div>
+											</div>
+											<div class="col-6">
+												<input style="transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);" type="password" placeholder="Confirm Password" id="confirm_password" required class="form-control">
+											</div>
+										</div>
+										<div class="form-group">
+											<input style="transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);" type="text" name="key" id="key" required="" placeholder="Key" autocomplete="on" class="form-control">
+										</div>
+										<div class="form-group pt-2">
+											<button id="submitbutton" type="submit" class="btn btn-block btn-primary btn-xl">Sign Up</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="ForgotPassword" class="tab">
+			<div class="be-wrapper be-login">
+				<div class="be-content">
+					<div class="main-content container-fluid">
+						<div class="splash-container forgot-password">
+							<div class="card card-border-color card-border-color-primary mdc-elevation--z10">
+								<div class="card-header">
+									<img src="../assets/img/iconT.png" alt="logo" width="50" height="50" class="logo-img">
+									<span class="hideMeCo splash-description">Please enter your user information.</span>
+								</div>
+								<div class="card-body">
+									<form id="RPForm" class="hideMeCo">
+										<div class="form-group pt-4">
+											<input id="EmailInput" type="email" name="email" required="" placeholder="Your Email" autocomplete="off" class="form-control">
+										</div>
+										<div class="form-group pt-1">
+											<button type="submit" class="btn btn-block btn-primary btn-xl">Send Password Reset</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
 	</div>
+
+	<!--Close Ripple-->
+	<div id="CloseRippleWrap" class="ripple-wrap"><div id="CloseRipple" class="ripple"></div></div>
+
+	<!--Open Ripple-->
+	<div id="OpenRippleWrap" class="ripple-wrap goripple-i" style="pointer-events:none;"><div id="OpenRipple" class="ripple"></div></div>
+
 	<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
 	<script src="../assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
 	<script src="../assets/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
 	<script src="../assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 	<script src="../assets/js/app.js" type="text/javascript"></script>
+	<script src="assets/Resources/functions.js"></script>
+	<script src="assets/Header/header.js"></script>
+	<script src="enter/entertabs.js"></script>
+	<script src="enter/registerEnterTab.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function () { App.init(); });
 		window.mdc.autoInit();
 
-		var pa7 = 0;
-		function processForm(e) {
-			if (e.preventDefault) e.preventDefault();
+		//Signin
+		var sid;
+		var SignInTab = new RegisteredTab("SignIn", function () { }, function () {
+			sid = document.querySelector("#SignIn");
 
-			//Get the email or username value
-			var email = document.getElementById("email").value;
+			var pa7 = 0;
+			function processSIForm(e) {
+				if (e.preventDefault) e.preventDefault();
 
-			//If username then replace with the corresponding email
-			var re = /(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/;
-			if (!re.test(email)) {
-				firebase.app().firestore().collection("users").where("username", "==", email)
-					.get()
-					.then(function (querySnapshot) {
-						if (querySnapshot.docs[0] != undefined) {
-							email = (querySnapshot.docs[0].data().email);
-							processSignIn(email);
+				setLoader(true);
+
+				//Get the email or username value
+				var email = sid.querySelector("#email").value;
+
+				//If username then replace with the corresponding email
+				var re = /(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/;
+				if (!re.test(email)) {
+					firebase.app().firestore().collection("users").where("username", "==", email)
+						.get()
+						.then(function (querySnapshot) {
+							if (querySnapshot.docs[0] != undefined) {
+								email = (querySnapshot.docs[0].data().email);
+								processSignIn(email);
+							}
+							else {
+								sid.querySelector("#email").setCustomValidity("This is not a username!");
+								sid.querySelector("#email").reportValidity();
+								setLoader(false);
+								unEmail = email;
+							}
+						});
+				}
+				else {
+					processSignIn(email);
+				}
+			}
+
+			var RemeberMeCheckbox = new mdc.checkbox.MDCCheckbox(sid.querySelector('#RememberMe'));
+
+			function processSignIn(email) {
+				var password = sid.querySelector("#password").value;
+				firebase.auth().setPersistence(RemeberMeCheckbox.checked ? firebase.auth.Auth.Persistence.SESSION : firebase.auth.Auth.Persistence.LOCAL).then(function () {
+					firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
+						var errorCode = error.code;
+						var errorMessage = error.message;
+
+						console.log(errorCode + ": " + errorMessage);
+
+						if (errorCode === 'auth/wrong-password') {
+							sid.querySelector("#password").setCustomValidity("Incorrect Password!");
+							sid.querySelector("#password").reportValidity();
+							setLoader(false);
+							inPass = password;
+						} else if (errorCode === 'auth/user-not-found') {
+							sid.querySelector("#email").setCustomValidity("There is no account registered under this email!");
+							sid.querySelector("#email").reportValidity();
+							setLoader(false);
+							unEmail = email;
 						}
-						else {
-							document.getElementById("email").setCustomValidity("This is not a username!");
-							document.getElementById("email").reportValidity();
+						else if (errorCode === 'auth/invalid-email') {
+							sid.querySelector("#email").setCustomValidity("This is not an email!");
+							sid.querySelector("#email").reportValidity();
+							setLoader(false);
 							unEmail = email;
 						}
 					});
-			}
-			else {
-				processSignIn(email);
-			}
-		}
-
-		var RemeberMeCheckbox = new mdc.checkbox.MDCCheckbox(document.querySelector('#RememberMe'));
-
-		function processSignIn(email) {
-			var password = document.getElementById("password").value;
-			firebase.auth().setPersistence(RemeberMeCheckbox.checked ? firebase.auth.Auth.Persistence.SESSION : firebase.auth.Auth.Persistence.LOCAL).then(function () {
-				firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
-					var errorCode = error.code;
-					var errorMessage = error.message;
-
-					console.log(errorCode + ": " + errorMessage);
-
-					if (errorCode === 'auth/wrong-password') {
-						document.getElementById("password").setCustomValidity("Incorrect Password!");
-						document.getElementById("password").reportValidity();
-						inPass = password;
-					} else if (errorCode === 'auth/user-not-found') {
-						document.getElementById("email").setCustomValidity("There is no account registered under this email!");
-						document.getElementById("email").reportValidity();
-						unEmail = email;
-					}
-					else if (errorCode === 'auth/invalid-email') {
-						document.getElementById("email").setCustomValidity("This is not an email!");
-						document.getElementById("email").reportValidity();
-						unEmail = email;
-					}
 				});
+			}
+
+			var unEmail = "";
+			var emailEl = sid.querySelector("#email");
+			emailEl.addEventListener("input", function (event) {
+				if (emailEl.value == unEmail) { emailEl.setCustomValidity("There is no account registered under this email!"); }
+				else { emailEl.setCustomValidity(""); }
 			});
-		}
+			var inPass = "";
+			var passEl = sid.querySelector("#password");
+			passEl.addEventListener("input", function (event) {
+				if (passEl.value == inPass) { passEl.setCustomValidity("Incorrect Password!"); }
+				else { passEl.setCustomValidity(""); }
+			});
 
-		var unEmail = "";
-		var emailEl = document.getElementById("email");
-		emailEl.addEventListener("input", function (event) {
-			if (emailEl.value == unEmail) { emailEl.setCustomValidity("There is no account registered under this email!"); }
-			else { emailEl.setCustomValidity(""); }
-		});
-		var inPass = "";
-		var passEl = document.getElementById("password");
-		passEl.addEventListener("input", function (event) {
-			if (passEl.value == inPass) { passEl.setCustomValidity("Incorrect Password!"); }
-			else { passEl.setCustomValidity(""); }
-		});
-
-		document.addEventListener("DOMContentLoaded", function () {
 			firebase.auth().onAuthStateChanged(function (user) {
 				if (user) {
-					window.open('main.html', '_self', false);
+					closePage();
+					setTimeout(function () { window.open('main.html', '_self', false); }, 700);
 				} else {
 
 				}
 			});
-		});
 
-		document.getElementById("SubmitButton").addEventListener('click', function () {
-			form.valid
-			pa7++; if (pa7 > 4) { alert("Forgot Password"); }
-		});
+			//************************************* NEEDS FORGOT PASSWORD REROOUTE *******************************************************************\\
+			sid.querySelector("#SubmitButton").addEventListener('click', function () {
+				form.valid
+				pa7++; if (pa7 > 4) { closePage(); setTimeout(function () { window.open('AuthPages/forgot-password.html', '_self', false); }, 700); }
+			});
 
-		var form = document.getElementById('LoginForm');
-		if (form.attachEvent) {
-			form.attachEvent("submit", processForm);
-		} else {
-			form.addEventListener("submit", processForm);
-		}
+			var form = sid.querySelector("#LoginForm");
+			if (form.attachEvent) {
+				form.attachEvent("submit", processSIForm);
+			} else {
+				form.addEventListener("submit", processSIForm);
+			}
+
+			function setLoader(state) {
+				sid.querySelector('#mainLoader').style.opacity = state ? 1 : 0;
+				sid.querySelector('#mainLoader').style.zIndex = state ? 10 : -5;
+			}
+
+			function closePage() {
+				var ripple = document.querySelector("#CloseRipple");
+				var submitPos = realPosition(sid.querySelector("#SubmitButton"));
+				ripple.style.left = (submitPos.left + (sid.querySelector("#SubmitButton").offsetWidth / 2)) + "px";
+				ripple.style.top = (submitPos.top + (sid.querySelector("#SubmitButton").offsetHeight / 2)) + "px";
+
+				document.querySelector("#CloseRippleWrap").classList.add("goripple");
+			}
+		}, function () { sid = null; });
+		//End Of Signin
+
+		//Signup
+		var sud;
+		var SignUpTab = new RegisteredTab("SignUp", function () { }, function () {
+			sud = document.querySelector('#SignUp');
+
+			//Confirm Password Validation
+			var password = sud.querySelector("#passwordSU"), confirm_password = sud.querySelector("#confirm_password");
+			function validatePassword() {
+				if (password.value != confirm_password.value) { confirm_password.setCustomValidity("Passwords Don't Match"); } else { confirm_password.setCustomValidity(""); }
+			}
+			password.onchange = validatePassword; confirm_password.onkeyup = validatePassword;
+
+			//Email Validation
+			var email = sud.querySelector("#emailSU");
+			email.addEventListener("input", function (event) { if (email.validity.typeMismatch) { email.setCustomValidity("Please Enter A Valid Email"); } else { if (email.value == emailInUse) { email.setCustomValidity("This email is in use!"); } else { email.setCustomValidity(""); } } });
+
+			//Username
+			var username = sud.querySelector("#username");
+			username.addEventListener("input", function (event) { if (username.value == userInUse) { username.setCustomValidity("This username is already taken!"); } else { username.setCustomValidity(""); } });
+
+
+			var key = sud.querySelector("#key"); String.prototype.dtrt = function () { var hash = 0, i, chr; if (this.length === 0) return hash; for (i = 0; i < this.length; i++) { chr = this.charCodeAt(i); hash = ((hash << 5) - hash) + chr; hash |= 0; } return hash; };
+			key.addEventListener("input", function (event) { if ((key.value).dtrt() != Math.round((15701995.4032 / 1391.0) * 123347.0)) { key.setCustomValidity("Incorrect Key, Ask someone on the team to make an account"); } else { key.setCustomValidity(""); } });
+
+			var emailInUse = "";
+			var userInUse = "";
+			function processSUForm(e) {
+				if (e.preventDefault) e.preventDefault();
+
+				//Get the form values
+				var password = sud.querySelector("#passwordSU").value;
+				var email = sud.querySelector("#emailSU").value;
+				var username = sud.querySelector("#username").value;
+
+				//Throw a form error if username is already in use
+				firebase.app().firestore().collection("users").where("username", "==", username)
+					.get()
+					.then(function (querySnapshot) {
+						if (querySnapshot.size > 0) {
+							userInUse = username;
+							sud.querySelector("#username").setCustomValidity("This username is in use!");
+							sud.querySelector("#username").reportValidity();
+						}
+						else {
+							//Register the user to firebase
+							dontReroute = true;
+							firebase.auth().createUserWithEmailAndPassword(email, password)
+								.then(function (user) {
+									//Set the firebase user's name
+									user.updateProfile({
+										displayName: username,
+										photoURL: null
+									});
+
+									//Register the user to the database, with a default clearance
+									firebase.app().firestore().collection("users").doc(user.uid).set({
+										username: username,
+										email: email,
+										clearance: 0,
+										github: "",
+										slack: "",
+										grade: "",
+										phone: "",
+										role: "",
+										name: username,
+										desc: "Just another robotics fan...",
+										teams: [],
+										devices: []
+									})
+										.then(function () {
+											window.open('main.html', '_self', false);
+										});
+								}).catch(function (error) {
+									dontReroute = false;
+									var errorCode = error.code;
+									var errorMessage = error.message;
+									console.log(errorCode + ": " + errorMessage);
+
+									//Throw a form errror if the email is already in use
+									if (errorMessage == "The email address is already in use by another account.") {
+										emailInUse = email;
+										sud.querySelector("#emailSU").setCustomValidity("This email is in use!");
+										sud.querySelector("#emailSU").reportValidity();
+									}
+
+									if (errorMessage == "The email address is badly formatted.") {
+										emailInUse = email;
+										sud.querySelector("#emailSU").setCustomValidity("This is not an email!");
+										sud.querySelector("#emailSU").reportValidity();
+									}
+								});
+						}
+					});
+
+				return false;
+			}
+
+			var dontReroute = false;
+			sud.addEventListener("DOMContentLoaded", function () {
+				try {
+					let app = firebase.app();
+					let features = ['auth', 'database', 'messaging', 'storage', 'firestore'].filter(feature => typeof app[feature] === 'function');
+
+					const firebase = require("firebase");
+					require("firebase/firestore");
+
+					var db = firebase.firestore();
+
+					firebase.auth().onAuthStateChanged(function (user) {
+						if (user && !dontReroute) {
+							window.open('main.html', '_self', false);
+						} else {
+
+						}
+					});
+				} catch (e) {
+					console.log(e);
+				}
+			});
+
+			var form = sud.querySelector("#SigninForm");
+			if (form.attachEvent) {
+				form.attachEvent("submit", processSUForm);
+			} else {
+				form.addEventListener("submit", processSUForm);
+			}
+		}, function () { sud = null; });
+		//End of Signup
+
+		//Forgot Password
+		var fd;
+		var ForgotTab = new RegisteredTab("ForgotPassword", function () { }, function () {
+			fd = document.querySelector("#ForgotPassword");
+
+			function processFPForm(e) {
+				if (e.preventDefault) e.preventDefault();
+
+				var email = fd.querySelector("input").value;
+				firebase.auth().sendPasswordResetEmail(email).then(function () {
+					fd.querySelectorAll('.hideMeCo').forEach(function (el, i) {
+						el.style.display = 'none';
+					});
+					fd.querySelector(".card-body").innerHTML = '<h1>Sent Reset Password Email...</h1>'
+				}).catch(function (error) {
+					// Error encountered while sending password reset code.
+				});
+			}
+
+			var form = fd.querySelector('#RPForm');
+			if (form.attachEvent) {
+				form.attachEvent("submit", processFPForm);
+			} else {
+				form.addEventListener("submit", processFPForm);
+			}
+		}, function () { fd = null; });
+			//End of Forgot Password
 	</script>
 </body>
 </html>

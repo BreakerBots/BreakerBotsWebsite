@@ -21,7 +21,7 @@ function initAutoResizeTextArea(textarea) {
 			}
 		}, 0);
 	}
-} initAutoResizeTextArea(document.querySelector('textarea'));
+}
 
 //JSON Contains
 function jsoncontains (json, value) {
@@ -40,4 +40,11 @@ function pointInBox(px, py, bx, by, bw, bh) {
 		return true;
 	else
 		return false;
+}
+
+//Real Position
+function realPosition(element) {
+	var bodyRect = document.body.getBoundingClientRect(),
+		elemRect = element.getBoundingClientRect();
+	return { left: elemRect.left - bodyRect.left, top: elemRect.top - bodyRect.top, bottom: elemRect.bottom - bodyRect.bottom, right: elemRect.right - bodyRect.right };
 }

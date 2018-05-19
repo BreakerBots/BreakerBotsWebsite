@@ -8,7 +8,7 @@
 	<meta name="author" content="">
 	<title>Breakerbots - Team 5104</title>
 	<link rel="shortcut icon" href="assets/img/iconT.png">
-	<meta name="theme-color" content="#222222"/>
+	<meta name="theme-color" content="#222222" />
 
 	<!-- Roboto -->
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
@@ -23,6 +23,8 @@
 	<link href="assets/vit/vendor/animate.css/animate.min.css" rel="stylesheet" type="text/css">
 	<link href="assets/vit/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 	<link href="assets/vit/css/vitality-red.css" rel="stylesheet" type="text/css">
+
+	<link rel="stylesheet" href="portal/assets/RippleTransitions/ripple.css">
 
 	<style>
 		html, body {
@@ -48,7 +50,7 @@
 	<nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
 		<div class="container">
 			<a class="navbar-brand js-scroll-trigger" href="#page-top">
-				<img class="img-fluid" src="assets/img/iconT.png" alt="">
+				<img class="img-fluid" src="assets/img/iconT.png" alt="" id="headerIcon">
 			</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 				<i class="fa fa-bars"></i>
@@ -74,8 +76,8 @@
 					<li class="nav-item">
 						<a class="nav-link js-scroll-trigger" href="CentralCoastRegional.html">Central Coast Regional</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link js-scroll-trigger" href="portal/enter.html">Portal</a>
+					<li class="nav-item" style="cursor: grab !important;">
+						<a class="nav-link js-scroll-trigger" onclick="enterPortal()">Portal</a>
 					</li>
 				</ul>
 			</div>
@@ -563,6 +565,9 @@
 		</div>
 	</footer>
 
+	<!--Close Ripple-->
+	<div id="CloseRippleWrap" class="ripple-wrap" style="z-index: 1000;"><div id="CloseRipple" class="ripple"></div></div>
+
 	<!-- Javascript -->
 	<script src="assets/vit/vendor/jquery/jquery.min.js"></script>
 	<script src="assets/vit/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -588,6 +593,15 @@
 				mshtLOW = msht.offsetWidth;
 				msht.innerHTML = msht.offsetWidth < 480 ? ("BREAKER BOTS") : ("BREAKERBOTS");
 			}
+		}
+
+		function enterPortal() {
+			setTimeout(function () { document.querySelector('#headerIcon').hidden = true; }, 250);
+			var ripple = document.querySelector("#CloseRipple");
+			ripple.style.left = event.srcElement.offsetLeft + event.srcElement.offsetWidth + "px";
+			ripple.style.top = event.srcElement.offsetTop + event.srcElement.offsetHeight + "px";
+			document.querySelector("#CloseRippleWrap").classList.add('goripple');
+			setTimeout(function () { window.open('portal/enter.html', '_self', false); },700);
 		}
 	</script>
 </body>
