@@ -4,20 +4,30 @@ function updateTabs(tab) {
 	//Switch To Tab To Select Tab From Url
 	if (tab == undefined) { tab = getTabFromURL('tab'); if (tab == null) { tab = 'SignIn'; } }
 
-	//Send Open Callback to tab handlers
-	sendTabOpenCallback(tab);
+	
+	//Transition
+	cardRippleTransition(
+		function adjustHeights() {
+			sendTabAdjustHeight(tab);
+		},
+		function closeOldTab() {
+			var lastTab = document.querySelector('.tab.active');
+			if (lastTab) {
+				//Send Exit Callback to tab handlers
+				sendTabExitCallback(lastTab.id);
 
-	var lastTab = document.querySelector('.tab.active');
-	if (lastTab) {
-		//Send Exit Callback to tab handlers
-		sendTabExitCallback(lastTab.id);
+				//Exit the last tab
+				lastTab.classList.remove('active');
+			}
+		},
+		function openNewTab() {
+			//Send Open Callback to tab handlers
+			sendTabOpenCallback(tab);
 
-		//Exit the last tab
-		lastTab.classList.remove('active');
-	}
-
-	//Open the new tab and play animation
-	document.getElementById(tab).classList.add('active');
+			//Open the new tab and play animation
+			document.getElementById(tab).classList.add('active');
+		}
+	);
 }
 
 function clearTabs() {

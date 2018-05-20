@@ -47,7 +47,7 @@
 
 <body id="page-top">
 	<!-- Nav -->
-	<nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+	<nav class="navbar navbar-expand-lg fixed-top" id="mainNav" style="transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);">
 		<div class="container">
 			<a class="navbar-brand js-scroll-trigger" href="#page-top">
 				<img class="img-fluid" src="assets/img/iconT.png" alt="" id="headerIcon">
@@ -596,7 +596,7 @@
 		}
 
 		function enterPortal() {
-			setTimeout(function () { document.querySelector('#headerIcon').hidden = true; }, 250);
+			document.querySelector("#mainNav").style.opacity = 0;
 			var ripple = document.querySelector("#CloseRipple");
 			ripple.style.left = event.srcElement.offsetLeft + event.srcElement.offsetWidth + "px";
 			ripple.style.top = event.srcElement.offsetTop + event.srcElement.offsetHeight + "px";
