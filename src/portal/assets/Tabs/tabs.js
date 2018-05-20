@@ -2,34 +2,71 @@
 
 //The main update tabs function
 function updateTabs(tab) {
-	showMainLoader(true);
+	//If JSI (Just Signed In)
+	if (window.location.hash == "#jsi") {
+		//JSI Transition
+		var lastTab = document.querySelector('.tab.active');
+		if (lastTab) {
+			//Send Exit Callback to tab handlers
+			sendTabExitCallback(lastTab.id);
 
-	//Switch To Tab To Select Tab From Url
-	if (tab == undefined) { tab = getTabFromURL('tab'); if (tab == null) { tab = 'General'; } }
+			//Exit the last tab and play animation
+			lastTab.classList.remove('active');
+			lastTab.classList.add('exit');
+			lastTab.addEventListener("animationend", function () { event.srcElement.classList.remove('exit'); });
+		}
 
-	//Send Open Callback to tab handlers
-	sendTabOpenCallback(tab);
+		document.querySelector('.permanent-drawer').classList.add("transition--instant");
+		document.querySelector('.permanent-drawer').style.transform = "translateX(-320px)";
+		setTimeout(function () { document.querySelector('.permanent-drawer').classList.remove("transition--instant"); }, 10);
 
-	var lastTab = document.querySelector('.tab.active');
-	if (lastTab) {
-		//Send Exit Callback to tab handlers
-		sendTabExitCallback(lastTab.id);
+		var header = document.querySelector('header');
+		setTimeout(function () {
+			header.style.transition = "all 0.6s cubic-bezier(0.4, 0.0, 0.2, 1)";
+			header.style.transform = "";
+		}, 10);
+		setTimeout(function () {
+			header.style.transition = "";
+			document.querySelector('.permanent-drawer').style.transform = "translateX(0px)";
 
-		//Exit the last tab and play animation
-		lastTab.classList.remove('active');
-		lastTab.classList.add('exit');
-		lastTab.addEventListener("animationend", function () { event.srcElement.classList.remove('exit'); });
+			setTimeout(function () {
+				//Reroute to default page
+				window.location.hash = "#tab=General";
+			}, 600);
+		}, 600);
 	}
+	else {
+		document.querySelector('header').style.transform = "";
 
-	//Update the selected item in menu
-	var LeftNavLists = document.querySelectorAll('.LeftNavList');
-	[].forEach.call(LeftNavLists, function (lnl) {
-		if (lnl.querySelector(".mdc-list-item--activated")) lnl.querySelector(".mdc-list-item--activated").classList.remove('mdc-list-item--activated');
-		if (lnl.querySelector('[href="#tab=' + tab + '"]')) { lnl.querySelector('[href="#tab=' + tab + '"]').classList.add('mdc-list-item--activated'); }
-	});
+		showMainLoader(true);
 
-	//Open the new tab and play animation
-	document.getElementById(tab).classList.add('active');
+		//Switch To Tab To Select Tab From Url
+		if (tab == undefined) { tab = getTabFromURL('tab'); if (tab == null) { tab = 'General'; } }
+
+		//Send Open Callback to tab handlers
+		sendTabOpenCallback(tab);
+
+		var lastTab = document.querySelector('.tab.active');
+		if (lastTab) {
+			//Send Exit Callback to tab handlers
+			sendTabExitCallback(lastTab.id);
+
+			//Exit the last tab and play animation
+			lastTab.classList.remove('active');
+			lastTab.classList.add('exit');
+			lastTab.addEventListener("animationend", function () { event.srcElement.classList.remove('exit'); });
+		}
+
+		//Update the selected item in menu
+		var LeftNavLists = document.querySelectorAll('.LeftNavList');
+		[].forEach.call(LeftNavLists, function (lnl) {
+			if (lnl.querySelector(".mdc-list-item--activated")) lnl.querySelector(".mdc-list-item--activated").classList.remove('mdc-list-item--activated');
+			if (lnl.querySelector('[href="#tab=' + tab + '"]')) { lnl.querySelector('[href="#tab=' + tab + '"]').classList.add('mdc-list-item--activated'); }
+		});
+
+		//Open the new tab and play animation
+		document.getElementById(tab).classList.add('active');
+	}
 }
 
 function clearTab() {

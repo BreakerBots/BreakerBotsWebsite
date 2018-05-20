@@ -253,7 +253,7 @@
 	</div>
 
 	<!--Close Ripple-->
-	<div id="CloseRippleWrap" class="ripple-wrap"><div id="CloseRipple" class="ripple"></div></div>
+	<div id="CloseRippleWrap" class="ripple-wrap"><div style="border-color: #EEEEEE;" id="CloseRipple" class="ripple"></div></div>
 
 	<!--Open Ripple-->
 	<div id="OpenRippleWrap" class="ripple-wrap goripple-i" style="pointer-events:none;"><div style="left: 50%; top: 20%;" id="OpenRipple" class="ripple"></div></div>
@@ -356,7 +356,7 @@
 			firebase.auth().onAuthStateChanged(function (user) {
 				if (user) {
 					closePage();
-					setTimeout(function () { window.open('main.html', '_self', false); }, 700);
+					setTimeout(function () { window.open('main.html#jsi', '_self', false); }, 700);
 				} else {
 
 				}
@@ -365,7 +365,9 @@
 			//************************************* NEEDS FORGOT PASSWORD REROOUTE *******************************************************************\\
 			sid.querySelector("#SubmitButton").addEventListener('click', function () {
 				form.valid
-				pa7++; if (pa7 > 4) { closePage(); setTimeout(function () { window.open('AuthPages/forgot-password.html', '_self', false); }, 700); }
+				pa7++;
+				if (pa7 > 4)
+					setTimeout(function () { closePage(); }, 700);
 			});
 
 			var form = sid.querySelector("#LoginForm");
@@ -546,7 +548,7 @@
 				form.addEventListener("submit", processFPForm);
 			}
 		}, function () { fd = null; });
-				//End of Forgot Password
+		//End of Forgot Password
 	</script>
 </body>
 </html>

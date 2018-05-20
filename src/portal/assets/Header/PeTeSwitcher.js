@@ -32,14 +32,26 @@ function PeteSwitcher(pageContent, pdrawer, tdrawerEl, openDrawerButton, topAppB
 		tdrawerEl.style.marginTop = topAppBarElement.clientHeight + "px"; //Adjust the height of the temp drawer relative to the header
 		document.querySelector("main").style.paddingTop = topAppBarElement.clientHeight + "px"; //Adjust the page-content relative too the header
 	}
-	openDrawerButton.addEventListener('click', () => {
+	openDrawerButton.addEventListener('click', toggleDrawer);
+	PeteSwitcher.toggle = toggleDrawer;
+	function toggleDrawer() {
 		if (CPeteState == 1) {
 			tdrawer.open = !tdrawer.open;
 		} else if (CPeteState == -1) {
 			openPDrawer(!pdrawerOpen());
 		}
-	});
+	}
+	PeteSwitcher.set = function (state) {
+		if (CPeteState == 1) {
+			tdrawer.open = state;
+		} else if (CPeteState == -1) {
+			openPDrawer(state);
+		}
+	}
 	function openPDrawer(state) { pdrawer.style.transform = state ? "translateX(0px)" : "translateX(-320px)"; }
 	function pdrawerOpen() { return !(pdrawer.style.transform == "translateX(-320px)"); }
-	setInterval(function test() { pageContent.style.marginLeft = (320 + Number(pdrawer.style.transform.substring(11).slice(0, -3))) + "px"; }, 100);
+	setInterval(function () {
+		console.log((320 + Number(pdrawer.style.transform.substring(11).slice(0, -3))));
+		pageContent.style.marginLeft = (CPeteState == -1 ? (320 + Number(pdrawer.style.transform.substring(11).slice(0, -3))) : 0) + "px";
+	}, 100);
 }

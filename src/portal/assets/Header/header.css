@@ -84,6 +84,10 @@ button:focus {
 	transform: scale(1);
 }
 
+.transition--instant {
+	transition: none !important;
+}
+
 /*MDC Side NAV*/
 .side-nav__article, .side-nav__link, .side-nav__toggle {
 	color: #5f6368;
