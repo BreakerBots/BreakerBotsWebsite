@@ -31,7 +31,7 @@ function updateTabs(tab) {
 
 			setTimeout(function () {
 				//Reroute to default page
-				window.location.hash = "#tab=General";
+				setHashParam('tab','General');
 			}, 600);
 		}, 600);
 	}
@@ -41,7 +41,7 @@ function updateTabs(tab) {
 		showMainLoader(true);
 
 		//Switch To Tab To Select Tab From Url
-		if (tab == undefined) { tab = getTabFromURL('tab'); if (tab == null) { tab = 'General'; } }
+		if (tab == undefined) { tab = getHashParam('tab'); if (tab == undefined) { tab = 'General'; } }
 
 		//Send Open Callback to tab handlers
 		sendTabOpenCallback(tab);
@@ -96,7 +96,6 @@ function willHrefReload(href) {
 document.addEventListener('DOMContentLoaded', function () { updateTabs(); });
 //Update the tabs on "#" change in url
 $(window).on('hashchange', function () { updateTabs(); });
-
 
 //Show the main loader (under header)
 function showMainLoader(state) {

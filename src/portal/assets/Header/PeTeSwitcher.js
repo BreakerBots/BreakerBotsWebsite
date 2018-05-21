@@ -51,7 +51,6 @@ function PeteSwitcher(pageContent, pdrawer, tdrawerEl, openDrawerButton, topAppB
 	function openPDrawer(state) { pdrawer.style.transform = state ? "translateX(0px)" : "translateX(-320px)"; }
 	function pdrawerOpen() { return !(pdrawer.style.transform == "translateX(-320px)"); }
 	setInterval(function () {
-		console.log((320 + Number(pdrawer.style.transform.substring(11).slice(0, -3))));
 		pageContent.style.marginLeft = (CPeteState == -1 ? (320 + Number(pdrawer.style.transform.substring(11).slice(0, -3))) : 0) + "px";
 	}, 100);
 }

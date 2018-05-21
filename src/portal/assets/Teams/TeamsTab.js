@@ -44,7 +44,7 @@ function startTeams() {
 											`<tr>
 												<td class="cell-detail user-info">
 												<img src="` + users.getAvatar(member) + `" alt="Avatar" style="width: 32px; margin-right: 8px;">
-												<a href="` + ('?profile=' + member + '#tab=Profile') + `"><span>` + users.getUsername(member) + `</span></a>
+												<a style="color: #d50000" onclick="setHashParam('tab', 'Profile'); setHashParam('profile', '` + member + `');"><span>` + users.getUsername(member) + `</span></a>
 												<span class="cell-detail-description">` + users.getUser(member).role + `</span></td>
 												<td class="text-right">`;
 						if (users.getUser(member).clearance < users.getCurrentClearance() && users.amMasterAdmin()) {

@@ -137,7 +137,7 @@
 						<div style="clear: both"></div>
 					</div>
 					<div id="footer" style="background-color: rgba(0 ,0, 0, 0.1); height: 50px; margin-top: 3%;">
-						<button onclick="toggleMenu('#profileMenu'); if (willHrefReload('?profile=this')) { clearTab(); setTimeout(function () { location.href = '?profile=this#tab=Profile'; }, 500); } else location.href = '?profile=this#tab=Profile';" class="mdc-button mdc-button--raised mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" style="margin-top: 6px; margin-left: 6px; background-color: rgb(160, 160, 160);">Edit Account</button>
+						<button onclick="toggleMenu('#profileMenu'); setHashParam('tab', 'Profile'); setHashParam('profile', 'this');" class="mdc-button mdc-button--raised mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" style="margin-top: 6px; margin-left: 6px; background-color: rgb(160, 160, 160);">Edit Account</button>
 						<button onclick="toggleMenu('#profileMenu'); firebase.auth().signOut();" class="mdc-button mdc-button--raised mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" style="float: right; margin-top: 6px; margin-right: 6px; background-color: rgb(214, 50, 50);">Signout</button>
 					</div>
 				</div>
@@ -151,7 +151,7 @@
 			<nav class="mdc-drawer__drawer">
 				<h1 style="font-family: Roboto !important; text-align: center; font-size: 1.17em;">Menu (User On Mobile)</h1>
 				<nav class="mdc-drawer__content mdc-list LeftNavList">
-					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" href="#tab=General">
+					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab', 'General');">
 						<i class="material-icons mdc-list-item__graphic">image</i>General
 					</a>
 					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="toggleNavSubMenu('#PartsSubmenu')">
@@ -160,32 +160,32 @@
 					<div class="side-nav__submenu-wrapper">
 						<ul class="side-nav__submenu" id="PartsSubmenu">
 							<li>
-								<a href="#tab=PartsAll" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded" tabindex="0">
+								<a onclick="setHashParam('tab','PartsAll');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded" tabindex="0">
 									All
 								</a>
 							</li>
 							<li>
-								<a href="#tab=PartsOrdered" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded" tabindex="0">
+								<a onclick="setHashParam('tab','PartsOrdered');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded" tabindex="0">
 									Ordered
 								</a>
 							</li>
 							<li>
-								<a href="#tab=PartsArchived" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded" tabindex="0">
+								<a onclick="setHashParam('tab','PartsArchived');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded" tabindex="0">
 									Archived
 								</a>
 							</li>
 						</ul>
 					</div>
-					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" href="#tab=Todo">
+					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Todo');">
 						<i class="material-icons mdc-list-item__graphic">format_list_numbered </i>Todo
 					</a>
-					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" href="#tab=Calendar">
+					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Calendar');">
 						<i class="material-icons mdc-list-item__graphic">calendar_today</i>Calendar
 					</a>
-					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" href="#tab=Github">
+					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Github');">
 						<i class="material-icons mdi-github mdc-list-item__graphic"></i>Github
 					</a>
-					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" href="#tab=Teams">
+					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Teams');">
 						<i class="material-icons mdc-list-item__graphic">supervisor_account</i>Teams
 					</a>
 				</nav>
@@ -1076,16 +1076,22 @@
 		<script src="assets/Resources/functions.js"></script>
 
 		<!--Main Tab Bar Handler-->
+		<script src="assets/Tabs/hashHandler.js"></script>
 		<script src="assets/Tabs/tabs.js"></script>
 		<script src="assets/Tabs/registerTab.js"></script>
 
-		<!--Firebase Account Management and Profile Tab-->
+		<!--Firebase Account Management-->
 		<script src="assets/Accounting/accountHandler.js"></script>
 		<script src="assets/Accounting/avatarInit.js"></script>
+
+		<!--Profile Tab-->
+		<script>var ProfileTab = new RegisteredTab("Profile", null, null, null, false);</script>
+		<!--
 		<script src="assets/Accounting/Profile/ChangeEmail.js"></script>
 		<script src="assets/Accounting/Profile/Graph.js"></script>
 		<script src="assets/Accounting/Profile/ProfileTab.js"></script>
 		<script src="assets/Accounting/Profile/ProfilePicture.js"></script>
+		-->
 
 		<!--Header-->
 		<script src="assets/Header/header.js"></script>

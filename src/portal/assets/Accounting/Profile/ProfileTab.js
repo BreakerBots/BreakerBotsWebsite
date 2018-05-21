@@ -12,10 +12,10 @@ function startProfile() {
 
 	authLoadedWait(function () {
 		//Find if the user is viewing his own profile
-		var onThisProfile = (getUrlParameterByName("profile", null) == "this") || (getUrlParameterByName("profile", null) == users.getCurrentUid());
+		var onThisProfile = (getHashParam("profile") == "this") || (getHashParam("profile") == users.getCurrentUid());
 
 		//Get the profile id from the url if viewing another user else find the logged in users id
-		var profileId = onThisProfile ? firebase.auth().currentUser.uid : getUrlParameterByName("profile", null);
+		var profileId = onThisProfile ? firebase.auth().currentUser.uid : getHashParam("profile");
 
 		//Fill in the values for the profile on the gui
 		firebase.app().firestore().collection("users").doc(profileId).get().then(function (doc) {
