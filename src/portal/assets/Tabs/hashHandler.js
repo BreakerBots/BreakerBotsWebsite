@@ -12,7 +12,6 @@ function readHash() {
 	}
 	//Fallback
 	else hashData = {};
-	console.log(hashData);
 }
 function updateHash() {
 	//Remove the junk from the url

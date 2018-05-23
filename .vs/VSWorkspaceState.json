@@ -3,14 +3,12 @@
     "",
     "\\functions",
     "\\src",
-    "\\src\\assets\\vit",
-    "\\src\\assets\\vit\\css",
+    "\\src\\assets",
     "\\src\\portal",
     "\\src\\portal\\assets",
-    "\\src\\portal\\assets\\Accounting\\Profile",
-    "\\src\\portal\\assets\\Header",
-    "\\src\\portal\\assets\\Notifications",
-    "\\src\\portal\\assets\\Resources"
+    "\\src\\portal\\assets\\Accounting",
+    "\\src\\portal\\assets\\Accounting\\Profile"
   ],
+  "SelectedNode": "\\src\\portal\\enter.html",
   "PreviewInSolutionExplorer": false
 }

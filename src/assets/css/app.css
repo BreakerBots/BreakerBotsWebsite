@@ -16982,12 +16982,12 @@ fieldset[disabled] .btn-color.btn-evernote.active {
   [Cards]
 */
 .card {
-  background-color: #FFFFFF;
-  margin-bottom: 25px;
-  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.04);
-  border-width: 0;
-  border-radius: 3px;
-  display: block;
+	background-color: #fff;
+	margin-bottom: 25px;
+	box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
+	border-radius: 2px;
+	border-width: 0px;
+	display: block;
 }
 
 .card th {

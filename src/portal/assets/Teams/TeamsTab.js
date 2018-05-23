@@ -19,8 +19,8 @@ function startTeams() {
 								<div class="card-header">
 									` + doc.id + `
 									<div class="tools dropdown">`;
-					if (!users.getCurrentUser().teams.includes(doc.id)) cardHtml += `<div class="btn-group btn-hspace"> <button onclick="joinTeam('` + doc.id + `')" type="button" class="btn btn-primary">Join</button> </div>`;
-					else cardHtml += `<div class="btn-group btn-hspace"> <button onclick="leaveTeam('` + doc.id + `')" type="button" class="btn btn-primary">Leave</button> </div>`;
+					if (!users.getCurrentUser().teams.includes(doc.id)) cardHtml += `<div class="btn-group btn-hspace"> <button onclick="joinTeam('` + doc.id + `')" type="button" class="mdc-button mdc-button--raised mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">Join</button> </div>`;
+					else cardHtml += `<div class="btn-group btn-hspace"> <button onclick="leaveTeam('` + doc.id + `')" type="button" class="mdc-button mdc-button--raised mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">Leave</button> </div>`;
 					if (users.amMasterAdmin()) cardHtml += `<a role="button" style="margin-left: 20px;" data-toggle="dropdown" class="dropdown-toggle"><span class="icon mdi mdi-more-vert"></span></a>`;
 					cardHtml += `				<div role="menu" class="dropdown-menu">
 											<a onclick="editTeam('` + doc.id + `', '` + doc.data().Desc + `')" class="dropdown-item">Edit</a>

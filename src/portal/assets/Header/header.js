@@ -16,9 +16,35 @@ function toggleNotificationMenu() {
 	}
 }
 
+function findNearestMenu(target) {
+	if (target.querySelector('.dropdown-menu-c') == null)
+		return findNearestMenu(target.parentNode);
+	else
+		return target.querySelector('.dropdown-menu-c');
+}
+
+function generateNewMenuId() {
+	var text = "";
+	const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+	for (var i = 0; i < 40; i++) {
+		text += possible.charAt(Math.floor(Math.random() * possible.length));
+	}
+
+	return text;
+}
+
 function toggleMenu(menu, anchorToMe) {
 	//Get the menu element
-	var menuEl = document.querySelector(menu);
+	if (menu == null || menu == undefined) {
+		var menuEl = findNearestMenu(event.srcElement);
+		if (menuEl.id == "" || menuEl.id == null || menuEl.id == undefined) {
+			menuEl.id = generateNewMenuId();
+		}
+		menu = "#" + menuEl.id;
+	}
+	else
+		var menuEl = document.querySelector(menu);
 
 	//Show/Hide the menu
 	menuEl.classList.toggle('showMenu');
@@ -85,8 +111,9 @@ function toggleNavSubMenu(menu) {
 //Title overflow
 deleteOverflow(); window.addEventListener('resize', deleteOverflow);
 function deleteOverflow() {
-	[].forEach.call(document.querySelectorAll('.deleteOverflow'), function (m) {
-		m.style.display = (document.querySelector("header").clientWidth < 660) ? "none" : "block";
+	[].forEach.call(document.querySelectorAll('[data-delete-overflow-min]'), function (m) {
+		var w = m.dataset.deleteOverflowMin ? m.dataset.deleteOverflowMin : 660;
+		m.style.display = (document.querySelector("header").clientWidth < w) ? "none" : "block";
 	});
 }
 
@@ -101,4 +128,25 @@ function updateTooltips() {
 			tptc = tp.querySelector('.bstooltip-container');
 		} 
 	});
+}
+
+function headerUseBackArrow(state) {
+	if (state) {
+		PeteSwitcher.closeTempDrawer();
+		document.querySelector("#OpenDrawer").style.display = "none";
+		document.querySelector("#HeaderBackArrow").style.display = "block";
+	}
+	else {
+		document.querySelector("#HeaderBackArrow").style.display = "none";
+		document.querySelector("#OpenDrawer").style.display = "block";
+	}
+}
+
+function headerUseSearch(state) {
+	if (state) {
+
+	}
+	else {
+
+	}
 }

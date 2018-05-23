@@ -48,3 +48,13 @@ function realPosition(element) {
 		elemRect = element.getBoundingClientRect();
 	return { left: elemRect.left - bodyRect.left, top: elemRect.top - bodyRect.top, bottom: elemRect.bottom - bodyRect.bottom, right: elemRect.right - bodyRect.right };
 }
+
+//Find Object In Array By Value of Certain Key
+function findObjectByKey(array, key, value) {
+	for (var i = 0; i < array.length; i++) {
+		if (array[i][key] === value) {
+			return array[i];
+		}
+	}
+	return null;
+}
