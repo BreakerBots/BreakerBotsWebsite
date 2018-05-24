@@ -1,6 +1,8 @@
 //Tabs.Js
 
-//The main update tabs function
+/**
+ * Ignore This handled by an assortment of other classes including this one. 
+ */
 function updateTabs(tab) {
 	//If JSI (Just Signed In)
 	if (window.location.hash == "#jsi") {
@@ -57,6 +59,13 @@ function updateTabs(tab) {
 			lastTab.addEventListener("animationend", function () { event.srcElement.classList.remove('exit'); });
 		}
 
+		//Delete Hash Junk
+		deletePerTabHashJunk(tab);
+
+		//Default the header
+		headerUseBackArrow(false);
+		headerUseSearch(false);
+
 		//Update the selected item in menu
 		var LeftNavLists = document.querySelectorAll('.LeftNavList');
 		[].forEach.call(LeftNavLists, function (lnl) {
@@ -69,6 +78,9 @@ function updateTabs(tab) {
 	}
 }
 
+/**
+ * Clears the current tab (So that no tab is visible). Can be used for a transition to a new tab through a reload
+ */
 function clearTab() {
 	var lastTab = document.querySelector('.tab.active');
 	if (lastTab) {
@@ -88,25 +100,15 @@ function clearTab() {
 	});
 }
 
-function willHrefReload(href) {
-	return window.location.search != href;
-}
-
 //Update the tab on refresh
 document.addEventListener('DOMContentLoaded', function () { updateTabs(); });
 //Update the tabs on "#" change in url
 $(window).on('hashchange', function () { updateTabs(); });
 
-//Show the main loader (under header)
+/**
+ * Shows and hides the main the loader (the one under the header)
+ * @param {boolean} state (False) Hides the loader, (True) Shows the loader.
+ */
 function showMainLoader(state) {
 	document.querySelector("#MainLoader").style.opacity = (state ? 1 : 0);
 } function hideML() { showMainLoader(false); }
-
-
-//Get the tab and other data from url
-function getTabFromURL() {
-	return window.location.hash == "" ? null : window.location.hash.substring(5);
-}
-function getUrlParameterByName(name, url) {
-	if (!url) url = window.location.href; name = name.replace(/[\[\]]/g, "\\$&"); var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), results = regex.exec(url); if (!results) return null; if (!results[2]) return ''; return decodeURIComponent(results[2].replace(/\+/g, " "));
-}

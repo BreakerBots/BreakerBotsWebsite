@@ -1,6 +1,6 @@
 //ProfileTab.js
 
-var ProfileTab = new RegisteredTab("Profile", null, startProfile, null);
+var ProfileTab = new RegisteredTab("Profile", null, startProfile, null, false, "profile");
 
 //Called when user transitions to the profile tab
 function startProfile() {

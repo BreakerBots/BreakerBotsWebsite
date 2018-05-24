@@ -69,10 +69,10 @@
 			</section>
 			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
 				<!--Search-->
-				<button onclick="" class="material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" aria-label="Search">search</button>
+				<button onclick="" style="display: none;" id="headerSearchBoxOpen" class="material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" aria-label="Search">search</button>
 
 				<!--Apps-->
-				<button onclick="toggleMenu('#appsMenu', true)" class="material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" aria-label="Apps">apps</button>
+				<button onclick="toggleMenu('#appsMenu', true)" id="headerAppsOpen" class="material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" aria-label="Apps">apps</button>
 				<ul class="dropdown-menu-c dropdown-menu be-connections" id="appsMenu" style="padding: 0;">
 					<li class="mdc-elevation--z10">
 						<div class="list">
@@ -91,7 +91,7 @@
 				</ul>
 
 				<!--Notifications-->
-				<button onclick="toggleNotificationMenu(true); toggleMenu('#notanimWidthTarget', true);" class="material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" aria-label="Notifications">notifications</button>
+				<button onclick="toggleNotificationMenu(true); toggleMenu('#notanimWidthTarget', true);" id="headerNotificationsOpen" class="material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" aria-label="Notifications">notifications</button>
 				<ul class="be-notifications dropdown-menu-c dropdown-menu notification-menu" id="notanimWidthTarget" style="padding: 0;">
 					<li class="mdc-elevation--z10" id="NotificationBox">
 						<div class="title" style="max-height: 50px !important;">
@@ -160,8 +160,9 @@
 				</div>
 			</section>
 
-			<div id="headerSearchBox" style="background-color: #ffffff; width: 100%; height: 100%; z-index: 69; position: absolute; left: 0; top: 0;">
-				<input type="text" placeholder="Search..." style="margin: 0; margin-top: 10%; height: 80%; width: 80%;transition: transform .15s cubic-bezier(.4,0,.2,1);"/>
+			<div class="headerSearchBox">
+				<input type="text" autofocus placeholder="Search" class="headerSearchInput" />
+				<div id="headerSearchBoxClose" data-mdc-auto-init="MDCIconToggle" style="height: 100%; align-content: center; justify-content: center;" class="mdc-icon-toggle"><i style="font-size: 30px;" class="material-icons">close</i></div>
 			</div>
 		</div>
 	</header>
@@ -1132,7 +1133,6 @@
 		<script src="assets/Accounting/avatarInit.js"></script>
 
 		<!--Profile Tab-->
-		<script>var ProfileTab = new RegisteredTab("Profile", null, null, null, false);</script>
 		<script src="assets/Accounting/Profile/ChangeEmail.js"></script>
 		<script src="assets/Accounting/Profile/Graph.js"></script>
 		<script src="assets/Accounting/Profile/ProfileTab.js"></script>

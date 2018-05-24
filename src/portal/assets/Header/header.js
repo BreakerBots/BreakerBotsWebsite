@@ -142,11 +142,23 @@ function headerUseBackArrow(state) {
 	}
 }
 
+//The Header Search Box
+var searchBoxButton = document.querySelector('#headerSearchBoxOpen');
 function headerUseSearch(state) {
 	if (state) {
-
+		//Show the button
+		searchBoxButton.style.display = "block";
 	}
 	else {
-
+		//Hide the button and close the search box if open
+		searchBoxButton.style.display = "none";
+		document.querySelector('.headerSearchBox').classList.remove('headerSearchBox--open');
 	}
 }
+//Open and close the search box
+searchBoxButton.addEventListener('click', function() {
+	document.querySelector('.headerSearchBox').classList.add('headerSearchBox--open');
+});
+document.querySelector('#headerSearchBoxClose').addEventListener('click', function () {
+	setTimeout(function () { document.querySelector('.headerSearchBox').classList.remove('headerSearchBox--open'); }, 200);
+});
