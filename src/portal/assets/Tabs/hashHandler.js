@@ -6,6 +6,7 @@ window.addEventListener('hashchange', readHash);
 readHash();
 
 var hashData;
+var lastHashData = {};
 function readHash() {
 	//Dont decode if not valid
 	if (window.location.hash != "#jsi") {

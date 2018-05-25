@@ -113,7 +113,7 @@ deleteOverflow(); window.addEventListener('resize', deleteOverflow);
 function deleteOverflow() {
 	[].forEach.call(document.querySelectorAll('[data-delete-overflow-min]'), function (m) {
 		var w = m.dataset.deleteOverflowMin ? m.dataset.deleteOverflowMin : 660;
-		m.style.display = (document.querySelector("header").clientWidth < w) ? "none" : "block";
+		m.style.display = (window.innerWidth < w) ? "none" : "block";
 	});
 }
 
@@ -130,28 +130,69 @@ function updateTooltips() {
 	});
 }
 
+//Header Backarrow
+var headerUsingBackArrow = false;
 function headerUseBackArrow(state) {
-	if (state) {
+	var arrowB = document.querySelector("#HeaderBackArrow");
+	var drawerB = document.querySelector("#OpenDrawer");
+	if (state && !headerUsingBackArrow) {
+		console.log("HUBA is opening true");
+		headerUsingBackArrow = true;
 		PeteSwitcher.closeTempDrawer();
-		document.querySelector("#OpenDrawer").style.display = "none";
-		document.querySelector("#HeaderBackArrow").style.display = "block";
+		arrowB.style.opacity = 0;
+		arrowB.style.transform = "scale(0)";
+		drawerB.style.opacity = 0;
+		drawerB.style.transform = "scale(0)";
+		setTimeout(function () {
+			drawerB.style.display = "none";
+			arrowB.style.display = "block";
+			setTimeout(function () {
+				arrowB.style.opacity = 1;
+				arrowB.style.transform = "scale(1)";
+			}, 10);
+		}, 200);
 	}
-	else {
-		document.querySelector("#HeaderBackArrow").style.display = "none";
-		document.querySelector("#OpenDrawer").style.display = "block";
+	else if (!state && headerUsingBackArrow) {
+		headerUsingBackArrow = false;
+		arrowB.style.opacity = 0;
+		arrowB.style.transform = "scale(0)";
+		drawerB.style.opacity = 0;
+		drawerB.style.transform = "scale(0)";
+		setTimeout(function () {
+			arrowB.style.display = "none";
+			drawerB.style.display = "block";
+			setTimeout(function () {
+				drawerB.style.opacity = 1;
+				drawerB.style.transform = "scale(1)";
+			}, 10);
+		}, 200);
 	}
 }
 
 //The Header Search Box
 var searchBoxButton = document.querySelector('#headerSearchBoxOpen');
+var headerUsingSearch = false;
 function headerUseSearch(state) {
-	if (state) {
+	if (state && !headerUsingSearch) {
+		headerUsingSearch = true;
 		//Show the button
 		searchBoxButton.style.display = "block";
+		setTimeout(function () {
+			searchBoxButton.style.opacity = 1;
+			searchBoxButton.style.transform = "scale(1)";
+		}, 10);
 	}
-	else {
+	else if (!state && headerUsingSearch) {
+		headerUsingSearch = false;
 		//Hide the button and close the search box if open
-		searchBoxButton.style.display = "none";
+
+		searchBoxButton.style.opacity = 0;
+		searchBoxButton.style.transform = "scale(0)";
+		setTimeout(function () {
+			searchBoxButton.style.display = "none";
+		}, 200);
+		document.querySelector("#headerAppsOpen").style.display = "block";
+		document.querySelector("#headerNotificationsOpen").style.display = "block";
 		document.querySelector('.headerSearchBox').classList.remove('headerSearchBox--open');
 	}
 }
@@ -161,4 +202,9 @@ searchBoxButton.addEventListener('click', function() {
 });
 document.querySelector('#headerSearchBoxClose').addEventListener('click', function () {
 	setTimeout(function () { document.querySelector('.headerSearchBox').classList.remove('headerSearchBox--open'); }, 200);
+});
+window.addEventListener('resize', function () {
+	if (headerUsingSearch) {
+		document.querySelector("#headerAppsOpen").style.display = (window.innerWidth < 800) ? "none" : "block";
+	}
 });
