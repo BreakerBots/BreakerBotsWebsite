@@ -1,5 +1,8 @@
-//Calendar
-$(function () {
+//CalendarTab.js
+
+var CalendarTab = new RegisteredTab("Calendar", loadCalendar);
+
+function loadCalendar() {
 	$('#calendar').fullCalendar({
 		googleCalendarApiKey: 'AIzaSyCA8Z_Xvhp8FkjK7KedPtVo6XO0Y7FtEtw',
 		events: {
@@ -11,4 +14,4 @@ $(function () {
 			right: 'month,agendaWeek,agendaDay'
 		}
 	});
-});
+}

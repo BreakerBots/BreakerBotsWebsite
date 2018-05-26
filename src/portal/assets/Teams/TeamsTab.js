@@ -1,28 +1,28 @@
+//TeamsTab.js
+
+var TeamsTab = new RegisteredTab("Teams", startTeams, teamSwitch, teamExit, true);
+
 //Teams Tab UI
 function startTeams() {
-	startTeams = nulloutPMS();
-
-	var AddTeamFab = document.querySelector('#AddTeamFab');
-	mdc.ripple.MDCRipple.attachTo(AddTeamFab);
+	showMainLoader(true);
 
 	authLoadedWait(function () {
 
-		if (users.amMasterAdmin()) AddTeamFab.classList.remove('mdc-fab--exited');
-
 		firebase.app().firestore().collection("Teams")
+			.orderBy("NOM")
 			.onSnapshot(function (snapshot) {
-				firebase.app().firestore().collection("Teams").orderBy("NOM");
 				var html = '';
 				snapshot.forEach((doc) => {
-					html += `<div class="col-lg-6">
+					var cardHtml = '';
+					cardHtml += `<div class="col-lg-6">
 							<div class="card card-table">
 								<div class="card-header">
 									` + doc.id + `
 									<div class="tools dropdown">`;
-					if (!users.getCurrentUser().teams.includes(doc.id)) html += `<div class="btn-group btn-hspace"> <button onclick="joinTeam('` + doc.id + `')" type="button" class="btn btn-primary">Join</button> </div>`;
-					else html += `<div class="btn-group btn-hspace"> <button onclick="leaveTeam('` + doc.id + `')" type="button" class="btn btn-primary">Leave</button> </div>`;
-					if (users.amMasterAdmin()) html += `<a role="button" style="margin-left: 20px;" data-toggle="dropdown" class="dropdown-toggle"><span class="icon mdi mdi-more-vert"></span></a>`;
-					html += `				<div role="menu" class="dropdown-menu">
+					if (!users.getCurrentUser().teams.includes(doc.id)) cardHtml += `<div class="btn-group btn-hspace"> <button onclick="joinTeam('` + doc.id + `')" type="button" class="mdc-button mdc-button--raised mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">Join</button> </div>`;
+					else cardHtml += `<div class="btn-group btn-hspace"> <button onclick="leaveTeam('` + doc.id + `')" type="button" class="mdc-button mdc-button--raised mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">Leave</button> </div>`;
+					if (users.amMasterAdmin()) cardHtml += `<a role="button" style="margin-left: 20px;" data-toggle="dropdown" class="dropdown-toggle"><span class="icon mdi mdi-more-vert"></span></a>`;
+					cardHtml += `				<div role="menu" class="dropdown-menu">
 											<a onclick="editTeam('` + doc.id + `', '` + doc.data().Desc + `')" class="dropdown-item">Edit</a>
 											<a onclick="deleteTeam('` + doc.id + `')" class="dropdown-item" style="color: red;">Delete</a>
 										</div>
@@ -40,11 +40,11 @@ function startTeams() {
 										  <tbody>`;
 					for (var mi = 0; mi < Object.keys(doc.data().Members).length; mi++) {
 						var member = doc.data().Members[mi];
-						html +=
+						cardHtml +=
 											`<tr>
 												<td class="cell-detail user-info">
 												<img src="` + users.getAvatar(member) + `" alt="Avatar" style="width: 32px; margin-right: 8px;">
-												<a href="` + ('?profile=' + member + '#tab=Profile') + `"><span>` + users.getUsername(member) + `</span></a>
+												<a style="color: #d50000" onclick="setHashParam('tab', 'Profile'); setHashParam('profile', '` + member + `');"><span>` + users.getUsername(member) + `</span></a>
 												<span class="cell-detail-description">` + users.getUser(member).role + `</span></td>
 												<td class="text-right">`;
 						if (users.getUser(member).clearance < users.getCurrentClearance() && users.amMasterAdmin()) {
@@ -55,19 +55,44 @@ function startTeams() {
 													</div>
 												</div>`;
 						}
-						html +=				  `</td>
+						cardHtml +=				  `</td>
 											</tr>`;
 					}
-					html += `			</tbody>
+					cardHtml += `			</tbody>
 										</table>
 									 </div>
 								</div> 
 							</div>
 						</div>`;
+					html = cardHtml + html;
 				});
 				document.getElementById('TeamsWrapper').innerHTML = html;
+				showMainLoader(false);
 			}, function (error) {
 
 			});
 	});
+}
+
+//Team Tab Switched To
+var teamsFabTimeout;
+function teamSwitch() {
+	authLoadedWait(function () {
+		teamsFabTimeout = setTimeout(
+			function () {
+				if (users.amMasterAdmin()) {
+					var AddTeamFab = document.querySelector('#AddTeamFab');
+					mdc.ripple.MDCRipple.attachTo(AddTeamFab);
+					AddTeamFab.classList.remove('mdc-fab--exited');
+					mdc.ripple.MDCRipple.attachTo(AddTeamFab);
+				}
+			}, 1000
+		);
+	});
+}
+
+//Team Tab Exited
+function teamExit() {
+	if (teamsFabTimeout) clearTimeout(teamsFabTimeout);
+	document.querySelector('#AddTeamFab').classList.add('mdc-fab--exited');
 }

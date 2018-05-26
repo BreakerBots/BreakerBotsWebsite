@@ -1,7 +1,45 @@
-﻿.tab {
-	display: none;
+﻿body, html {
+	transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1) !important;
+	animation-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1) !important;
 }
 
+.tab {
+	display: none;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	margin: 20px 15px 0 15px;
+}
 	.tab.active {
 		display: block;
+		animation: newTab 1.0s cubic-bezier(0.4, 0.0, 0.0, 1);
 	}
+	.tab.exit {
+		pointer-events: none;
+		display: block;
+		animation: exitTab 1.2s cubic-bezier(0.4, 0.0, 0.0, 1);
+	}
+
+
+@keyframes exitTab {
+	from {
+		transform: translate(0%, 0%);
+	}
+
+	to {
+		transform: translate(2000px, 0%);
+	}
+}
+
+@keyframes newTab {
+	from {
+		transform: translate(-2000px, 0%);
+	}
+
+	to {
+		transform: translate(0%, 0%);
+	}
+}

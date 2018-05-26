@@ -44,7 +44,13 @@ function EditTeam(e) {
 						//Delete The Doc
 						firestore.collection("Teams").doc(teamEditing).delete().then(function () {
 							//Paste The Data Into a New Doc With New Name
-							firestore.collection("Teams").doc(teamName).set(copiedData);
+							firestore.collection("Teams").doc(teamName).set(copiedData).then(function () {
+								//Then rename the team in it's members profiles
+								copiedData.Members.forEach(function (member) {
+									renameTeamFromUser(teamEditing, teamName, member);
+								});
+								EditTeamDialogue.close();
+							});
 						});
 					});
 				}
@@ -56,7 +62,22 @@ function EditTeam(e) {
 					FormEditTeam.querySelector('[type="submit"]').disabled = false;
 				}
 			});
+		} else {
+			EditTeamDialogue.close();
 		}
+	});
+}
+
+function renameTeamFromUser(oldteam, newteam, member) {
+	var firestore = firebase.firestore();
+	firestore.runTransaction(t => {
+		return t.get(firestore.collection("users").doc(member))
+			.then(doc => {
+				var newTeams = doc.data().teams;
+				newTeams.remove(oldteam);
+				newTeams.push(newteam);
+				t.update(firestore.collection("users").doc(member), { teams: newTeams });
+			});
 	});
 }
 

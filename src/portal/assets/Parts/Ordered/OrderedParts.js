@@ -1,5 +1,10 @@
+//OrderedParts.js
+
+var OrderedTab = new RegisteredTab("PartsOrdered", startPMSOrdered, function () { }, function () { }, true);
+
 function startPMSOrdered() {
-	startPMSOrdered = nulloutPMS();
+	showMainLoader(true);
+
 	firebase.app().firestore().collection("PMS-Extra").doc("Ordered")
 		.onSnapshot(function (doc) {
 			document.getElementById('PartsOrderedWrapper').innerHTML = "";
@@ -28,6 +33,7 @@ function drawOrderedTableElement(data, doc) {
 									<td><a href="?tab=PartsAll">`+ doc.id.substring(FolderNumberPadding) + `</a></td>
 								</tr>`;
 			document.getElementById('PartsOrderedWrapper').innerHTML += html;
+			showMainLoader(false);
 		} else {
 			//Remove non-ordered and deleted/archived/moves/etc. items
 			firebase.app().firestore().collection("PMS-Extra").doc("Ordered").get().then(function (doc) {

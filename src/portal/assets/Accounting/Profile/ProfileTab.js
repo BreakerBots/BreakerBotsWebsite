@@ -1,15 +1,21 @@
+//ProfileTab.js
+
+var ProfileTab = new RegisteredTab("Profile", null, startProfile, null, false, "profile");
+
 //Called when user transitions to the profile tab
 function startProfile() {
 	//Close dialogues possibly opened when moved to this tab
 	if (FolderHistoryDialogue.open) { FolderHistoryDialogue.close(); }
 	if (FolderArchiveHistoryDialogue.open) { FolderArchiveHistoryDialogue.close(); }
 
+	showMainLoader(true);
+
 	authLoadedWait(function () {
 		//Find if the user is viewing his own profile
-		var onThisProfile = (getUrlParameterByName("profile", null) == "this") || (getUrlParameterByName("profile", null) == users.getCurrentUid());
+		var onThisProfile = (getHashParam("profile") == "this") || (getHashParam("profile") == users.getCurrentUid());
 
 		//Get the profile id from the url if viewing another user else find the logged in users id
-		var profileId = onThisProfile ? firebase.auth().currentUser.uid : getUrlParameterByName("profile", null);
+		var profileId = onThisProfile ? firebase.auth().currentUser.uid : getHashParam("profile");
 
 		//Fill in the values for the profile on the gui
 		firebase.app().firestore().collection("users").doc(profileId).get().then(function (doc) {
@@ -31,11 +37,21 @@ function startProfile() {
 		//doc.data().teams.length
 
 		//Download and display the profile picture
-		function refreshProfileAvatar() {
-			document.querySelector('#ProfilePicture').src = users.getAvatar(profileId);
-			if (onThisProfile) document.querySelector('#AvatarPicture').src = users.getAvatar(profileId);
+		function refreshProfileAvatar(avatar) {
+			if (avatar) {
+				getAvatarUrl(users.getCurrentUid(), function (url) {
+					document.querySelector('#ProfilePicture').src = url;
+					if (onThisProfile) document.querySelector('#AvatarPicture').src = url;
+				}, false);
+			}
+			else {
+				document.querySelector('#ProfilePicture').src = users.getAvatar(profileId);
+				if (onThisProfile) document.querySelector('#AvatarPicture').src = users.getAvatar(profileId);
+			}
 		} refreshProfileAvatar();
 		startProfile.refreshProfileAvatar = refreshProfileAvatar;
+
+		showMainLoader(false);
 
 		//Viewing Own Account
 		if (onThisProfile) {
@@ -101,7 +117,7 @@ function startProfile() {
 		}
 		//Viewing Other Account
 		else {
-
+			
 		}
 	});
 }

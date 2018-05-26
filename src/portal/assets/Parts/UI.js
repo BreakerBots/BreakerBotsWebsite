@@ -1,13 +1,10 @@
-function nulloutPMS() { }; //NOT JUST FOR THIS CLASS (!)
+//UI.js
 
-
+var PartsTab = new RegisteredTab("PartsAll", startPMS, partsAllSwitch, partsAllExit, true);
 
 //PMS UI
 function startPMS() {
-	startPMS = nulloutPMS();
-
-	var AddFolderFab = document.querySelector('#AddFolderFab'); mdc.ripple.MDCRipple.attachTo(AddFolderFab);
-	AddFolderFab.classList.remove('mdc-fab--exited');
+	showMainLoader(true);
 
 	firebase.app().firestore().collection("PMS")
 		.onSnapshot(function (snapshot) {
@@ -87,7 +84,27 @@ function startPMS() {
 				html += `</tbody> </div> </table> </div> </div> </div> </div>`;
 			});
 			document.getElementById('PartsAllWrapper').innerHTML = html;
+			showMainLoader(false);
 		}, function (error) {
 
 		});
+}
+
+//Parts-All Tab Switched To
+var partsAllFabTimeout;
+function partsAllSwitch() {
+	partsAllFabTimeout = setTimeout(
+		function () {
+			var AddFolderFab = document.querySelector('#AddFolderFab'); 
+			mdc.ripple.MDCRipple.attachTo(AddFolderFab);
+			AddFolderFab.classList.remove('mdc-fab--exited');
+			mdc.ripple.MDCRipple.attachTo(AddFolderFab);
+		}, 1000
+	);
+}
+
+//Parts-All Tab Exit
+function partsAllExit() {
+	if (partsAllFabTimeout) clearTimeout(partsAllFabTimeout);
+	document.querySelector('#AddFolderFab').classList.add('mdc-fab--exited');
 }

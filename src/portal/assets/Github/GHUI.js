@@ -1,3 +1,6 @@
+//GHUI.js (Github UI)
+
+var GithubTab = new RegisteredTab("Github");
 
 function drawProjects() {
 	getGPD('https://api.github.com/repos/frc5104/Power-Up-2018/projects', function (data) {

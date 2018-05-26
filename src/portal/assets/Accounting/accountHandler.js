@@ -19,8 +19,7 @@ function authLoadedFullWait(func) {
 document.addEventListener('DOMContentLoaded', function () {
 	firebase.auth().onAuthStateChanged(function (user) {
 		if (user) { //Set the page names to the username of the user signed in
-			document.getElementById("UserNameL").innerHTML = user.displayName;
-			document.getElementById("UserNameR").innerHTML = user.displayName;
+
 		} else { //If not signed in reroute to public page
 			window.open('../index.html', '_self', false);
 		}
@@ -83,11 +82,13 @@ Array.prototype.lforEach = function (callback, thisArg) { for (var i = 0; i < th
 //Get Avatar Url Through Callback
 function getAvatarUrl(uid, func, rem) {
 	var storageRef = firebase.storage().ref('Avatars/' + uid);
-	storageRef.getDownloadURL().then(function (url) {
-		func(url, rem); return; //Return the download url for the avatar
-	}).catch(function (error) {
-		if (error.code == "storage/object-not-found") {
-			func("../assets/img/iconT.png", rem); return; //Default Avatar Fallback
-		}
-	});
+	storageRef.getDownloadURL()
+		.catch(function (error) {
+			if (error.code == "storage/object-not-found") {
+				func("../assets/img/iconT.png", rem); return; //Default Avatar Fallback
+			}
+		})
+		.then(function (url) {
+			func(url, rem); return; //Return the download url for the avatar
+		});
 }
