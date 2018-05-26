@@ -36,7 +36,7 @@
 /* Styling Pagination*/
 
 .owl-theme .owl-controls .owl-page{
-	display: inline-block;
+    display: grid;
 	zoom: 1;
 	*display: inline;/*IE7 life-saver */
 }
