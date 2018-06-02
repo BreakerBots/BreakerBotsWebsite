@@ -4,7 +4,8 @@ var folderEditing = "";
 function editFolder(folder) { FormEditFolder.querySelector('[type="submit"]').disabled = false; EditFolderDialogue.show(); folderEditing = folder; document.getElementById('EditFolderInput').value = folder.substr(FolderNumberPadding); } //Open the dialog
 document.getElementById('EditFolderCancel').addEventListener('click', function () { EditFolderDialogue.close(); }); //Close the dialog
 function submitEditFolder(e) {
-	if (e.preventDefault) e.preventDefault(); FormEditFolder.querySelector('[type="submit"]').disabled = true;
+	if (e.preventDefault) e.preventDefault();
+	FormEditFolder.querySelector('[type="submit"]').disabled = true;
 	const folderName = document.getElementById('EditFolderInput').value;
 
 	if (folderName != folderEditing.substr(FolderNumberPadding)) {
@@ -40,5 +41,6 @@ function submitEditFolder(e) {
 	} else {
 		EditFolderDialogue.close();
 	}
-} var FormEditFolder = document.getElementById('EditFolderForm'); if (FormEditFolder.attachEvent) { FormEditFolder.attachEvent("submit", submitEditFolder); } else { FormEditFolder.addEventListener("submit", submitEditFolder); }
+}
+var FormEditFolder = document.getElementById('EditFolderForm'); if (FormEditFolder.attachEvent) { FormEditFolder.attachEvent("submit", submitEditFolder); } else { FormEditFolder.addEventListener("submit", submitEditFolder); }
 document.getElementById('EditFolderInput').addEventListener("input", function (event) { document.getElementById("EditFolderInput").setCustomValidity(""); });

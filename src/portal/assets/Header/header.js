@@ -68,36 +68,40 @@ function updateMenuAnchors() {
 		var menuEl = document.querySelector(obj);
 		var menuButton = currentMenuAnchors[obj];
 
-		//Hide or Show the tooltip
-		menuButton.setAttribute('data-aria-label', !menuEl.classList.contains('showMenu'));
+		if (menuEl && menuButton) {
+			//Hide or Show the tooltip
+			menuButton.setAttribute('data-aria-label', !menuEl.classList.contains('showMenu'));
 
-		//The estimaed position to for the anchor
-		var pos = [menuButton.offsetLeft, menuButton.offsetTop + menuButton.offsetHeight];
+			//The estimaed position to for the anchor
+			var pos = [menuButton.offsetLeft, menuButton.offsetTop + menuButton.offsetHeight];
 
-		//Flip the menu if over the edge of window
-		if ((pos[0] + menuEl.clientWidth) > window.innerWidth) {
-			pos[0] = (pos[0] - menuEl.clientWidth) + menuButton.offsetWidth;
+			//Flip the menu if over the edge of window
+			if ((menuButton.getBoundingClientRect().left + menuEl.offsetWidth) > window.innerWidth) {
+				pos[0] = (pos[0] - menuEl.clientWidth) + menuButton.offsetWidth;
+			}
+
+			//Transform the open animation position
+			var topLeftOfMenu = pos[0] + menuEl.clientWidth, bottomRightOfButton = menuButton.offsetLeft + menuButton.offsetWidth;
+			var transfOrX = ((bottomRightOfButton - pos[0]) / (topLeftOfMenu - pos[0])) * 100;
+
+			//Update all the newly generated css
+			menuEl.style.left = pos[0] + "px";
+			menuEl.style.top = pos[1] + "px";
+			menuEl.style.transformOrigin = transfOrX + "% 0%";
 		}
-
-		//Transform the open animation position
-		var topLeftOfMenu = pos[0] + menuEl.clientWidth, bottomRightOfButton = menuButton.offsetLeft + menuButton.offsetWidth;
-		var transfOrX = ((bottomRightOfButton - pos[0]) / (topLeftOfMenu - pos[0])) * 100;
-
-		//Update all the newly generated css
-		menuEl.style.left = pos[0] + "px";
-		menuEl.style.top = pos[1] + "px";
-		menuEl.style.transformOrigin = transfOrX + "% 0%";
 	}
 }
 function closeMenus() {
 	for (var obj in currentMenuAnchors) {
-		var menuEl = document.querySelector(obj); 
-		if (menuEl.classList.contains('showMenu') && !menuEl.classList.contains('rejectMenuClickEvent')) {
-			if (!pointInBox(event.pageX, event.pageY, menuEl.offsetLeft, menuEl.offsetTop, menuEl.offsetWidth, menuEl.offsetHeight))
-				menuEl.classList.remove('showMenu');
-		}
-		else if (menuEl.classList.contains('rejectMenuClickEvent')) {
-			menuEl.classList.remove('rejectMenuClickEvent');
+		var menuEl = document.querySelector(obj);
+		if (menuEl) {
+			if (menuEl.classList.contains('showMenu') && !menuEl.classList.contains('rejectMenuClickEvent')) {
+				if (!pointInBox(event.pageX, event.pageY, menuEl.offsetLeft, menuEl.offsetTop, menuEl.offsetWidth, menuEl.offsetHeight))
+					menuEl.classList.remove('showMenu');
+			}
+			else if (menuEl.classList.contains('rejectMenuClickEvent')) {
+				menuEl.classList.remove('rejectMenuClickEvent');
+			}
 		}
 	}
 }
@@ -136,7 +140,6 @@ function headerUseBackArrow(state) {
 	var arrowB = document.querySelector("#HeaderBackArrow");
 	var drawerB = document.querySelector("#OpenDrawer");
 	if (state && !headerUsingBackArrow) {
-		console.log("HUBA is opening true");
 		headerUsingBackArrow = true;
 		PeteSwitcher.closeTempDrawer();
 		arrowB.style.opacity = 0;

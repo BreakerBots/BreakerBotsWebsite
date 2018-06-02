@@ -51,6 +51,9 @@ function PeteSwitcher(pageContent, pdrawer, tdrawerEl, openDrawerButton, topAppB
 	PeteSwitcher.closeTempDrawer = function () {
 		tdrawer.open = false;
 	}
+	window.addEventListener('hashchange', function () {
+		tdrawer.open = false;
+	});
 	function openPDrawer(state) { pdrawer.style.transform = state ? "translateX(0px)" : "translateX(-320px)"; }
 	function pdrawerOpen() { return !(pdrawer.style.transform == "translateX(-320px)"); }
 	setInterval(function () {

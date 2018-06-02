@@ -1,0 +1,211 @@
+﻿/*ShifitingDialog.css*/
+
+
+/* The Main Container */
+#SD-Container {
+	position: fixed;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	z-index: 998;
+	background: rgba(0, 0, 0, 0.3);
+	transition: background 1s cubic-bezier(.2, 0, .2, 1);
+	align-items: center;
+	justify-content: center;
+}
+
+	/* Open/Close Animations */
+	#SD-Container[data-sd-container-state='closed'] {
+		display: none;
+		background: rgba(0, 0, 0, 0);
+	}
+
+	#SD-Container[data-sd-container-state='closing'] {
+		display: flex;
+		background: rgba(0, 0, 0, 0);
+		pointer-events: none;
+	}
+
+	@keyframes sdcOpenFade {
+		from { background: rgba(0, 0, 0, 0); }
+		to { background: rgba(0, 0, 0, 0.3); }
+	}
+
+	#SD-Container[data-sd-container-state='opening'] {
+		display: flex;
+		animation: sdcOpenFade 1s cubic-bezier(.2, 0, .2, 1);
+	}
+
+	#SD-Container[data-sd-container-state='open'] {
+		display: flex;
+	}
+
+
+/* The Main Card */
+#SD-Main {
+	z-index: 999;
+	background: #ffffff;
+	position: relative;
+	overflow-y: hidden;
+	transition: width 0.4s cubic-bezier(.2, 0, .2, 1), height 0.4s;
+}
+
+	/* Open/Close Animations */
+	#SD-Container[data-sd-container-state='closed'] > #SD-Main {
+		transform: scale(0);
+		opacity: 0;
+	}
+
+	#SD-Container[data-sd-container-state='closing'] > #SD-Main {
+		animation: sdmClose 1s cubic-bezier(.2, 0, .2, 1);
+	}
+
+	@keyframes sdmClose {
+		0% {
+			transform: scale(1);
+			opacity: 1;
+		}
+		10% {
+			transform: scale(1);
+		}
+		35% {
+			transform: scale(0);
+			opacity: 0;
+		}
+		100% {
+			transform: scale(0);
+			opacity: 0;
+		}
+	}
+
+	@keyframes sdmOpen {
+		0% { 
+			transform: scale(0); 
+			opacity: 0; 
+		}
+		20% {
+			transform: scale(0);
+		}
+		30% {
+			opacity: 1;
+		}
+		50% {
+			transform: scale(1);
+		}
+		100% {
+			transform: scale(1);
+			opacity: 1;
+		}
+	}
+
+	#SD-Container[data-sd-container-state='opening'] > #SD-Main {
+		animation: sdmOpen 1s cubic-bezier(.2, 0, .2, 1);
+	}
+
+	#SD-Container[data-sd-container-state='open'] > #SD-Main {
+		transform: scale(1);
+		opacity: 1;
+	}
+
+	/* States */
+	#SD-Main[data-sd-main-state='default'] {
+		width: 75%;
+		height: 75%;
+		margin-bottom: 10vh;
+	}
+
+	#SD-Main[data-sd-main-state='fullscreen'] {
+		width: 100%;
+		height: 100%;
+	}
+
+
+/* The Header */
+#SD-Header {
+	position: fixed;
+	left: 0; top: 0; right: 0;
+	margin-top: 0;
+	z-index: 1000;
+	transition: box-shadow .3s cubic-bezier(.2, 0, .2, 1), background 1s, border 1s, color 1s;
+}
+
+/* States */
+#SD-Main[data-sd-main-state='default'] > #SD-Header {
+	background: #ffffff;
+	border-bottom: 1px solid rgba(0, 0, 0, .1);
+	color: black;
+}
+
+#SD-Main[data-sd-main-state='fullscreen'] > #SD-Header {
+	background: #d50000;
+	color: white;
+}
+
+@media (max-width: 600px) {
+	#SD-Header {
+		height: 56px;
+	}
+}
+@media (min-width: 600px) {
+	#SD-Header {
+		height: 64px;
+	}
+}
+
+
+/* The Wrapper For Javascript Filled Content */
+#SD-Wrapper {
+	overflow-y: scroll;
+	height: calc(100% - 128px);
+	position: relative;
+	padding: 30px 20px 30px 20px;
+	color: rgba(0, 0, 0, .54);
+	justify-content: center;
+	flex-wrap: wrap;
+	display: flex;
+	align-content: flex-start;
+}
+	#SD-Wrapper > div {
+		
+	}
+
+@media (max-width: 600px) {
+	#SD-Wrapper {
+		margin-top: 56px;
+		margin-bottom: 56px;
+	}
+}
+
+@media (min-width: 600px) {
+	#SD-Wrapper {
+		margin-top: 64px;
+		margin-bottom: 64px;
+	}
+}
+
+/* The Footer (For Submit and Cancel Buttons) */
+#SD-FooterWrapper {
+	width: 100%;
+	height: 64px;
+	overflow-x: visible;
+	position: fixed;
+	bottom: 0;
+	border-top: 1px solid rgba(0,0,0,.1);
+}
+
+#SD-Footer {
+	padding: 10px;
+	display: flex;
+}
+
+	#SD-Footer > button {
+		margin-left: 10px;
+		width: 80px;
+		height: 40px;
+	}
+
+	#SD-Footer > * {
+		font-size: 15px !important;
+		letter-spacing: -0.1px !important;
+	}

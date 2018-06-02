@@ -117,9 +117,75 @@ function refByString(theObject, path, separator) {
 }
 
 /**
+ * Setting data in a json object by a reference like "folder1/folder2"
+ * @param {any} obj The object to set the data in
+ * @param {any} path The reference like "folder1/folder2"
+ * @param {any} key The key of to set new data
+ * @param {any} value The Value to set new data
+ */
+function pushDataToJsonByDotnot(obj, path, key, value) {
+	if (!obj)
+		obj = {};
+	if (stringUnNull(path) == "") {
+		obj[key] = value;
+	}
+	else {
+		var pdtjbd_data = dotnot(obj, path);
+		pdtjbd_data[key] = value;
+		dotnot(obj, path, pdtjbd_data);
+	}
+	return obj;
+}
+function dotnot(obj, is, value) {
+	if (typeof is == 'string')
+		return dotnot(obj, is.split('/'), value);
+	else if (is.length == 1 && value !== undefined)
+		return obj[is[0]] = value;
+	else if (is.length == 0)
+		return obj;
+	else
+		return dotnot(obj[is[0]], is.slice(1), value);
+}
+
+function deleteDataFromJsonByDotnot(obj, path, key) {
+	if (!obj)
+		return {};
+	if (stringUnNull(path) == "") {
+		delete obj[key];
+	}
+	else {
+		var pdtjbd_data = dotnot(obj, path);
+		pdtjbd_data[key] = value;
+		dotnot(obj, path, pdtjbd_data);
+	}
+	return obj;
+}
+
+/**
  * Find the index of first difference in two strings
  */
 function findFirstDiffPos(a, b) {
 	if (a.length < b.length)[a, b] = [b, a];
 	return [...a].findIndex((chr, i) => chr !== b[i]);
+}
+
+//console logging addons
+console.logg = function (title) {
+	var prnt = [(title + ": [ ")];
+	prnt.concat(arguments);
+	prnt.push(" ]");
+	console.log.apply(this, prnt);
+	return prnt;
+};
+
+/**
+ * Guid generates a random uuid quickly
+ */
+function guid() {
+	function s4() {
+		return Math.floor((1 + Math.random()) * 0x10000)
+			.toString(16)
+			.substring(1);
+	}
+	return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 }
