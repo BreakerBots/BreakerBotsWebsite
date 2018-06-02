@@ -78,7 +78,6 @@ class Autocomplete {
 				else {
 					var target = (scrollTarget.offsetTop >= self.wrapper.scrollTop) ? scrollTarget.offsetTop + 180 : scrollTarget.offsetTop;
 					self.wrapper.scrollTop = self.wrapper.scrollTop + ((target - self.wrapper.scrollTop) / 40);
-					console.log(self.wrapper.scrollTop, " += ", (target - self.wrapper.scrollTop) / 40);
 				}
 			}
 		}

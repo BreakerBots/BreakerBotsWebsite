@@ -36,32 +36,40 @@
 
 	<link rel="stylesheet" href="assets/Autocomplete/Autocomplete.css" type="text/css" />
 </head>
-<body>
+<body class="be-splash-screen">
 
-	<div>
+	<div class="be-wrapper be-login">
+		<div class="be-content">
+			<div class="main-content container-fluid">
+				<div class="splash-container">
+					<div id="mainCard" class="card card-border-color card-border-color-primary mdc-elevation--z10" style="transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);">
+						<!--Card Inside-->
+						<div class="form-group autocomplete" style="width: 90%; min-height: 65px; max-height: 73px;" data-autocomplete-auto-init>
+							<label for="Input-Name">Name</label>
+							<input id="Input-Name" type="text" class="form-control" placeholder="Ur Name" autocomplete="off">
+							<div class="autocomplete-items"></div>
+							<div class="autocomplete-options">
+								<p>Liam Snow</p>
+								<p>Carlos Michel-Luhrs</p>
+								<p>David von Giese</p>
+								<p>Evan Clark</p>
+								<p>Daniel Medrano</p>
+								<p>Tyler Smithtro</p>
+								<p>Michaela Keller</p>
+								<p>Seth Knoop</p>
+								<p>Natalie von Giese</p>
+								<p>Tanya von Giese</p>
+								<p>Mitali Chowdhury</p>
+								<p>Will Bennett</p>
+								<p>Ishaan Chada</p>
+								<p>Anneka Keller</p>
+							</div>
+						</div>
 
-		<div class="form-group autocomplete" style="width: 90%; min-height: 65px; max-height: 73px;" data-autocomplete-auto-init>
-			<label for="Input-Name">Name</label>
-			<input id="Input-Name" type="text" class="form-control" placeholder="Ur Name" autocomplete="off">
-			<div class="autocomplete-items"></div>
-			<div class="autocomplete-options">
-				<p>Liam Snow</p>
-				<p>Carlos Michel-Luhrs</p>
-				<p>David von Giese</p>
-				<p>Evan Clark</p>
-				<p>Daniel Medrano</p>
-				<p>Tyler Smithtro</p>
-				<p>Michaela Keller</p>
-				<p>Seth Knoop</p>
-				<p>Natalie von Giese</p>
-				<p>Tanya von Giese</p>
-				<p>Mitali Chowdhury</p>
-				<p>Will Bennett</p>
-				<p>Ishaan Chada</p>
-				<p>Anneka Keller</p>
+					</div>
+				</div>
 			</div>
 		</div>
-
 	</div>
 
 	<!--Imports-->

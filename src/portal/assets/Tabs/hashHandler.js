@@ -2,7 +2,7 @@
 	This class handles everything happening after the # in the url
 */
 
-var hashData = {  };
+var hashData = { };
 var _lasthashData = [ { } ];
 function readHash() {
 	try {

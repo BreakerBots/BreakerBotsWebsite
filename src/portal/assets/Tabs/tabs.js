@@ -112,7 +112,11 @@ function getCurrentTab() {
 }
 
 //Update the tabs on "#" change in url
-window.addHashVariableListener("tab",  updateTabs);
+window.addHashVariableListener("tab", updateTabs);
+document.addEventListener("DOMContentLoaded", function (event) {
+	if (window.location.hash == "#jsi")
+		updateTabs(undefined);
+});
 
 /**
  * Shows and hides the main the loader (the one under the header)

@@ -178,19 +178,6 @@ console.logg = function (title) {
 	return prnt;
 };
 
-console.logv = function () {
-	var toLog = [];
-	for (var i = 0; i < arguments.length; i++) {
-		for (var x in window) {
-			if (window[x] === arguments[i]) {
-				toLog.push(arguments[i]);
-				toLog.push(window[x]);
-			}
-		}
-	}
-	console.log.apply(this, toLog);
-};
-
 /**
  * Guid generates a random uuid quickly
  */
