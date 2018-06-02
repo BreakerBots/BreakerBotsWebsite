@@ -178,6 +178,19 @@ console.logg = function (title) {
 	return prnt;
 };
 
+console.logv = function () {
+	var toLog = [];
+	for (var i = 0; i < arguments.length; i++) {
+		for (var x in window) {
+			if (window[x] === arguments[i]) {
+				toLog.push(arguments[i]);
+				toLog.push(window[x]);
+			}
+		}
+	}
+	console.log.apply(this, toLog);
+};
+
 /**
  * Guid generates a random uuid quickly
  */
@@ -188,4 +201,21 @@ function guid() {
 			.substring(1);
 	}
 	return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+}
+
+
+/**
+ * Finds the differences in two objects
+ */
+function findObjectDifferences(a, b) {
+	var diff = [ ];
+	for (var i = 0; i < Object.keys(a).length; i++) {
+		if (a[Object.keys(a)[i]] != b[Object.keys(a)[i]] && diff.indexOf(Object.keys(a)[i]) == -1)
+			diff.push(Object.keys(a)[i]);
+	}
+	for (var i = 0; i < Object.keys(b).length; i++) {
+		if (b[Object.keys(b)[i]] != a[Object.keys(b)[i]] && diff.indexOf(Object.keys(b)[i]) == -1)
+			diff.push(Object.keys(b)[i]);
+	}
+	return diff;
 }

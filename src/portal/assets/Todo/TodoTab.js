@@ -17,7 +17,7 @@ function todoTabInit() {
 			}
 		});
 
-	window.addEventListener('hashchange', function () {
+	window.addHashVariableListener('todoView', function () {
 		todoView = stringUnNull(getHashParam('todoView'));
 		if ((getCurrentTab() == "Todo") && (todoSnapshot) && (todoDrawn != todoView)) {
 			todoDrawn = todoView;
@@ -56,79 +56,84 @@ function drawTodoTab() {
 	//If Viewing Inside Folder
 	if (typeof tocR == "object") {
 		for (var i = 0; i < Object.keys(tocR).length; i++) {
-			var fotgN = Object.keys(tocR)[i];
-			var fotg = findObjectByKey(todoSnapshot.docs, "id", fotgN).data();
-			html += `
-			<div class="col-lg-3">
-				<div class="mdc-card todo-card" style="margin-bottom: 20px;" id="` + fotgN + `">
-					<div class="mdc-card__primary-action" data-mdc-auto-init="MDCRipple" onclick="setHashParam('todoView', '` + ((todoView == "" ? "" : todoView + "/") + fotgN) + `');">
-						<div style="margin-left: 20px">
-							<div class="demo-card__primary">
-								<h2 class="demo-card__title mdc-typography--headline6">` + (fotg.title == "" ? "&nbsp;" : fotg.title) + `</h2>
+			try {
+				var fotgN = Object.keys(tocR)[i];
+				var fotg = findObjectByKey(todoSnapshot.docs, "id", fotgN).data();
+				html += `
+				<div class="col-lg-3">
+					<div class="mdc-card todo-card" style="margin-bottom: 20px;" id="` + fotgN + `">
+						<div class="mdc-card__primary-action" data-mdc-auto-init="MDCRipple" onclick="setHashParam('todoView', '` + ((todoView == "" ? "" : todoView + "/") + fotgN) + `');">
+							<div style="margin-left: 20px">
+								<div class="demo-card__primary">
+									<h2 class="demo-card__title mdc-typography--headline6">` + (fotg.title == "" ? "&nbsp;" : fotg.title) + `</h2>
+								</div>
+								<div class="demo-card__secondary mdc-typography--body2">` + (fotg.desc) + `</div>
+								<i class="material-icons" style="font-size: 300%; position: absolute; right: 20px; top: 20px;"> ` + ((fotg.tasks == undefined) ? "folder" : "assignment") + ` </i>
 							</div>
-							<div class="demo-card__secondary mdc-typography--body2">` + (fotg.desc) + `</div>
-							<i class="material-icons" style="font-size: 300%; position: absolute; right: 20px; top: 20px;"> ` + ((fotg.tasks == undefined) ? "folder" : "assignment") + ` </i>
 						</div>
+						<div class="mdc-card__action-icons">
+							<i data-mdc-auto-init="MDCIconToggle" onclick="toggleMenu(null, true)" class="mdc-icon-toggle material-icons" style="color: rgb(80, 80, 80);" role="button" aria-pressed="false">more_vert</i>
+						</div>
+						<ul class="dropdown-menu-c dropdown-menu be-connections" style="padding: 0;">
+							<li class="mdc-elevation--z10">
+								<ul class="mdc-list">
+									<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="TodoEditFTG('` + fotgN + `')">
+										<span class="mdc-list-item__graphic material-icons">edit</span>
+										<span class="mdc-list-item__text">Edit</span>
+									</li>
+									<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="TodoConfirmDeleteFTG('` + fotgN + `')">
+										<span class="mdc-list-item__graphic material-icons" style="color: red">delete</span>
+										<span class="mdc-list-item__text" style="color: red">Delete</span>
+									</li>
+								</ul>
+							</li>
+						</ul>
 					</div>
-					<div class="mdc-card__action-icons">
-						<i data-mdc-auto-init="MDCIconToggle" onclick="toggleMenu(null, true)" class="mdc-icon-toggle material-icons" style="color: rgb(80, 80, 80);" role="button" aria-pressed="false">more_vert</i>
-					</div>
-					<ul class="dropdown-menu-c dropdown-menu be-connections" style="padding: 0;">
-						<li class="mdc-elevation--z10">
-							<ul class="mdc-list">
-								<li class="mdc-list-item" data-mdc-auto-init="MDCRipple">
-									<span class="mdc-list-item__graphic material-icons">edit</span>
-									<span class="mdc-list-item__text">Edit</span>
-								</li>
-								<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="TodoConfirmDeleteFTG('` + fotgN + `')">
-									<span class="mdc-list-item__graphic material-icons" style="color: red">delete</span>
-									<span class="mdc-list-item__text" style="color: red">Delete</span>
-								</li>
-							</ul>
-						</li>
-					</ul>
 				</div>
-			</div>
-			`;
+				`;
+			}
+			catch (err) {  }
 		}
 	}
 	//If Viewing Inside Task-Group
 	else if (tocR == 42) {
 		var tg = findObjectByKey(todoSnapshot.docs, "id", (todoView.substring(todoView.lastIndexOf('/') + 1))).data();
 		for (var i = 0; i < Object.keys(tg.tasks).length; i++) {
-			var tgt = tg.tasks[Object.keys(tg.tasks)[i]];
-			html += `
-			<div class="col-lg-3">
-				<div class="mdc-card" style="margin-bottom: 20px;">
-					<div class="mdc-card__primary-action" data-mdc-auto-init="MDCRipple">
-						<div style="margin-left: 20px">
-							<div class="demo-card__primary">
-								<h2 class="demo-card__title mdc-typography--headline6">` + (tgt.title) + `</h2>
+			try {
+				var tgt = tg.tasks[Object.keys(tg.tasks)[i]];
+				html += `
+				<div class="col-lg-3">
+					<div class="mdc-card" style="margin-bottom: 20px;">
+						<div class="mdc-card__primary-action" data-mdc-auto-init="MDCRipple">
+							<div style="margin-left: 20px">
+								<div class="demo-card__primary">
+									<h2 class="demo-card__title mdc-typography--headline6">` + (tgt.title) + `</h2>
+								</div>
+								<div class="demo-card__secondary mdc-typography--body2">` + (tgt.desc) + `</div>
+								<i class="material-icons" style="font-size: 300%; position: absolute; right: 20px; top: 20px;"> ` + "assignment_ind" + ` </i>
 							</div>
-							<div class="demo-card__secondary mdc-typography--body2">` + (tgt.desc) + `</div>
-							<i class="material-icons" style="font-size: 300%; position: absolute; right: 20px; top: 20px;"> ` + "assignment_ind" + ` </i>
 						</div>
+						<div class="mdc-card__action-icons">
+							<i data-mdc-auto-init="MDCIconToggle" onclick="toggleMenu(null, true)" class="mdc-icon-toggle material-icons" style="color: rgb(80, 80, 80);" role="button" aria-pressed="false">more_vert</i>
+						</div>
+						<ul class="dropdown-menu-c dropdown-menu be-connections" style="padding: 0;">
+							<li class="mdc-elevation--z10">
+								<ul class="mdc-list">
+									<li class="mdc-list-item" data-mdc-auto-init="MDCRipple">
+										<span class="mdc-list-item__graphic material-icons">edit</span>
+										<span class="mdc-list-item__text">Edit</span>
+									</li>
+									<li class="mdc-list-item" data-mdc-auto-init="MDCRipple">
+										<span class="mdc-list-item__graphic material-icons" style="color: red">delete</span>
+										<span class="mdc-list-item__text" style="color: red">Delete</span>
+									</li>
+								</ul>
+							</li>
+						</ul>
 					</div>
-					<div class="mdc-card__action-icons">
-						<i data-mdc-auto-init="MDCIconToggle" onclick="toggleMenu(null, true)" class="mdc-icon-toggle material-icons" style="color: rgb(80, 80, 80);" role="button" aria-pressed="false">more_vert</i>
-					</div>
-					<ul class="dropdown-menu-c dropdown-menu be-connections" style="padding: 0;">
-						<li class="mdc-elevation--z10">
-							<ul class="mdc-list">
-								<li class="mdc-list-item" data-mdc-auto-init="MDCRipple">
-									<span class="mdc-list-item__graphic material-icons">edit</span>
-									<span class="mdc-list-item__text">Edit</span>
-								</li>
-								<li class="mdc-list-item" data-mdc-auto-init="MDCRipple">
-									<span class="mdc-list-item__graphic material-icons" style="color: red">delete</span>
-									<span class="mdc-list-item__text" style="color: red">Delete</span>
-								</li>
-							</ul>
-						</li>
-					</ul>
 				</div>
-			</div>
-			`;
+				`;
+			} catch (err) { }
 		}
 	}
 
@@ -137,7 +142,9 @@ function drawTodoTab() {
 	return true;
 }
 
-//Open the add folder or task-group dialog
+
+
+//  ----------------------------------------  Add  -------------------------------------------------\\
 var TodoAddFab = new FabHandler(document.querySelector('#Todo-Add-Fab'));
 TodoAddFab.element.addEventListener('click', function () {
 	ShiftingDialog.set("TodoAddFTG", "Add Folder or Task-Group", "Submit", "Cancel",
@@ -147,8 +154,6 @@ TodoAddFab.element.addEventListener('click', function () {
 	);
 	ShiftingDialog.open();
 });
-
-//Process the submition of new folder or task-group
 ShiftingDialog.addSubmitListener("TodoAddFTG", function (content) {
 	var title = content.querySelector("#TodoAdd_Title").value || "";
 	var type = content.querySelector("#TodoAdd_Type").value || "";
@@ -168,8 +173,12 @@ ShiftingDialog.addSubmitListener("TodoAddFTG", function (content) {
 				});
 		});
 });
+//  ----------------------------------------    -------------------------------------------------\\
 
-//Open the delete folder or task-group dialog
+
+
+
+//  ----------------------------------------  Delete  -------------------------------------------------\\
 var TodoFTG_Deleting = "";
 function TodoConfirmDeleteFTG(item) {
 	TodoFTG_Deleting = item;
@@ -181,11 +190,9 @@ function TodoConfirmDeleteFTG(item) {
 	, true, true);
 	ShiftingDialog.open();
 }
-
-//Process the submition of deleting folder or task-group
 ShiftingDialog.addSubmitListener("TodoDeleteFTG", function (content) {
 	var tocJson = findObjectByKey(todoSnapshot.docs, "id", "TableOfContents").data();
-	firebase.app().firestore().collection("Todo").delete(TodoFTG_Deleting)
+	firebase.app().firestore().collection("Todo").doc(TodoFTG_Deleting).delete()
 		.then(function () {
 			tocJson = deleteDataFromJsonByDotnot(tocJson, stringUnNull(getHashParam('todoView')), TodoFTG_Deleting);
 
@@ -195,3 +202,38 @@ ShiftingDialog.addSubmitListener("TodoDeleteFTG", function (content) {
 				});
 		});
 });
+//  ----------------------------------------    -------------------------------------------------\\
+
+
+
+
+//  ----------------------------------------  Edit  -------------------------------------------------\\
+var TodoFTG_Editing = "";
+function TodoEditFTG(item) {
+	TodoFTG_Editing = item;
+	var itemData = findObjectByKey(todoSnapshot.docs, "id", item).data();
+	ShiftingDialog.set("TodoEditFTG", "Edit the " + MSNC(itemData.tasks, "Task-Group ", "Folder ") + itemData.title, "Submit", "Cancel",
+		mainSnips.dropDown("TodoEdit_Type", "Type", "", ["Folder", "Folder", true], ["Task-Group", "Task-Group", false]) +
+		mainSnips.textField("TodoEdit_Title", "Title", "The Title of the Item", null, null, true) +
+		mainSnips.textField("TodoEdit_Desc", "Description", "A Description of the Item", null, null, false) +
+		`<input id="TodoEdit_Tasks" style="display: none; pointer-events: none; width: 0; height: 0;" value="` + itemData.tasks + `"`
+	);
+	ShiftingDialog.open();
+}
+ShiftingDialog.addSubmitListener("TodoEditFTG", function (content) {
+	var title = content.querySelector("#TodoEdit_Title").value || "";
+	var type = content.querySelector("#TodoEdit_Type").value || "";
+	var desc = content.querySelector("#TodoEdit_Desc").value || "";
+	var tasks = content.querySelector("#TodoEdit_Tasks").value || "";
+
+
+	var json = { title: title, desc: desc };
+	if (type == "Task-Group") json["tasks"] = {};
+	/*
+	firebase.app().firestore().collection("Todo").doc(TodoFTG_Editing).set(json)
+		.then(function (doc) {
+			ShiftingDialog.close();
+		});
+		*/
+});
+//  ----------------------------------------    -------------------------------------------------\\

@@ -11,11 +11,11 @@ var mainSnips = new class materialSnip {
 	 * @param {any} type The type of input element (default is text)
 	 * @param {any} style Added style for the container
 	 */
-	textField(id, label, placeholder, type, style, isRequired) {
+	textField(id, label, placeholder, type, style, isRequired, value) {
 		return `
 				<div class="form-group" style="width: 90%; min-height: 65px; max-height: ` + MSNC(stringEV(label), "73", "65") + `px;` + MSN(style) + `">
 					<label ` + MSN(id, ` for="`, `" `, ``) + `>` + MSN(label) + `</label>
-					<input ` + MSN_ID(id) + MSNC(isRequired, "required ", "") + ` type="` + MSN(type, ``, ``, `text`) + `" class="form-control" placeholder="` + MSN(placeholder) + `" autocomplete="off">
+					<input ` + MSN_ID(id) + MSNC(isRequired, "required ", "") + ` type="` + MSN(type, ``, ``, `text`) + `" ` + MSN(value, 'value="', '"', '') + ` class="form-control" placeholder="` + MSN(placeholder) + `" autocomplete="off">
 				</div>
 				`;
 	}

@@ -108,13 +108,11 @@ function clearTab() {
 }
 
 function getCurrentTab() {
-	return document.querySelector('.tab.active').id;
+	return document.querySelector('.tab.active') ? document.querySelector('.tab.active').id : null;
 }
 
-//Update the tab on refresh
-document.addEventListener('DOMContentLoaded', function () { updateTabs(); });
 //Update the tabs on "#" change in url
-$(window).on('hashchange', function () { updateTabs(); });
+window.addHashVariableListener("tab",  updateTabs);
 
 /**
  * Shows and hides the main the loader (the one under the header)
