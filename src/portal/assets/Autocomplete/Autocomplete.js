@@ -13,7 +13,7 @@ class Autocomplete {
 		/*					<-- Source -->				  */
 
 		//Search
-		self.element.oninput = function () {
+		self.element.addEventListener('input', function () {
 			changeFocus(-1);
 			clearWrapper();
 
@@ -21,17 +21,19 @@ class Autocomplete {
 			for (var i = 0; i < search.length; i++) {
 				self.wrapper.innerHTML += `
 					<div class="autocomplete-item" onclick="
-							(this.parentNode.parentNode).querySelector('input').value = this.querySelector('input').value;
+							var inp = (this.parentNode.parentNode).querySelector('input');
+							inp.value = this.querySelector('input').value;
 							this.parentNode.innerHTML = '';
+							try { window[inp.dataset.autocompleteInput](); } catch (err) { alert(err); }
 					">
 						<span>` + self.options[search[i]] + `</span>
 						<input type='hidden' value="` + self.options[search[i]] + `">
 					</div>
 					`;
 			}
-		}
+		});
 
-		self.element.onkeydown = function (e) {
+		self.element.addEventListener('keydown', function (e) {
 			//Down Key
 			if (e.keyCode == 40) {
 				changeFocus(self.focus + 1);
@@ -51,7 +53,7 @@ class Autocomplete {
 					if (target) target.click();
 				}
 			}
-		}
+		});
 
 		function changeFocus(target) {
 			self.focus = target;

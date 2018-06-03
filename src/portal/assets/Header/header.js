@@ -200,14 +200,16 @@ function headerUseSearch(state) {
 	}
 }
 //Open and close the search box
-searchBoxButton.addEventListener('click', function() {
-	document.querySelector('.headerSearchBox').classList.add('headerSearchBox--open');
-});
-document.querySelector('#headerSearchBoxClose').addEventListener('click', function () {
-	setTimeout(function () { document.querySelector('.headerSearchBox').classList.remove('headerSearchBox--open'); }, 200);
-});
-window.addEventListener('resize', function () {
-	if (headerUsingSearch) {
-		document.querySelector("#headerAppsOpen").style.display = (window.innerWidth < 800) ? "none" : "block";
-	}
-});
+try {
+	searchBoxButton.addEventListener('click', function () {
+		document.querySelector('.headerSearchBox').classList.add('headerSearchBox--open');
+	});
+	document.querySelector('#headerSearchBoxClose').addEventListener('click', function () {
+		setTimeout(function () { document.querySelector('.headerSearchBox').classList.remove('headerSearchBox--open'); }, 200);
+	});
+	window.addEventListener('resize', function () {
+		if (headerUsingSearch) {
+			document.querySelector("#headerAppsOpen").style.display = (window.innerWidth < 800) ? "none" : "block";
+		}
+	});
+} catch (err) { }

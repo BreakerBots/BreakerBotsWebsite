@@ -2,7 +2,7 @@
 
 function updateTabs(tab) {
 	//Switch To Tab To Select Tab From Url
-	if (tab == undefined) { tab = getTabFromURL('tab'); if (tab == null) { tab = 'SignIn'; } }
+	if (tab == undefined) { tab = getTabFromURL('tab'); if (tab == null) { tab = 'RegisterComputer'; } }
 
 	
 	//Transition
