@@ -5,6 +5,7 @@ var TodoTab = new RegisteredTab("Todo", null, todoTabInit, todoTabExit, false, "
 var todoSnapshot;
 var todoDrawn;
 var todoView;
+var todoViewingTaskGroup = false;
 function todoTabInit() {
 	firebase.app().firestore().collection("Todo")
 		.onSnapshot(function (snapshot) {
@@ -53,8 +54,10 @@ function drawTodoTab() {
 
 	headerUseBackArrow(todoView != "");
 
+	var cv = findObjectByKey(todoSnapshot.docs, "id", (todoView.indexOf('/') != -1 ? todoView.substring(todoView.lastIndexOf('/') + 1) : todoView));
 	//If Viewing Inside Folder
-	if (typeof tocR == "object") {
+	if (cv ? cv.data().tasks == undefined : true) {
+		todoViewingTaskGroup = false;
 		for (var i = 0; i < Object.keys(tocR).length; i++) {
 			try {
 				var fotgN = Object.keys(tocR)[i];
@@ -96,8 +99,9 @@ function drawTodoTab() {
 		}
 	}
 	//If Viewing Inside Task-Group
-	else if (tocR == 42) {
-		var tg = findObjectByKey(todoSnapshot.docs, "id", (todoView.substring(todoView.lastIndexOf('/') + 1))).data();
+	else {
+		todoViewingTaskGroup = true;
+		var tg = findObjectByKey(todoSnapshot.docs, "id", (todoView.lastIndexOf('/') != -1 ? todoView.substring(todoView.lastIndexOf('/') + 1) : todoView)).data();
 		for (var i = 0; i < Object.keys(tg.tasks).length; i++) {
 			try {
 				var tgt = tg.tasks[Object.keys(tg.tasks)[i]];
@@ -147,13 +151,26 @@ function drawTodoTab() {
 //  ----------------------------------------  Add  -------------------------------------------------\\
 var TodoAddFab = new FabHandler(document.querySelector('#Todo-Add-Fab'));
 TodoAddFab.element.addEventListener('click', function () {
-	ShiftingDialog.set("TodoAddFTG", "Add Folder or Task-Group", "Submit", "Cancel",
-		mainSnips.dropDown("TodoAdd_Type", "Type", "", ["Folder", "Folder", true], ["Task-Group", "Task-Group", false]) +
-		mainSnips.textField("TodoAdd_Title", "Title", "The Title of the Item", null, null, true) + 
-		mainSnips.textField("TodoAdd_Desc", "Description", "A Description of the Item")
-	);
-	ShiftingDialog.open();
+	// Folder and Task-Groups (FTG)
+	if (!todoViewingTaskGroup) {
+		ShiftingDialog.set("TodoAddFTG", "Add Folder or Task-Group", "Submit", "Cancel",
+			mainSnips.dropDown("TodoAdd_Type", "Type", "", ["Folder", "Folder", true], ["Task-Group", "Task-Group", false]) +
+			mainSnips.textField("TodoAdd_Title", "Title", "The Title of the Item", null, null, true) +
+			mainSnips.textField("TodoAdd_Desc", "Description", "A Description of the Item")
+		);
+		ShiftingDialog.open();
+	}
+	// Tasks
+	else {
+		ShiftingDialog.set("TodoAddTask", "Add a new Task", "Submit", "Cancel",
+			mainSnips.textField("TodoAdd_Title", "Title", "The Title of the Task", null, null, true) +
+			mainSnips.textFieldUsersAutoComplete("TodoAdd_Target", "People", "People able or have to complete this task") +
+			mainSnips.textArea("TodoAdd_Desc", "Description", "A Desc Of the Task")
+		);
+		ShiftingDialog.open();
+	}
 });
+// Folder and Task-Groups (FTG)
 ShiftingDialog.addSubmitListener("TodoAddFTG", function (content) {
 	var title = content.querySelector("#TodoAdd_Title").value || "";
 	var type = content.querySelector("#TodoAdd_Type").value || "";
@@ -165,13 +182,32 @@ ShiftingDialog.addSubmitListener("TodoAddFTG", function (content) {
 	if (type == "Task-Group") json["tasks"] = { };
 	firebase.app().firestore().collection("Todo").add(json)
 		.then(function (doc) {
-			tocJson = pushDataToJsonByDotnot(tocJson, stringUnNull(getHashParam('todoView')), doc.id, (type == "Task-Group") ? 42: { } );
+			tocJson = pushDataToJsonByDotnot(tocJson, stringUnNull(getHashParam('todoView')), doc.id, { } );
 
 			firebase.app().firestore().collection("Todo").doc("TableOfContents").set(tocJson)
 				.then(function () {
 					ShiftingDialog.close();
 				});
 		});
+});
+// Tasks
+ShiftingDialog.addSubmitListener("TodoAddTask", function (content) {
+	var title = content.querySelector("#TodoAdd_Title").value || "";
+	var desc = content.querySelector("#TodoAdd_Desc").value || "";
+	var ctgN = todoView.indexOf('/') != -1 ? todoView.substring(todoView.lastIndexOf('/') + 1) : todoView;
+	var ctg = findObjectByKey(todoSnapshot.docs, "id", ctgN).data();
+
+	//Find a unused id
+	var AIDs = guid();
+	while (ctg.tasks[AIDs] != undefined) {
+		AIDs = guid();
+	}
+
+	ctg.tasks[AIDs] = { title: title, desc: desc };
+
+	firebase.app().firestore().collection("Todo").doc(ctgN).set(ctg).then(function () {
+		ShiftingDialog.close();
+	});
 });
 //  ----------------------------------------    -------------------------------------------------\\
 
@@ -195,7 +231,6 @@ ShiftingDialog.addSubmitListener("TodoDeleteFTG", function (content) {
 	firebase.app().firestore().collection("Todo").doc(TodoFTG_Deleting).delete()
 		.then(function () {
 			tocJson = deleteDataFromJsonByDotnot(tocJson, stringUnNull(getHashParam('todoView')), TodoFTG_Deleting);
-
 			firebase.app().firestore().collection("Todo").doc("TableOfContents").set(tocJson)
 				.then(function () {
 					ShiftingDialog.close();
@@ -213,10 +248,9 @@ function TodoEditFTG(item) {
 	TodoFTG_Editing = item;
 	var itemData = findObjectByKey(todoSnapshot.docs, "id", item).data();
 	ShiftingDialog.set("TodoEditFTG", "Edit the " + MSNC(itemData.tasks, "Task-Group ", "Folder ") + itemData.title, "Submit", "Cancel",
-		mainSnips.dropDown("TodoEdit_Type", "Type", "", ["Folder", "Folder", true], ["Task-Group", "Task-Group", false]) +
-		mainSnips.textField("TodoEdit_Title", "Title", "The Title of the Item", null, null, true) +
-		mainSnips.textField("TodoEdit_Desc", "Description", "A Description of the Item", null, null, false) +
-		`<input id="TodoEdit_Tasks" style="display: none; pointer-events: none; width: 0; height: 0;" value="` + itemData.tasks + `"`
+		mainSnips.dropDown("TodoEdit_Type", "Type", "", ["Folder", "Folder", itemData.tasks == undefined], ["Task-Group", "Task-Group", itemData.tasks != undefined]) +
+		mainSnips.textField("TodoEdit_Title", "Title", "The Title of the Item", null, null, true, itemData.title) +
+		mainSnips.textField("TodoEdit_Desc", "Description", "A Description of the Item", null, null, false, itemData.desc)
 	);
 	ShiftingDialog.open();
 }
@@ -224,16 +258,20 @@ ShiftingDialog.addSubmitListener("TodoEditFTG", function (content) {
 	var title = content.querySelector("#TodoEdit_Title").value || "";
 	var type = content.querySelector("#TodoEdit_Type").value || "";
 	var desc = content.querySelector("#TodoEdit_Desc").value || "";
-	var tasks = content.querySelector("#TodoEdit_Tasks").value || "";
+	var tasks = findObjectByKey(todoSnapshot.docs, "id", TodoFTG_Editing).data().tasks;
 
+	var conf = (type == "Folder" && tasks != undefined) ? confirm("Are you sure you want to change this to a folder and remove all of it's tasks?") : true;
 
-	var json = { title: title, desc: desc };
-	if (type == "Task-Group") json["tasks"] = {};
-	/*
-	firebase.app().firestore().collection("Todo").doc(TodoFTG_Editing).set(json)
-		.then(function (doc) {
-			ShiftingDialog.close();
-		});
-		*/
+	if (conf) {
+		var json = { title: title, desc: desc };
+		if (type == "Task-Group") json["tasks"] = (tasks || {});
+		firebase.app().firestore().collection("Todo").doc(TodoFTG_Editing).set(json)
+			.then(function (doc) {
+				ShiftingDialog.close();
+			});
+	}
+	else {
+		ShiftingDialog.enableSubmitButton(true);
+	}
 });
 //  ----------------------------------------    -------------------------------------------------\\

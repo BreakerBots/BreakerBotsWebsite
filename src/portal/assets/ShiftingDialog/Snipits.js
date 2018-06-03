@@ -20,8 +20,13 @@ var mainSnips = new class materialSnip {
 				`;
 	}
 
-	textArea(id, expanding) {
-
+	textArea(id, label, placeholder, style, value, isRequired) {
+		return `
+				<div class="form-group" style="width: 90%; min-height: 65px;` + MSN(style) + `">
+					<label ` + MSN(id, ` for="`, `" `, ``) + `>` + MSN(label) + `</label>
+					<textarea onkeydown="resizeTextarea()"` + MSN_ID(id) + MSNC(isRequired, "required ", "") + MSN(value, 'value="', '"', '') + ` class="form-control" placeholder="` + MSN(placeholder) + `" autocomplete="off"></textarea>
+				</div>
+				`;
 	}
 
 	textFieldAutoComplete(id, label, placeholder, options, style) {
@@ -33,6 +38,16 @@ var mainSnips = new class materialSnip {
 					<div class="autocomplete-options">` +
 						Autocomplete_ArrayToOptions(options)
 					+ `</div>
+				</div>
+				`;
+	}
+
+	textFieldUsersAutoComplete(id, label, placeholder, style) {
+		return `
+				<div class="form-group autocomplete" style="width: 90%; min-height: 65px; max-height: ` + MSNC(stringEV(label), "73", "65") + `px;` + MSN(style) + `" data-autocomplete-users-auto-init data-autocomplete-users-char="">
+					<label ` + MSN(id, ` for="`, `" `, ``) + `>` + MSN(label) + `</label>
+					<input ` + MSN_ID(id) + ` type="text" class="form-control" placeholder="` + MSN(placeholder) + `" autocomplete="off">
+					<div class="autocomplete-items"></div>
 				</div>
 				`;
 	}

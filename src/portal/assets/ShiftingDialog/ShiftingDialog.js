@@ -70,6 +70,7 @@ var ShiftingDialog = new class ShiftingDialog {
 		window.mdc.autoInit(document.querySelector("#SD-Wrapper"));
 		dateTimePickerAutoInit($("#SD-Wrapper"));
 		AutocompleteAutoInit();
+		AutocompleteUsersAutoInit();
 	}
 	addSubmitListener(title, callback) {
 		SD_Listeners.push({ title: title, callback: callback });

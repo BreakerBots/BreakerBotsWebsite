@@ -155,7 +155,7 @@ function deleteDataFromJsonByDotnot(obj, path, key) {
 	}
 	else {
 		var pdtjbd_data = dotnot(obj, path);
-		pdtjbd_data[key] = value;
+		delete pdtjbd_data[key];
 		dotnot(obj, path, pdtjbd_data);
 	}
 	return obj;
@@ -205,4 +205,32 @@ function findObjectDifferences(a, b) {
 			diff.push(Object.keys(b)[i]);
 	}
 	return diff;
+}
+
+String.prototype.allIndexesOf = function (substring){
+	var a = [], i = -1;
+	while ((i = this.indexOf(substring, i + 1)) >= 0) a.push(i);
+	return a;
+}
+
+function findCurrentWord(string, index) {
+	var a = string.split(" "), b = 0;
+	for (var i = 0; i < a.length; i++) {
+		b += a[i].length + 1;
+		if (b > index) {
+			return { word: a[i], start: b, end: b - a[i].length };
+		}
+	}
+}
+
+function replaceCurrentWord(string, index, val) {
+	var a = string.split(" "), b = 0;
+	for (var i = 0; i < a.length; i++) {
+		b += a[i].length + 1;
+		if (b > index) {
+			a[i] = val;
+			return a.join(" ");
+		}
+	}
+	return string;
 }
