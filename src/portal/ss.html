@@ -58,7 +58,7 @@
 												</div>
 											</div>
 										</div>
-										<div class="form-group login-submit" style="transform: translateY(-30px);">
+										<div class="form-group login-submit" style="transform: translateY(-30px) scale(1); transition: transform 0.2s cubic-bezier(.2, 0, .2, 1), top 0.4s;">
 											<button id="SignInTogo" type="submit" style="width: 90%; display: block; transition: transform 0.2s cubic-bezier(.2, 0, .2, 1), top 0.4s; transform: scale(0); margin: auto;" data-mdc-auto-init="MDCRipple" class="mdc-button mdc-button--raised mdc-ripple-upgraded">Sign In</button>
 										</div>
 									</div>
@@ -117,11 +117,13 @@
 
 		document.querySelector("#SignInTogo").addEventListener('click', function () {
 			document.querySelector("#SignInTogo").disabled = true;
+			document.querySelector("#SignInTogo").parentNode.style.transform = "translateY(-30px) scale(0)";
 			var val = document.querySelector("#Input-Name").value;
 			if (teamMembers[val] != undefined) {
 				SSM_Data[val].push({ [teamMembers[val] ? "out" : "in"]: new Date() });
 				firebase.app().firestore().collection("SS").doc("members").set(SSM_Data).then(function () {
 					document.querySelector("#SignInTogo").disabled = false;
+					setTimeout(function () { document.querySelector("#SignInTogo").parentNode.style.transform = "translateY(-30px) scale(1)"; }, 200);
 				});
 			}
 		});
