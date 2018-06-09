@@ -21,21 +21,22 @@ class AutocompleteUsers {
 
 			if (cw.word[0] == self.searchKey || self.searchKey == "") {
 				var search = cw.word.substr(self.searchKey.length) == "" ? Object.values(allUsers) : self.fuse.search(cw.word.substr(self.searchKey.length));
-				for (var i = 0; i < search.length; i++) {
-					self.wrapper.innerHTML += `
-						<div class="autocomplete-item" onclick="
-								var inp = (this.parentNode.parentNode).querySelector('input');
-								inp.value = replaceCurrentWord(inp.value, inp.selectionStart, '` + self.searchKey + `' + this.querySelector('input').value);
-								this.parentNode.innerHTML = '';
-						">
-							<img src="` + (search[i].avatar || '../assets/img/iconT.png') + `" style="border-radius: 50%; width: 35px; height: auto; margin-right: 5px;" alt="Avatar"/>
-							<span style="font-weight: 600;">` + search[i].username + `</span>
-							<span style="font-size: 90%;">` + search[i].name + `</span>
-							<input type='hidden' value="` + search[i].username + `">
-						</div>
-						`;
-				}
-				console.log(document.activeElement);
+				setTimeout(function () { 
+					for (var i = 0; i < search.length; i++) {
+						self.wrapper.innerHTML += `
+							<div class="autocomplete-item" onclick="
+									var inp = (this.parentNode.parentNode).querySelector('input');
+									inp.value = replaceCurrentWord(inp.value, inp.selectionStart, '` + self.searchKey + `' + this.querySelector('input').value);
+									this.parentNode.innerHTML = '';
+							">
+								<img src="` + (search[i].avatar || '../assets/img/iconT.png') + `" style="border-radius: 50%; width: 35px; height: auto; margin-right: 5px;" alt="Avatar"/>
+								<span style="font-weight: 600;">` + search[i].username + `</span>
+								<span style="font-size: 90%;">` + search[i].name + `</span>
+								<input type='hidden' value="` + search[i].username + `">
+							</div>
+							`;
+					}
+				}, 10);
 			}
 		}
 

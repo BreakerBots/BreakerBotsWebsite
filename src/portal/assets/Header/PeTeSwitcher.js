@@ -60,3 +60,13 @@ function PeteSwitcher(pageContent, pdrawer, tdrawerEl, openDrawerButton, topAppB
 		pageContent.style.marginLeft = (CPeteState == -1 ? (320 + Number(pdrawer.style.transform.substring(11).slice(0, -3))) : 0) + "px";
 	}, 100);
 }
+
+//Show a highlight arround the current tab
+addHashVariableListener("tab", function () {
+	[].forEach.call(document.querySelector("#MainNavDrawers").querySelectorAll(".mdc-drawer-item--selected"), function (item) {
+		item.classList.remove("mdc-drawer-item--selected");
+	});
+	[].forEach.call(document.querySelector("#MainNavDrawers").querySelectorAll(`[onclick="setHashParam('tab','` + getHashParam("tab") + `');"]`), function (item) {
+		item.classList.add("mdc-drawer-item--selected");
+	});
+});

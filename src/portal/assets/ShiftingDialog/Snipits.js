@@ -1,5 +1,5 @@
 /*Snipits.js
-	This class is a group of MDC snipits meant for an easy use of inputing html into the Shifiting Dialog 
+	This class is a group of MDC snipits meant for an easy use of inputing html into the Shifiting Dialog
 */
 
 var mainSnips = new class materialSnip {
@@ -23,8 +23,9 @@ var mainSnips = new class materialSnip {
 	textArea(id, label, placeholder, style, value, isRequired) {
 		return `
 				<div class="form-group" style="width: 90%; min-height: 65px;` + MSN(style) + `">
+					<img src="../assets/img/freeload.png" style="display: none;" onload="resizeTextarea(this.parentNode.querySelector('textarea'))"/>
 					<label ` + MSN(id, ` for="`, `" `, ``) + `>` + MSN(label) + `</label>
-					<textarea onkeydown="resizeTextarea()"` + MSN_ID(id) + MSNC(isRequired, "required ", "") + MSN(value, 'value="', '"', '') + ` class="form-control" placeholder="` + MSN(placeholder) + `" autocomplete="off"></textarea>
+					<textarea style="resize: none;" onkeydown="resizeTextarea()"` + MSN_ID(id) + MSNC(isRequired, "required ", "") + ` class="form-control" placeholder="` + MSN(placeholder) + `" autocomplete="off">` + MSN(value, "", "", "") + `</textarea>
 				</div>
 				`;
 	}
@@ -42,11 +43,11 @@ var mainSnips = new class materialSnip {
 				`;
 	}
 
-	textFieldUsersAutoComplete(id, label, placeholder, style) {
+	textFieldUsersAutoComplete(id, label, placeholder, style, value) {
 		return `
 				<div class="form-group autocomplete" style="width: 90%; min-height: 65px; max-height: ` + MSNC(stringEV(label), "73", "65") + `px;` + MSN(style) + `" data-autocomplete-users-auto-init data-autocomplete-users-char="">
 					<label ` + MSN(id, ` for="`, `" `, ``) + `>` + MSN(label) + `</label>
-					<input ` + MSN_ID(id) + ` type="text" class="form-control" placeholder="` + MSN(placeholder) + `" autocomplete="off">
+					<input ` + MSN_ID(id) + ` type="text" class="form-control" ` + MSN(value, 'value="', '"', '') + ` placeholder="` + MSN(placeholder) + `" autocomplete="off">
 					<div class="autocomplete-items"></div>
 				</div>
 				`;
@@ -60,6 +61,33 @@ var mainSnips = new class materialSnip {
 					<div class="autocomplete-items"></div>
 				</div>
 				`;
+	}
+
+	/**
+	 * A Snippit for radio buttons groups with mdc implementations. Get the value by calling => getRadioButtonValue(ELEMENT)
+	 * @param {Array} buttons A String Of array of radio buttons contents => ["HTML", "HTML", "HTML", ...]
+	 * @param {String} id The id of the radio button wrapper, individual radio buttons are this id followed with "-INDEX"
+	 * @param {Function} onchange A callback when a new button is selected
+	 */
+	radioButtons(id, buttons, onchange) {
+		var html = '<div class="radio-button-container" style="width: 90%; min-width: 250px;" ' + MSN_ID(id) + ' >';
+		for (var i = 0; i < buttons.length; i++) {
+			try {
+				html += `
+			<div class="mdc-form-field" style="margin: 0 0 0 3px;">
+				<div class="mdc-radio" data-mdc-auto-init="MDCRadio" id="` + (id + '-' + i) + `">
+					<input class="mdc-radio__native-control" type="radio" checked onclick="` + onchange + `">
+					<div class="mdc-radio__background">
+						<div class="mdc-radio__outer-circle"></div>
+						<div class="mdc-radio__inner-circle"></div>
+					</div>
+				</div>
+				<label onclick="this.parentNode.querySelector('div').querySelector('input').click()">` + buttons[i] + `</label>
+			</div><br />
+			`;
+			} catch (err) { }
+		}
+		return html + '</div>';
 	}
 
 	/**
@@ -130,13 +158,32 @@ function MS_ProcessDropDown(arguments, startAt) {
 
 //Processes input for autocomplete snippit
 function Autocomplete_ArrayToOptions(options) {
-	if (options) {
+	return arrayToHTMLTags(options, tag);
+}
+
+function arrayToHTMLTags(arr, tag) {
+	if (arr) {
 		var str = '';
-		for (var i = 0; i < options.length; i++) {
-			str += '<p>' + options[i] + '</p>';
+		for (var i = 0; i < arr.length; i++) {
+			str += '<' + tag + '>' + arr[i] + '</' + tag + '>';
 		}
 		return str;
 	}
 	else
 		return "";
+}
+
+//Get and Set value from radio buttons
+getRadioButtonValue = function (el) {
+	var clid;
+	[].forEach.call(el.querySelectorAll('.mdc-radio'), function (item) {
+		if (item.MDCRadio.checked) clid = item.id;
+	});
+	return clid;
+}
+setRadioButtonValue = function (el, i) {
+	[].forEach.call(el.querySelectorAll('.mdc-radio'), function (item) {
+		item.MDCRadio.checked = (item.id.split('-')[1] == i);
+	});
+	return;
 }
