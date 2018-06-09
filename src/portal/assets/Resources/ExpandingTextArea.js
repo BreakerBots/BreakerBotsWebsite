@@ -1,7 +1,10 @@
 // ExpandingTextArea.js
 
-function resizeTextarea() {
-	event.srcElement.style.height = "auto";
-	event.srcElement.style.height = event.srcElement.scrollHeight + "px";
-	event.srcElement.style.overflow = "hidden";
+function resizeTextarea(element) {
+	element = element || event.srcElement;
+	if (element) {
+		element.style.height = "auto";
+		element.style.height = element.scrollHeight + "px";
+		element.style.overflow = "hidden";
+	}
 }

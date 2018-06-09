@@ -32,6 +32,7 @@
 	<!--MDC-->
 	<link rel="stylesheet" href="../assets/mdc/material.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="../assets/mdc/material-tables.css">
 
 	<!--Tab Showing And Hiding-->
 	<link rel="stylesheet" href="assets/Tabs/tabs.css" type="text/css" />
@@ -52,6 +53,7 @@
 	<link rel="stylesheet" href="assets/Header/header.css" type="text/css" />
 	<link rel="manifest" href="assets/Notifications/manifest.json">
 
+	<link rel="stylesheet" href="assets/Resources/BreakerLayout.css" type="text/css" />
 	<style>
 		.material-scrollbar::-webkit-scrollbar {
 			width: 12px;
@@ -61,14 +63,18 @@
 			background-color: rgb(150, 150, 150);
 			box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
 		}
+
+		html {
+			overflow-y: hidden !important;
+		}
 	</style>
 </head>
-<body style="background-color: #EEEEEE;" class="material-scrollbar">
+<body style="background-color: #EEEEEE; overflow-y: hidden;">
 	<header class="mdc-top-app-bar mdc-top-app-bar--fixed" style="z-index: 10; transform: translateY(-100%);">
 		<div class="mdc-top-app-bar__row">
 			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-				<button id="OpenDrawer" style="transition: all 0.2s cubic-bezier(.2, 0, .2, 1);" class="material-icons mdc-top-app-bar__navigation-icon mdc-ripple-upgraded--unbounded mdc-ripple-upgraded">menu</button>
-				<button id="HeaderBackArrow" style="transition: all 0.2s cubic-bezier(.2, 0, .2, 1); display: none; opacity: 0; transform: scale(0);" data-mdc-auto-init="MDCIconToggle" onclick="window.history.back();" class="material-icons mdc-top-app-bar__navigation-icon mdc-ripple-upgraded--unbounded mdc-ripple-upgraded">arrow_back</button>
+				<button id="OpenDrawer" style="transition: all 0.2s cubic-bezier(.2, 0, .2, 1);" class="noselect material-icons mdc-top-app-bar__navigation-icon mdc-ripple-upgraded--unbounded mdc-ripple-upgraded">menu</button>
+				<button id="HeaderBackArrow" style="transition: all 0.2s cubic-bezier(.2, 0, .2, 1); display: none; opacity: 0; transform: scale(0);" data-mdc-auto-init="MDCIconToggle" onclick="window.history.back();" class="noselect material-icons mdc-top-app-bar__navigation-icon mdc-ripple-upgraded--unbounded mdc-ripple-upgraded">arrow_back</button>
 				<img src="../assets/img/iconT.png" class="mdc-top-app-bar__navigation-icon" style="width: 64px; height: auto; padding-top: 8px; padding-bottom: 8px; margin-bottom: 0; margin-left: 10px;" />
 				<span class="mdc-top-app-bar__title" data-delete-overflow-min="660" style="font-size: 2em; font-weight: 400; font-family: Roboto !important;">
 					&nbsp; Breakersite - Dashboard
@@ -76,10 +82,10 @@
 			</section>
 			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
 				<!--Search-->
-				<button onclick="" style="display: none; opacity: 0; transform: scale(0); transition: all 0.2s cubic-bezier(.2, 0, .2, 1);" id="headerSearchBoxOpen" class="material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded">search</button>
+				<button onclick="" style="display: none; opacity: 0; transform: scale(0); transition: all 0.2s cubic-bezier(.2, 0, .2, 1);" id="headerSearchBoxOpen" class="noselect material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded">search</button>
 
 				<!--Apps-->
-				<button onclick="toggleMenu('#appsMenu', true)" id="headerAppsOpen" class="material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" aria-label="Apps">apps</button>
+				<button onclick="toggleMenu('#appsMenu', true)" id="headerAppsOpen" class="noselect material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" aria-label="Apps">apps</button>
 				<ul class="dropdown-menu-c dropdown-menu be-connections" id="appsMenu" style="padding: 0;">
 					<li class="mdc-elevation--z10">
 						<div class="list">
@@ -98,7 +104,7 @@
 				</ul>
 
 				<!--Notifications-->
-				<button onclick="toggleNotificationMenu(true); toggleMenu('#notanimWidthTarget', true);" id="headerNotificationsOpen" class="material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" aria-label="Notifications">notifications</button>
+				<button onclick="toggleNotificationMenu(true); toggleMenu('#notanimWidthTarget', true);" id="headerNotificationsOpen" class="noselect material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" aria-label="Notifications">notifications</button>
 				<ul class="be-notifications dropdown-menu-c dropdown-menu notification-menu" id="notanimWidthTarget" style="padding: 0;">
 					<li class="mdc-elevation--z10" id="NotificationBox">
 						<div class="title" style="max-height: 50px !important;">
@@ -148,7 +154,7 @@
 
 
 				<!--Avatar-->
-				<button id="AvatarButton" style="clear: both; position: relative;" onclick="toggleMenu('#profileMenu', false); currentMenuAnchors['#profileMenu'] = this; updateMenuAnchors();" class="mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded">
+				<button id="AvatarButton" style="clear: both; position: relative;" onclick="toggleMenu('#profileMenu', false); currentMenuAnchors['#profileMenu'] = this; updateMenuAnchors();" class="noselect mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded">
 					<img id="AvatarPicture" src="../assets/img/iconT.png" style="width: 100%; border-radius: 50%; transform: scale(1.6);" />
 				</button>
 				<div role="menu" class="dropdown-menu-c dropdown-menu mdc-elevation--z10" id="profileMenu" style="width: 300px; padding: 0; border: 0; position: absolute;">
@@ -177,50 +183,51 @@
 	</header>
 	<main>
 		<!--Left Nav Drawer (Collabsible and Permament)-->
+		<div id="MainNavDrawers">
 		<aside class="mdc-drawer mdc-drawer--temporary mdc-typography main-nav-drawer" style="z-index: 9;"></aside>
-		<div class="permanent-drawer mdc-elevation--z10" style="overflow-y: scroll; transform: translateX(-320px); width: 320px; position: fixed; left: 0; z-index: 9; height: 100%; transition: transform 0.6s, top 0.5s; transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);">
+		<div class="noselect permanent-drawer mdc-elevation--z10" style="overflow-y: scroll; transform: translateX(-320px); width: 320px; position: fixed; left: 0; z-index: 9; height: 100%; transition: transform 0.6s, top 0.5s; transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);">
 			<nav class="mdc-drawer__drawer">
-				<h1 style="font-family: Roboto !important; text-align: center; font-size: 1.17em;">Menu (User On Mobile)</h1>
 				<nav class="mdc-drawer__content mdc-list LeftNavList">
-					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab', 'General');">
-						<i class="material-icons mdc-list-item__graphic">image</i>General
+					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','General');">
+						<i class="material-icons mdc-list-item__graphic">image</i><span>General</span>
 					</a>
 					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="toggleNavSubMenu('#PartsSubmenu')">
-						<i class="material-icons mdc-list-item__graphic mdi-wrench"></i>Parts
+						<i class="material-icons mdc-list-item__graphic mdi-wrench"></i><span>Parts</span>
 					</a>
 					<div class="side-nav__submenu-wrapper">
 						<ul class="side-nav__submenu" id="PartsSubmenu">
 							<li>
-								<a onclick="setHashParam('tab','PartsAll');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded" tabindex="0">
-									All
+								<a onclick="setHashParam('tab','PartsAll');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded">
+									<span>All</span>
 								</a>
 							</li>
 							<li>
-								<a onclick="setHashParam('tab','PartsOrdered');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded" tabindex="0">
-									Ordered
+								<a onclick="setHashParam('tab','PartsOrdered');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded">
+									<span>Ordered</span>
 								</a>
 							</li>
 							<li>
-								<a onclick="setHashParam('tab','PartsArchived');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded" tabindex="0">
-									Archived
+								<a onclick="setHashParam('tab','PartsArchived');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded">
+									<span>Archived</span>
 								</a>
 							</li>
 						</ul>
 					</div>
 					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Todo');">
-						<i class="material-icons mdc-list-item__graphic">format_list_numbered </i>Todo
+						<i class="material-icons mdc-list-item__graphic">format_list_numbered </i><span>Todo</span>
 					</a>
 					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Calendar');">
-						<i class="material-icons mdc-list-item__graphic">calendar_today</i>Calendar
+						<i class="material-icons mdc-list-item__graphic">calendar_today</i><span>Calendar</span>
 					</a>
 					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Github');">
-						<i class="material-icons mdi-github mdc-list-item__graphic"></i>Github
+						<i class="material-icons mdi-github mdc-list-item__graphic"></i><span>Github</span>
 					</a>
 					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Teams');">
-						<i class="material-icons mdc-list-item__graphic">supervisor_account</i>Teams
+						<i class="material-icons mdc-list-item__graphic">supervisor_account</i><span>Teams</span>
 					</a>
 				</nav>
 			</nav>
+		</div>
 		</div>
 
 		<!--Loader-->
@@ -239,7 +246,7 @@
 
 		<div class="page-content" style="transition: margin-left 0.5s; z-index: 7;">
 			<div class="" style="height: 100%;">
-				<div style="overflow-x: hidden; overflow-y: hidden; position: relative; height: 100vh; ">
+				<div class="material-scrollbar" id="page-scroll" style="overflow-x: hidden; overflow-y: auto; position: relative; height: calc(100vh - 64px); ">
 					<!--Tabs-->
 					<div id="General" class="tab">
 						<h1>General</h1>
@@ -303,8 +310,14 @@
 
 							</div>
 							<div style="width: 100%; height: 5px;"></div>
+							<div onclick="todoViewCard = true; drawTodoTab();" style="float: right; transform: translate(0, -42px); width: 50px; border-radius: 10px;" class="mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">
+								<i style="font-size: 28px; font-weight: 100; transform: translate(-5px, -1px);" class="noselect stepperH material-icons">view_module</i>
+							</div>
+							<div onclick="todoViewCard = false; drawTodoTab();" style="float: right; transform: translate(0, -42px); width: 50px; border-radius: 10px;" class="mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">
+								<i style="font-size: 28px; font-weight: 100; transform: translate(-5px, -1px);" class="noselect stepperH material-icons">view_list</i>
+							</div>
 						</div>
-						<div id="TodoWrapper" class="row" style="margin: 20px 15px 0px 15px;">
+						<div id="TodoWrapper" style="margin: 0px 15px 0px 15px; width: calc(100vw - 45px); transform: translateY(-20px);">
 
 						</div>
 						<button id="Todo-Add-Fab" class="mdc-fab demo-fixed-fab mdc-ripple-upgraded mdc-fab--exited">
@@ -1161,7 +1174,7 @@
 		</div>
 
 		<!--Imports-->
-		<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+		<script src="../assets/mdc/material.js"></script>
 		<script src="../assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
 		<script src="../assets/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
 		<script src="../assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>

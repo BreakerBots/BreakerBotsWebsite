@@ -46,10 +46,6 @@ function toggleMenu(menu, anchorToMe) {
 	else
 		var menuEl = document.querySelector(menu);
 
-	//Show/Hide the menu
-	menuEl.classList.toggle('showMenu');
-	menuEl.classList.add('rejectMenuClickEvent');
-
 	//If element wants menu anchored to it
 	if (anchorToMe) {
 		//Make sure the element is on the anchor list
@@ -57,6 +53,10 @@ function toggleMenu(menu, anchorToMe) {
 		//Update the anchors for the first time or just in case
 		updateMenuAnchors();
 	}
+
+	//Show/Hide the menu
+	menuEl.classList.toggle('showMenu');
+	menuEl.classList.add('rejectMenuClickEvent');
 }
 
 //Handle Anchors For Menu
@@ -73,7 +73,7 @@ function updateMenuAnchors() {
 			menuButton.setAttribute('data-aria-label', !menuEl.classList.contains('showMenu'));
 
 			//The estimaed position to for the anchor
-			var pos = [menuButton.offsetLeft, menuButton.offsetTop + menuButton.offsetHeight];
+			var pos = [menuButton.getBoundingClientRect().left, menuButton.getBoundingClientRect().top + menuButton.getBoundingClientRect().height];
 
 			//Flip the menu if over the edge of window
 			if ((menuButton.getBoundingClientRect().left + menuEl.offsetWidth) > window.innerWidth) {
@@ -81,8 +81,18 @@ function updateMenuAnchors() {
 			}
 
 			//Transform the open animation position
-			var topLeftOfMenu = pos[0] + menuEl.clientWidth, bottomRightOfButton = menuButton.offsetLeft + menuButton.offsetWidth;
+			var topLeftOfMenu = pos[0] + menuEl.getBoundingClientRect().width, bottomRightOfButton = menuButton.getBoundingClientRect().left + menuButton.getBoundingClientRect().width;
 			var transfOrX = ((bottomRightOfButton - pos[0]) / (topLeftOfMenu - pos[0])) * 100;
+
+			//Offset Fix
+			pos[0] -= getRelativeParentOffset(menuEl).left;
+			pos[1] -= getRelativeParentOffset(menuEl).top;
+			try { if (menuEl.dataset.menuOffset) {
+				pos[0] += Number(menuEl.dataset.menuOffset.split(" ")[0]);
+				pos[1] += Number(menuEl.dataset.menuOffset.split(" ")[1]);
+			} } catch (err) { }
+
+			console.log(menuEl.scrollTop);
 
 			//Update all the newly generated css
 			menuEl.style.left = pos[0] + "px";

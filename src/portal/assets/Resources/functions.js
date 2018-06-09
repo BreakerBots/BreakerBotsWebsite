@@ -234,3 +234,20 @@ function replaceCurrentWord(string, index, val) {
 	}
 	return string;
 }
+
+function getRelativeParentOffset(el) {
+	var iel = 0;
+	var ret = { left: 0, top: 0 };
+	while (el) {
+		iel++;
+		el = el.parentNode;
+		try {
+			if (window.getComputedStyle(el).getPropertyValue('position') == "relative") {
+				ret.left += el.getBoundingClientRect().left;
+				ret.top += el.getBoundingClientRect().top;
+			}
+		} catch (err) { }
+		if (iel > 200) el = undefined;
+	}
+	return ret;
+}

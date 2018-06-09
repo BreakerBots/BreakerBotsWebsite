@@ -54,6 +54,9 @@ function updateTabs(tab) {
 			//Clear the last tab's header extension
 			document.querySelector('#headerExtensionContainer');
 
+			//Make sure content is scrollable
+			document.querySelector("#page-scroll").style.overflowY = "auto";
+
 			//Move the last tab out
 			if (lastTab) {
 				//Send Exit Callback to tab handlers

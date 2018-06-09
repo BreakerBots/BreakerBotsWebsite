@@ -14,7 +14,8 @@ var ShiftingDialog = new class ShiftingDialog {
 		var sdc = document.querySelector('#SD-Container');
 		document.querySelector("#SD-Form").removeAttribute('novalidate');
 		if (sdc.dataset.sdContainerState != "opening" && sdc.dataset.sdContainerState != "open") {
-			document.querySelector("html").style.overflowY = "hidden";
+			this.scrollWasHidden = document.querySelector("#page-scroll").style.overflowY == "hidden";
+			document.querySelector("#page-scroll").style.overflowY = "hidden";
 			sdc.dataset.sdContainerState = "opening";
 			setTimeout(function () {
 				if (sdc.dataset.sdContainerState == "opening")
@@ -27,7 +28,7 @@ var ShiftingDialog = new class ShiftingDialog {
 		var sdc = document.querySelector('#SD-Container');
 		document.querySelector("#SD-Form").setAttribute('novalidate', '');
 		if (sdc.dataset.sdContainerState != "closed" && sdc.dataset.sdContainerState != "closed") {
-			document.querySelector("html").style.overflowY = "scroll";
+			if (!this.scrollWasHidden) document.querySelector("#page-scroll").style.overflowY = "auto";
 			sdc.dataset.sdContainerState = "closing";
 			setTimeout(function () {
 				if (sdc.dataset.sdContainerState == "closing")

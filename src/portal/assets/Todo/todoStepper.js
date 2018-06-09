@@ -7,10 +7,10 @@ function fillTodoStepper(todoView, snapshotDocs) {
 
 	//(Cheap solution) draw in old data and play closing transition if applicable
 	if (stepperChange.nun == -1) {
-		var html = `<div class="stepperD mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple"><i class="stepperH material-icons">home</i></div>`;
+		var html = `<div class="stepperD mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple"><i class="noselect stepperH material-icons">home</i></div>`;
 		for (var i = 0; i < currentTodoStepper.length; i++) {
 			if (currentTodoStepper[i] != "") {
-				html += '<i class="stepperI material-icons' + ((i >= stepperChange.i) ? ' stepperPITransition--reverse' : '') + '">arrow_forward_ios</i>';
+				html += '<i class="noselect stepperI material-icons' + ((i >= stepperChange.i) ? ' stepperPITransition--reverse' : '') + '">arrow_forward_ios</i>';
 				html += `<div class="stepperD` + ((i >= stepperChange.i) ? ' stepperPITransition--reverse' : '') + ` mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple"><p class="stepperP">` + findObjectByKey(snapshotDocs, "id", currentTodoStepper[i]).data().title + `</p></div>`;
 			}
 		}
@@ -19,10 +19,10 @@ function fillTodoStepper(todoView, snapshotDocs) {
 
 	setTimeout(function () {
 		//Draw in new and play transition if applicable
-		var html = `<div class="stepperD mdc-ripple-surface mdc-ripple-upgraded" onclick="setHashParam('todoView', '');" data-mdc-auto-init="MDCRipple"><i class="stepperH material-icons">home</i></div>`;
+		var html = `<div class="stepperD mdc-ripple-surface mdc-ripple-upgraded" onclick="setHashParam('todoView', '');" data-mdc-auto-init="MDCRipple"><i class="noselect stepperH material-icons">home</i></div>`;
 		for (var i = 0; i < todoView.length; i++) {
 			if (todoView[i] != "") {
-				html += '<i class="stepperI material-icons' + ((stepperChange.nun == 1 && i >= stepperChange.i) ? ' stepperPITransition' : '') + '">arrow_forward_ios</i>';
+				html += '<i class="noselect stepperI material-icons' + ((stepperChange.nun == 1 && i >= stepperChange.i) ? ' stepperPITransition' : '') + '">arrow_forward_ios</i>';
 				html += `<div class="stepperD` + ((stepperChange.nun == 1 && i >= stepperChange.i) ? ' stepperPITransition' : '') + ` mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('todoView', '` + drawRelativeDirectory(todoView, i) + `');"><p class="stepperP">` + findObjectByKey(snapshotDocs, "id", todoView[i]).data().title + `</p></div>`;
 			}
 		}
