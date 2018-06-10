@@ -134,7 +134,7 @@ function MSN_ID(id) {
  * @param {String} fb Fallback incase the input doesn't exist
  */
 function MSN(inp, ffs, ffe, fb) {
-	return (inp ? ((ffs ? (ffs + inp + (ffe ? ffe : ``)) : inp)) : (fb ? fb : ``));
+	return (inp ? ((ffs ? (ffs + inp + (ffe ? ffe : ``)) : (inp + (ffe ? ffe : ``)))) : (fb ? fb : ``));
 }
 
 /**

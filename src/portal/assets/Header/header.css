@@ -213,7 +213,8 @@ button:focus {
 .bstooltip-container {
 	overflow: visible;
 	pointer-events: none;
-	z-index: 100;
+	z-index: 1000;
+	position: fixed;
 }
 .bstooltip {
 	position: absolute;
@@ -237,10 +238,9 @@ button:focus {
 	transform: translate(-50%, calc(20px + 10px));
 }
 
-[aria-label]:not([data-aria-label=false]):hover > .bstooltip-container > .bstooltip {
+.bstooltip.bstooltip--active {
 	opacity: 1;
 	transform: translate(-50%, calc(20px + 0px));
-	transition-delay: 0.5s;
 }
 
 /*Header Search*/

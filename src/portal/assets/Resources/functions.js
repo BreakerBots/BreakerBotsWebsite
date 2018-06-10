@@ -251,3 +251,32 @@ function getRelativeParentOffset(el) {
 	}
 	return ret;
 }
+
+//Clamping, Min, Maxing
+Number.prototype.min = function (val) {
+	return this < val ? val : this;
+};
+Number.prototype.max = function (val) {
+	return this > val ? val : this;
+};
+Number.prototype.clamp = function (min, max) {
+	return this > max ? max : (this < min ? min : this);
+};
+
+//Find Nested Key
+function findNestedKey(o, id) {
+	var result, p;
+	//Filter Through Children
+	for (var i = 0; i < Object.keys(o).length; i++) {
+		p = Object.keys(o)[i];
+		if (p == id) { return o[p]; }
+		//If Child Is Object Recur Through It
+		if (o.hasOwnProperty(p) && typeof o[p] === 'object') {
+			result = findNestedKey(o[p], id);
+			if (result) {
+				return result;
+			}
+		}
+	}
+	return result;
+}

@@ -64,19 +64,28 @@ function drawTodoTab() {
 			try {
 				var fotgN = Object.keys(tocR)[i];
 				var fotg = findObjectByKey(todoSnapshot.docs, "id", fotgN).data();
+				var fotgP = (fotg.tasks == undefined) ? TodoFolderStatus(fotgN) : TodoTaskGroupStatus(fotgN);
 				//Card View
 				if (todoViewCard) {
 					html += `
 					<div class="breaker-layout__panel">
 						<div class="mdc-card todo-card" id="` + fotgN + `">
 							<div class="mdc-ripple-surface mdc-ripple-upgraded bl1" style="display: flex; align-items: center;" data-mdc-auto-init="MDCRipple" onclick="setHashParam('todoView', '` + ((todoView == "" ? "" : todoView + "/") + fotgN) + `');">
-								<div style="margin-left: 20px">
+								<div style="margin-left: 20px; width: 100%;">
 									<div class="demo-card__primary" style="width: 90%">
 										<h2 class="demo-card__title mdc-typography--headline6">` + (fotg.title == "" ? "&nbsp;" : fotg.title) + `</h2>
 									</div>
-									<div class="demo-card__secondary mdc-typography--body2" style="width: 90%;">` + (fotg.desc) + `</div>
+									<div class="mdc-typography--body2" style="width: 90%;">` + (fotg.desc) + `</div>
 									<i class="noselect material-icons" style="font-size: 300%; position: absolute; right: 20px; top: 20px;"> ` + ((fotg.tasks == undefined) ? "folder" : "assignment") + ` </i>
 								</div>
+							</div>
+							<div class="FTG-Progress-Wrapper" style="width: calc(100% - 43px); margin: 0 0 0 20px; padding: 8px 0 8px 0; height: 21px; display: flex; border-radius: 10px; overflow: hidden;" aria-label-delay="0.1s" aria-label="` +
+						(fotgP.T + ' Todo / ' + fotgP.IP + ' Working / ' + fotgP.D + ' Done / ' + fotgP.B + ' Blocked') + 
+						`">
+								<div style="height: 100%; width: ` + (fotgP.T / (fotgP.T + fotgP.IP + fotgP.D + fotgP.B) * 100) + `%; background-color: rgba(0,0,0, .3);"></div>
+								<div style="height: 100%; width: ` + (fotgP.IP / (fotgP.T + fotgP.IP + fotgP.D + fotgP.B) * 100) + `%; background-color: rgba(0,0,0, .6);"></div>
+								<div style="height: 100%; width: ` + (fotgP.D / (fotgP.T + fotgP.IP + fotgP.D + fotgP.B) * 100) + `%; background-color: rgba(0,0,0, 1);;"></div>
+								<div style="height: 100%; width: ` + (fotgP.B / (fotgP.T + fotgP.IP + fotgP.D + fotgP.B) * 100) + `%; background-color: rgba(255,0,0, 1);"></div>
 							</div>
 							<div class="mdc-card__action-icons">
 								<i data-mdc-auto-init="MDCIconToggle" onclick="toggleMenu(null, true)" class="mdc-icon-toggle material-icons" style="color: rgb(80, 80, 80);" role="button" aria-pressed="false">more_vert</i>
@@ -152,7 +161,7 @@ function drawTodoTab() {
 							<div class="demo-card__secondary mdc-typography--body2" style="width: 90%; font-size: .95rem; font-weight: 500; transform: translate(7px, -10px);">` + (tgt.status == 1 || tgt.status == 2 ? tgt.people : tgt.targets.join(", ")) + `</div>
 							<div class="demo-card__secondary mdc-typography--body2" style="width: 90%">` + tgt.desc + `</div>
 							<div class="demo-card__secondary mdc-typography--body2" style="width: 90%; background: rgba(252, 173, 37, 0.3);">` + MSN(tgt.reason) + `</div>
-							<i class="noselect material-icons mdc-icon-toggle" data-mdc-auto-init="MDCIconToggle" style="position: absolute; right: 8px; top: 8px;"> <img style="transform: translate(-5px, -5.5px)" src="` + TodoGetTaskStatus(Number(tgt.status)) + `"/> </i>
+							<i class="noselect material-icons mdc-icon-toggle" onclick="TodoCSTask('` + tgtN + `')" data-mdc-auto-init="MDCIconToggle" style="position: absolute; right: 8px; top: 8px;"> <img style="transform: translate(-5px, -5.5px)" src="` + TodoGetTaskStatus(Number(tgt.status)) + `"/> </i>
 						</div>
 						<div class="mdc-card__action-icons">
 							<i data-mdc-auto-init="MDCIconToggle" onclick="toggleMenu('#ddm-` + tgtN + `', true)" class="mdc-icon-toggle material-icons" style="color: rgb(80, 80, 80);" role="button" aria-pressed="false">more_vert</i>
@@ -400,11 +409,11 @@ function TodoCSTask(item) { //  CS (Change Status)
 	);
 	ShiftingDialog.open();
 	setRadioButtonValue(document.querySelector("#TodoCS_State"), itemData.status || 0);
-	document.querySelector('#TodoCS_Reason').parentNode.style.display = (([[false, false], [false, true], [false, false], [true, false], [true, false]])[itemData.status])[0] ? "block" : "none";
-	document.querySelector('#TodoCS_People').parentNode.style.display = (([[false, false], [false, true], [false, false], [true, false], [true, false]])[itemData.status])[1] ? "block" : "none";
+	TodoCSSetRadioAppearance(1);
 }
 function TodoCSSetRadioAppearance(el) {
-	el = el || event.srcElement;
+	if (el) el = document.querySelector('#' + getRadioButtonValue(document.querySelector("#TodoCS_State"))).querySelector("input");
+	else el = event.srcElement;
 	//Uncheck others
 	[].forEach.call(el.parentNode.parentNode.parentNode.querySelectorAll('.mdc-radio'), function (item) {
 		if (item.id.split('-')[1] != el.parentNode.id.split('-')[1]) item.MDCRadio.checked = false; });
@@ -478,4 +487,43 @@ function getTodoTableEnd(useTable) {
 		return `
 		</div>
 		`;
+}
+//  ----------------------------------------    -------------------------------------------------\\
+
+
+
+
+
+//  ----------------------------------------  Get Folder and Task-Group Status  -------------------------------------------------\\
+function TodoTaskGroupStatus(id) {
+	var ret = { T: 0, IP: 0, D: 0, B: 0, J: 0 };
+	var tasks = findObjectByKey(todoSnapshot.docs, "id", id).data().tasks;
+	for (var i = 0; i < Object.keys(tasks).length; i++) {
+		ret[Object.keys(ret)[tasks[Object.keys(tasks)[i]].status]]++;
+	}
+	return ret;
+}
+
+function TodoFolderStatus(id) {
+	var toc = findObjectByKey(todoSnapshot.docs, "id", "TableOfContents").data();
+	var doc = findNestedKey(toc, id);
+	return TodoProcessNestedStatus(doc);
+}
+
+function TodoProcessNestedStatus(obj) {
+	var ret = { T: 0, IP: 0, D: 0, B: 0, J: 0 };
+	//Filter Through Children
+	for (var i = 0; i < Object.keys(obj).length; i++) {
+		//If Folder => Call
+		if (findObjectByKey(todoSnapshot.docs, "id", Object.keys(obj)[i]).data().tasks == undefined)
+			ret = TodoCombineStatus(ret, TodoProcessNestedStatus(obj[Object.keys(obj)[i]]));
+		//Else if Task-Group => Get
+		else
+			ret = TodoCombineStatus(ret, TodoTaskGroupStatus(Object.keys(obj)[i]));
+	}
+	return ret;
+}
+
+function TodoCombineStatus(s1, s2) {
+	return { T: s1.T + s2.T, IP: s1.IP + s2.IP, D: s1.D + s2.D, B: s1.B + s2.B, J: s1.J + s2.J };
 }

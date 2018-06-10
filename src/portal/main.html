@@ -84,6 +84,9 @@
 				<!--Search-->
 				<button onclick="" style="display: none; opacity: 0; transform: scale(0); transition: all 0.2s cubic-bezier(.2, 0, .2, 1);" id="headerSearchBoxOpen" class="noselect material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded">search</button>
 
+				<!--Admin Console-->
+				<button class="noselect material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" aria-label="Admin Console">group</button>
+
 				<!--Apps-->
 				<button onclick="toggleMenu('#appsMenu', true)" id="headerAppsOpen" class="noselect material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" aria-label="Apps">apps</button>
 				<ul class="dropdown-menu-c dropdown-menu be-connections" id="appsMenu" style="padding: 0;">
@@ -184,50 +187,50 @@
 	<main>
 		<!--Left Nav Drawer (Collabsible and Permament)-->
 		<div id="MainNavDrawers">
-		<aside class="mdc-drawer mdc-drawer--temporary mdc-typography main-nav-drawer" style="z-index: 9;"></aside>
-		<div class="noselect permanent-drawer mdc-elevation--z10" style="overflow-y: scroll; transform: translateX(-320px); width: 320px; position: fixed; left: 0; z-index: 9; height: 100%; transition: transform 0.6s, top 0.5s; transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);">
-			<nav class="mdc-drawer__drawer">
-				<nav class="mdc-drawer__content mdc-list LeftNavList">
-					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','General');">
-						<i class="material-icons mdc-list-item__graphic">image</i><span>General</span>
-					</a>
-					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="toggleNavSubMenu('#PartsSubmenu')">
-						<i class="material-icons mdc-list-item__graphic mdi-wrench"></i><span>Parts</span>
-					</a>
-					<div class="side-nav__submenu-wrapper">
-						<ul class="side-nav__submenu" id="PartsSubmenu">
-							<li>
-								<a onclick="setHashParam('tab','PartsAll');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded">
-									<span>All</span>
-								</a>
-							</li>
-							<li>
-								<a onclick="setHashParam('tab','PartsOrdered');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded">
-									<span>Ordered</span>
-								</a>
-							</li>
-							<li>
-								<a onclick="setHashParam('tab','PartsArchived');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded">
-									<span>Archived</span>
-								</a>
-							</li>
-						</ul>
-					</div>
-					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Todo');">
-						<i class="material-icons mdc-list-item__graphic">format_list_numbered </i><span>Todo</span>
-					</a>
-					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Calendar');">
-						<i class="material-icons mdc-list-item__graphic">calendar_today</i><span>Calendar</span>
-					</a>
-					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Github');">
-						<i class="material-icons mdi-github mdc-list-item__graphic"></i><span>Github</span>
-					</a>
-					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Teams');">
-						<i class="material-icons mdc-list-item__graphic">supervisor_account</i><span>Teams</span>
-					</a>
+			<aside class="mdc-drawer mdc-drawer--temporary mdc-typography main-nav-drawer" style="z-index: 9;"></aside>
+			<div class="noselect permanent-drawer mdc-elevation--z10" style="overflow-y: scroll; transform: translateX(-320px); width: 320px; position: fixed; left: 0; z-index: 9; height: 100%; transition: transform 0.6s, top 0.5s; transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);">
+				<nav class="mdc-drawer__drawer">
+					<nav class="mdc-drawer__content mdc-list LeftNavList">
+						<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','General');">
+							<i class="material-icons mdc-list-item__graphic">image</i><span>General</span>
+						</a>
+						<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="toggleNavSubMenu('#PartsSubmenu')">
+							<i class="material-icons mdc-list-item__graphic mdi-wrench"></i><span>Parts</span>
+						</a>
+						<div class="side-nav__submenu-wrapper">
+							<ul class="side-nav__submenu" id="PartsSubmenu">
+								<li>
+									<a onclick="setHashParam('tab','PartsAll');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded">
+										<span>All</span>
+									</a>
+								</li>
+								<li>
+									<a onclick="setHashParam('tab','PartsOrdered');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded">
+										<span>Ordered</span>
+									</a>
+								</li>
+								<li>
+									<a onclick="setHashParam('tab','PartsArchived');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded">
+										<span>Archived</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+						<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Todo');">
+							<i class="material-icons mdc-list-item__graphic">format_list_numbered </i><span>Todo</span>
+						</a>
+						<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Calendar');">
+							<i class="material-icons mdc-list-item__graphic">calendar_today</i><span>Calendar</span>
+						</a>
+						<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Github');">
+							<i class="material-icons mdi-github mdc-list-item__graphic"></i><span>Github</span>
+						</a>
+						<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Teams');">
+							<i class="material-icons mdc-list-item__graphic">supervisor_account</i><span>Teams</span>
+						</a>
+					</nav>
 				</nav>
-			</nav>
-		</div>
+			</div>
 		</div>
 
 		<!--Loader-->
@@ -242,6 +245,11 @@
 					<span class="mdc-linear-progress__bar-inner"></span>
 				</div>
 			</div>
+		</div>
+
+		<!--Global Tooltip-->
+		<div class="bstooltip-container"> 
+			<span class="bstooltip">2 Not Started / 4 In Progress / 7 Done / 1 Blocked</span> 
 		</div>
 
 		<div class="page-content" style="transition: margin-left 0.5s; z-index: 7;">
@@ -310,10 +318,10 @@
 
 							</div>
 							<div style="width: 100%; height: 5px;"></div>
-							<div onclick="todoViewCard = true; drawTodoTab();" style="float: right; transform: translate(0, -42px); width: 50px; border-radius: 10px;" class="mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">
+							<div onclick="todoViewCard = true; drawTodoTab();" aria-label="Card View" style="float: right; transform: translate(0, -42px); width: 50px; border-radius: 10px;" class="mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">
 								<i style="font-size: 28px; font-weight: 100; transform: translate(-5px, -1px);" class="noselect stepperH material-icons">view_module</i>
 							</div>
-							<div onclick="todoViewCard = false; drawTodoTab();" style="float: right; transform: translate(0, -42px); width: 50px; border-radius: 10px;" class="mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">
+							<div onclick="todoViewCard = false; drawTodoTab();" aria-label="List View" style="float: right; transform: translate(0, -42px); width: 50px; border-radius: 10px;" class="mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">
 								<i style="font-size: 28px; font-weight: 100; transform: translate(-5px, -1px);" class="noselect stepperH material-icons">view_list</i>
 							</div>
 						</div>
