@@ -47,6 +47,7 @@
 	<link rel="stylesheet" href="assets/Resources/Tooltips.css" type="text/css" />
 	<link rel="stylesheet" href="assets/Resources/Scroll.css" type="text/css" />
 	<link rel="stylesheet" href="assets/SideNav/SideNav.css" type="text/css" />
+	<link rel="stylesheet" href="assets/Notifications/Notifications.css" type="text/css" />
 </head>
 <body style="background-color: #EEEEEE; overflow-y: hidden;">
 	<header class="mdc-top-app-bar mdc-top-app-bar--fixed" style="z-index: 10; transform: translateY(-100%);">
@@ -1036,98 +1037,6 @@
 			</aside>
 		</div>
 
-		<!--Teams Tab Dialogues-->
-		<div>
-			<!--Create Team-->
-			<aside id="create-team-dialog"
-				   class="mdc-dialog"
-				   role="alertdialog"
-				   aria-labelledby="my-mdc-dialog-label"
-				   aria-describedby="my-mdc-dialog-description">
-				<div class="mdc-dialog__surface">
-					<header class="mdc-dialog__header">
-						<h2 class="mdc-dialog__header__title">
-							Create Team
-						</h2>
-					</header>
-					<form id="CreateTeamForm" class="mdc-dialog__body mdc-dialog__body--scrollable" style="max-height: 60vh;">
-						<section>
-							<br />
-							<div class="form-group autocomplete" style="width: 100%;">
-								<label for="CreateTeamName">Name</label>
-								<input id="CreateTeamName" type="text" class="form-control" placeholder="Enter A Name" required="" autocomplete="off">
-							</div>
-							<div class="form-group autocomplete" style="width: 100%;">
-								<label for="CreateTeamDesc">Description</label>
-								<textarea id="CreateTeamDesc" class="form-control" style="z-index: auto; position: relative; line-height: 21.4277px; font-size: 14.9994px; transition: none; background: transparent !important;"></textarea>
-							</div>
-						</section>
-						<footer class="mdc-dialog__footer">
-							<button type="submit" class="btn btn-space btn-primary">Submit</button>
-							<button type="button" id="CreateTeamCancel" class="btn btn-space btn-secondary">Cancel</button>
-						</footer>
-					</form>
-				</div>
-				<div class="mdc-dialog__backdrop"></div>
-			</aside>
-			<!--Delete Team-->
-			<aside id="delete-team-dialog"
-				   class="mdc-dialog"
-				   role="alertdialog"
-				   aria-labelledby="my-mdc-dialog-label"
-				   aria-describedby="my-mdc-dialog-description">
-				<div class="mdc-dialog__surface">
-					<form id="DeleteTeamForm">
-						<div class="modal-body">
-							<div class="text-center">
-								<div class="text-success">
-									<span class="modal-main-icon mdi mdi-close" style="color: red;"></span>
-								</div>
-								<h3 id="DeleteTeamTitle">Are You Sure You Want To Delete This Team?</h3>
-								<div class="mt-8">
-									<button type="button" id="DeleteTeamCancel" class="btn btn-space btn-secondary">Cancel</button>
-									<button type="submit" class="btn btn-space btn-danger">Proceed</button>
-								</div>
-							</div>
-						</div>
-					</form>
-				</div>
-				<div class="mdc-dialog__backdrop"></div>
-			</aside>
-			<!--Edit Team-->
-			<aside id="edit-team-dialog"
-				   class="mdc-dialog"
-				   role="alertdialog"
-				   aria-labelledby="my-mdc-dialog-label"
-				   aria-describedby="my-mdc-dialog-description">
-				<div class="mdc-dialog__surface">
-					<header class="mdc-dialog__header">
-						<h2 class="mdc-dialog__header__title">
-							Edit Team
-						</h2>
-					</header>
-					<form id="EditTeamForm" class="mdc-dialog__body mdc-dialog__body--scrollable" style="max-height: 60vh;">
-						<section>
-							<br />
-							<div class="form-group autocomplete" style="width: 100%;">
-								<label for="EditTeamName">Name</label>
-								<input id="EditTeamName" type="text" class="form-control" placeholder="Enter A Name" required="" autocomplete="off">
-							</div>
-							<div class="form-group autocomplete" style="width: 100%;">
-								<label for="EditTeamDesc">Description</label>
-								<textarea id="EditTeamDesc" class="form-control" style="z-index: auto; position: relative; line-height: 21.4277px; font-size: 14.9994px; transition: none; background: transparent !important;"></textarea>
-							</div>
-						</section>
-						<footer class="mdc-dialog__footer">
-							<button type="submit" class="btn btn-space btn-primary">Submit</button>
-							<button type="button" id="EditTeamCancel" class="btn btn-space btn-secondary">Cancel</button>
-						</footer>
-					</form>
-				</div>
-				<div class="mdc-dialog__backdrop"></div>
-			</aside>
-		</div>
-
 		<!--Shifting Dialog-->
 		<div>
 			<div id="SD-Container" data-sd-container-state="closed">
@@ -1147,7 +1056,16 @@
 					<!--The Content Wrapper For The Dialog-->
 					<form id="SD-Form" onsubmit="event.preventDefault(); ShiftingDialogSubmit();" style="height: 100%;">
 						<div id="SD-Wrapper" class="material-scrollbar">
-							<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus, incidunt. Debitis, repudiandae dignissimos et quam velit autem mollitia tenetur, eligendi rerum repellendus, explicabo ad aperiam vel ipsam! Exercitationem, voluptates molestiae.</p><p>Iusto reiciendis mollitia ab commodi. Animi maiores nesciunt officia enim corrupti officiis consequuntur vel, consectetur eveniet ad dolorum reprehenderit similique qui deleniti ut sed explicabo id error at. Laudantium, excepturi!</p><p>Suscipit quam laboriosam animi quasi similique voluptatem molestiae voluptas sint itaque, labore eos, maiores harum qui totam libero amet nisi? Similique nihil veritatis aspernatur molestias accusantium, eius dolorum autem optio?</p><p>Cum eligendi consequuntur voluptas. Repellat nisi commodi numquam aliquam quasi tenetur obcaecati, animi cum eum. Facilis esse cupiditate fugiat, quod eveniet, inventore impedit nam ex tempore harum laudantium provident assumenda.</p><p>Ut iste aperiam excepturi rerum consectetur illo officiis quo sed sunt labore earum soluta tempore omnis a, enim maiores non? Facilis qui alias sunt veniam esse hic. Aut, ducimus aliquid!</p><p>Qui quaerat saepe sunt earum nihil porro, sint quibusdam, id eos vero asperiores dolorem iusto dolore illo, architecto fuga? Voluptates distinctio eligendi nihil provident accusantium. Maxime ullam ratione officia non.</p><p>Molestiae sapiente quae nulla. Voluptates quibusdam numquam earum vero deserunt in, cum tenetur accusamus ipsum minus veniam libero quasi fuga dolorem laudantium error quo et accusantium neque vitae aliquam tempore.</p><p>Optio asperiores quisquam odit eaque incidunt laboriosam repudiandae ex eum iure quia, id vero atque perspiciatis, officiis quaerat aut ut dolorem libero eos perferendis ducimus! Veritatis nam libero tempora maxime?</p><p>Sapiente reiciendis quis eveniet iure dicta perferendis quos consectetur, soluta sunt, labore ipsam inventore maiores laudantium recusandae deleniti autem animi consequatur, voluptatem sint. Dignissimos minima labore earum vitae ad non!</p><p>Cum ex totam dolore officiis maiores quidem necessitatibus consequatur molestias culpa, quas, aperiam tempora et! Dolorem, voluptates dignissimos? Voluptatem voluptatibus expedita, error ducimus distinctio necessitatibus laudantium officiis dolorum nam vitae?</p>
+							<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus, incidunt. Debitis, repudiandae dignissimos et quam velit autem mollitia tenetur, eligendi rerum repellendus, explicabo ad aperiam vel ipsam! Exercitationem, voluptates molestiae.</p>
+							<p>Iusto reiciendis mollitia ab commodi. Animi maiores nesciunt officia enim corrupti officiis consequuntur vel, consectetur eveniet ad dolorum reprehenderit similique qui deleniti ut sed explicabo id error at. Laudantium, excepturi!</p>
+							<p>Suscipit quam laboriosam animi quasi similique voluptatem molestiae voluptas sint itaque, labore eos, maiores harum qui totam libero amet nisi? Similique nihil veritatis aspernatur molestias accusantium, eius dolorum autem optio?</p>
+							<p>Cum eligendi consequuntur voluptas. Repellat nisi commodi numquam aliquam quasi tenetur obcaecati, animi cum eum. Facilis esse cupiditate fugiat, quod eveniet, inventore impedit nam ex tempore harum laudantium provident assumenda.</p>
+							<p>Ut iste aperiam excepturi rerum consectetur illo officiis quo sed sunt labore earum soluta tempore omnis a, enim maiores non? Facilis qui alias sunt veniam esse hic. Aut, ducimus aliquid!</p>
+							<p>Qui quaerat saepe sunt earum nihil porro, sint quibusdam, id eos vero asperiores dolorem iusto dolore illo, architecto fuga? Voluptates distinctio eligendi nihil provident accusantium. Maxime ullam ratione officia non.</p>
+							<p>Molestiae sapiente quae nulla. Voluptates quibusdam numquam earum vero deserunt in, cum tenetur accusamus ipsum minus veniam libero quasi fuga dolorem laudantium error quo et accusantium neque vitae aliquam tempore.</p>
+							<p>Optio asperiores quisquam odit eaque incidunt laboriosam repudiandae ex eum iure quia, id vero atque perspiciatis, officiis quaerat aut ut dolorem libero eos perferendis ducimus! Veritatis nam libero tempora maxime?</p>
+							<p>Sapiente reiciendis quis eveniet iure dicta perferendis quos consectetur, soluta sunt, labore ipsam inventore maiores laudantium recusandae deleniti autem animi consequatur, voluptatem sint. Dignissimos minima labore earum vitae ad non!</p>
+							<p>Cum ex totam dolore officiis maiores quidem necessitatibus consequatur molestias culpa, quas, aperiam tempora et! Dolorem, voluptates dignissimos? Voluptatem voluptatibus expedita, error ducimus distinctio necessitatibus laudantium officiis dolorum nam vitae?</p>
 						</div>
 						<div id="SD-FooterWrapper">
 							<div id="SD-Footer">
@@ -1157,6 +1075,13 @@
 						</div>
 					</form>
 				</div>
+			</div>
+		</div>
+
+		<!--Notification Alert-->
+		<div>
+			<div id="Notification-Alert-Wrapper">
+				
 			</div>
 		</div>
 
@@ -1229,6 +1154,7 @@
 		<!--Notification-->
 		<script src="assets/Notifications/SWNotifications.js"></script>
 		<script src="assets/Notifications/IHNotifications.js"></script>
+		<script src="assets/Notifications/NotificationAPI.js"></script>
 
 		<!--Parts Tabs-->
 		<script src="assets/Parts/FolderHistory.js"></script>

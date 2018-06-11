@@ -13,9 +13,9 @@ document.addEventListener('DOMContentLoaded', function () {
 			});
 	});
 
-
+	//If user in app show IH Notification
 	messaging.onMessage(function (payload) {
-		console.log("onMessage => ", payload);
+		displayInHouseNotification(payload.notification.title, payload.notification.body, payload.notification.icon);
 	});
 });
 
