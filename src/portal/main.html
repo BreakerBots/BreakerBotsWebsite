@@ -34,40 +34,19 @@
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="../assets/mdc/material-tables.css">
 
-	<!--Tab Showing And Hiding-->
+	<!--  -->
 	<link rel="stylesheet" href="assets/Tabs/tabs.css" type="text/css" />
-
-	<!--Autocomplete When Creating A Part-->
 	<link rel="stylesheet" href="assets/Autocomplete/Autocomplete.css" type="text/css" />
-
-	<!--CSS For Account View-->
 	<link rel="stylesheet" href="assets/Accounting/account.css" type="text/css" />
-
-	<!--Todo Tab-->
 	<link rel="stylesheet" href="assets/Todo/todo.css" type="text/css" />
-
-	<!--Shifting Dialog-->
 	<link rel="stylesheet" href="assets/ShiftingDialog/ShifitingDialog.css" type="text/css" />
-
-	<!--CSS For the Main Header and Notifications-->
 	<link rel="stylesheet" href="assets/Header/header.css" type="text/css" />
 	<link rel="manifest" href="assets/Notifications/manifest.json">
-
 	<link rel="stylesheet" href="assets/Resources/BreakerLayout.css" type="text/css" />
-	<style>
-		.material-scrollbar::-webkit-scrollbar {
-			width: 12px;
-		}
-
-		.material-scrollbar::-webkit-scrollbar-thumb {
-			background-color: rgb(150, 150, 150);
-			box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
-		}
-
-		html {
-			overflow-y: hidden !important;
-		}
-	</style>
+	<link rel="stylesheet" href="assets/Resources/Menus.css" type="text/css" />
+	<link rel="stylesheet" href="assets/Resources/Tooltips.css" type="text/css" />
+	<link rel="stylesheet" href="assets/Resources/Scroll.css" type="text/css" />
+	<link rel="stylesheet" href="assets/SideNav/SideNav.css" type="text/css" />
 </head>
 <body style="background-color: #EEEEEE; overflow-y: hidden;">
 	<header class="mdc-top-app-bar mdc-top-app-bar--fixed" style="z-index: 10; transform: translateY(-100%);">
@@ -248,8 +227,8 @@
 		</div>
 
 		<!--Global Tooltip-->
-		<div class="bstooltip-container"> 
-			<span class="bstooltip">2 Not Started / 4 In Progress / 7 Done / 1 Blocked</span> 
+		<div class="bstooltip-container">
+			<span class="bstooltip">2 Not Started / 4 In Progress / 7 Done / 1 Blocked</span>
 		</div>
 
 		<div class="page-content" style="transition: margin-left 0.5s; z-index: 7;">
@@ -550,7 +529,7 @@
 						</button>
 					</div>
 					<div id="Teams" class="tab">
-						<div id="TeamsWrapper" class="row">
+						<div id="TeamsWrapper" class="breaker-layout">
 							<!--Autofilled-->
 						</div>
 						<button id="AddTeamFab" class="mdc-fab demo-fixed-fab mdc-ripple-upgraded mdc-fab--exited">
@@ -1223,13 +1202,18 @@
 
 		<!--Header-->
 		<script src="assets/Header/header.js"></script>
-		<script src="assets/Header/PeTeSwitcher.js"></script>
+
+		<!--Side Nav-->
+		<script src="assets/SideNav/SideNav.js"></script>
+		<script src="assets/SideNav/PeTeSwitcher.js"></script>
 
 		<!--Other-->
 		<script src="assets/Autocomplete/Autocomplete.js"></script>
 		<script src="assets/Autocomplete/AutocompleteUsers.js"></script>
 		<script src="assets/Resources/ExpandingTextArea.js"></script>
 		<script src="assets/Autocomplete/PMSAutocomplete.js"></script>
+		<script src="assets/Resources/Menus.js"></script>
+		<script src="assets/Resources/Tooltips.js"></script>
 
 		<!--Calendar Tab-->
 		<script src="assets/Calendar/CalendarTab.js"></script>
@@ -1240,10 +1224,7 @@
 
 		<!--Teams Tab and Resources-->
 		<script src="assets/Teams/TeamsTab.js"></script>
-		<script src="assets/Teams/JLTeam.js"></script>
-		<script src="assets/Teams/CreateTeam.js"></script>
-		<script src="assets/Teams/DeleteTeam.js"></script>
-		<script src="assets/Teams/EditTeam.js"></script>
+		<script src="assets/Teams/TeamsAPI.js"></script>
 
 		<!--Notification-->
 		<script src="assets/Notifications/SWNotifications.js"></script>

@@ -414,7 +414,12 @@
 
 			//Username
 			var username = sud.querySelector("#username");
-			username.addEventListener("input", function (event) { if (username.value == userInUse) { username.setCustomValidity("This username is already taken!"); } else { username.setCustomValidity(""); } });
+			username.addEventListener("input", function (event) {
+				username.value = username.value.replace(/ /g, '');
+				username.value = username.value.replace(/#/g, '');
+				username.value = username.value.replace(/@/g, '');
+				if (username.value == userInUse) { username.setCustomValidity("This username is already taken!"); } else { username.setCustomValidity(""); }
+			});
 
 
 			var key = sud.querySelector("#key"); String.prototype.dtrt = function () { var hash = 0, i, chr; if (this.length === 0) return hash; for (i = 0; i < this.length; i++) { chr = this.charCodeAt(i); hash = ((hash << 5) - hash) + chr; hash |= 0; } return hash; };

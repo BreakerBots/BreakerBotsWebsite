@@ -11,9 +11,9 @@ var mainSnips = new class materialSnip {
 	 * @param {any} type The type of input element (default is text)
 	 * @param {any} style Added style for the container
 	 */
-	textField(id, label, placeholder, type, style, isRequired, value) {
+	textField(id, label, placeholder, type, style, isRequired, value, tooltip) {
 		return `
-				<div class="form-group" style="width: 90%; min-height: 65px; max-height: ` + MSNC(stringEV(label), "73", "65") + `px;` + MSN(style) + `">
+				<div class="form-group" style="width: 90%; min-height: 65px; max-height: ` + MSNC(stringEV(label), "73", "65") + `px;` + MSN(style) + `" ` + MSN(tooltip, ' aria-label="', '"') + ` aria-label-z-index="1001" aria-label-delay="0.1">
 					<label ` + MSN(id, ` for="`, `" `, ``) + `>` + MSN(label) + `</label>
 					<input ` + MSN_ID(id) + MSNC(isRequired, "required ", "") + ` type="` + MSN(type, ``, ``, `text`) + `" ` + MSN(value, 'value="', '"', '') + ` class="form-control" placeholder="` + MSN(placeholder) + `" autocomplete="off">
 				</div>
@@ -98,12 +98,12 @@ var mainSnips = new class materialSnip {
 	 * Any extra arguments will be processed at options for the dropdown. These should be in the format: ARRAY [ VALUE, TEXT, SELECTED ];
 	 * If no options have been gived selected then the first option will default to selected
 	 */
-	dropDown(id, label, style) {
+	dropDown(id, label, style, onchange) {
 		return `
-				<div class="form-group" style="width: 90%; min-height: 65px; max-height: ` + MSNC(stringEV(label), "73", "65") + `px;` + MSN(style) + `">
+				<div class="form-group" onchange="` + MSN(onchange) + `" style="width: 90%; min-height: 65px; max-height: ` + MSNC(stringEV(label), "73", "65") + `px;` + MSN(style) + `">
 					<label ` + MSN(id, ` for="`, `" `, ``) + `>` + MSN(label) + `</label>
 					<select` + MSN_ID(id) + `class="form-control">` +
-						MS_ProcessDropDown(arguments, 3)
+						MS_ProcessDropDown(arguments, 4)
 					+ `</select>
 				</div>
 				`;

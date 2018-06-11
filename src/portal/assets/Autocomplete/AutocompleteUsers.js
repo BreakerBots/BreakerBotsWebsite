@@ -20,7 +20,7 @@ class AutocompleteUsers {
 			var cw = findCurrentWord(self.element.value, self.element.selectionStart);
 
 			if (cw.word[0] == self.searchKey || self.searchKey == "") {
-				var search = cw.word.substr(self.searchKey.length) == "" ? Object.values(allUsers) : self.fuse.search(cw.word.substr(self.searchKey.length));
+				var search = cw.word.substr(self.searchKey.length) == "" ? self.getAllData() : self.fuse.search(cw.word.substr(self.searchKey.length));
 				setTimeout(function () { 
 					for (var i = 0; i < search.length; i++) {
 						self.wrapper.innerHTML += `
@@ -28,12 +28,18 @@ class AutocompleteUsers {
 									var inp = (this.parentNode.parentNode).querySelector('input');
 									inp.value = replaceCurrentWord(inp.value, inp.selectionStart, '` + self.searchKey + `' + this.querySelector('input').value);
 									this.parentNode.innerHTML = '';
-							">
-								<img src="` + (search[i].avatar || '../assets/img/iconT.png') + `" style="border-radius: 50%; width: 35px; height: auto; margin-right: 5px;" alt="Avatar"/>
-								<span style="font-weight: 600;">` + search[i].username + `</span>
-								<span style="font-size: 90%;">` + search[i].name + `</span>
-								<input type='hidden' value="` + search[i].username + `">
-							</div>
+							">` +
+							((search[i].members || search[i].name == "#Everyone") ?
+							`<img src="` + (search[i].members ? '../assets/icons/jersey.png' : '../assets/icons/people.png') + `" style="width: 35px; height: auto; margin-right: 5px;" alt="Avatar"/>
+							<span style="font-weight: 600;">` + search[i].name + `</span>
+							<input type='hidden' value="` + search[i].name + `">`
+							:
+							`<img src="` + (search[i].avatar || '../assets/img/iconT.png') + `" style="border-radius: 50%; width: 35px; height: auto; margin-right: 5px;" alt="Avatar"/>
+							<span style="font-weight: 600;">` + search[i].username + `</span>
+							<span style="font-size: 90%;">` + search[i].name + `</span>
+							<input type='hidden' value="` + search[i].username + `">`
+							)
+							+ `</div>
 							`;
 					}
 				}, 10);
@@ -107,7 +113,7 @@ class AutocompleteUsers {
 	}
 
 	refreshSearch() {
-		this.fuse = new Fuse(Object.values(allUsers),
+		this.fuse = new Fuse(this.getAllData(),
 			{
 				shouldSort: true,
 				threshold: 0.6,
@@ -122,6 +128,13 @@ class AutocompleteUsers {
 				]
 			});
 	}
+
+	getAllData() {
+		var users = Object.values(allUsers);
+		var allTeams = Object.values(teams.getAllTeamsForAutocomplete());
+		var other = [{ name: "#Everyone" }];
+		return users.concat(allTeams.concat(other));
+	}
 }
 
 var AutocompleteUsersAutoInitList = [];
@@ -133,3 +146,59 @@ function AutocompleteUsersAutoInit() {
 		}
 	});
 } AutocompleteUsersAutoInit();
+
+var AutocompleteUsersValidateEngines = [];
+var AutocompleteUsersValidateEnginesInit = false;
+function AutocompleteUsersValidate(arr) {
+	try {
+		if (!AutocompleteUsersValidateEnginesInit) {
+			AutocompleteUsersValidateEnginesInit = true;
+			AutocompleteUsersValidateEngines = [
+				new Fuse(Object.values(allUsers), {
+					shouldSort: true,
+					threshold: 0.6,
+					location: 0,
+					distance: 100,
+					maxPatternLength: 32,
+					minMatchCharLength: 4,
+					keys: [
+						"name",
+						"username"
+					]
+				}),
+				new Fuse(Object.values(teams.getAllTeams()), {
+					shouldSort: true,
+					threshold: 0.6,
+					location: 0,
+					distance: 100,
+					maxPatternLength: 32,
+					minMatchCharLength: 4,
+					keys: [
+						"name"
+					]
+				})
+			]
+		}
+		var ret = true;
+		for (var i = 0; i < arr.length; i++) {
+			var tar = arr[i];
+			//Team or Everyone
+			if (tar.charAt(0) == "#") {
+				if (tar != "#Everyone") {
+					if (!teams.isTeam(tar.substring(1))) {
+						var ser = AutocompleteUsersValidateEngines[1].search(tar);
+						return tar + " is not a team!" + (ser.length > 0 ? (" Did you mean #" + ser[0].name + "?") : "");
+					}
+				}
+			}
+			//User
+			else {
+				if (!users.isUsername(tar)) {
+					var ser = AutocompleteUsersValidateEngines[0].search(tar);
+					return tar + " is not a registered user!" + (ser.length > 0 ? (" Did you mean " + ser[0].username + "?") : "");
+				}
+			}
+		}
+		return ret;
+	} catch (err) { return err; }
+}
