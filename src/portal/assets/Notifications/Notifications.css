@@ -1,0 +1,97 @@
+﻿/* Notificaitons.css */
+
+#Notification-Alert-Wrapper {
+	position: absolute;
+	top: 74px;
+	right: 0;
+	width: 25%;
+	height: 100%;
+	pointer-events: none;
+	z-index: 600;
+	margin-right: 30px;
+}
+
+.Notification-Alert {
+	margin-bottom: 10px;
+	background-color: #ffffff;
+	padding: 0;
+	display: table;
+	table-layout: fixed;
+	width: 100%;
+	height: 99px;
+	z-index: 620;
+	pointer-events: visible;
+	overflow: hidden;
+	transform-origin: 50% 0;
+	transform: scale(0.4);
+	opacity: 0;
+	transition: opacity 0.4s, transform 0.4s, top 0.4s;
+	transition-timing-function: cubic-bezier(.2, 0, .2, 1);
+}
+	.Notification-Alert.Notification-Alert--Open {
+		transition: opacity 0.4s, transform 0.4s, top 0.4s;
+		transition-timing-function: cubic-bezier(.2, 0, .2, 1);
+		transform-origin: 50% 0;
+		transform: scale(1);
+		opacity: 1;
+	}
+	.Notification-Alert.Notification-Alert--Open.Notification-Alert--Closing {
+		transform-origin: 50% 0;
+		transform: scale(0.4);
+		opacity: 0;
+	}
+
+	.Notification-Alert.Notification-Alert--Moveup {
+		animation: Notification-Alert--Moveup 0.6s cubic-bezier(.2, 0, .2, 1);
+	}
+
+@keyframes Notification-Alert--Moveup {
+	0% {
+		margin-top: 109px;
+	}
+
+	100% {
+		margin-top: 0px;
+	}
+}
+
+.Notification-Alert-Image-Container {
+	background-color: #fafafa;
+	display: table-cell;
+	width: 26%;
+	vertical-align: middle;
+	text-align: center;
+}
+
+.Notification-Alert-Image {
+	text-align: center;
+	float: none;
+	width: 90%;
+	height: auto;
+	border-radius: 50%;
+}
+
+.Notification-Alert-Content {
+	padding: 15px 35px 17px 15px;
+	width: 267px;
+	display: table-cell;
+}
+
+.Notification-Alert-Close {
+	display: block;
+	top: 0;
+	right: 0;
+	left: auto;
+	height: 30px;
+	width: 30px;
+	color: #404040;
+	position: absolute;
+}
+
+.Notification-Alert-Title {
+	text-shadow: none;
+	font-weight: 300;
+	font-size: 1.308rem;
+	padding: 0 0 7px 0;
+	display: block;
+}

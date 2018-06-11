@@ -117,9 +117,166 @@ function refByString(theObject, path, separator) {
 }
 
 /**
+ * Setting data in a json object by a reference like "folder1/folder2"
+ * @param {any} obj The object to set the data in
+ * @param {any} path The reference like "folder1/folder2"
+ * @param {any} key The key of to set new data
+ * @param {any} value The Value to set new data
+ */
+function pushDataToJsonByDotnot(obj, path, key, value) {
+	if (!obj)
+		obj = {};
+	if (stringUnNull(path) == "") {
+		obj[key] = value;
+	}
+	else {
+		var pdtjbd_data = dotnot(obj, path);
+		pdtjbd_data[key] = value;
+		dotnot(obj, path, pdtjbd_data);
+	}
+	return obj;
+}
+function dotnot(obj, is, value) {
+	if (typeof is == 'string')
+		return dotnot(obj, is.split('/'), value);
+	else if (is.length == 1 && value !== undefined)
+		return obj[is[0]] = value;
+	else if (is.length == 0)
+		return obj;
+	else
+		return dotnot(obj[is[0]], is.slice(1), value);
+}
+
+function deleteDataFromJsonByDotnot(obj, path, key) {
+	if (!obj)
+		return {};
+	if (stringUnNull(path) == "") {
+		delete obj[key];
+	}
+	else {
+		var pdtjbd_data = dotnot(obj, path);
+		delete pdtjbd_data[key];
+		dotnot(obj, path, pdtjbd_data);
+	}
+	return obj;
+}
+
+/**
  * Find the index of first difference in two strings
  */
 function findFirstDiffPos(a, b) {
 	if (a.length < b.length)[a, b] = [b, a];
 	return [...a].findIndex((chr, i) => chr !== b[i]);
+}
+
+//console logging addons
+console.logg = function (title) {
+	var prnt = [(title + ": [ ")];
+	prnt.concat(arguments);
+	prnt.push(" ]");
+	console.log.apply(this, prnt);
+	return prnt;
+};
+
+/**
+ * Guid generates a random uuid quickly
+ */
+function guid() {
+	function s4() {
+		return Math.floor((1 + Math.random()) * 0x10000)
+			.toString(16)
+			.substring(1);
+	}
+	return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+}
+
+
+/**
+ * Finds the differences in two objects
+ */
+function findObjectDifferences(a, b) {
+	var diff = [ ];
+	for (var i = 0; i < Object.keys(a).length; i++) {
+		if (a[Object.keys(a)[i]] != b[Object.keys(a)[i]] && diff.indexOf(Object.keys(a)[i]) == -1)
+			diff.push(Object.keys(a)[i]);
+	}
+	for (var i = 0; i < Object.keys(b).length; i++) {
+		if (b[Object.keys(b)[i]] != a[Object.keys(b)[i]] && diff.indexOf(Object.keys(b)[i]) == -1)
+			diff.push(Object.keys(b)[i]);
+	}
+	return diff;
+}
+
+String.prototype.allIndexesOf = function (substring){
+	var a = [], i = -1;
+	while ((i = this.indexOf(substring, i + 1)) >= 0) a.push(i);
+	return a;
+}
+
+function findCurrentWord(string, index) {
+	var a = string.split(" "), b = 0;
+	for (var i = 0; i < a.length; i++) {
+		b += a[i].length + 1;
+		if (b > index) {
+			return { word: a[i], start: b, end: b - a[i].length };
+		}
+	}
+}
+
+function replaceCurrentWord(string, index, val) {
+	var a = string.split(" "), b = 0;
+	for (var i = 0; i < a.length; i++) {
+		b += a[i].length + 1;
+		if (b > index) {
+			a[i] = val;
+			return a.join(" ");
+		}
+	}
+	return string;
+}
+
+function getRelativeParentOffset(el) {
+	var iel = 0;
+	var ret = { left: 0, top: 0 };
+	while (el) {
+		iel++;
+		el = el.parentNode;
+		try {
+			if (window.getComputedStyle(el).getPropertyValue('position') == "relative") {
+				ret.left += el.getBoundingClientRect().left;
+				ret.top += el.getBoundingClientRect().top;
+			}
+		} catch (err) { }
+		if (iel > 200) el = undefined;
+	}
+	return ret;
+}
+
+//Clamping, Min, Maxing
+Number.prototype.min = function (val) {
+	return this < val ? val : this;
+};
+Number.prototype.max = function (val) {
+	return this > val ? val : this;
+};
+Number.prototype.clamp = function (min, max) {
+	return this > max ? max : (this < min ? min : this);
+};
+
+//Find Nested Key
+function findNestedKey(o, id) {
+	var result, p;
+	//Filter Through Children
+	for (var i = 0; i < Object.keys(o).length; i++) {
+		p = Object.keys(o)[i];
+		if (p == id) { return o[p]; }
+		//If Child Is Object Recur Through It
+		if (o.hasOwnProperty(p) && typeof o[p] === 'object') {
+			result = findNestedKey(o[p], id);
+			if (result) {
+				return result;
+			}
+		}
+	}
+	return result;
 }

@@ -25,6 +25,11 @@ class RegisteredTab {
 		if (this.everyCallback) this.everyCallback();
 	}
 
+	set height(val) {
+		this.tabHeight = val;
+		this.adjustToHeight();
+	}
+
 	adjustToHeight() {
 		document.querySelector("#mainCard").style.height = this.tabHeight + "px";
 	}

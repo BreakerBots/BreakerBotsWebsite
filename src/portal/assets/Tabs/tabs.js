@@ -54,6 +54,9 @@ function updateTabs(tab) {
 			//Clear the last tab's header extension
 			document.querySelector('#headerExtensionContainer');
 
+			//Make sure content is scrollable
+			document.querySelector("#page-scroll").style.overflowY = "auto";
+
 			//Move the last tab out
 			if (lastTab) {
 				//Send Exit Callback to tab handlers
@@ -108,13 +111,15 @@ function clearTab() {
 }
 
 function getCurrentTab() {
-	return document.querySelector('.tab.active').id;
+	return document.querySelector('.tab.active') ? document.querySelector('.tab.active').id : null;
 }
 
-//Update the tab on refresh
-document.addEventListener('DOMContentLoaded', function () { updateTabs(); });
 //Update the tabs on "#" change in url
-$(window).on('hashchange', function () { updateTabs(); });
+window.addHashVariableListener("tab", updateTabs);
+document.addEventListener("DOMContentLoaded", function (event) {
+	if (window.location.hash == "#jsi")
+		updateTabs(undefined);
+});
 
 /**
  * Shows and hides the main the loader (the one under the header)

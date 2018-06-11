@@ -32,40 +32,29 @@
 	<!--MDC-->
 	<link rel="stylesheet" href="../assets/mdc/material.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="../assets/mdc/material-tables.css">
 
-	<!--Tab Showing And Hiding-->
+	<!--  -->
 	<link rel="stylesheet" href="assets/Tabs/tabs.css" type="text/css" />
-
-	<!--Autocomplete When Creating A Part-->
 	<link rel="stylesheet" href="assets/Autocomplete/Autocomplete.css" type="text/css" />
-
-	<!--CSS For Account View-->
 	<link rel="stylesheet" href="assets/Accounting/account.css" type="text/css" />
-
-	<!--Todo Tab-->
 	<link rel="stylesheet" href="assets/Todo/todo.css" type="text/css" />
-
-	<!--CSS For the Main Header and Notifications-->
+	<link rel="stylesheet" href="assets/ShiftingDialog/ShifitingDialog.css" type="text/css" />
 	<link rel="stylesheet" href="assets/Header/header.css" type="text/css" />
 	<link rel="manifest" href="assets/Notifications/manifest.json">
-
-	<style>
-		.material-scrollbar::-webkit-scrollbar {
-			width: 12px;
-		}
-
-		.material-scrollbar::-webkit-scrollbar-thumb {
-			background-color: rgb(150, 150, 150);
-			box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
-		}
-	</style>
+	<link rel="stylesheet" href="assets/Resources/BreakerLayout.css" type="text/css" />
+	<link rel="stylesheet" href="assets/Resources/Menus.css" type="text/css" />
+	<link rel="stylesheet" href="assets/Resources/Tooltips.css" type="text/css" />
+	<link rel="stylesheet" href="assets/Resources/Scroll.css" type="text/css" />
+	<link rel="stylesheet" href="assets/SideNav/SideNav.css" type="text/css" />
+	<link rel="stylesheet" href="assets/Notifications/Notifications.css" type="text/css" />
 </head>
-<body style="background-color: #EEEEEE;" class="material-scrollbar">
+<body style="background-color: #EEEEEE; overflow-y: hidden;">
 	<header class="mdc-top-app-bar mdc-top-app-bar--fixed" style="z-index: 10; transform: translateY(-100%);">
 		<div class="mdc-top-app-bar__row">
 			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-				<button id="OpenDrawer" style="transition: all 0.2s cubic-bezier(.2, 0, .2, 1);" class="material-icons mdc-top-app-bar__navigation-icon mdc-ripple-upgraded--unbounded mdc-ripple-upgraded">menu</button>
-				<button id="HeaderBackArrow" style="transition: all 0.2s cubic-bezier(.2, 0, .2, 1); display: none; opacity: 0; transform: scale(0);" data-mdc-auto-init="MDCIconToggle" onclick="window.history.back();" class="material-icons mdc-top-app-bar__navigation-icon mdc-ripple-upgraded--unbounded mdc-ripple-upgraded">arrow_back</button>
+				<button id="OpenDrawer" style="transition: all 0.2s cubic-bezier(.2, 0, .2, 1);" class="noselect material-icons mdc-top-app-bar__navigation-icon mdc-ripple-upgraded--unbounded mdc-ripple-upgraded">menu</button>
+				<button id="HeaderBackArrow" style="transition: all 0.2s cubic-bezier(.2, 0, .2, 1); display: none; opacity: 0; transform: scale(0);" data-mdc-auto-init="MDCIconToggle" onclick="window.history.back();" class="noselect material-icons mdc-top-app-bar__navigation-icon mdc-ripple-upgraded--unbounded mdc-ripple-upgraded">arrow_back</button>
 				<img src="../assets/img/iconT.png" class="mdc-top-app-bar__navigation-icon" style="width: 64px; height: auto; padding-top: 8px; padding-bottom: 8px; margin-bottom: 0; margin-left: 10px;" />
 				<span class="mdc-top-app-bar__title" data-delete-overflow-min="660" style="font-size: 2em; font-weight: 400; font-family: Roboto !important;">
 					&nbsp; Breakersite - Dashboard
@@ -73,10 +62,13 @@
 			</section>
 			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
 				<!--Search-->
-				<button onclick="" style="display: none; opacity: 0; transform: scale(0); transition: all 0.2s cubic-bezier(.2, 0, .2, 1);" id="headerSearchBoxOpen" class="material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded">search</button>
+				<button onclick="" style="display: none; opacity: 0; transform: scale(0); transition: all 0.2s cubic-bezier(.2, 0, .2, 1);" id="headerSearchBoxOpen" class="noselect material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded">search</button>
+
+				<!--Admin Console-->
+				<button class="noselect material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" aria-label="Admin Console">group</button>
 
 				<!--Apps-->
-				<button onclick="toggleMenu('#appsMenu', true)" id="headerAppsOpen" class="material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" aria-label="Apps">apps</button>
+				<button onclick="toggleMenu('#appsMenu', true)" id="headerAppsOpen" class="noselect material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" aria-label="Apps">apps</button>
 				<ul class="dropdown-menu-c dropdown-menu be-connections" id="appsMenu" style="padding: 0;">
 					<li class="mdc-elevation--z10">
 						<div class="list">
@@ -95,7 +87,7 @@
 				</ul>
 
 				<!--Notifications-->
-				<button onclick="toggleNotificationMenu(true); toggleMenu('#notanimWidthTarget', true);" id="headerNotificationsOpen" class="material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" aria-label="Notifications">notifications</button>
+				<button onclick="toggleNotificationMenu(true); toggleMenu('#notanimWidthTarget', true);" id="headerNotificationsOpen" class="noselect material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" aria-label="Notifications">notifications</button>
 				<ul class="be-notifications dropdown-menu-c dropdown-menu notification-menu" id="notanimWidthTarget" style="padding: 0;">
 					<li class="mdc-elevation--z10" id="NotificationBox">
 						<div class="title" style="max-height: 50px !important;">
@@ -145,7 +137,7 @@
 
 
 				<!--Avatar-->
-				<button id="AvatarButton" style="clear: both; position: relative;" onclick="toggleMenu('#profileMenu', false); currentMenuAnchors['#profileMenu'] = this; updateMenuAnchors();" class="mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded">
+				<button id="AvatarButton" style="clear: both; position: relative;" onclick="toggleMenu('#profileMenu', false); currentMenuAnchors['#profileMenu'] = this; updateMenuAnchors();" class="noselect mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded">
 					<img id="AvatarPicture" src="../assets/img/iconT.png" style="width: 100%; border-radius: 50%; transform: scale(1.6);" />
 				</button>
 				<div role="menu" class="dropdown-menu-c dropdown-menu mdc-elevation--z10" id="profileMenu" style="width: 300px; padding: 0; border: 0; position: absolute;">
@@ -166,56 +158,59 @@
 
 			<div class="headerSearchBox">
 				<input type="text" placeholder="Search" class="headerSearchInput" />
-				<div id="headerSearchBoxClose" data-mdc-auto-init="MDCIconToggle" style="height: 100%; align-content: center; justify-content: center;" class="mdc-icon-toggle"><i style="font-size: 30px;" class="material-icons">close</i></div>
+				<div id="headerSearchBoxClose" data-mdc-auto-init="MDCIconToggle" style="height: 100%; align-content: center; justify-content: center;" class="mdc-icon-toggle">
+					<i style="font-size: 30px;" class="material-icons">close</i>
+				</div>
 			</div>
 		</div>
 	</header>
 	<main>
 		<!--Left Nav Drawer (Collabsible and Permament)-->
-		<aside class="mdc-drawer mdc-drawer--temporary mdc-typography main-nav-drawer" style="z-index: 9;"></aside>
-		<div class="permanent-drawer mdc-elevation--z10" style="overflow-y: scroll; transform: translateX(-320px); width: 320px; position: fixed; left: 0; z-index: 9; height: 100%; transition: transform 0.6s, top 0.5s; transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);">
-			<nav class="mdc-drawer__drawer">
-				<h1 style="font-family: Roboto !important; text-align: center; font-size: 1.17em;">Menu (User On Mobile)</h1>
-				<nav class="mdc-drawer__content mdc-list LeftNavList">
-					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab', 'General');">
-						<i class="material-icons mdc-list-item__graphic">image</i>General
-					</a>
-					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="toggleNavSubMenu('#PartsSubmenu')">
-						<i class="material-icons mdc-list-item__graphic mdi-wrench"></i>Parts
-					</a>
-					<div class="side-nav__submenu-wrapper">
-						<ul class="side-nav__submenu" id="PartsSubmenu">
-							<li>
-								<a onclick="setHashParam('tab','PartsAll');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded" tabindex="0">
-									All
-								</a>
-							</li>
-							<li>
-								<a onclick="setHashParam('tab','PartsOrdered');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded" tabindex="0">
-									Ordered
-								</a>
-							</li>
-							<li>
-								<a onclick="setHashParam('tab','PartsArchived');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded" tabindex="0">
-									Archived
-								</a>
-							</li>
-						</ul>
-					</div>
-					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Todo');">
-						<i class="material-icons mdc-list-item__graphic">format_list_numbered </i>Todo
-					</a>
-					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Calendar');">
-						<i class="material-icons mdc-list-item__graphic">calendar_today</i>Calendar
-					</a>
-					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Github');">
-						<i class="material-icons mdi-github mdc-list-item__graphic"></i>Github
-					</a>
-					<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Teams');">
-						<i class="material-icons mdc-list-item__graphic">supervisor_account</i>Teams
-					</a>
+		<div id="MainNavDrawers">
+			<aside class="mdc-drawer mdc-drawer--temporary mdc-typography main-nav-drawer" style="z-index: 9;"></aside>
+			<div class="noselect permanent-drawer mdc-elevation--z10" style="overflow-y: scroll; transform: translateX(-320px); width: 320px; position: fixed; left: 0; z-index: 9; height: 100%; transition: transform 0.6s, top 0.5s; transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);">
+				<nav class="mdc-drawer__drawer">
+					<nav class="mdc-drawer__content mdc-list LeftNavList">
+						<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','General');">
+							<i class="material-icons mdc-list-item__graphic">image</i><span>General</span>
+						</a>
+						<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="toggleNavSubMenu('#PartsSubmenu')">
+							<i class="material-icons mdc-list-item__graphic mdi-wrench"></i><span>Parts</span>
+						</a>
+						<div class="side-nav__submenu-wrapper">
+							<ul class="side-nav__submenu" id="PartsSubmenu">
+								<li>
+									<a onclick="setHashParam('tab','PartsAll');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded">
+										<span>All</span>
+									</a>
+								</li>
+								<li>
+									<a onclick="setHashParam('tab','PartsOrdered');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded">
+										<span>Ordered</span>
+									</a>
+								</li>
+								<li>
+									<a onclick="setHashParam('tab','PartsArchived');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded">
+										<span>Archived</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+						<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Todo');">
+							<i class="material-icons mdc-list-item__graphic">format_list_numbered </i><span>Todo</span>
+						</a>
+						<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Calendar');">
+							<i class="material-icons mdc-list-item__graphic">calendar_today</i><span>Calendar</span>
+						</a>
+						<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Github');">
+							<i class="material-icons mdi-github mdc-list-item__graphic"></i><span>Github</span>
+						</a>
+						<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Teams');">
+							<i class="material-icons mdc-list-item__graphic">supervisor_account</i><span>Teams</span>
+						</a>
+					</nav>
 				</nav>
-			</nav>
+			</div>
 		</div>
 
 		<!--Loader-->
@@ -232,9 +227,14 @@
 			</div>
 		</div>
 
+		<!--Global Tooltip-->
+		<div class="bstooltip-container">
+			<span class="bstooltip">2 Not Started / 4 In Progress / 7 Done / 1 Blocked</span>
+		</div>
+
 		<div class="page-content" style="transition: margin-left 0.5s; z-index: 7;">
 			<div class="" style="height: 100%;">
-				<div style="overflow-x: hidden; overflow-y: hidden; position: relative; height: 100vh; ">
+				<div class="material-scrollbar" id="page-scroll" style="overflow-x: hidden; overflow-y: auto; position: relative; height: calc(100vh - 64px); ">
 					<!--Tabs-->
 					<div id="General" class="tab">
 						<h1>General</h1>
@@ -295,13 +295,24 @@
 					<div id="Todo" class="tab" style="margin: 0;">
 						<div style="background: #c00000; width: 100%; left: 0; top: 0; color: rgb(230, 230, 230);">
 							<div style="display: flex; flex-wrap: nowrap; overflow-x: auto; flex-shrink: 0;" id="todoStepperWrapper">
-								
+
 							</div>
 							<div style="width: 100%; height: 5px;"></div>
+							<div onclick="todoViewCard = true; drawTodoTab();" aria-label="Card View" style="float: right; transform: translate(0, -42px); width: 50px; border-radius: 10px;" class="mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">
+								<i style="font-size: 28px; font-weight: 100; transform: translate(-5px, -1px);" class="noselect stepperH material-icons">view_module</i>
+							</div>
+							<div onclick="todoViewCard = false; drawTodoTab();" aria-label="List View" style="float: right; transform: translate(0, -42px); width: 50px; border-radius: 10px;" class="mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">
+								<i style="font-size: 28px; font-weight: 100; transform: translate(-5px, -1px);" class="noselect stepperH material-icons">view_list</i>
+							</div>
 						</div>
-						<div id="TodoWrapper" class="row" style="margin: 20px 15px 0px 15px;">
+						<div id="TodoWrapper" style="margin: 0px 15px 0px 15px; width: calc(100vw - 45px); transform: translateY(-20px);">
 
 						</div>
+						<button id="Todo-Add-Fab" class="mdc-fab demo-fixed-fab mdc-ripple-upgraded mdc-fab--exited">
+							<span class="mdc-fab__icon">
+								<i class="material-icons">add</i>
+							</span>
+						</button>
 					</div>
 					<div id="Calendar" class="tab">
 						<div id="calendar"></div>
@@ -519,7 +530,7 @@
 						</button>
 					</div>
 					<div id="Teams" class="tab">
-						<div id="TeamsWrapper" class="row">
+						<div id="TeamsWrapper" class="breaker-layout">
 							<!--Autofilled-->
 						</div>
 						<button id="AddTeamFab" class="mdc-fab demo-fixed-fab mdc-ripple-upgraded mdc-fab--exited">
@@ -1026,111 +1037,68 @@
 			</aside>
 		</div>
 
-		<!--Teams Tab Dialogues-->
+		<!--Shifting Dialog-->
 		<div>
-			<!--Create Team-->
-			<aside id="create-team-dialog"
-				   class="mdc-dialog"
-				   role="alertdialog"
-				   aria-labelledby="my-mdc-dialog-label"
-				   aria-describedby="my-mdc-dialog-description">
-				<div class="mdc-dialog__surface">
-					<header class="mdc-dialog__header">
-						<h2 class="mdc-dialog__header__title">
-							Create Team
-						</h2>
-					</header>
-					<form id="CreateTeamForm" class="mdc-dialog__body mdc-dialog__body--scrollable" style="max-height: 60vh;">
-						<section>
-							<br />
-							<div class="form-group autocomplete" style="width: 100%;">
-								<label for="CreateTeamName">Name</label>
-								<input id="CreateTeamName" type="text" class="form-control" placeholder="Enter A Name" required="" autocomplete="off">
-							</div>
-							<div class="form-group autocomplete" style="width: 100%;">
-								<label for="CreateTeamDesc">Description</label>
-								<textarea id="CreateTeamDesc" class="form-control" style="z-index: auto; position: relative; line-height: 21.4277px; font-size: 14.9994px; transition: none; background: transparent !important;"></textarea>
-							</div>
-						</section>
-						<footer class="mdc-dialog__footer">
-							<button type="submit" class="btn btn-space btn-primary">Submit</button>
-							<button type="button" id="CreateTeamCancel" class="btn btn-space btn-secondary">Cancel</button>
-						</footer>
-					</form>
-				</div>
-				<div class="mdc-dialog__backdrop"></div>
-			</aside>
-			<!--Delete Team-->
-			<aside id="delete-team-dialog"
-				   class="mdc-dialog"
-				   role="alertdialog"
-				   aria-labelledby="my-mdc-dialog-label"
-				   aria-describedby="my-mdc-dialog-description">
-				<div class="mdc-dialog__surface">
-					<form id="DeleteTeamForm">
-						<div class="modal-body">
-							<div class="text-center">
-								<div class="text-success">
-									<span class="modal-main-icon mdi mdi-close" style="color: red;"></span>
-								</div>
-								<h3 id="DeleteTeamTitle">Are You Sure You Want To Delete This Team?</h3>
-								<div class="mt-8">
-									<button type="button" id="DeleteTeamCancel" class="btn btn-space btn-secondary">Cancel</button>
-									<button type="submit" class="btn btn-space btn-danger">Proceed</button>
-								</div>
+			<div id="SD-Container" data-sd-container-state="closed">
+				<div id="SD-Main" data-sd-main-state="default" class="mdc-elevation--z10">
+					<!--The Header-->
+					<div id="SD-Header" style="display: block;">
+						<div class="mdc-top-app-bar__row">
+							<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+								<button id="SD-HeaderClose" data-mdc-auto-init="MDCIconToggle" style="transition: all 0.2s cubic-bezier(.2, 0, .2, 1);" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-toggle mdc-ripple-upgraded">close</button>
+								<span id="SD-HeaderTitle" class="mdc-top-app-bar__title" style="font-size: 2em; font-weight: 400; font-family: Roboto !important;">
+									Example Title
+								</span>
+							</section>
+						</div>
+					</div>
+
+					<!--The Content Wrapper For The Dialog-->
+					<form id="SD-Form" onsubmit="event.preventDefault(); ShiftingDialogSubmit();" style="height: 100%;">
+						<div id="SD-Wrapper" class="material-scrollbar">
+							<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus, incidunt. Debitis, repudiandae dignissimos et quam velit autem mollitia tenetur, eligendi rerum repellendus, explicabo ad aperiam vel ipsam! Exercitationem, voluptates molestiae.</p>
+							<p>Iusto reiciendis mollitia ab commodi. Animi maiores nesciunt officia enim corrupti officiis consequuntur vel, consectetur eveniet ad dolorum reprehenderit similique qui deleniti ut sed explicabo id error at. Laudantium, excepturi!</p>
+							<p>Suscipit quam laboriosam animi quasi similique voluptatem molestiae voluptas sint itaque, labore eos, maiores harum qui totam libero amet nisi? Similique nihil veritatis aspernatur molestias accusantium, eius dolorum autem optio?</p>
+							<p>Cum eligendi consequuntur voluptas. Repellat nisi commodi numquam aliquam quasi tenetur obcaecati, animi cum eum. Facilis esse cupiditate fugiat, quod eveniet, inventore impedit nam ex tempore harum laudantium provident assumenda.</p>
+							<p>Ut iste aperiam excepturi rerum consectetur illo officiis quo sed sunt labore earum soluta tempore omnis a, enim maiores non? Facilis qui alias sunt veniam esse hic. Aut, ducimus aliquid!</p>
+							<p>Qui quaerat saepe sunt earum nihil porro, sint quibusdam, id eos vero asperiores dolorem iusto dolore illo, architecto fuga? Voluptates distinctio eligendi nihil provident accusantium. Maxime ullam ratione officia non.</p>
+							<p>Molestiae sapiente quae nulla. Voluptates quibusdam numquam earum vero deserunt in, cum tenetur accusamus ipsum minus veniam libero quasi fuga dolorem laudantium error quo et accusantium neque vitae aliquam tempore.</p>
+							<p>Optio asperiores quisquam odit eaque incidunt laboriosam repudiandae ex eum iure quia, id vero atque perspiciatis, officiis quaerat aut ut dolorem libero eos perferendis ducimus! Veritatis nam libero tempora maxime?</p>
+							<p>Sapiente reiciendis quis eveniet iure dicta perferendis quos consectetur, soluta sunt, labore ipsam inventore maiores laudantium recusandae deleniti autem animi consequatur, voluptatem sint. Dignissimos minima labore earum vitae ad non!</p>
+							<p>Cum ex totam dolore officiis maiores quidem necessitatibus consequatur molestias culpa, quas, aperiam tempora et! Dolorem, voluptates dignissimos? Voluptatem voluptatibus expedita, error ducimus distinctio necessitatibus laudantium officiis dolorum nam vitae?</p>
+						</div>
+						<div id="SD-FooterWrapper">
+							<div id="SD-Footer">
+								<button id="SD-FooterCancel" data-mdc-auto-init="MDCRipple" onclick="ShiftingDialog.close()" class="mdc-button mdc-ripple-upgraded">Cancel</button>
+								<button id="SD-FooterSubmit" data-mdc-auto-init="MDCRipple" type="submit" class="mdc-button mdc-ripple-upgraded">Submit</button>
 							</div>
 						</div>
 					</form>
 				</div>
-				<div class="mdc-dialog__backdrop"></div>
-			</aside>
-			<!--Edit Team-->
-			<aside id="edit-team-dialog"
-				   class="mdc-dialog"
-				   role="alertdialog"
-				   aria-labelledby="my-mdc-dialog-label"
-				   aria-describedby="my-mdc-dialog-description">
-				<div class="mdc-dialog__surface">
-					<header class="mdc-dialog__header">
-						<h2 class="mdc-dialog__header__title">
-							Edit Team
-						</h2>
-					</header>
-					<form id="EditTeamForm" class="mdc-dialog__body mdc-dialog__body--scrollable" style="max-height: 60vh;">
-						<section>
-							<br />
-							<div class="form-group autocomplete" style="width: 100%;">
-								<label for="EditTeamName">Name</label>
-								<input id="EditTeamName" type="text" class="form-control" placeholder="Enter A Name" required="" autocomplete="off">
-							</div>
-							<div class="form-group autocomplete" style="width: 100%;">
-								<label for="EditTeamDesc">Description</label>
-								<textarea id="EditTeamDesc" class="form-control" style="z-index: auto; position: relative; line-height: 21.4277px; font-size: 14.9994px; transition: none; background: transparent !important;"></textarea>
-							</div>
-						</section>
-						<footer class="mdc-dialog__footer">
-							<button type="submit" class="btn btn-space btn-primary">Submit</button>
-							<button type="button" id="EditTeamCancel" class="btn btn-space btn-secondary">Cancel</button>
-						</footer>
-					</form>
-				</div>
-				<div class="mdc-dialog__backdrop"></div>
-			</aside>
+			</div>
+		</div>
+
+		<!--Notification Alert-->
+		<div>
+			<div id="Notification-Alert-Wrapper">
+				
+			</div>
 		</div>
 
 		<!--Imports-->
-		<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+		<script src="../assets/mdc/material.js"></script>
 		<script src="../assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
 		<script src="../assets/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
 		<script src="../assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 		<script src="../assets/js/app.js" type="text/javascript"></script>
-		<script src="../assets/lib/datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+		<script src="../assets/lib/datetimepicker/js/bootstrap-datetimepicker.js" type="text/javascript"></script>
 		<script src="../assets/lib/chartjs/Chart.min.js" type="text/javascript"></script>
 		<script src='../assets/lib/fullcalendar/lib/moment.min.js'></script>
 		<script src="../assets/lib/fullcalendar/lib/jquery-ui.min.js"></script>
 		<script src='../assets/lib/fullcalendar/fullcalendar.js'></script>
 		<script src='../assets/lib/fullcalendar/gcal.min.js'></script>
 		<script src='../assets/lib/croppie/croppie.js'></script>
+		<script src='../assets/lib/Fuse/fuse.js'></script>
 
 		<!--General Functions-->
 		<script src="assets/Resources/functions.js"></script>
@@ -1150,12 +1118,29 @@
 		<script src="assets/Accounting/Profile/ProfileTab.js"></script>
 		<script src="assets/Accounting/Profile/ProfilePicture.js"></script>
 
+		<!--Shifting Dialog-->
+		<script src="assets/ShiftingDialog/ShiftingDialog.js"></script>
+		<script src="assets/ShiftingDialog/Snipits.js"></script>
+
+		<!--Fab Handler-->
+		<script src="assets/Resources/FabHandler.js"></script>
+
 		<!--Header-->
 		<script src="assets/Header/header.js"></script>
-		<script src="assets/Header/PeTeSwitcher.js"></script>
+
+		<!--Side Nav-->
+		<script src="assets/SideNav/SideNav.js"></script>
+		<script src="assets/SideNav/PeTeSwitcher.js"></script>
 
 		<!--Other-->
 		<script src="assets/Autocomplete/Autocomplete.js"></script>
+		<script src="assets/Autocomplete/AutocompleteUsers.js"></script>
+		<script src="assets/Resources/ExpandingTextArea.js"></script>
+		<script src="assets/Autocomplete/PMSAutocomplete.js"></script>
+		<script src="assets/Resources/Menus.js"></script>
+		<script src="assets/Resources/Tooltips.js"></script>
+
+		<!--Calendar Tab-->
 		<script src="assets/Calendar/CalendarTab.js"></script>
 
 		<!--Github API and Tab-->
@@ -1164,14 +1149,12 @@
 
 		<!--Teams Tab and Resources-->
 		<script src="assets/Teams/TeamsTab.js"></script>
-		<script src="assets/Teams/JLTeam.js"></script>
-		<script src="assets/Teams/CreateTeam.js"></script>
-		<script src="assets/Teams/DeleteTeam.js"></script>
-		<script src="assets/Teams/EditTeam.js"></script>
+		<script src="assets/Teams/TeamsAPI.js"></script>
 
 		<!--Notification-->
 		<script src="assets/Notifications/SWNotifications.js"></script>
 		<script src="assets/Notifications/IHNotifications.js"></script>
+		<script src="assets/Notifications/NotificationAPI.js"></script>
 
 		<!--Parts Tabs-->
 		<script src="assets/Parts/FolderHistory.js"></script>
@@ -1201,7 +1184,7 @@
 		<!--Main Script-->
 		<script type="text/javascript">
 			document.addEventListener('DOMContentLoaded', function () {
-				App.init(); //Beagle
+				App.init();
 			});
 
 			window.mdc.autoInit(); //MDC
