@@ -7,10 +7,10 @@ var tooltipListValues = [];
 function updateTooltips() {
 	[].forEach.call(document.querySelectorAll('[aria-label]'), function (tp) {
 		if (tooltipList.indexOf(tp) == -1) {
-			tp.addEventListener('mousemove', tooltipMouseOver);
-			tp.addEventListener('mouseout', tooltipMouseExit);
+			//tp.addEventListener('mousemove', tooltipMouseOver);
+			//tp.addEventListener('mouseout', tooltipMouseExit);
 			tooltipList.push(tp);
-			tooltipListValues.push(false);
+			//tooltipListValues.push(false);
 		}
 	});
 }
@@ -30,7 +30,12 @@ document.addEventListener('resize', checkTooltip);
 function checkTooltip() {
 	if (CanShowTooltip) {
 		var el;
-		el = tooltipList[tooltipListValues.indexOf(true)];
+		//el = tooltipList[tooltipListValues.indexOf(true)];
+		for (var i = 0; i < tooltipList.length; i++) {
+			var ELB = tooltipList[i].getBoundingClientRect();
+			if (mouseX >= ELB.left && mouseX <= ELB.left + ELB.width && mouseY >= ELB.top && mouseY <= ELB.top + ELB.height)
+				el = tooltipList[i];
+		}
 		if (el && (VisibleTooltip ? el == VisibleTooltip : true)) {
 			//console.log(true); //asdf
 			var ELB = el.getBoundingClientRect();
