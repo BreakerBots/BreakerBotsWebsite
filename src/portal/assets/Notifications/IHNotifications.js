@@ -21,26 +21,28 @@ document.addEventListener('DOMContentLoaded', function () {
 }); 
 
 function drawNotificationMenu(nots) {
-	var html = '';
-	for (var i = nots.length - 1; i >= 0; i--) {
-		if (!nots[i].read)
-			html += (`
-				<div class="Notification-Menu-Notification">
-					<div class="Notification-Menu-Notification-Image-Container">
-						<img src="` + (nots[i].icon || '../assets/icons/iconT.png') + `" style="background-image: url('../assets/icons/iconT.png')" alt="" class="Notification-Menu-Notification-Image">
+	try {
+		var html = '';
+		for (var i = nots.length - 1; i >= 0; i--) {
+			if (!nots[i].read)
+				html += (`
+					<div class="Notification-Menu-Notification">
+						<div class="Notification-Menu-Notification-Image-Container">
+							<img src="` + (nots[i].icon || '../assets/icons/iconT.png') + `" style="background-image: url('../assets/icons/iconT.png')" alt="" class="Notification-Menu-Notification-Image">
+						</div>
+						<div class="Notification-Menu-Notification-Content">
+							<i onclick="MarkNotificationAsRead(` + i + `)" class="Notification-Menu-Notification-Close mdc-icon-toggle" data-mdc-auto-init="MDCIconToggle" role="button">
+								<i class="material-icons" style="transform: translate(-9px, -9px)">close</i>
+							</i>
+							<span class="Notification-Menu-Notification-Title">` + (nots[i].title || "Title") + `</span>
+							<p>` + (nots[i].desc || "Description") + `</p>
+						</div>
 					</div>
-					<div class="Notification-Menu-Notification-Content">
-						<i onclick="MarkNotificationAsRead(` + i + `)" class="Notification-Menu-Notification-Close mdc-icon-toggle" data-mdc-auto-init="MDCIconToggle" role="button">
-							<i class="material-icons" style="transform: translate(-9px, -9px)">close</i>
-						</i>
-						<span class="Notification-Menu-Notification-Title">` + (nots[i].title || "Title") + `</span>
-						<p>` + (nots[i].desc || "Description") + `</p>
-					</div>
-				</div>
-			`);
-	}
-	document.querySelector('.Notification-Menu-Content').innerHTML = html;
-	mdc.autoInit(document.querySelector('.Notification-Menu-Content'));
+				`);
+		}
+		document.querySelector('.Notification-Menu-Content').innerHTML = html;
+		mdc.autoInit(document.querySelector('.Notification-Menu-Content'));
+	} catch (err) { }
 }
 function MarkNotificationAsRead(index) {
 	try {
@@ -65,23 +67,25 @@ function MarkNotificationAsRead(index) {
 
 
 function ViewAllNotifications() {
-	var html = '';
-	var nots = NotificationData.Notifications;
-	for (var i = nots.length - 1; i >= 0; i--) {
-		html += `
-<div style="background: #efefef; height: 90px; width: 45%; margin-bottom: 10px; margin-right: 10px; position: relative;">
-	<div>
-		<img src="` + (nots[i].icon || "../assets/img/iconT.png") + `" style="height: 70px; margin-top: 10px; margin-left: 10px; border-radius: 50%;"/>
-	</div>
-	<div>
-		<h3 style="margin: 0; position: absolute; left: 85px; top: 12px;">` + (nots[i].title || "Title") + `</h4>	
-		<p style="margin: 0; position: absolute; left: 90px; top: 35px;">` + (nots[i].desc || "Description") + `</p>
-	</div>
-</div>
-`;
-	}
-	ShiftingDialog.set("ViewAllNotifications", "View All Notifications", "Okay", null, html, true, true);
-	ShiftingDialog.open();
+	try {
+		var html = '';
+		var nots = NotificationData.Notifications;
+		for (var i = nots.length - 1; i >= 0; i--) {
+			html += `
+				<div style="background: #efefef; height: 90px; width: 45%; margin-bottom: 10px; margin-right: 10px; position: relative;">
+					<div>
+						<img src="` + (nots[i].icon || "../assets/img/iconT.png") + `" style="height: 70px; margin-top: 10px; margin-left: 10px; border-radius: 50%;"/>
+					</div>
+					<div>
+						<h3 style="margin: 0; position: absolute; left: 85px; top: 12px;">` + (nots[i].title || "Title") + `</h4>	
+						<p style="margin: 0; position: absolute; left: 90px; top: 35px;">` + (nots[i].desc || "Description") + `</p>
+					</div>
+				</div>
+				`;
+		}
+		ShiftingDialog.set("ViewAllNotifications", "View All Notifications", "Okay", null, html, true, true);
+		ShiftingDialog.open();
+	} catch (err) {  }
 }
 ShiftingDialog.addSubmitListener("ViewAllNotifications", function () { ShiftingDialog.close(); });
 //  ----------------------------------------    -------------------------------------------------\\
@@ -92,23 +96,25 @@ ShiftingDialog.addSubmitListener("ViewAllNotifications", function () { ShiftingD
 
 //  ----------------------------------------  Notification Alert  -------------------------------------------------\\
 function displayInHouseNotification(title, desc, icon) {
-	var id = ("Notification-Alert--" + guid());
-	document.querySelector("#Notification-Alert-Wrapper").innerHTML += `
-		<div class="Notification-Alert" id="` + id + `">
-			<img style="display: none;" src="../assets/img/freeload.png" onload="InHouseNotificationAutoCloseHandler('` + id + `')">
-			<div class="Notification-Alert-Image-Container">
-				<img src="` + icon + `" style="background-image: url('../assets/icons/iconT.png')" alt="" class="Notification-Alert-Image">
+	try {
+		var id = ("Notification-Alert--" + guid());
+		document.querySelector("#Notification-Alert-Wrapper").innerHTML += `
+			<div class="Notification-Alert" id="` + id + `">
+				<img style="display: none;" src="../assets/img/freeload.png" onload="InHouseNotificationAutoCloseHandler('` + id + `')">
+				<div class="Notification-Alert-Image-Container">
+					<img src="` + icon + `" style="background-image: url('../assets/icons/iconT.png')" alt="" class="Notification-Alert-Image">
+				</div>
+				<div class="Notification-Alert-Content">
+					<i onclick="InHouseNotificationCloseHandler('` + id + `')" class="Notification-Alert-Close mdc-icon-toggle" data-mdc-auto-init="MDCIconToggle" role="button">
+						<i class="material-icons" style="transform: translate(-9px, -9px)">close</i>
+					</i>
+					<span class="Notification-Alert-Title">` + title + `</span>
+					<p>` + desc + `</p>
+				</div>
 			</div>
-			<div class="Notification-Alert-Content">
-				<i onclick="InHouseNotificationCloseHandler('` + id + `')" class="Notification-Alert-Close mdc-icon-toggle" data-mdc-auto-init="MDCIconToggle" role="button">
-					<i class="material-icons" style="transform: translate(-9px, -9px)">close</i>
-				</i>
-				<span class="Notification-Alert-Title">` + title + `</span>
-				<p>` + desc + `</p>
-			</div>
-		</div>
-	`;
-	mdc.autoInit(document.querySelector("#Notification-Alert-Wrapper"));
+		`;
+		mdc.autoInit(document.querySelector("#Notification-Alert-Wrapper"));
+	} catch (err) { }
 }
 
 function InHouseNotificationAutoCloseHandler(id) {

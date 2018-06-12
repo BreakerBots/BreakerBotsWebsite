@@ -86,5 +86,9 @@ function sendSWNToUser(uid, title, desc, icon) {
 			newData["Notifications"].push({ title: title, desc: desc, icon: icon });
 			userRef.set(newData);
 		})
-		.catch(function (err) { });
+		.catch(function (err) {
+			var newData = {};
+			newData["Notifications"].push({ title: title, desc: desc, icon: icon });
+			userRef.set(newData);
+		});
 }
