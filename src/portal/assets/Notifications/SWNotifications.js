@@ -78,12 +78,12 @@ function NotificationPermissionDenied() {
 
 }
 
-function sendSWNToUser(uid, desc, icon) {
+function sendSWNToUser(uid, title, desc, icon) {
 	var userRef = firebase.firestore().collection("Notifications").doc(uid);
 	userRef.get()
 		.then(function (doc) {
 			var newData = doc.data();
-			newData["Notifications"].push({ desc: desc, icon: icon });
+			newData["Notifications"].push({ title: title, desc: desc, icon: icon });
 			userRef.set(newData);
 		})
 		.catch(function (err) { });

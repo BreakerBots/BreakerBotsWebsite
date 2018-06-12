@@ -5,18 +5,47 @@
 
 
 //  ----------------------------------------  Notification Menu  -------------------------------------------------\\
+var NotificationData;
 document.addEventListener('DOMContentLoaded', function () {
 	authLoadedWait(function () {
 		firebase.app().firestore().collection("Notifications").doc(users.getCurrentUid())
 			.onSnapshot(function (snapshot) {
-				var data = snapshot.data().Notifications;
-				//console.log("not ", data);
+				if (snapshot) {
+					try {
+						NotificationData = snapshot.data();
+						drawNotificationMenu(NotificationData.Notifications);
+					} catch (err) {  }
+				}
 			});
 	});
 }); 
 
-function drawInHouseNotifications() {
-	
+function drawNotificationMenu(nots) {
+	var html = '';
+	for (var i = nots.length - 1; i >= 0; i--) {
+		if (!nots[i].read)
+			html += (`
+				<div class="Notification-Menu-Notification">
+					<div class="Notification-Menu-Notification-Image-Container">
+						<img src="` + (nots[i].icon || '../assets/icons/iconT.png') + `" style="background-image: url('../assets/icons/iconT.png')" alt="" class="Notification-Menu-Notification-Image">
+					</div>
+					<div class="Notification-Menu-Notification-Content">
+						<i onclick="MarkNotificationAsRead(` + i + `)" class="Notification-Menu-Notification-Close mdc-icon-toggle" data-mdc-auto-init="MDCIconToggle" role="button">
+							<i class="material-icons" style="transform: translate(-9px, -9px)">close</i>
+						</i>
+						<span class="Notification-Menu-Notification-Title">` + (nots[i].title || "Title") + `</span>
+						<p>` + (nots[i].desc || "Description") + `</p>
+					</div>
+				</div>
+			`);
+	}
+	document.querySelector('.Notification-Menu-Content').innerHTML = html;
+	mdc.autoInit(document.querySelector('.Notification-Menu-Content'));
+}
+
+function MarkNotificationAsRead(index) {
+	NotificationData.Notifications[index].read = true;
+	firebase.app().firestore().collection("Notifications").doc(users.getCurrentUid()).set(NotificationData);
 }
 //  ----------------------------------------    -------------------------------------------------\\
 
@@ -31,7 +60,7 @@ function displayInHouseNotification(title, desc, icon) {
 		<div class="Notification-Alert" id="` + id + `">
 			<img style="display: none;" src="../assets/img/freeload.png" onload="InHouseNotificationAutoCloseHandler('` + id + `')">
 			<div class="Notification-Alert-Image-Container">
-				<img src="` + icon + `" alt="" class="Notification-Alert-Image">
+				<img src="` + icon + `" style="background-image: url('../assets/icons/iconT.png')" alt="" class="Notification-Alert-Image">
 			</div>
 			<div class="Notification-Alert-Content">
 				<i onclick="InHouseNotificationCloseHandler('` + id + `')" class="Notification-Alert-Close mdc-icon-toggle" data-mdc-auto-init="MDCIconToggle" role="button">

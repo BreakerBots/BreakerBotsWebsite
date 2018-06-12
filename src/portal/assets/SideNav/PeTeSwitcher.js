@@ -29,6 +29,7 @@ function PeteSwitcher(pageContent, pdrawer, tdrawerEl, openDrawerButton, topAppB
 			CPeteState = -1; //Set Pete Switcher State
 			pdrawer.style.display = "block"; //Show the Perm Drawer
 		}
+		pdrawer_adjustpagecontent
 		tdrawerEl.style.marginTop = topAppBarElement.clientHeight + "px"; //Adjust the height of the temp drawer relative to the header
 		document.querySelector("main").style.paddingTop = topAppBarElement.clientHeight + "px"; //Adjust the page-content relative too the header
 	}
@@ -54,11 +55,9 @@ function PeteSwitcher(pageContent, pdrawer, tdrawerEl, openDrawerButton, topAppB
 	window.addEventListener('hashchange', function () {
 		tdrawer.open = false;
 	});
-	function openPDrawer(state) { pdrawer.style.transform = state ? "translateX(0px)" : "translateX(-320px)"; }
+	function openPDrawer(state) { pdrawer.style.transform = state ? "translateX(0px)" : "translateX(-320px)"; pdrawer_adjustpagecontent }
 	function pdrawerOpen() { return !(pdrawer.style.transform == "translateX(-320px)"); }
-	setInterval(function () {
-		pageContent.style.marginLeft = (CPeteState == -1 ? (320 + Number(pdrawer.style.transform.substring(11).slice(0, -3))) : 0) + "px";
-	}, 100);
+	function pdrawer_adjustpagecontent() { pageContent.style.marginLeft = (CPeteState == -1 ? (320 + Number(pdrawer.style.transform.substring(11).slice(0, -3))) : 0) + "px"; }
 }
 
 //Show a highlight arround the current tab
