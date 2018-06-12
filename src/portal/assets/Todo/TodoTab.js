@@ -382,6 +382,7 @@ TodoAddFab.element.addEventListener('click', function () {
 		ShiftingDialog.set("TodoAddTask", "Add a new Task", "Submit", "Cancel",
 			mainSnips.textField("TodoAdd_Title", "Title", "The Title of the Task", null, null, true) +
 			mainSnips.textFieldUsersAutoComplete("TodoAdd_Target", "People", "People able or have to complete this task") +
+			mainSnips.checkbox("TodoAdd_Notify", "Notify Users?") + 
 			mainSnips.textArea("TodoAdd_Desc", "Description", "A Desc Of the Task")
 		);
 		ShiftingDialog.open();
@@ -433,6 +434,7 @@ ShiftingDialog.addSubmitListener("TodoAddTask", function (content) {
 		var title = content.querySelector("#TodoAdd_Title").value || "";
 		var desc = content.querySelector("#TodoAdd_Desc").value.replace(/\n/g, '<br>') || "";
 		var targets = content.querySelector("#TodoAdd_Target").value.split(" ") || [];
+		var notifyUsers = document.querySelector("#TodoAdd_Notify").checked;
 
 		if (content.querySelector("#TodoAdd_Target").value || "" != "") {
 			var _targetsValid = AutocompleteUsersValidate(targets);
@@ -440,6 +442,13 @@ ShiftingDialog.addSubmitListener("TodoAddTask", function (content) {
 				ShiftingDialog.throwFormError(_targetsValid, content.querySelector("#TodoAdd_Target"));
 				ShiftingDialog.enableSubmitButton(true);
 				return;
+			}
+		}
+
+		if (notifyUsers) {
+			for (var i = 0; i < targets.length; i++) {
+				if (targets[i].charAt(0) != "#" && targets[i].charAt(0) != "@")
+					notifications.send(users.getUid(targets[i]), "Added To Task", users.getCurrentUsername() + " has created the task " + title + " and added you as a target", users.getCurrentUser().avatar);
 			}
 		}
 
@@ -620,6 +629,7 @@ function TodoEditTask(item, parent) {
 	ShiftingDialog.set("TodoEditTask", "Edit " + itemData.title, "Submit", "Cancel",
 		mainSnips.textField("TodoAdd_Title", "Title", "The Title of the Task", null, null, true, itemData.title) +
 		mainSnips.textFieldUsersAutoComplete("TodoAdd_Target", "People", "People able or have to complete this task", null, itemData.targets.join(" ")) +
+		mainSnips.checkbox("TodoAdd_Notify", "Notify New Users?") + 
 		mainSnips.textArea("TodoAdd_Desc", "Description", "A Desc Of the Task", null, itemData.desc.replace(/<br>/g, '\n'))
 	);
 	ShiftingDialog.open();
@@ -629,6 +639,7 @@ ShiftingDialog.addSubmitListener("TodoEditTask", function (content) {
 		var title = content.querySelector("#TodoAdd_Title").value || "";
 		var desc = content.querySelector("#TodoAdd_Desc").value.replace(/\n/g, '<br>') || "";
 		var targets = content.querySelector("#TodoAdd_Target").value.split(" ") || [];
+		var notifyUsers = document.querySelector("#TodoAdd_Notify").checked;
 
 		if (content.querySelector("#TodoAdd_Target").value || "" != "") {
 			var _targetsValid = AutocompleteUsersValidate(targets);
@@ -641,6 +652,14 @@ ShiftingDialog.addSubmitListener("TodoEditTask", function (content) {
 
 		var ctgN = TodoTasks_Editing[1] ? TodoTasks_Editing[1] : todoView.indexOf('/') != -1 ? todoView.substring(todoView.lastIndexOf('/') + 1) : todoView;
 		var ctg = findObjectByKey(todoSnapshot.docs, "id", ctgN).data();
+
+		if (notifyUsers) {
+			var newTargets = targets.diff(ctg.tasks[TodoTasks_Editing[0]].targets);
+			for (var i = 0; i < newTargets.length; i++) {
+				if (newTargets[i].charAt(0) != "#" && newTargets[i].charAt(0) != "@")
+					notifications.send(users.getUid(newTargets[i]), "Added To Task", users.getCurrentUsername() + " has changed the task " + title + " and added you as a new target");
+			}
+		}
 
 		ctg.tasks[TodoTasks_Editing[0]] = { title: title, desc: desc, targets: targets, status: ctg.tasks[TodoTasks_Editing[0]].status || 0 };
 

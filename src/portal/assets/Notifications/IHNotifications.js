@@ -42,11 +42,48 @@ function drawNotificationMenu(nots) {
 	document.querySelector('.Notification-Menu-Content').innerHTML = html;
 	mdc.autoInit(document.querySelector('.Notification-Menu-Content'));
 }
-
 function MarkNotificationAsRead(index) {
-	NotificationData.Notifications[index].read = true;
-	firebase.app().firestore().collection("Notifications").doc(users.getCurrentUid()).set(NotificationData);
+	try {
+		var sel = event.srcElement.parentNode.parentNode;
+		if (sel.classList.contains('Notification-Menu-Notification-Content')) sel = sel.parentNode;
+		sel.classList.add('Notification-Menu-Notification--Close');
+
+		setTimeout(function () {
+			try {
+				var mua = sel.nextElementSibling;
+				if (sel) sel.remove();
+				if (mua) mua.classList.add('Notification-Menu-Notification--Slideup');
+				setTimeout(function () {
+					if (mua) mua.classList.remove('Notification-Menu-Notification--Slideup');
+					NotificationData.Notifications[index].read = true;
+					firebase.app().firestore().collection("Notifications").doc(users.getCurrentUid()).set(NotificationData);
+				}, 200);
+			} catch (err) { }
+		}, 200);
+	} catch (err) { }
 }
+
+
+function ViewAllNotifications() {
+	var html = '';
+	var nots = NotificationData.Notifications;
+	for (var i = nots.length - 1; i >= 0; i--) {
+		html += `
+<div style="background: #efefef; height: 90px; width: 45%; margin-bottom: 10px; margin-right: 10px; position: relative;">
+	<div>
+		<img src="` + (nots[i].icon || "../assets/img/iconT.png") + `" style="height: 70px; margin-top: 10px; margin-left: 10px; border-radius: 50%;"/>
+	</div>
+	<div>
+		<h3 style="margin: 0; position: absolute; left: 85px; top: 12px;">` + (nots[i].title || "Title") + `</h4>	
+		<p style="margin: 0; position: absolute; left: 90px; top: 35px;">` + (nots[i].desc || "Description") + `</p>
+	</div>
+</div>
+`;
+	}
+	ShiftingDialog.set("ViewAllNotifications", "View All Notifications", "Okay", null, html, true, true);
+	ShiftingDialog.open();
+}
+ShiftingDialog.addSubmitListener("ViewAllNotifications", function () { ShiftingDialog.close(); });
 //  ----------------------------------------    -------------------------------------------------\\
 
 
