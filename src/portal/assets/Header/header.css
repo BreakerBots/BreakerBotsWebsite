@@ -9,32 +9,9 @@ button:focus {
 	outline: none;
 }
 
-/*Toggle the "Show All Notifications" in the dashboard header.*/
-.notification-menu {
-	transform-origin: 75% 0%;
-}
-
-/*Animation for width and height*/
-#notanimWidthTarget {
-	transition: width 0.8s, transform 0.3s, top 0.3s;
-	transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
-}
-
-#notanimHeightTarget {
-	transition: height 0.8s;
-	transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
-}
 
 /*Desktop*/
 @media (min-width: 768px) {
-	.notanimHeight {
-		height: calc(100vh - 200px) !important;
-	}
-
-	.notanimWidth {
-		width: 80vw !important;
-	}
-
 	#profileMenu {
 		transform-origin: 95% 0%;
 	}
@@ -46,14 +23,6 @@ button:focus {
 
 /*Mobile*/
 @media (max-width: 768px) {
-	.notanimHeight {
-		height: 40vh !important;
-	}
-
-	.notanimWidth {
-		width: 100vw !important;
-	}
-
 	#profileMenu {
 		transform-origin: 5% 0%;
 	}

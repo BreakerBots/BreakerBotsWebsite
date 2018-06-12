@@ -1,5 +1,7 @@
 ﻿/* Notificaitons.css */
 
+
+/* ----------------------------------------  Notification Alerts  ------------------------------------------------- */
 #Notification-Alert-Wrapper {
 	position: absolute;
 	top: 74px;
@@ -10,7 +12,6 @@
 	z-index: 600;
 	margin-right: 30px;
 }
-
 .Notification-Alert {
 	margin-bottom: 10px;
 	background-color: #ffffff;
@@ -40,12 +41,10 @@
 		transform: scale(0.4);
 		opacity: 0;
 	}
-
 	.Notification-Alert.Notification-Alert--Moveup {
 		animation: Notification-Alert--Moveup 0.6s cubic-bezier(.2, 0, .2, 1);
 	}
-
-@keyframes Notification-Alert--Moveup {
+	@keyframes Notification-Alert--Moveup {
 	0% {
 		margin-top: 109px;
 	}
@@ -54,7 +53,6 @@
 		margin-top: 0px;
 	}
 }
-
 .Notification-Alert-Image-Container {
 	background-color: #fafafa;
 	display: table-cell;
@@ -62,7 +60,6 @@
 	vertical-align: middle;
 	text-align: center;
 }
-
 .Notification-Alert-Image {
 	text-align: center;
 	float: none;
@@ -70,13 +67,11 @@
 	height: auto;
 	border-radius: 50%;
 }
-
 .Notification-Alert-Content {
 	padding: 15px 35px 17px 15px;
 	width: 267px;
 	display: table-cell;
 }
-
 .Notification-Alert-Close {
 	display: block;
 	top: 0;
@@ -87,7 +82,6 @@
 	color: #404040;
 	position: absolute;
 }
-
 .Notification-Alert-Title {
 	text-shadow: none;
 	font-weight: 300;
@@ -95,3 +89,127 @@
 	padding: 0 0 7px 0;
 	display: block;
 }
+/* ----------------------------------------    ------------------------------------------------- */
+
+
+
+
+
+/* ----------------------------------------  Notification Menu  ------------------------------------------------- */
+
+
+#Notification-Menu {
+	background: rgb(255, 255, 255);
+	height: 300px;
+	width: 250px;
+	padding: 0;
+}
+
+.Notification-Menu-Header {
+	width: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: rgb(230, 230, 230);
+	height: 30px;
+	justify-content: center;
+	align-content: center;
+	display: flex;
+}
+
+.Notification-Menu-Content {
+	overflow-y: auto;
+	overflow-x: hidden;
+	position: absolute;
+	top: 30px;
+	bottom: 30px;
+	right: 0;
+	left: 0;
+	background:
+	linear-gradient(white 30%, rgba(255,255,255,0)), linear-gradient(rgba(255,255,255,0), white 70%) 0 100%,
+	radial-gradient(50% 0, farthest-side, rgba(0,0,0,.2), rgba(0,0,0,0)), radial-gradient(50% 100%,farthest-side, rgba(0,0,0,.2), rgba(0,0,0,0)) 0 100%;
+	background:
+	linear-gradient(white 30%, rgba(255,255,255,0)), linear-gradient(rgba(255,255,255,0), white 70%) 0 100%,
+	radial-gradient(farthest-side at 50% 0, rgba(0,0,0,.2), rgba(0,0,0,0)), radial-gradient(farthest-side at 50% 100%, rgba(0,0,0,.2), rgba(0,0,0,0)) 0 100%;
+	background-repeat: no-repeat;
+	background-color: white;
+	background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
+	background-attachment: local, local, scroll, scroll;
+}
+
+.Notification-Menu-Footer {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: rgb(230, 230, 230);
+	height: 30px;
+}
+
+/* The Actual Notifications */
+.Notification-Menu-Notification {
+	background-color: #f7f7f7;
+	position: relative;
+	width: 100%;
+	height: 70px;
+	transition: opacity 0.2s, top 0.2s, transform 0.2s;
+	opacity: 1;
+	transform: scaleY(1);
+}
+	.Notification-Menu-Notification.Notification-Menu-Notification--Close {
+		transform-origin: 50% 0;
+		opacity: 0;
+		transform: scaleY(0);
+	}
+	.Notification-Menu-Notification.Notification-Menu-Notification--Slideup {
+		animation: Notification-Menu-Slideup 0.2s cubic-bezier(.2, 0, .2, 1);
+	}
+	@keyframes Notification-Menu-Slideup {
+		from { margin-top: 70px; }
+		to { margin-top: 0px; }
+	}
+.Notification-Menu-Notification-Image-Container {
+	width: 26%;
+	vertical-align: middle;
+	text-align: center;
+	align-content: center;
+}
+.Notification-Menu-Notification-Image {
+	text-align: center;
+	float: none;
+	width: 40px;
+	height: auto;
+	border-radius: 50%;
+	margin-top: 0px;
+}
+.Notification-Menu-Notification-Content {
+	padding: 15px 35px 17px 15px;
+	width: 267px;
+	display: table-cell;
+}
+	.Notification-Menu-Notification-Content > p {
+		position: absolute;
+		left: 70px;
+		top: 25px;
+	}
+.Notification-Menu-Notification-Close {
+	display: block;
+	top: 0;
+	right: 0;
+	left: auto;
+	height: 30px;
+	width: 30px;
+	color: #404040;
+	position: absolute;
+}
+.Notification-Menu-Notification-Title {
+	text-shadow: none;
+	font-weight: 300;
+	font-size: 1.308rem;
+	display: block;
+	position: absolute;
+	left: 70px;
+	top: 7px;
+}
+
+/* ----------------------------------------    ------------------------------------------------- */

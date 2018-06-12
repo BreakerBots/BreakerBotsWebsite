@@ -1,24 +1,6 @@
 //Header.js -- Finally Organized!
 
 
-//------------------------------------ Notification Menu ------------------------------------\\
-function notanimToggle() {
-	document.querySelector('#notanimWidthTarget').classList.toggle('notanimWidth');
-	document.querySelector('#notanimHeightTarget').classList.toggle('notanimHeight');
-}
-
-function toggleNotificationMenu() {
-	if (!document.querySelector('#notanimWidthTarget').classList.contains('showMenu')) {
-		if (document.querySelector('#notanimWidthTarget').classList.contains('notanimWidth')) {
-			document.querySelector('#notanimWidthTarget').classList.remove('notanimWidth');
-			document.querySelector('#notanimHeightTarget').classList.remove('notanimHeight');
-		}
-	}
-}
-//------------------------------------  ------------------------------------\\
-
-
-
 
 
 //------------------------------------ Title Overflow ------------------------------------\\

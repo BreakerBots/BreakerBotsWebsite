@@ -102,7 +102,6 @@ function drawTodoTab(todoDrawTransition) {
 
 			// Target Search
 			if (data.filter.indexOf("target:") != -1) {
-				console.log(data.filter.substring(7));
 				searchRes = TodoPeopleSearchEngine.search( data.filter.substring(7) );
 			}
 			else {
@@ -207,14 +206,14 @@ function TodoGetFTGHtml(fotg, fotgN, fotgP, transi) {
 	if (todoViewCard) {
 		return (`
 		<div class="breaker-layout__panel">
-			<div class="mdc-card ` + (transi ? 'todo-card' : '') + `" id="` + fotgN + `" style="background-color: rgba(` + (fotg.trash ? '190, 190, 190, 1' : '255, 255, 255, 1') +  `)">
-				<div class="mdc-ripple-surface mdc-ripple-upgraded bl1" style="display: flex; align-items: center;" data-mdc-auto-init="MDCRipple" onclick="setHashParam('todoView', '` + ((todoView == "" ? "" : todoView + "/") + fotgN) + `');">
+			<div class="mdc-card ` + (transi ? 'todo-card' : '') + `" id="` + fotgN + `" style="min-height: 65px; background-color: rgba(` + (fotg.trash ? '190, 190, 190, 1' : '255, 255, 255, 1') +  `)">
+				<div class="mdc-ripple-surface mdc-ripple-upgraded bl1" style="display: flex; min-height: 65px; align-items: center;" data-mdc-auto-init="MDCRipple" onclick="setHashParam('todoView', '` + ((todoView == "" ? "" : todoView + "/") + fotgN) + `');">
 					<div style="margin-left: 20px; width: 100%;">
-						<div class="demo-card__primary" style="width: 90%">
+						<div class="demo-card__primary" style="width: 70%">
 							<h2 class="demo-card__title mdc-typography--headline6">` + (fotg.title == "" ? "&nbsp;" : fotg.title) + `</h2>
 						</div>
-						<div class="mdc-typography--body2" style="width: 90%;">` + (fotg.desc) + `</div>
-						<i class="noselect material-icons" style="font-size: 300%; position: absolute; right: 20px; top: 20px;"> ` + ((fotg.tasks == undefined) ? (fotg.filter ? ('<img style="width: 45px; transform: translateY(-11px); filter: opacity(70%);" src="../assets/icons/todoItemView.png">') : "folder") : "assignment") + ` </i>
+						<div class="mdc-typography--body2" style="width: 70%;">` + (fotg.desc) + `</div>
+						<i class="noselect material-icons" style="font-size: 300%; position: absolute; right: 20px; top: 20px;"> ` + ((fotg.tasks == undefined) ? (fotg.filter ? ('<img style="width: 45px; transform: translateY(-12px); filter: opacity(70%);" src="../assets/icons/todoItemView.png">') : "folder") : "assignment") + ` </i>
 					</div>
 				</div>` +
 				((fotgP.T > 0 || fotgP.IP > 0 ||fotgP.D > 0 ||fotgP.B > 0) ? `<div class="FTG-Progress-Wrapper" style="width: calc(100% - 43px); margin: 0 0 0 20px; padding: 8px 0 8px 0; height: 21px; display: flex; border-radius: 10px; overflow: hidden;" aria-label-delay="0.1s" aria-label="` +
@@ -310,14 +309,14 @@ function TodoGetTaskHtml(tgt, tgtN, transi) {
 	//The Card
 	var r1 =  `
 	<div class="breaker-layout__panel">
-		<div class="mdc-card ` + (transi ? 'todo-card' : '') + `" style="position: relative; background-color: rgba(` + (tgt.status == 4 ? '190, 190, 190' : '255, 255, 255') + `, 1)">
-			<div style="margin-left: 20px">
-				<div class="demo-card__primary" style="width: 90%">
+		<div class="mdc-card ` + (transi ? 'todo-card' : '') + `" style="min-height: 65px; position: relative; background-color: rgba(` + (tgt.status == 4 ? '190, 190, 190' : '255, 255, 255') + `, 1)">
+			<div style="margin-left: 20px; min-height: 65px;">
+				<div class="demo-card__primary" style="width: 70%">
 					<h2 class="demo-card__title mdc-typography--headline6">` + (tgt.title) + `</h2>
 				</div>
-				<div class="demo-card__secondary mdc-typography--body2" style="width: 90%; font-size: .95rem; font-weight: 500; transform: translate(7px, -10px);">` + (tgt.status == 1 || tgt.status == 2 ? tgt.people : tgt.targets.join(", ")) + `</div>
-				<div class="demo-card__secondary mdc-typography--body2" style="width: 90%">` + tgt.desc + `</div>
-				<div class="demo-card__secondary mdc-typography--body2" style="width: 90%; background: rgba(252, 173, 37, 0.3);">` + MSN(tgt.reason) + `</div>
+				<div class="demo-card__secondary mdc-typography--body2" style="width: 85%; font-size: .95rem; font-weight: 500; transform: translate(7px, -10px);">` + (tgt.status == 1 || tgt.status == 2 ? tgt.people : tgt.targets.join(", ")) + `</div>
+				<div class="demo-card__secondary mdc-typography--body2" style="width: 85%">` + tgt.desc + `</div>
+				<div class="demo-card__secondary mdc-typography--body2" style="width: 85%; background: rgba(252, 173, 37, 0.3);">` + MSN(tgt.reason) + `</div>
 				<i class="noselect material-icons mdc-icon-toggle" onclick="TodoCSTask('` + tgtN + `')" data-mdc-auto-init="MDCIconToggle" style="position: absolute; right: 8px; top: 8px;"> <img style="transform: translate(-5px, -5.5px)" src="` + TodoGetTaskStatus(Number(tgt.status)) + `"/> </i>
 			</div>
 			<div class="mdc-card__action-icons">
@@ -382,6 +381,7 @@ TodoAddFab.element.addEventListener('click', function () {
 		ShiftingDialog.set("TodoAddTask", "Add a new Task", "Submit", "Cancel",
 			mainSnips.textField("TodoAdd_Title", "Title", "The Title of the Task", null, null, true) +
 			mainSnips.textFieldUsersAutoComplete("TodoAdd_Target", "People", "People able or have to complete this task") +
+			mainSnips.checkbox("TodoAdd_Notify", "Notify Users?") + 
 			mainSnips.textArea("TodoAdd_Desc", "Description", "A Desc Of the Task")
 		);
 		ShiftingDialog.open();
@@ -433,6 +433,7 @@ ShiftingDialog.addSubmitListener("TodoAddTask", function (content) {
 		var title = content.querySelector("#TodoAdd_Title").value || "";
 		var desc = content.querySelector("#TodoAdd_Desc").value.replace(/\n/g, '<br>') || "";
 		var targets = content.querySelector("#TodoAdd_Target").value.split(" ") || [];
+		var notifyUsers = document.querySelector("#TodoAdd_Notify").checked;
 
 		if (content.querySelector("#TodoAdd_Target").value || "" != "") {
 			var _targetsValid = AutocompleteUsersValidate(targets);
@@ -440,6 +441,13 @@ ShiftingDialog.addSubmitListener("TodoAddTask", function (content) {
 				ShiftingDialog.throwFormError(_targetsValid, content.querySelector("#TodoAdd_Target"));
 				ShiftingDialog.enableSubmitButton(true);
 				return;
+			}
+		}
+
+		if (notifyUsers) {
+			for (var i = 0; i < targets.length; i++) {
+				if (targets[i].charAt(0) != "#" && targets[i].charAt(0) != "@")
+					notifications.send(users.getUid(targets[i]), "Added To Task", users.getCurrentUsername() + " has created the task " + title + " and added you as a target", users.getCurrentUser().avatar);
 			}
 		}
 
@@ -620,6 +628,7 @@ function TodoEditTask(item, parent) {
 	ShiftingDialog.set("TodoEditTask", "Edit " + itemData.title, "Submit", "Cancel",
 		mainSnips.textField("TodoAdd_Title", "Title", "The Title of the Task", null, null, true, itemData.title) +
 		mainSnips.textFieldUsersAutoComplete("TodoAdd_Target", "People", "People able or have to complete this task", null, itemData.targets.join(" ")) +
+		mainSnips.checkbox("TodoAdd_Notify", "Notify New Users?") + 
 		mainSnips.textArea("TodoAdd_Desc", "Description", "A Desc Of the Task", null, itemData.desc.replace(/<br>/g, '\n'))
 	);
 	ShiftingDialog.open();
@@ -629,6 +638,7 @@ ShiftingDialog.addSubmitListener("TodoEditTask", function (content) {
 		var title = content.querySelector("#TodoAdd_Title").value || "";
 		var desc = content.querySelector("#TodoAdd_Desc").value.replace(/\n/g, '<br>') || "";
 		var targets = content.querySelector("#TodoAdd_Target").value.split(" ") || [];
+		var notifyUsers = document.querySelector("#TodoAdd_Notify").checked;
 
 		if (content.querySelector("#TodoAdd_Target").value || "" != "") {
 			var _targetsValid = AutocompleteUsersValidate(targets);
@@ -641,6 +651,14 @@ ShiftingDialog.addSubmitListener("TodoEditTask", function (content) {
 
 		var ctgN = TodoTasks_Editing[1] ? TodoTasks_Editing[1] : todoView.indexOf('/') != -1 ? todoView.substring(todoView.lastIndexOf('/') + 1) : todoView;
 		var ctg = findObjectByKey(todoSnapshot.docs, "id", ctgN).data();
+
+		if (notifyUsers) {
+			var newTargets = targets.diff(ctg.tasks[TodoTasks_Editing[0]].targets);
+			for (var i = 0; i < newTargets.length; i++) {
+				if (newTargets[i].charAt(0) != "#" && newTargets[i].charAt(0) != "@")
+					notifications.send(users.getUid(newTargets[i]), "Added To Task", users.getCurrentUsername() + " has changed the task " + title + " and added you as a new target");
+			}
+		}
 
 		ctg.tasks[TodoTasks_Editing[0]] = { title: title, desc: desc, targets: targets, status: ctg.tasks[TodoTasks_Editing[0]].status || 0 };
 
@@ -780,7 +798,7 @@ function TodoValidateFixFilter(filter) {
 			return [("target: " + filter), invTars];
 		}
 		else return [filter, ""];
-	} catch (err) { console.error(err); return [filter, ""]; }
+	} catch (err) { return [filter, ""]; }
 }
 //  ----------------------------------------    -------------------------------------------------\\
 

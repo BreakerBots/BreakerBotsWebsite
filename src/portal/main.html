@@ -68,7 +68,7 @@
 				<button class="noselect material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" aria-label="Admin Console">group</button>
 
 				<!--Apps-->
-				<button onclick="toggleMenu('#appsMenu', true)" id="headerAppsOpen" class="noselect material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" aria-label="Apps">apps</button>
+				<button data-delete-overflow-min="400" onclick="toggleMenu('#appsMenu', true)" id="headerAppsOpen" class="noselect material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" aria-label="Apps">apps</button>
 				<ul class="dropdown-menu-c dropdown-menu be-connections" id="appsMenu" style="padding: 0;">
 					<li class="mdc-elevation--z10">
 						<div class="list">
@@ -87,53 +87,18 @@
 				</ul>
 
 				<!--Notifications-->
-				<button onclick="toggleNotificationMenu(true); toggleMenu('#notanimWidthTarget', true);" id="headerNotificationsOpen" class="noselect material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" aria-label="Notifications">notifications</button>
-				<ul class="be-notifications dropdown-menu-c dropdown-menu notification-menu" id="notanimWidthTarget" style="padding: 0;">
-					<li class="mdc-elevation--z10" id="NotificationBox">
-						<div class="title" style="max-height: 50px !important;">
-							Notifications
-							<span class="badge badge-pill">0</span>
-							<a onclick="getNotificationPermission()" id="MainNotificationIcon" class="icon mdi mdi-notifications-off" style="font-size: 140%; margin-left: 10px; transform: translate(0, 3px);"></a>
-						</div>
-						<div class="list">
-							<div class="be-scroller" id="notanimHeightTarget">
-								<div class="content">
-									<ul id="InSiteNotificationWrapper">
-										<li class="notification notification-unread">
-											<a>
-												<div class="image">
-													<img src="../assets/img/avatar2.png" alt="Avatar">
-												</div>
-												<div class="notification-info">
-													<div class="text">
-														<span class="user-name">Jessica Caruso</span> accepted your invitation to join the team.
-													</div>
-													<span class="date">2 min ago</span>
-												</div>
-											</a>
-										</li>
-										<li class="notification notification-read">
-											<a>
-												<div class="image">
-													<img src="../assets/img/avatar2.png" alt="Avatar">
-												</div>
-												<div class="notification-info">
-													<div class="text">
-														<span class="user-name">Jessica Caruso</span> accepted your invitation to join the team.
-													</div>
-													<span class="date">2 min ago</span>
-												</div>
-											</a>
-										</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="footer">
-							<a onclick="notanimToggle()">View all notifications</a>
-						</div>
-					</li>
-				</ul>
+				<button onclick="toggleMenu('#Notification-Menu', true);" id="headerNotificationsOpen" class="noselect material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" aria-label="Notifications">notifications</button>
+				<div class="dropdown-menu-c dropdown-menu mdc-elevation--z10" id="Notification-Menu">
+					<div class="Notification-Menu-Header">
+						<p style="margin: 3px 0 0 0; font-size: 16px;">Notifications</p>
+					</div>
+					<div class="Notification-Menu-Content material-scrollbar">
+						
+					</div>
+					<div class="Notification-Menu-Footer mdc-ripple-surface" data-mdc-auto-init="MDCRipple" onclick="toggleMenu('#Notification-Menu', false); ViewAllNotifications();">
+						<p style="width: 100%; text-align: center; margin-top: 5px; font-size: 14px;">See All</p>
+					</div>
+				</div>
 
 
 				<!--Avatar-->
@@ -141,7 +106,8 @@
 					<img id="AvatarPicture" src="../assets/img/iconT.png" style="width: 100%; border-radius: 50%; transform: scale(1.6);" />
 				</button>
 				<div role="menu" class="dropdown-menu-c dropdown-menu mdc-elevation--z10" id="profileMenu" style="width: 300px; padding: 0; border: 0; position: absolute;">
-					<div id="header">
+					<!--Header-->
+					<div>
 						<img id="profileMenu-Avatar" style="border-radius: 50%; width: 30%; margin-left: 4%; margin-top: 3%;" alt="profilePicture" />
 						<div style="width: 50%; text-align: right; float: right; margin-right: 10%;">
 							<h2 id="profileMenu-Name" style="margin-bottom: 5px;"></h2>
@@ -149,7 +115,8 @@
 						</div>
 						<div style="clear: both"></div>
 					</div>
-					<div id="footer" style="background-color: rgba(0 ,0, 0, 0.1); height: 50px; margin-top: 3%;">
+					<!--Footer-->
+					<div style="background-color: rgba(0 ,0, 0, 0.1); height: 50px; margin-top: 3%;">
 						<button onclick="toggleMenu('#profileMenu'); setHashParam('tab', 'Profile'); setHashParam('profile', 'this');" class="mdc-button mdc-button--raised mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" style="margin-top: 6px; margin-left: 6px; background-color: rgb(160, 160, 160);">Edit Account</button>
 						<button onclick="toggleMenu('#profileMenu'); firebase.auth().signOut();" class="mdc-button mdc-button--raised mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" style="float: right; margin-top: 6px; margin-right: 6px; background-color: rgb(214, 50, 50);">Signout</button>
 					</div>
@@ -167,8 +134,8 @@
 	<main>
 		<!--Left Nav Drawer (Collabsible and Permament)-->
 		<div id="MainNavDrawers">
-			<aside class="mdc-drawer mdc-drawer--temporary mdc-typography main-nav-drawer" style="z-index: 9;"></aside>
-			<div class="noselect permanent-drawer mdc-elevation--z10" style="overflow-y: scroll; transform: translateX(-320px); width: 320px; position: fixed; left: 0; z-index: 9; height: 100%; transition: transform 0.6s, top 0.5s; transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);">
+			<aside class="mdc-drawer mdc-drawer--temporary mdc-typography main-nav-drawer" style="z-index: 70;"></aside>
+			<div class="noselect permanent-drawer mdc-elevation--z10" style="overflow-y: scroll; transform: translateX(-320px); width: 320px; position: fixed; left: 0; z-index: 70; height: 100%; transition: transform 0.6s, top 0.6s; transition-timing-function: cubic-bezier(0.2, 0.0, 0.2, 1);">
 				<nav class="mdc-drawer__drawer">
 					<nav class="mdc-drawer__content mdc-list LeftNavList">
 						<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','General');">
@@ -232,7 +199,7 @@
 			<span class="bstooltip">2 Not Started / 4 In Progress / 7 Done / 1 Blocked</span>
 		</div>
 
-		<div class="page-content" style="transition: margin-left 0.5s; z-index: 7;">
+		<div class="page-content" style="transition: margin-left 0.6s cubic-bezier(.2, 0, .2, 1); z-index: 7;">
 			<div class="" style="height: 100%;">
 				<div class="material-scrollbar" id="page-scroll" style="overflow-x: hidden; overflow-y: auto; position: relative; height: calc(100vh - 64px); ">
 					<!--Tabs-->
@@ -305,7 +272,7 @@
 								<i style="font-size: 28px; font-weight: 100; transform: translate(-5px, -1px);" class="noselect stepperH material-icons">view_list</i>
 							</div>
 						</div>
-						<div id="TodoWrapper" style="margin: 0px 15px 0px 15px; width: calc(100vw - 45px); transform: translateY(-20px);">
+						<div id="TodoWrapper" style="margin: 0px 15px 0px 15px; width: calc(100% - 30px); transform: translateY(-20px);">
 
 						</div>
 						<button id="Todo-Add-Fab" class="mdc-fab demo-fixed-fab mdc-ripple-upgraded mdc-fab--exited">
@@ -542,7 +509,7 @@
 				</div>
 			</div><!--End Of Content-->
 		</div><!--End Of Wrapper-->
-		<!--Parts Dialogues-->
+		<!--Parts All Dialogues-->
 		<div>
 			<!--Create Folder Dialogue-->
 			<aside id="create-folder-dialog"
@@ -885,7 +852,7 @@
 			</aside>
 		</div>
 
-		<!--Archive Dialogues-->
+		<!--Parts Archive Dialogues-->
 		<div>
 			<!--Archive Delete Dialogue-->
 			<aside id="archivedelete-folder-dialog"
