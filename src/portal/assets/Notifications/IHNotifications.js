@@ -8,17 +8,30 @@
 var NotificationData;
 document.addEventListener('DOMContentLoaded', function () {
 	authLoadedWait(function () {
-		firebase.app().firestore().collection("Notifications").doc(users.getCurrentUid())
-			.onSnapshot(function (snapshot) {
-				if (snapshot) {
-					try {
-						NotificationData = snapshot.data();
-						drawNotificationMenu(NotificationData.Notifications);
-					} catch (err) {  }
+		firebase.app().firestore().collection("Notifications").doc(users.getCurrentUid()).get()
+			.then(docSnapshot => {
+				if (!docSnapshot.exists) {
+					firebase.app().firestore().collection("Notifications").doc(users.getCurrentUid()).set({ Notifications: [] }).then(function () {
+						InitNotificationMenu();
+					});
 				}
+				else
+					InitNotificationMenu();
 			});
 	});
 }); 
+
+function InitNotificationMenu() {
+	firebase.app().firestore().collection("Notifications").doc(users.getCurrentUid())
+		.onSnapshot(function (snapshot) {
+			if (snapshot) {
+				try {
+					NotificationData = snapshot.data();
+					drawNotificationMenu(NotificationData.Notifications);
+				} catch (err) { }
+			}
+		});
+}
 
 function drawNotificationMenu(nots) {
 	try {
@@ -64,7 +77,6 @@ function MarkNotificationAsRead(index) {
 		}, 200);
 	} catch (err) { }
 }
-
 
 function ViewAllNotifications() {
 	try {

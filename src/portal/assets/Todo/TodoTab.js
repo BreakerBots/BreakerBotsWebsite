@@ -102,7 +102,6 @@ function drawTodoTab(todoDrawTransition) {
 
 			// Target Search
 			if (data.filter.indexOf("target:") != -1) {
-				console.log(data.filter.substring(7));
 				searchRes = TodoPeopleSearchEngine.search( data.filter.substring(7) );
 			}
 			else {
@@ -207,7 +206,7 @@ function TodoGetFTGHtml(fotg, fotgN, fotgP, transi) {
 	if (todoViewCard) {
 		return (`
 		<div class="breaker-layout__panel">
-			<div class="mdc-card ` + (transi ? 'todo-card' : '') + `" id="` + fotgN + `" style="background-color: rgba(` + (fotg.trash ? '190, 190, 190, 1' : '255, 255, 255, 1') +  `)">
+			<div class="mdc-card ` + (transi ? 'todo-card' : '') + `" id="` + fotgN + `" style="min-height: 65px; background-color: rgba(` + (fotg.trash ? '190, 190, 190, 1' : '255, 255, 255, 1') +  `)">
 				<div class="mdc-ripple-surface mdc-ripple-upgraded bl1" style="display: flex; align-items: center;" data-mdc-auto-init="MDCRipple" onclick="setHashParam('todoView', '` + ((todoView == "" ? "" : todoView + "/") + fotgN) + `');">
 					<div style="margin-left: 20px; width: 100%;">
 						<div class="demo-card__primary" style="width: 70%">
@@ -310,7 +309,7 @@ function TodoGetTaskHtml(tgt, tgtN, transi) {
 	//The Card
 	var r1 =  `
 	<div class="breaker-layout__panel">
-		<div class="mdc-card ` + (transi ? 'todo-card' : '') + `" style="position: relative; background-color: rgba(` + (tgt.status == 4 ? '190, 190, 190' : '255, 255, 255') + `, 1)">
+		<div class="mdc-card ` + (transi ? 'todo-card' : '') + `" style="min-height: 65px; position: relative; background-color: rgba(` + (tgt.status == 4 ? '190, 190, 190' : '255, 255, 255') + `, 1)">
 			<div style="margin-left: 20px">
 				<div class="demo-card__primary" style="width: 70%">
 					<h2 class="demo-card__title mdc-typography--headline6">` + (tgt.title) + `</h2>
@@ -799,7 +798,7 @@ function TodoValidateFixFilter(filter) {
 			return [("target: " + filter), invTars];
 		}
 		else return [filter, ""];
-	} catch (err) { console.error(err); return [filter, ""]; }
+	} catch (err) { return [filter, ""]; }
 }
 //  ----------------------------------------    -------------------------------------------------\\
 
