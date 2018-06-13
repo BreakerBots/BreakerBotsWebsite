@@ -187,7 +187,7 @@ function AutocompleteUsersValidate(arr) {
 				if (tar != "#Everyone") {
 					if (!teams.isTeam(tar.substring(1))) {
 						var ser = AutocompleteUsersValidateEngines[1].search(tar);
-						return tar + " is not a team!" + (ser.length > 0 ? (" Did you mean #" + ser[0].name + "?") : "");
+						return (tar == "#" ? "A Space" : tar) + " is not a team!" + (ser.length > 0 ? (" Did you mean #" + ser[0].name + "?") : "");
 					}
 				}
 			}
@@ -195,10 +195,22 @@ function AutocompleteUsersValidate(arr) {
 			else {
 				if (!users.isUsername(tar)) {
 					var ser = AutocompleteUsersValidateEngines[0].search(tar);
-					return tar + " is not a registered user!" + (ser.length > 0 ? (" Did you mean " + ser[0].username + "?") : "");
+					//return (tar == "" ? "A Space" : tar) + " is not a registered user!" + (" At the " + (i + 1).addOrdinal() + " user!") + (ser.length > 0 ? (" Did you mean " + ser[0].username + "?") : "");
+					return "The " + (i + 1).addOrdinal() + " user you specified " + '"' + (tar == "" ? "A Space" : tar) + '"' + " is not a registered user. " + (ser.length > 0 ? (" Did you mean " + ser[0].username + "?") : "");
 				}
 			}
 		}
 		return ret;
 	} catch (err) { return err; }
+}
+
+
+function AutocompleteUsersFix(arr) {
+	var rarr = [];
+	arr.forEach(function (item) {
+		if (item != "" && item != " " && item != "#") {
+			rarr.push(item);
+		}
+	});
+	return rarr;
 }

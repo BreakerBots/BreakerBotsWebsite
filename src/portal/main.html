@@ -48,6 +48,7 @@
 	<link rel="stylesheet" href="assets/Resources/Scroll.css" type="text/css" />
 	<link rel="stylesheet" href="assets/SideNav/SideNav.css" type="text/css" />
 	<link rel="stylesheet" href="assets/Notifications/Notifications.css" type="text/css" />
+	<link rel="stylesheet" href="assets/ProfileTab/ProfileTab.css" type="text/css" />
 </head>
 <body style="background-color: #EEEEEE; overflow-y: hidden;">
 	<header class="mdc-top-app-bar mdc-top-app-bar--fixed" style="z-index: 10; transform: translateY(-100%);">
@@ -201,7 +202,7 @@
 
 		<div class="page-content" style="transition: margin-left 0.6s cubic-bezier(.2, 0, .2, 1); z-index: 7;">
 			<div class="" style="height: 100%;">
-				<div class="material-scrollbar" id="page-scroll" style="overflow-x: hidden; overflow-y: auto; position: relative; height: calc(100vh - 64px); ">
+				<div class="material-scrollbar" id="page-scroll" onscroll="function PageScrollShadow(sel, header) { if (sel.scrollTop > 5) header.classList.add('mdc-elevation--z10'); else header.classList.remove('mdc-elevation--z10'); } PageScrollShadow(this, document.querySelector('header'));" style="overflow-x: hidden; overflow-y: auto; position: relative; height: calc(100vh - 64px); ">
 					<!--Tabs-->
 					<div id="General" class="tab">
 						<h1>General</h1>
@@ -296,205 +297,75 @@
 							</div>
 						</div>
 					</div>
-					<div id="Profile" class="tab">
-						<div style="display: none">
-							<!--Profile Header-->
-							<div style="position: relative;">
-								<img src="../assets/img/gallery/img1.jpg" style="pointer-events: none; width: 100%; max-height: 50vh; object-fit: cover;" />
-								<img src="../assets/img/avatar1.png" style="border-radius: 50%; position: absolute; width: 30%; max-width: 200px; left: 2%; top: 65%;" />
-							</div>
-
-							<div class="mdc-layout-grid mdc-layout-grid--align-left" style="background: rgba(0,0,0,0.2);">
-								<div class="mdc-layout-grid__inner">
-									<div class="mdc-layout-grid__cell" style="background: rgba(0,0,0,.2); height: 100px;"></div>
-									<div class="mdc-layout-grid__cell" style="background: rgba(0,0,0,.2); height: 100px;"></div>
-									<div class="mdc-layout-grid__cell" style="background: rgba(0,0,0,.2); height: 100px;"></div>
-								</div>
+					<div id="Profile" class="tab" style="opacity: 0">
+						<div class="ProfileTab-Avatar">
+							<img class="ProfileTabJI-Avatar" src="../assets/img/iconT.png" />
+							<button class="ProfileTab-AvatarEditor mdc-ripple-surface" data-mdc-auto-init="MDCRipple">
+								<i class="material-icons">photo_camera</i>
+							</button>
+						</div>
+						<div class="ProfileTab-User">
+							<span class="ProfileTab-Name ProfileTabJI-Name">---- ----</span>
+							<p class="ProfileTab-Role ProfileTabJI-Role">--------</p>
+							<p class="ProfileTab-Desc ProfileTabJI-Desc">------ ----- ---- -----</p>
+						</div>
+						<div class="ProfileTab-Info mdc-elevation--z10">
+							<h3 class="ProfileTab-Info--Header1"  style="display: block; width: 100%; text-align: center; margin: 12px 0 6px 0;">Information</h3>
+							<hr />
+							<table class="ProfileTab-Info--Wrapper1">
+								<tr class="ProfileTab-Info--CPW">
+									<td class="ProfileTab-Info--CPW-I material-icons">person</td>
+									<td class="ProfileTab-Info--CPW-T">Username: </td>
+									<td class="ProfileTab-Info--CPW-V ProfileTabJI-Username">--------</td>
+								</tr>
+								<tr class="ProfileTab-Info--CPW">
+									<td class="ProfileTab-Info--CPW-I material-icons">security</td>
+									<td class="ProfileTab-Info--CPW-T">Clearance: </td>
+									<td class="ProfileTab-Info--CPW-V ProfileTabJI-Clearance">-</td>
+								</tr>
+								<tr class="ProfileTab-Info--CPW">
+									<td class="ProfileTab-Info--CPW-I material-icons">people</td>
+									<td class="ProfileTab-Info--CPW-T">Teams: </td>
+									<td class="ProfileTab-Info--CPW-V ProfileTabJI-Teams">---- -------- -------</td>
+								</tr>
+								<tr class="ProfileTab-Info--CPW">
+									<td class="ProfileTab-Info--CPW-I material-icons">school</td>
+									<td class="ProfileTab-Info--CPW-T">Grade: </td>
+									<td class="ProfileTab-Info--CPW-V ProfileTabJI-Grade">--------</td>
+								</tr>
+							</table>
+							<h3 style="display: block; width: 100%; text-align: center; margin: 30px 0 6px 0;">Contact</h3>
+							<hr />
+							<table class="ProfileTab-Info--Wrapper2">
+								<tr class="ProfileTab-Info--CPW">
+									<td class="ProfileTab-Info--CPW-I material-icons"><img src="../assets/img/slack_logo.png" style="width: 20px; filter: grayscale(1); transform: translateY(-6px);"></td>
+									<td class="ProfileTab-Info--CPW-T" style="min-width: 70px;">Slack: </td>
+									<td class="ProfileTab-Info--CPW-V ProfileTabJI-Slack">--------</td>
+								</tr>
+								<tr class="ProfileTab-Info--CPW">
+									<td class="ProfileTab-Info--CPW-I material-icons mdi"><img src="../assets/img/gh-icon.png" style="width: 20px; filter: invert(70%); transform: translateY(-6px);"></td>
+									<td class="ProfileTab-Info--CPW-T" style="min-width: 70px;">Github: </td>
+									<td class="ProfileTab-Info--CPW-V ProfileTabJI-Github">--------</td>
+								</tr>
+								<tr class="ProfileTab-Info--CPW">
+									<td class="ProfileTab-Info--CPW-I material-icons">phone</td>
+									<td class="ProfileTab-Info--CPW-T" style="min-width: 70px;">Phone: </td>
+									<td class="ProfileTab-Info--CPW-V ProfileTabJI-Phone">(---) --------</td>
+								</tr>
+								<tr class="ProfileTab-Info--CPW">
+									<td class="ProfileTab-Info--CPW-I material-icons">email</td>
+									<td class="ProfileTab-Info--CPW-T" style="min-width: 70px;">Email: </td>
+									<td class="ProfileTab-Info--CPW-V ProfileTabJI-Email">----------@-----.---</td>
+								</tr>
+							</table>
+						</div>
+						<div class="ProfileTab-Tasks mdc-elevation--z10">
+							<h3 style="display: block; width: 100%; text-align: center; margin: 12px 0 6px 0;">Current Tasks</h3>
+							<hr />
+							<div class="ProfileTab-TaskWrapper ProfileTabJI-Tasks" style="width: 95%; margin-left: 2.5%;">
+								
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-lg-5">
-								<!--User Display-->
-								<div class="user-display">
-									<div class="user-display-bg">
-										<img src="../assets/img/user-profile-display.png" alt="Profile Background">
-									</div>
-									<div class="user-display-bottom">
-										<div class="user-display-avatar">
-											<img class="user-display-avatar-image" src="" alt="Avatar" id="ProfilePicture">
-											<button class="user-display-avatar-overlay" id="ProfileEditPictureButton" hidden>
-												<span style="color: rgb(170,170,170);"><i style="display: block; text-align: center; font-size: 48px; line-height: 2.3;" class="material-icons">photo_camera</i></span>
-											</button>
-										</div>
-										<div class="user-display-info">
-											<div class="name">
-												<input id="PE-Name" class="ProfileEdit" type="text" value="" style="border: none; width: 100%;" readonly />
-											</div>
-											<div class="nick">
-												<span class="mdi mdi-account" style="display: inline;"></span>
-												<input id="PE-User" class="ProfileEdit" type="text" value="" style="border: none; width: 80%; display: inline-block;" readonly />
-											</div>
-										</div>
-										<div class="row user-display-details">
-											<div class="col-4">
-												<div class="title">Clearace</div>
-												<div class="counter" id="PE-Clearance"></div>
-											</div>
-											<div class="col-4">
-												<div class="title">Tasks</div>
-												<div class="counter" id="PE-Tasks">0</div>
-											</div>
-											<div class="col-4">
-												<div class="title">Contributions</div>
-												<div class="counter" id="PE-Contributions">0</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<!--About Me-->
-								<div class="user-info-list card">
-									<div class="card-header card-header-divider">
-										About Me
-										<span class="card-subtitle">
-											<textarea id="PE-Desc" class="ProfileEdit" type="text" rows="1" spellcheck="false" style="border: none; width: 100%; resize: none; outline: none; overflow: hidden;" readonly></textarea>
-										</span>
-									</div>
-									<div class="card-body">
-										<table class="no-border no-strip skills">
-											<tbody class="no-border-x no-border-y">
-												<tr>
-													<td class="icon">
-														<span class="mdi mdi-case"></span>
-													</td>
-													<td class="item">
-														Role
-														<span class="icon s7-portfolio"></span>
-													</td>
-													<td>
-														<input id="PE-Role" class="ProfileEdit" type="text" value="" style="border: none; width: 100%;" readonly />
-													</td>
-												</tr>
-												<tr>
-													<td class="icon">
-														<span class="mdi mdi-accounts-alt"></span>
-													</td>
-													<td class="item">
-														Teams
-														<span class="icon s7-portfolio"></span>
-													</td>
-													<td>
-														<input id="PE-Teams" type="text" value="" style="border: none; width: 100%;" readonly />
-													</td>
-												</tr>
-												<tr>
-													<td class="icon">
-														<span class="mdi mdi-graduation-cap"></span>
-													</td>
-													<td class="item">
-														Grade
-														<span class="icon s7-gift"></span>
-													</td>
-													<td>
-														<input id="PE-Grade" class="ProfileEdit" type="text" value="" style="border: none; width: 100%;" readonly />
-													</td>
-												</tr>
-												<tr>
-													<td class="icon">
-														<span class="mdi mdi-smartphone-android"></span>
-													</td>
-													<td class="item">
-														Mobile
-														<span class="icon s7-phone"></span>
-													</td>
-													<td>
-														<input id="PE-Phone" class="ProfileEdit" type="text" value="" style="border: none; width: 100%;" readonly />
-													</td>
-												</tr>
-												<tr>
-													<td class="icon">
-														<span class="mdi mdi-globe-alt"></span>
-													</td>
-													<td class="item">
-														Email
-														<span class="icon s7-map-marker"></span>
-													</td>
-													<td>
-														<input id="PE-Email" class="ProfileEdit" type="text" value="" style="border: none; width: 100%;" readonly />
-													</td>
-												</tr>
-												<tr>
-													<td class="icon">
-														<img style="filter: grayscale(100%);" src="../assets/img/slack_logo.png" class="mdi" width="18" />
-													</td>
-													<td class="item">
-														Slack
-														<span class="icon s7-map-marker"></span>
-													</td>
-													<td>
-														<input id="PE-Slack" class="ProfileEdit" type="text" value="" style="border: none; width: 100%;" readonly />
-													</td>
-												</tr>
-												<tr>
-													<td class="icon">
-														<span class="mdi mdi-github"></span>
-													</td>
-													<td class="item">
-														Github
-														<span class="icon s7-map-marker"></span>
-													</td>
-													<td>
-														<input id="PE-Github" class="ProfileEdit" type="text" value="" style="border: none; width: 100%;" readonly />
-													</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-6">
-								<!--Latest Activity-->
-								<div class="card">
-									<div class="card-header card-header-divider">
-										Latest Activity
-										<span class="card-subtitle">The Users History</span>
-									</div>
-									<div class="card-body">
-										<ul class="user-timeline">
-											<li class="latest">
-												<div class="user-timeline-date">Just Now</div>
-												<div class="user-timeline-title">Create New Page</div>
-												<div class="user-timeline-description">Quisque sed est felis. Vestibulum lectus nulla, maximus in eros non, tristique consectetur lorem. Nulla molestie sem quis imperdiet facilisis</div>
-											</li>
-											<li>
-												<div class="user-timeline-date">Today - 15:35</div>
-												<div class="user-timeline-title">Back Up Theme</div>
-												<div class="user-timeline-description">Quisque sed est felis. Vestibulum lectus nulla, maximus in eros non, tristique consectetur lorem. Nulla molestie sem quis imperdiet facilisis</div>
-											</li>
-											<li>
-												<div class="user-timeline-date">Yesterday - 10:41</div>
-												<div class="user-timeline-title">Changes In The Structure</div>
-												<div class="user-timeline-description">Quisque sed est felis. Vestibulum lectus nulla, maximus in eros non, tristique consectetur lorem. Nulla molestie sem quis imperdiet facilisis</div>
-											</li>
-										</ul>
-									</div>
-								</div>
-								<!--Contribution Graph-->
-								<div class="card">
-									<div class="card-header card-header-divider">
-										<span class="title">Contribution History</span>
-										<span class="card-subtitle">The Users Contribution History Accross Breakersite and Github</span>
-									</div>
-									<div class="card-body">
-										<canvas id="line-chart" style="display: block; width: 341px; height: 170px;" width="895" height="446" class="chartjs-render-monitor"></canvas>
-									</div>
-								</div>
-							</div>
-						</div>
-						<button id="EditAccountFab" class="mdc-fab demo-fixed-fab mdc-ripple-upgraded mdc-fab--exited" style="--mdc-ripple-fg-size:33.6px; --mdc-ripple-fg-scale:2.65464; --mdc-ripple-fg-translate-start:14.2px, 16.2px; --mdc-ripple-fg-translate-end:11.2px, 11.2px;">
-							<span class="mdc-fab__icon">
-								<i class="material-icons" id="EditAccountFabIcon">save</i>
-							</span>
-						</button>
 					</div>
 					<div id="Teams" class="tab">
 						<div id="TeamsWrapper" class="breaker-layout">
@@ -942,68 +813,6 @@
 			</aside>
 		</div>
 
-		<!--Profile Dialogues-->
-		<div>
-			<!--Confirm Password To Change Email-->
-			<aside id="change-email-dialog"
-				   class="mdc-dialog"
-				   role="alertdialog"
-				   aria-labelledby="my-mdc-dialog-label"
-				   aria-describedby="my-mdc-dialog-description">
-				<div class="mdc-dialog__surface">
-					<header class="mdc-dialog__header">
-						<h2 class="mdc-dialog__header__title">
-							Confirm Password
-						</h2>
-					</header>
-					<form id="ChangeEmailForm" class="mdc-dialog__body mdc-dialog__body--scrollable" style="max-height: 60vh;">
-						<section>
-							<br />
-							<div class="form-group autocomplete" style="width: 100%;">
-								<label for="ChangeEmailInput">Password</label>
-								<input id="ChangeEmailInput" type="password" class="form-control" placeholder="Enter Password" required="" autocomplete="off">
-							</div>
-						</section>
-						<footer class="mdc-dialog__footer">
-							<button type="submit" class="btn btn-space btn-primary">Submit</button>
-							<button type="button" id="ChangeEmailCancel" class="btn btn-space btn-secondary">Cancel</button>
-						</footer>
-					</form>
-				</div>
-				<div class="mdc-dialog__backdrop"></div>
-			</aside>
-			<!--Upload Profile Picture-->
-			<aside id="profile-picture-dialog"
-				   class="mdc-dialog"
-				   role="alertdialog"
-				   aria-labelledby="my-mdc-dialog-label"
-				   aria-describedby="my-mdc-dialog-description">
-				<div class="mdc-dialog__surface">
-					<header class="mdc-dialog__header">
-						<h2 class="mdc-dialog__header__title">
-							Upload Profile Picture
-						</h2>
-					</header>
-					<section id="my-mdc-dialog-description" class="mdc-dialog__body" style="text-align: center;">
-						<div class="upload-btn-wrapper" style="position: relative; overflow: hidden; display: inline-block;">
-							<button class="btn btn-space btn-primary" id="fileButtonButton" style="display: none;">Choose a file</button>
-							<input type="file" name="myfile" id="fileButton" style="font-size: 100px; position: absolute; left: 0; top: 0; opacity: 0;" />
-						</div>
-						<div id="avatarPreview">
-
-						</div>
-						<div id="avatarUploaderWrapper">
-
-						</div>
-					</section>
-					<footer class="mdc-dialog__footer">
-						<button type="button" id="ProfilePictureCancel" class="btn btn-space btn-secondary">Cancel</button>
-					</footer>
-				</div>
-				<div class="mdc-dialog__backdrop"></div>
-			</aside>
-		</div>
-
 		<!--Shifting Dialog-->
 		<div>
 			<div id="SD-Container" data-sd-container-state="closed">
@@ -1052,6 +861,8 @@
 			</div>
 		</div>
 
+
+
 		<!--Imports-->
 		<script src="../assets/mdc/material.js"></script>
 		<script src="../assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
@@ -1080,10 +891,8 @@
 		<script src="assets/Accounting/avatarInit.js"></script>
 
 		<!--Profile Tab-->
-		<script src="assets/Accounting/Profile/ChangeEmail.js"></script>
-		<script src="assets/Accounting/Profile/Graph.js"></script>
-		<script src="assets/Accounting/Profile/ProfileTab.js"></script>
-		<script src="assets/Accounting/Profile/ProfilePicture.js"></script>
+		<script src="assets/ProfileTab/ProfileTab.js"></script>
+		<script src="assets/ProfileTab/ProfilePicture.js"></script>
 
 		<!--Shifting Dialog-->
 		<script src="assets/ShiftingDialog/ShiftingDialog.js"></script>
@@ -1150,11 +959,7 @@
 
 		<!--Main Script-->
 		<script type="text/javascript">
-			document.addEventListener('DOMContentLoaded', function () {
-				App.init();
-			});
-
-			window.mdc.autoInit(); //MDC
+			document.addEventListener("DOMContentLoaded",function(){App.init()});window.mdc.autoInit();
 
 			function slack(message) {
 				$.ajax({

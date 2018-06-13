@@ -263,6 +263,13 @@ Number.prototype.clamp = function (min, max) {
 	return this > max ? max : (this < min ? min : this);
 };
 
+//For Removing The Elements
+Element.prototype.clear = function () {
+	while (this.firstChild) {
+		this.removeChild(this.firstChild);
+	}
+}
+
 //Find Nested Key
 function findNestedKey(o, id) {
 	var result, p;
@@ -284,3 +291,10 @@ function findNestedKey(o, id) {
 Array.prototype.diff = function (a) {
 	return this.filter(function (i) { return a.indexOf(i) < 0; });
 };
+
+
+Number.prototype.addOrdinal = function () {
+	var s = ["th", "st", "nd", "rd"],
+		v = this % 100;
+	return this + (s[(v - 20) % 10] || s[v] || s[0]);
+}

@@ -1,7 +1,7 @@
 //TodoTab.js
 
 //  ----------------------------------------  Initialization  -------------------------------------------------\\
-var TodoTab = new RegisteredTab("Todo", todoTabFirstInit, todoTabInit, todoTabExit, false, "todoView");
+var TodoTab = new RegisteredTab("Todo", null, todoTabInit, todoTabExit, false, "todoView");
 var todoSnapshot;
 var todoDrawn;
 var todoView;
@@ -12,15 +12,16 @@ function todoTabInit() {
 	setTimeout(function () { headerUseSearch(true); }, 10);
 }
 
+window.addEventListener('DOMContentLoaded', todoTabFirstInit);
 function todoTabFirstInit() {
 	firebase.app().firestore().collection("Todo")
 		.onSnapshot(function (snapshot) {
 			todoSnapshot = snapshot;
+			getTodoTabSearchData();
 
 			todoView = stringUnNull(getHashParam('todoView'));
 			if ((getCurrentTab() == "Todo") && (todoSnapshot)) {
 				todoDrawn = todoView;
-				getTodoTabSearchData();
 				drawTodoTab(false);
 			}
 		});
@@ -66,8 +67,6 @@ function drawTodoTab(todoDrawTransition) {
 
 	//Fill in the stepper with new data
 	fillTodoStepper(todoView, todoSnapshot.docs);
-
-	headerUseBackArrow(todoView != "");
 
 	var cv = findObjectByKey(todoSnapshot.docs, "id", (todoView.indexOf('/') != -1 ? todoView.substring(todoView.lastIndexOf('/') + 1) : todoView));
 
@@ -317,7 +316,7 @@ function TodoGetTaskHtml(tgt, tgtN, transi) {
 				<div class="demo-card__secondary mdc-typography--body2" style="width: 85%; font-size: .95rem; font-weight: 500; transform: translate(7px, -10px);">` + (tgt.status == 1 || tgt.status == 2 ? tgt.people : tgt.targets.join(", ")) + `</div>
 				<div class="demo-card__secondary mdc-typography--body2" style="width: 85%">` + tgt.desc + `</div>
 				<div class="demo-card__secondary mdc-typography--body2" style="width: 85%; background: rgba(252, 173, 37, 0.3);">` + MSN(tgt.reason) + `</div>
-				<i class="noselect material-icons mdc-icon-toggle" onclick="TodoCSTask('` + tgtN + `')" data-mdc-auto-init="MDCIconToggle" style="position: absolute; right: 8px; top: 8px;"> <img style="transform: translate(-5px, -5.5px)" src="` + TodoGetTaskStatus(Number(tgt.status)) + `"/> </i>
+				<i class="noselect material-icons mdc-icon-toggle" onclick="TodoCSTask('` + tgtN + `')" aria-label-delay="0.15s" aria-label="Change Status" data-mdc-auto-init="MDCIconToggle" style="position: absolute; right: 8px; top: 8px;"> <img style="transform: translate(-5px, -5.5px)" src="` + TodoGetTaskStatus(Number(tgt.status)) + `"/> </i>
 			</div>
 			<div class="mdc-card__action-icons">
 				<i data-mdc-auto-init="MDCIconToggle" onclick="toggleMenu('#ddm-` + tgtN + `', true)" class="mdc-icon-toggle material-icons" style="color: rgb(80, 80, 80);" role="button" aria-pressed="false">more_vert</i>
@@ -435,6 +434,8 @@ ShiftingDialog.addSubmitListener("TodoAddTask", function (content) {
 		var targets = content.querySelector("#TodoAdd_Target").value.split(" ") || [];
 		var notifyUsers = document.querySelector("#TodoAdd_Notify").checked;
 
+		content.querySelector("#TodoAdd_Target").value = AutocompleteUsersFix(targets).join(" ");
+		targets = content.querySelector("#TodoAdd_Target").value.split(" ") || [];
 		if (content.querySelector("#TodoAdd_Target").value || "" != "") {
 			var _targetsValid = AutocompleteUsersValidate(targets);
 			if (_targetsValid != true) {
@@ -640,6 +641,8 @@ ShiftingDialog.addSubmitListener("TodoEditTask", function (content) {
 		var targets = content.querySelector("#TodoAdd_Target").value.split(" ") || [];
 		var notifyUsers = document.querySelector("#TodoAdd_Notify").checked;
 
+		content.querySelector("#TodoAdd_Target").value = AutocompleteUsersFix(targets).join(" ");
+		targets = content.querySelector("#TodoAdd_Target").value.split(" ") || [];
 		if (content.querySelector("#TodoAdd_Target").value || "" != "") {
 			var _targetsValid = AutocompleteUsersValidate(targets);
 			if (_targetsValid != true) {
@@ -712,6 +715,16 @@ ShiftingDialog.addSubmitListener("TodoCSTask", function (content) {
 
 		var ctgN = TodoTasks_CS[1] ? TodoTasks_CS[1] : todoView.indexOf('/') != -1 ? todoView.substring(todoView.lastIndexOf('/') + 1) : todoView;
 		var ctg = findObjectByKey(todoSnapshot.docs, "id", ctgN).data();
+
+		if ((people || "") != "") {
+			people = people.split(' ');
+			var _targetsValid = AutocompleteUsersValidate(people);
+			if (_targetsValid != true) {
+				ShiftingDialog.throwFormError(_targetsValid, content.querySelector("#TodoCS_People"));
+				ShiftingDialog.enableSubmitButton(true);
+				return;
+			}
+		}
 
 		ctg.tasks[TodoTasks_CS[0]].status = Number(status);
 		ctg.tasks[TodoTasks_CS[0]].reason = reason;
@@ -795,7 +808,7 @@ function TodoValidateFixFilter(filter) {
 			if (tars != true)
 				invTars = tars;
 
-			return [("target: " + filter), invTars];
+			return [("target:" + filter), invTars];
 		}
 		else return [filter, ""];
 	} catch (err) { return [filter, ""]; }
@@ -863,6 +876,7 @@ function TodoCombineStatus(s1, s2) {
 var TodoAllFTGT = [];
 var TodoSearchEngine;
 var TodoPeopleSearchEngine;
+var TodoWorkerSearchEngine;
 function getTodoTabSearchData() {
 	try {
 		var allData = [];
@@ -905,6 +919,17 @@ function getTodoTabSearchData() {
 			minMatchCharLength: 4,
 			keys: [
 				"targets"
+			]
+		});
+		TodoWorkerSearchEngine = new Fuse(TodoAllFTGT, {
+			shouldSort: true,
+			threshold: 0.6,
+			location: 0,
+			distance: 100,
+			maxPatternLength: 32,
+			minMatchCharLength: 4,
+			keys: [
+				"people"
 			]
 		});
 	} catch (err) { }

@@ -8,9 +8,13 @@ document.addEventListener('DOMContentLoaded', function () {
 	firebase.app().firestore().collection("Teams")
 		.onSnapshot(function (snapshot) {
 			teamsSnapshot = snapshot;
+			TeamsAPIWaitDone();
 			teamsDraw(false);
 		});
 });
+
+//Waiting
+var TeamsAPIWaiters = [], TeamsAPIReady = -1; function TeamsAPIWait(a) { 1 == TeamsAPIReady ? a() : TeamsAPIWaiters.push(a) } function TeamsAPIWaitDone() { -1 == TeamsAPIReady && TeamsAPIWaiters.forEach(function (a) { a() }); TeamsAPIReady = 1 };
 
 function teamsInitEvery() {
 	showMainLoader(true);
@@ -52,7 +56,7 @@ function teamsDraw(teamsDrawTransition) {
 						<i data-mdc-auto-init="MDCIconToggle" onclick="teamsExpandCollapseMembers('` + id + `')" class="material-icons mdc-icon-toggle" role="button" style="color: rgb(80, 80, 80); position: absolute; left: 0; font-size: 200%;" aria-label="Show Members">expand_more</i>
 						<i data-mdc-auto-init="MDCIconToggle" onclick="toggleMenu(null, true)" class="mdc-icon-toggle material-icons" style="color: rgb(80, 80, 80);" role="button" aria-pressed="false">more_vert</i>
 					</div>
-					<div class="teamsMemberList" style="overflow: hidden; opacity: 0; max-height: 0px; transition: opacity .8s, max-height 1s; transition-timing-function: cubic-bezier(.2, 0, .2, 1);">
+					<div class="teamsMemberList" style="overflow: hidden; opacity: 0; max-height: 0px; transition: opacity .8s, max-height 1s; transition-timing-function: cubic-bezier(.4, 0, .4, 1);">
 						` + teamsGetMembersHtml(id) + `
 					</div>
 					<ul class="dropdown-menu-c dropdown-menu be-connections" style="padding: 0;" data-menu-offset="0 -27">
@@ -145,7 +149,7 @@ function teamsDelete(team) {
 	ShiftingDialog.open();
 }
 ShiftingDialog.addSubmitListener("TeamsDelete", function () {
-	firebase.app().firestore().collection("Teams").doc(teamEditing).delete().then(function () {
+	firebase.app().firestore().collection("Teams").doc(teamDeleting).delete().then(function () {
 		ShiftingDialog.close();
 	});
 });
