@@ -1,0 +1,75 @@
+﻿/*  todo.css  */
+
+
+/*New Ripple color testing*/
+.rdb:after, .rdb:before {
+	background-color: var(--mdc-theme-secondary,#018786);
+}
+
+
+/*  Stepper with PID!  */
+.stepperP {
+	user-select: none;
+	font-family: Roboto;
+	font-size: 20px;
+	margin: 10px 15px 0 15px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.stepperI {
+	margin: 8px 0 0 0;
+}
+
+.stepperPITransition {
+	animation-fill-mode: forwards;
+	animation: todoStepperOpen 0.5s ease-in-out;
+}
+
+.stepperPITransition--reverse {
+	animation-fill-mode: forwards;
+	animation: todoStepperClose 0.15s ease-in-out;
+}
+
+.stepperDTransition {
+	animation-fill-mode: forwards;
+	animation: todoStepperOpen 0.15s ease-in-out;
+}
+
+.stepperD {
+	max-width: 300px;
+	text-align: center;
+	border-radius: 10px;
+	height: 40px;
+	flex: 0 0 auto;
+}
+
+.stepperH {
+	margin: 6px 15px 0 15px;
+	font-size: 28px;
+}
+
+@keyframes todoStepperOpen {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+@keyframes todoStepperClose {
+	from { opacity: 1; }
+	to { opacity: 0; }
+}
+
+/*  The card open transition  */
+.todo-card {
+	animation-fill-mode: forwards;
+	animation: todoCardOpen 0.5s ease-in-out;
+}
+
+@keyframes todoCardOpen {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+
+.FTG-Progress-Wrapper {
+	pointer-events: visibleFill !important;
+}

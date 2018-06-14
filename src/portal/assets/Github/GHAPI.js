@@ -1,3 +1,5 @@
+//GHAPI.js (Github API)
+
 function getGPD(url, func) {
 	var Gde = {};
 	var PDD = false;

@@ -1,86 +1,131 @@
-var CreatePartNameAutofill = ["TalonSRX", "TalonSR", "DoubleSolenoid"];
-var CreatePartNameAutofillData = {};
-var CreatePartNameInput = document.getElementById("CreatePartInput");
-var CreatePartNameInputPrice = document.getElementById("CreatePartInputP");
-var CreatePartNameInputUrl = document.getElementById("CreatePartInputUrl");
+//Autocomplete.js
 
-//Listener for autofill
-document.addEventListener('DOMContentLoaded', function () {
-	firebase.app().firestore().collection("PMS-Extra").doc("Autocomplete")
-		.onSnapshot(function (doc) {
-			CreatePartNameAutofill = Object.keys(doc.data());
-			CreatePartNameAutofillData = doc.data();
+class Autocomplete {
+	constructor(container) {
+		var self = this;
+		self.element = container.querySelector("input");
+		self.container = container;
+		self.wrapper = container.querySelector(".autocomplete-items");
+		getAutocompleteItems();
+		self.focus = -1;
+		self.refreshSearch();
+
+		/*					<-- Source -->				  */
+
+		//Search
+		self.element.addEventListener('input', function () {
+			changeFocus(-1);
+			clearWrapper();
+
+			var search = self.fuse.search(this.value);
+			for (var i = 0; i < search.length; i++) {
+				self.wrapper.innerHTML += `
+					<div class="autocomplete-item" onclick="
+							var inp = (this.parentNode.parentNode).querySelector('input');
+							inp.value = this.querySelector('input').value;
+							this.parentNode.innerHTML = '';
+							try { window[inp.dataset.autocompleteInput](); } catch (err) { alert(err); }
+					">
+						<span>` + self.options[search[i]] + `</span>
+						<input type='hidden' value="` + self.options[search[i]] + `">
+					</div>
+					`;
+			}
 		});
-});
 
-function addPartToAutocomplete(name, price, url) {
-	if (url != "" && url != "http://" && price > 0 && name != "") {
-		var json1 = {};
-		json1[name] = { url: url, price: price };
-		firebase.app().firestore().collection("PMS-Extra").doc("Autocomplete").set(json1, { merge: true });
-	}
-}
+		self.element.addEventListener('keydown', function (e) {
+			//Down Key
+			if (e.keyCode == 40) {
+				changeFocus(self.focus + 1);
+			}
+			//Up Key
+			else if (e.keyCode == 38) {
+				if (self.focus > 0)
+					changeFocus(self.focus - 1);
+				else
+					changeFocus(self.wrapper.querySelectorAll(".autocomplete-item").length - 1);
+			}
+			//Enter Key
+			else if (e.keyCode == 13) {
+				e.preventDefault();
+				if (self.focus > -1) {
+					var target = self.wrapper.querySelectorAll(".autocomplete-item")[self.focus];
+					if (target) target.click();
+				}
+			}
+		});
 
-var currentFocus;
-CreatePartNameInput.addEventListener("input", function (e) { 
-	var a, b, i, val = this.value;
-	closeAllLists();
-	if (!val) { return false; }
-	currentFocus = -1;
-	a = document.createElement("DIV");
-	a.setAttribute("id", this.id + "autocomplete-list");
-	a.setAttribute("class", "autocomplete-items");
-	this.parentNode.appendChild(a);
-	for (i = 0; i < CreatePartNameAutofill.length; i++) {
-		if (CreatePartNameAutofill[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-b = document.createElement("DIV");
-b.innerHTML = "<strong>" + CreatePartNameAutofill[i].substr(0, val.length) + "</strong>";
-			b.innerHTML += CreatePartNameAutofill[i].substr(val.length);
-			b.innerHTML += "<input type='hidden' value='" + CreatePartNameAutofill[i] + "'>";
-			b.addEventListener("click", function (e) {
-				CreatePartNameInput.value = this.getElementsByTagName("input")[0].value;
-				CreatePartNameInputPrice.value = CreatePartNameAutofillData[this.getElementsByTagName("input")[0].value].price;
-				CreatePartNameInputUrl.value = CreatePartNameAutofillData[this.getElementsByTagName("input")[0].value].url;
-closeAllLists();
+		function changeFocus(target) {
+			self.focus = target;
+			[].forEach.call((self.wrapper.querySelectorAll(".autocomplete-active")), function (item) {
+				item.classList.remove("autocomplete-active");
 			});
-			a.appendChild(b);
+			if (target != -1) {
+				var targetEl = self.wrapper.querySelectorAll(".autocomplete-item")[target];
+				if (targetEl) {
+					targetEl.classList.add("autocomplete-active");
+					scrollTarget = targetEl;
+				}
+				else if (target > self.wrapper.querySelectorAll(".autocomplete-item").length - 1) {
+					changeFocus(0);
+				}
+			}
+		} changeFocus(-1);
+
+		var scrollTarget; setInterval(scrollIntoView, 10);
+		function scrollIntoView() {
+			if (scrollTarget) {
+				if (/* Not Above */(scrollTarget.offsetTop >= self.wrapper.scrollTop) && /* Not Below */(scrollTarget.offsetTop <= self.wrapper.scrollTop + 180))
+					scrollTarget = null;
+				else {
+					var target = (scrollTarget.offsetTop >= self.wrapper.scrollTop) ? scrollTarget.offsetTop + 180 : scrollTarget.offsetTop;
+					self.wrapper.scrollTop = self.wrapper.scrollTop + ((target - self.wrapper.scrollTop) / 40);
+				}
+			}
+		}
+
+		document.addEventListener('click', clearWrapper);
+
+		//Clear the autocomplete wrapper
+		function clearWrapper() {
+			self.wrapper.innerHTML = ``;
+			changeFocus(-1);
+		}
+
+		setInterval(getAutocompleteItems, 500);
+		var __options = "";
+		function getAutocompleteItems() {
+			if (__options != JSON.stringify(self.container.querySelector(".autocomplete-options").querySelectorAll("*"))) {
+				__options = JSON.stringify(self.container.querySelector(".autocomplete-options").querySelectorAll("*"));
+				self.options = [];
+				var __tempop = self.container.querySelector(".autocomplete-options").querySelectorAll("*");
+				for (var i = 0; i < __tempop.length; i++) {
+					self.options.push(__tempop[i].innerHTML);
+				}
+				self.refreshSearch();
+			}
 		}
 	}
-});
-CreatePartNameInput.addEventListener("keydown", function (e) {
-	var x = document.getElementById(this.id + "autocomplete-list");
-	if (x) x = x.getElementsByTagName("div");
-	if (e.keyCode == 40) {
-	currentFocus++;
-addActive(x);
-	} else if (e.keyCode == 38) {
-	currentFocus--;
-addActive(x);
-	} else if (e.keyCode == 13) {
-	e.preventDefault();
-if (currentFocus > -1) {
-			if (x) x[currentFocus].click();
+
+	refreshSearch() {
+		this.fuse = new Fuse(this.options,
+			{
+				shouldSort: true,
+				threshold: 0.4,
+				location: 0,
+				distance: 100,
+				maxPatternLength: 32,
+				minMatchCharLength: 2
+			}); 
+	}
+}
+
+var AutocompleteAutoInitList = [];
+function AutocompleteAutoInit() {
+	[].forEach.call(document.querySelectorAll("[data-autocomplete-auto-init]"), function (item) {
+		if (AutocompleteAutoInitList.indexOf(item) == -1) {
+			new Autocomplete(item);
+			AutocompleteAutoInitList.push(item);
 		}
-	}
-});
-function addActive(x) {
-	if (!x) return false;
-	removeActive(x);
-	if (currentFocus >= x.length) currentFocus = 0;
-	if (currentFocus < 0) currentFocus = (x.length - 1);
-	x[currentFocus].classList.add("autocomplete-active");
-}
-function removeActive(x) {
-	for (var i = 0; i < x.length; i++) {
-	x[i].classList.remove("autocomplete-active");
-}
-}
-function closeAllLists(elmnt) {
-	var x = document.getElementsByClassName("autocomplete-items");
-	for (var i = 0; i < x.length; i++) {
-		if (elmnt != x[i] && elmnt != CreatePartNameInput) {
-	x[i].parentNode.removeChild(x[i]);
-}
-	}
-}
-document.addEventListener("click", function (e) {closeAllLists(e.target); });
+	});
+} AutocompleteAutoInit();

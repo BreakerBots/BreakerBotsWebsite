@@ -1,0 +1,70 @@
+﻿/* Header.css -- Finnally Organized! */
+
+
+/*Remove Blue Box Around Highlighed Elements*/
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+	outline: none;
+}
+
+
+/*Desktop*/
+@media (min-width: 768px) {
+	#profileMenu {
+		transform-origin: 95% 0%;
+	}
+
+	.headerDTI {
+		color: grey;
+	}
+}
+
+/*Mobile*/
+@media (max-width: 768px) {
+	#profileMenu {
+		transform-origin: 5% 0%;
+	}
+
+	.headerDTI {
+		color: white;
+	}
+}
+
+/*Header Search*/
+.headerSearchInput {
+	padding: 0px 20px 0 40px;
+	border: 0;
+	height: 100%;
+	width: 100%;
+	transform: translateY(-100px);
+	transition: transform .5s cubic-bezier(.4,0,.2,1);
+	pointer-events: none;
+	flex: 1;
+	font-size: 25px;
+}
+
+.headerSearchBox--open > .headerSearchInput {
+	transform: translateY(0px);
+	pointer-events: all;
+}
+
+.headerSearchBox {
+	background-color: #ffffff;
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+	position: absolute;
+	left: 0;
+	top: 0;
+	opacity: 0;
+	transition: opacity .5s cubic-bezier(.4,0,.2,1);
+	display: flex;
+}
+
+.headerSearchBox--open {
+	z-index: 69;
+	opacity: 1;
+}
+

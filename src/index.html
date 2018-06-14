@@ -8,7 +8,7 @@
 	<meta name="author" content="">
 	<title>Breakerbots - Team 5104</title>
 	<link rel="shortcut icon" href="assets/img/iconT.png">
-	<meta name="theme-color" content="#222222"/>
+	<meta name="theme-color" content="#222222" />
 
 	<!-- Roboto -->
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
@@ -23,6 +23,9 @@
 	<link href="assets/vit/vendor/animate.css/animate.min.css" rel="stylesheet" type="text/css">
 	<link href="assets/vit/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 	<link href="assets/vit/css/vitality-red.css" rel="stylesheet" type="text/css">
+
+	<link rel="stylesheet" href="portal/assets/RippleTransitions/ripple.css">
+	<link rel="prerender" href="portal/enter.html">
 
 	<style>
 		html, body {
@@ -45,10 +48,10 @@
 
 <body id="page-top">
 	<!-- Nav -->
-	<nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+	<nav class="navbar navbar-expand-lg fixed-top" id="mainNav" style="transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);">
 		<div class="container">
 			<a class="navbar-brand js-scroll-trigger" href="#page-top">
-				<img class="img-fluid" src="assets/img/iconT.png" alt="">
+				<img class="img-fluid" src="assets/img/icon.png" alt="" id="headerIcon">
 			</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 				<i class="fa fa-bars"></i>
@@ -60,22 +63,25 @@
 						<a class="nav-link js-scroll-trigger" href="#about">About</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link js-scroll-trigger" href="#team">Team</a>
+						<a class="nav-link js-scroll-trigger" href="#sponsors">Sponsors</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link js-scroll-trigger" href="#services">Our Process</a>
+						<a class="nav-link js-scroll-trigger" href="#recognition">Recognition</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link js-scroll-trigger" href="#robots">Robots</a>
+						<a class="nav-link js-scroll-trigger" href="#calendar">Calendar</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link js-scroll-trigger" href="CentralCoastRegional.html">Central Coast Regional</a>
+						<a class="nav-link js-scroll-trigger" href='Blog.html'>Blog</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link js-scroll-trigger" href="portal/enter.html">Portal</a>
+						<a class="nav-link js-scroll-trigger" href="CentralCoastRegional.html">Central Coast Regional</a>
+					</li>
+					<li class="nav-item" style="cursor: grab !important;">
+						<a class="nav-link js-scroll-trigger" onclick="enterPortal()">Portal</a>
 					</li>
 				</ul>
 			</div>
@@ -83,11 +89,11 @@
 	</nav>
 
 	<!-- Main -->
-	<header class="masthead" style="background-image: url('assets/vit/img/agency/backgrounds/bg-header.jpg');">
+	<header class="masthead" style="background-image: url('assets/img/regional.jpg');">
 		<div class="container h-100">
 			<div class="row h-100">
 				<div class="col-12 my-auto text-center text-white">
-					<img class="masthead-img img-fluid mb-3" src="assets/img/iconT.png" alt="">
+					<img class="masthead-img img-fluid mb-3" src="assets/img/logosheet.png" alt="">
 					<div class="masthead-title">BreakerBots</div>
 					<hr class="colored">
 					<div class="masthead-subtitle">Team 5104</div>
@@ -106,7 +112,7 @@
 		<div class="container-fluid">
 			<div class="wow fadeIn text-center">
 				<h1>Our Team</h1>
-				<p class="mb-0">Explanation</p>
+				<p class="mb-0">Info</p>
 			</div>
 			<hr class="colored">
 			<div class="row text-center">
@@ -142,19 +148,31 @@
 		</div>
 	</section>
 
+	<section class="call-to-action" style="background-image: url('https://images.unsplash.com/photo-1516575601760-608a49afc0d1?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjF9&s=ce420469c6d97997001226d5335d8425&w=1000&q=80')">
+		<div class="container wow fadeIn">
+			<div class="row">
+				<div class="col-md-10 mx-auto">
+					<span class="quote">
+						Mission Statement
+					</span>
+				</div>
+			</div>
+		</div>
+	</section>
+
 	<!-- Team Section -->
 	<section class="page-section bg-light" id="team">
 		<div class="container text-center wow fadeIn">
 			<h2>Members</h2>
-			<p class="mb-0">Explaination</p>
+			<p class="mb-0">Explanation</p>
 			<hr class="colored">
 			<div class="team-carousel owl-carousel owl-theme mt-4">
 				<!-- Team Carousel Item 1 -->
 				<div class="item">
 					<div class="overlay"></div>
-					<img class="img-fluid" src="assets/vit/img/agency/team/1.jpg" alt="">
+					<img class="img-fluid" src="https://ca.slack-edge.com/T0HNV8AN8-U3RLXMX7C-cc499722eeba-72" alt="" height="500" width="350">
 					<div class="team-caption">
-						<h3>Person 1</h3>
+						<h3>Carlos</h3>
 						<hr class="colored">
 						<p>Team Captain</p>
 						<ul class="list-inline list-team-social">
@@ -177,12 +195,12 @@
 					</div>
 				</div>
 
-				<!-- Team Carousel Item 1 -->
+				<!-- Team Carousel Item 2 -->
 				<div class="item">
 					<div class="overlay"></div>
-					<img class="img-fluid" src="assets/vit/img/agency/team/1.jpg" alt="">
+					<img class="img-fluid" src="https://ca.slack-edge.com/T0HNV8AN8-U350UNSF5-e4f6d1c50359-48" alt="" height="500" width="350">
 					<div class="team-caption">
-						<h3>Person 1</h3>
+						<h3>Tyler</h3>
 						<hr class="colored">
 						<p>Team Captain</p>
 						<ul class="list-inline list-team-social">
@@ -292,22 +310,20 @@
 		</div>
 	</section>
 
-	<!-- Qoute -->
-	<section class="call-to-action" style="background-color: gray;">
+
+	<section class="call-to-action" style="background-image: url('https://images.unsplash.com/photo-1516575601760-608a49afc0d1?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjF9&s=ce420469c6d97997001226d5335d8425&w=1000&q=80')">
 		<div class="container wow fadeIn">
 			<div class="row">
 				<div class="col-md-10 mx-auto">
 					<span class="quote">
-						Some Random Quote and Image In The Background
+						FRC
 					</span>
-					<hr class="colored">
-					<a class="btn btn-primary js-scroll-trigger" href="#services">How We Work</a>
 				</div>
 			</div>
 		</div>
 	</section>
 
-	<!-- Proceess Section -->
+	<!-- Process Section 
 	<section class="page-section services" id="services">
 		<div class="container">
 			<div class="text-center wow fadeIn">
@@ -316,7 +332,7 @@
 				<p class="mb-0">Here is an overview of how we approach each new season.</p>
 			</div>
 			<div class="row mt-4">
-				<!-- Step 1 -->
+				<!-- Step 1 
 				<div class="col-lg-4 wow fadeIn" data-wow-delay=".2s">
 					<div class="media">
 						<div class="pull-left">
@@ -333,7 +349,7 @@
 						</div>
 					</div>
 				</div>
-				<!-- Step 2 -->
+				<!-- Step 2 
 				<div class="col-lg-4 wow fadeIn" data-wow-delay=".4s">
 					<div class="media">
 						<div class="pull-left">
@@ -350,7 +366,7 @@
 						</div>
 					</div>
 				</div>
-				<!-- Stepp 3 -->
+				<!-- Stepp 3 
 				<div class="col-lg-4 wow fadeIn" data-wow-delay=".6s">
 					<div class="media">
 						<div class="pull-left">
@@ -370,12 +386,13 @@
 			</div>
 		</div>
 	</section>
+-->
 
 	<!-- Robots Section -->
 	<section class="page-section bg-light" id="robots">
 		<div class="container text-center wow fadeIn">
 			<h2>Robots</h2>
-			<p class="mb-0">Explaination</p>
+			<p class="mb-0">An overview of our robots to date.</p>
 			<hr class="colored">
 			<div class="team-carousel owl-carousel owl-theme mt-4">
 				<!-- Athena -->
@@ -449,11 +466,11 @@
 	</section>
 
 	<!-- Sponsors Section -->
-	<section class="page-section" id="about">
+	<section class="page-section" id="sponsors" style="background-image: url('http://notgoaway.com/wp-content/uploads/2017/07/Background-75.png')">
 		<div class="container-fluid">
 			<div class="wow fadeIn text-center">
 				<h1>Sponsors</h1>
-				<p class="mb-0">Explaination</p>
+				<p class="mb-0">Explanation</p>
 			</div>
 			<hr class="colored">
 			<div class="row text-center">
@@ -485,6 +502,128 @@
 				<div class="col-lg-3 col-md-6" style="padding-top: 2%;">
 					<div class="wow fadeIn px-4 pb-4 pb-lg-0 h-100" data-wow-delay=".4s">
 						<h3>Karen and Rick Hargrove</h3>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Recognition -->
+	<section class="page-section services" id="recognition">
+		<div class="container">
+			<div class="text-center wow fadeIn">
+				<h2>Recognition</h2>
+				<hr class="colored">
+				<p class="mb-0">What is this about?</p>
+			</div>
+			<div class="row mt-4">
+				<div class="col-lg-4 wow fadeIn" data-wow-delay=".2s">
+					<div class="media">
+						<div class="pull-left">
+							<i class="fa fa-clipboard rounded-circle"></i>
+						</div>
+						<div class="media-body">
+							<h3 class="media-heading">Step 1</h3>
+							<ul>
+								<li>QWEfsdf QWefno</li>
+								<li>QWEfsdf QWefno</li>
+								<li>QWEfsdf QWefno</li>
+								<li>QWEfsdf QWefno</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 wow fadeIn" data-wow-delay=".4s">
+					<div class="media">
+						<div class="pull-left">
+							<i class="fa fa-pencil rounded-circle"></i>
+						</div>
+						<div class="media-body">
+							<h3 class="media-heading">Step 2</h3>
+							<ul>
+								<li>ASDfbnc Eanooao</li>
+								<li>ASDfbnc Eanooao</li>
+								<li>ASDfbnc Eanooao</li>
+								<li>ASDfbnc Eanooao</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 wow fadeIn" data-wow-delay=".6s">
+					<div class="media">
+						<div class="pull-left">
+							<i class="fa fa-rocket rounded-circle"></i>
+						</div>
+						<div class="media-body">
+							<h3 class="media-heading">Step 3</h3>
+							<ul>
+								<li>QWEfjnd ASDfoio</li>
+								<li>QWEfjnd ASDfoio</li>
+								<li>QWEfjnd ASDfoio</li>
+								<li>QWEfjnd ASDfoio</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Calendar -->
+	<section class="page-section services" id="calendar">
+		<div class="container">
+			<div class="text-center wow fadeIn">
+				<h2>Calendar</h2>
+				<hr class="colored">
+				<p class="mb-0">Calendar</p>
+			</div>
+			<div class="row mt-4">
+				<div class="col-lg-4 wow fadeIn" data-wow-delay=".2s">
+					<div class="media">
+						<div class="pull-left">
+							<i class="fa fa-clipboard rounded-circle"></i>
+						</div>
+						<div class="media-body">
+							<h3 class="media-heading">Step 1</h3>
+							<ul>
+								<li>QWEfsdf QWefno</li>
+								<li>QWEfsdf QWefno</li>
+								<li>QWEfsdf QWefno</li>
+								<li>QWEfsdf QWefno</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 wow fadeIn" data-wow-delay=".4s">
+					<div class="media">
+						<div class="pull-left">
+							<i class="fa fa-pencil rounded-circle"></i>
+						</div>
+						<div class="media-body">
+							<h3 class="media-heading">Step 2</h3>
+							<ul>
+								<li>ASDfbnc Eanooao</li>
+								<li>ASDfbnc Eanooao</li>
+								<li>ASDfbnc Eanooao</li>
+								<li>ASDfbnc Eanooao</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 wow fadeIn" data-wow-delay=".6s">
+					<div class="media">
+						<div class="pull-left">
+							<i class="fa fa-rocket rounded-circle"></i>
+						</div>
+						<div class="media-body">
+							<h3 class="media-heading">Step 3</h3>
+							<ul>
+								<li>QWEfjnd ASDfoio</li>
+								<li>QWEfjnd ASDfoio</li>
+								<li>QWEfjnd ASDfoio</li>
+								<li>QWEfjnd ASDfoio</li>
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -563,6 +702,9 @@
 		</div>
 	</footer>
 
+	<!--Close Ripple-->
+	<div id="CloseRippleWrap" class="ripple-wrap" style="z-index: 1000;"><div id="CloseRipple" class="ripple"></div></div>
+
 	<!-- Javascript -->
 	<script src="assets/vit/vendor/jquery/jquery.min.js"></script>
 	<script src="assets/vit/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -588,6 +730,15 @@
 				mshtLOW = msht.offsetWidth;
 				msht.innerHTML = msht.offsetWidth < 480 ? ("BREAKER BOTS") : ("BREAKERBOTS");
 			}
+		}
+
+		function enterPortal() {
+			document.querySelector("#mainNav").style.opacity = 0;
+			var ripple = document.querySelector("#CloseRipple");
+			ripple.style.left = event.srcElement.offsetLeft + event.srcElement.offsetWidth + "px";
+			ripple.style.top = event.srcElement.offsetTop + event.srcElement.offsetHeight + "px";
+			document.querySelector("#CloseRippleWrap").classList.add('goripple');
+			setTimeout(function () { window.open('portal/enter.html', '_self', false); },700);
 		}
 	</script>
 </body>

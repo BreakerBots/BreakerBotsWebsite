@@ -1,29 +1,130 @@
+//Tabs.Js
+
+/**
+ * Ignore This handled by an assortment of other classes including this one. 
+ */
 function updateTabs(tab) {
-	//Switch To Tab To Select Tab From Url
-	if (tab == undefined) { tab = getTabFromURL('tab'); if (tab == null) { tab = 'General'; } }
+	//If JSI (Just Signed In)
+	if (window.location.hash == "#jsi") {
+		//JSI Transition
+		var lastTab = document.querySelector('.tab.active');
+		if (lastTab) {
+			//Send Exit Callback to tab handlers
+			sendTabExitCallback(lastTab.id);
 
-	if (document.querySelector('.tab.active')) {
-		document.querySelector('.tab.active').classList.remove('active');
+			//Exit the last tab and play animation
+			lastTab.classList.remove('active');
+			lastTab.classList.add('exit');
+			lastTab.addEventListener("animationend", function () { event.srcElement.classList.remove('exit'); });
+		}
+
+		document.querySelector('.permanent-drawer').classList.add("transition--instant");
+		document.querySelector('.permanent-drawer').style.transform = "translateX(-320px)";
+		setTimeout(function () { document.querySelector('.permanent-drawer').classList.remove("transition--instant"); }, 10);
+
+		var header = document.querySelector('header');
+		setTimeout(function () {
+			header.style.transition = "all 0.6s cubic-bezier(0.4, 0.0, 0.2, 1)";
+			header.style.transform = "";
+		}, 10);
+		setTimeout(function () {
+			header.style.transition = "";
+			document.querySelector('.permanent-drawer').style.transform = "translateX(0px)";
+
+			setTimeout(function () {
+				//Reroute to default page
+				setHashParam('tab','General');
+			}, 600);
+		}, 600);
+	}
+	else {
+		var lastTab = document.querySelector('.tab.active');
+		
+		//Get the tab from the url
+		if (tab == undefined) { tab = getHashParam('tab'); if (tab == undefined) { tab = 'General'; } }
+
+		//Make sure your not switching to the same tab
+		if (!lastTab || (!lastTab ? false : (lastTab.id != tab))) {
+			document.querySelector('header').style.transform = "";
+			showMainLoader(true);
+
+			//Send Open Callback to tab handlers
+			sendTabOpenCallback(tab);
+
+			//Clear the last tab's header extension
+			document.querySelector('#headerExtensionContainer');
+
+			//Make sure content is scrollable
+			document.querySelector("#page-scroll").style.overflowY = "auto";
+
+			//Move the last tab out
+			if (lastTab) {
+				//Send Exit Callback to tab handlers
+				sendTabExitCallback(lastTab.id);
+
+				//Exit the last tab and play animation
+				lastTab.classList.remove('active');
+				lastTab.classList.add('exit');
+				lastTab.addEventListener("animationend", function () { event.srcElement.classList.remove('exit'); });
+			}
+
+			//Delete Hash Junk
+			deletePerTabHashJunk(tab);
+
+			//Default the header
+			headerUseBackArrow(false);
+			headerUseSearch(false);
+
+			//Update the selected item in menu
+			var LeftNavLists = document.querySelectorAll('.LeftNavList');
+			[].forEach.call(LeftNavLists, function (lnl) {
+				if (lnl.querySelector(".mdc-list-item--activated")) lnl.querySelector(".mdc-list-item--activated").classList.remove('mdc-list-item--activated');
+				if (lnl.querySelector('[href="#tab=' + tab + '"]')) { lnl.querySelector('[href="#tab=' + tab + '"]').classList.add('mdc-list-item--activated'); }
+			});
+
+			//Open the new tab and play animation
+			document.getElementById(tab).classList.add('active');
+		}
+	}
+}
+
+/**
+ * Clears the current tab (So that no tab is visible). Can be used for a transition to a new tab through a reload
+ */
+function clearTab() {
+	var lastTab = document.querySelector('.tab.active');
+	if (lastTab) {
+		//Send Exit Callback to tab handlers
+		sendTabExitCallback(lastTab.id);
+
+		//Exit the last tab and play animation
+		lastTab.classList.remove('active');
+		lastTab.classList.add('exit');
+		lastTab.addEventListener("animationend", function () { event.srcElement.classList.remove('exit'); });
 	}
 
-	document.getElementById(tab).classList.add('active');
-
-	switch (tab) {
-		case "PartsAll": if (startPMS) startPMS(); break;
-		case "PartsArchived": if (startPMSArchived) startPMSArchived(); break;
-		case "PartsOrdered": if (startPMSOrdered) startPMSOrdered(); break;
-		case "Profile": if (startProfile) startProfile(); break;
-		case "Teams": if (startTeams) startTeams(); break;
-	}
-}
-document.addEventListener('DOMContentLoaded', function () { updateTabs(); });
-$(window).on('hashchange', function () { updateTabs(); });
-
-
-function getTabFromURL() {
-	return window.location.hash == "" ? null : window.location.hash.substring(5);
+	//Update the selected item in menu
+	var LeftNavLists = document.querySelectorAll('.LeftNavList');
+	[].forEach.call(LeftNavLists, function (lnl) {
+		if (lnl.querySelector(".mdc-list-item--activated")) lnl.querySelector(".mdc-list-item--activated").classList.remove('mdc-list-item--activated');
+	});
 }
 
-function getUrlParameterByName(name, url) {
-	if (!url) url = window.location.href; name = name.replace(/[\[\]]/g, "\\$&"); var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), results = regex.exec(url); if (!results) return null; if (!results[2]) return ''; return decodeURIComponent(results[2].replace(/\+/g, " "));
+function getCurrentTab() {
+	return document.querySelector('.tab.active') ? document.querySelector('.tab.active').id : null;
 }
+
+//Update the tabs on "#" change in url
+window.addHashVariableListener("tab", updateTabs);
+document.addEventListener("DOMContentLoaded", function (event) {
+	if (window.location.hash == "#jsi")
+		updateTabs(undefined);
+});
+
+/**
+ * Shows and hides the main the loader (the one under the header)
+ * @param {boolean} state (False) Hides the loader, (True) Shows the loader.
+ */
+function showMainLoader(state) {
+	document.querySelector("#MainLoader").style.opacity = (state ? 1 : 0);
+} function hideML() { showMainLoader(false); }

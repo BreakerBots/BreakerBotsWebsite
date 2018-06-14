@@ -220,7 +220,7 @@
       if ($.fn.mousewheel) {
         this.picker.on({mousewheel: $.proxy(this.mousewheel, this)});
       } else {
-        console.log('Mouse Wheel event is not supported. Please include the jQuery Mouse Wheel plugin before enabling this option');
+        console.log('Mouse Wheel event is not even supported you noob!!! Include the jQuery Mouse Wheel plugin before enabling this option');
       }
     }
 
@@ -1725,16 +1725,16 @@
     },
     headTemplate: '<thead>' +
                 '<tr>' +
-                '<th class="prev"><i class="{iconType} {leftArrow}"/></th>' +
+                '<th class="prev"><i class="material-icons">keyboard_arrow_left</i></th>' +
                 '<th colspan="5" class="switch"></th>' +
-                '<th class="next"><i class="{iconType} {rightArrow}"/></th>' +
+                '<th class="next"><i class="material-icons">keyboard_arrow_right</i></th>' +
                 '</tr>' +
       '</thead>',
     headTemplateV3: '<thead>' +
                 '<tr>' +
-                '<th class="prev"><span class="{iconType} {leftArrow}"></span> </th>' +
+			'<th class="prev"> <i class="material-icons">keyboard_arrow_left</i> </th>' +
                 '<th colspan="5" class="switch"></th>' +
-                '<th class="next"><span class="{iconType} {rightArrow}"></span> </th>' +
+                '<th class="next"><i class="material-icons">keyboard_arrow_right</i></span> </th>' +
                 '</tr>' +
       '</thead>',
     contTemplate: '<tbody><tr><td colspan="7"></td></tr></tbody>',
