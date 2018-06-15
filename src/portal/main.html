@@ -65,7 +65,7 @@
 	<!--Profile Tab  -->
 	<link rel="stylesheet" href="assets/ProfileTab/ProfileTab.css" type="text/css" />
 	<link rel="stylesheet" href="assets/ProfileTab/AvatarEditor.css" type="text/css" />
-
+	<link rel="stylesheet" href="assets/ProfileTab/Edit/EditAccount.css" type="text/css" />
 
 </head>
 <body style="background-color: #EEEEEE; overflow-y: hidden;">
@@ -127,9 +127,9 @@
 				<div role="menu" class="dropdown-menu-c dropdown-menu mdc-elevation--z10" id="profileMenu" style="width: 300px; padding: 0; border: 0; position: absolute;">
 					<!--Header-->
 					<div>
-						<div style="width: 90px; height: 90px; position: absolute; margin: 4px 0 0 4px;">
-							<img style="width: 100%; height: 100%;" class="noselect" id="profileMenu-Avatar" alt="profilePicture" />
-							<button onclick="HeaderChangeAvatar()" style="width: 100%; height: 100%;" class="ProfileTab-AvatarEditor ProfileTab-AvatarEditor--Editing mdc-ripple-surface" data-mdc-auto-init="MDCRipple">
+						<div style="width: 85px; height: 85px; position: absolute; margin: 7px 0 0 7px;">
+							<img style="border-radius: 4px; width: 100%; height: 100%;" class="noselect" id="profileMenu-Avatar" alt="profilePicture" />
+							<button onclick="HeaderChangeAvatar()" style="border-radius: 4px; width: 100%; height: 100%;" class="ProfileTab-AvatarEditor ProfileTab-AvatarEditor--Editing mdc-ripple-surface" data-mdc-auto-init="MDCRipple">
 								<i style="font-size: 380%; transform: translate(0, 5px)" class="material-icons">photo_camera</i>
 							</button>
 						</div>
@@ -387,6 +387,42 @@
 							<hr />
 							<div class="ProfileTab-TaskWrapper ProfileTabJI-Tasks" style="width: 95%; margin-left: 2.5%;">
 
+							</div>
+						</div>
+						<button onclick="setHashParam('tab', 'EditAccount')" id="ProfileTabSettingsFab" class="mdc-fab demo-fixed-fab mdc-ripple-upgraded mdc-fab--exited">
+							<span class="mdc-fab__icon">
+								<i class="material-icons">settings</i>
+							</span>
+						</button>
+					</div>
+					<div id="EditAccount" class="tab">
+						<div class="EditAccount-Card">
+							<div class="EditAccount-Tabs mdc-tab-bar-scroller">
+								<div class="mdc-tab-bar-scroller__indicator mdc-tab-bar-scroller__indicator--back">
+									<span class="mdc-tab-bar-scroller__indicator__inner material-icons">navigate_before</span>
+								</div>
+								<div class="mdc-tab-bar-scroller__scroll-frame">
+									<nav class="mdc-tab-bar mdc-tab-bar-scroller__scroll-frame__tabs mdc-tab-bar-upgraded" style="transform: translateX(0px);">
+										<span onclick="setHashParam('EditAccountTab', 'EP')" class="mdc-tab mdc-tab--active mdc-ripple-upgraded">Edit Profile</span>
+										<span onclick="setHashParam('EditAccountTab', 'NS')" class="mdc-tab mdc-ripple-upgraded">Notification Settings</span>
+										<span onclick="setHashParam('EditAccountTab', 'CP')" class="mdc-tab mdc-ripple-upgraded">Change Password</span>
+										<span class="mdc-tab-bar__indicator" style="transform: translateX(0px) scale(0.0714286, 1); visibility: visible;"></span>
+									</nav>
+								</div>
+								<div class="mdc-tab-bar-scroller__indicator mdc-tab-bar-scroller__indicator--forward mdc-tab-bar-scroller__indicator--enabled">
+									<span class="mdc-tab-bar-scroller__indicator__inner material-icons">navigate_next</span>
+								</div>
+							</div>
+							<div class="EditAccount-Viewer">
+								<div class="EditAccount-View EditAccount-View--Active EditAccount-View--EP">
+									
+								</div>
+								<div class="EditAccount-View EditAccount-View--NS">
+
+								</div>
+								<div class="EditAccount-View EditAccount-View--CP">
+
+								</div>
 							</div>
 						</div>
 					</div>
@@ -913,12 +949,14 @@
 		<script src="assets/ShiftingDialog/ShiftingDialog.js"></script>
 		<script src="assets/ShiftingDialog/Snipits.js"></script>
 
-		<!--Profile Tab-->
-		<script src="assets/ProfileTab/ProfileTab.js"></script>
-		<script src="assets/ProfileTab/AvatarEditor.js"></script>
-
-		<!--Fab Handler-->
+		<!-- Other Resources -->
 		<script src="assets/Resources/FabHandler.js"></script>
+		<script src="assets/Autocomplete/Autocomplete.js"></script>
+		<script src="assets/Autocomplete/AutocompleteUsers.js"></script>
+		<script src="assets/Resources/ExpandingTextArea.js"></script>
+		<script src="assets/Autocomplete/PMSAutocomplete.js"></script>
+		<script src="assets/Resources/Menus.js"></script>
+		<script src="assets/Resources/Tooltips.js"></script>
 
 		<!--Header-->
 		<script src="assets/Header/header.js"></script>
@@ -927,20 +965,17 @@
 		<script src="assets/SideNav/SideNav.js"></script>
 		<script src="assets/SideNav/PeTeSwitcher.js"></script>
 
-		<!--Other-->
-		<script src="assets/Autocomplete/Autocomplete.js"></script>
-		<script src="assets/Autocomplete/AutocompleteUsers.js"></script>
-		<script src="assets/Resources/ExpandingTextArea.js"></script>
-		<script src="assets/Autocomplete/PMSAutocomplete.js"></script>
-		<script src="assets/Resources/Menus.js"></script>
-		<script src="assets/Resources/Tooltips.js"></script>
-
 		<!--Calendar Tab-->
 		<script src="assets/Calendar/CalendarTab.js"></script>
 
 		<!--Github API and Tab-->
 		<script src="assets/Github/GHAPI.js"></script>
 		<script src="assets/Github/GHUI.js"></script>
+
+		<!--Profile Tab-->
+		<script src="assets/ProfileTab/ProfileTab.js"></script>
+		<script src="assets/ProfileTab/AvatarEditor.js"></script>
+		<script src="assets/ProfileTab/Edit/EditAccount.js"></script>
 
 		<!--Teams Tab and Resources-->
 		<script src="assets/Teams/TeamsTab.js"></script>

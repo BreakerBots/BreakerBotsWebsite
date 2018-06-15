@@ -2,7 +2,7 @@
 	This class handles everything happening after the # in the url
 */
 
-var hashData = { };
+var hashData = {};
 var _lasthashData = [ { } ];
 function readHash() {
 	try {
@@ -20,6 +20,7 @@ function readHash() {
 		if (_lasthashData.length > 2) _lasthashData.shift();
 	} 
 
+	//Call Listeners
 	var hashChange = (findObjectDifferences(_lasthashData[1], _lasthashData[0]));
 	for (var i = 0; i < hashChange.length; i++) {
 		if (hashVariableListeners[hashChange[i]] != undefined) {

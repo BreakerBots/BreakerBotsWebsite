@@ -19,40 +19,43 @@ function deleteOverflow() {
 
 //------------------------------------ Backarrow ------------------------------------\\
 var headerUsingBackArrow = false;
-function headerUseBackArrow(state) {
-	var arrowB = document.querySelector("#HeaderBackArrow");
-	var drawerB = document.querySelector("#OpenDrawer");
-	if (state && !headerUsingBackArrow) {
-		headerUsingBackArrow = true;
-		PeteSwitcher.closeTempDrawer();
-		arrowB.style.opacity = 0;
-		arrowB.style.transform = "scale(0)";
-		drawerB.style.opacity = 0;
-		drawerB.style.transform = "scale(0)";
-		setTimeout(function () {
-			drawerB.style.display = "none";
-			arrowB.style.display = "block";
+function headerUseBackArrow(state, link) {
+	try {
+		var arrowB = document.querySelector("#HeaderBackArrow");
+		var drawerB = document.querySelector("#OpenDrawer");
+		if (state && !headerUsingBackArrow) {
+			headerUsingBackArrow = true;
+			PeteSwitcher.closeTempDrawer();
+			arrowB.style.opacity = 0;
+			arrowB.style.transform = "scale(0)";
+			drawerB.style.opacity = 0;
+			drawerB.style.transform = "scale(0)";
 			setTimeout(function () {
-				arrowB.style.opacity = 1;
-				arrowB.style.transform = "scale(1)";
-			}, 10);
-		}, 200);
-	}
-	else if (!state && headerUsingBackArrow) {
-		headerUsingBackArrow = false;
-		arrowB.style.opacity = 0;
-		arrowB.style.transform = "scale(0)";
-		drawerB.style.opacity = 0;
-		drawerB.style.transform = "scale(0)";
-		setTimeout(function () {
-			arrowB.style.display = "none";
-			drawerB.style.display = "block";
+				drawerB.style.display = "none";
+				arrowB.style.display = "block";
+				setTimeout(function () {
+					arrowB.style.opacity = 1;
+					arrowB.style.transform = "scale(1)";
+				}, 10);
+			}, 200);
+			arrowB.setAttribute('onclick', link || "window.history.back();");
+		}
+		else if (!state && headerUsingBackArrow) {
+			headerUsingBackArrow = false;
+			arrowB.style.opacity = 0;
+			arrowB.style.transform = "scale(0)";
+			drawerB.style.opacity = 0;
+			drawerB.style.transform = "scale(0)";
 			setTimeout(function () {
-				drawerB.style.opacity = 1;
-				drawerB.style.transform = "scale(1)";
-			}, 10);
-		}, 200);
-	}
+				arrowB.style.display = "none";
+				drawerB.style.display = "block";
+				setTimeout(function () {
+					drawerB.style.opacity = 1;
+					drawerB.style.transform = "scale(1)";
+				}, 10);
+			}, 200);
+		}
+	} catch (err) {  }
 }
 //------------------------------------  ------------------------------------\\
 
@@ -140,50 +143,6 @@ function addHeaderSearchInputListener(tabName, callback) {
 
 //  ----------------------------------------  Change Avatar  ----------------------------------------  \\
 var HeaderChangeAvatarHandler;
-function HeaderChangeAvatar() {
-	try {
-		var rlId = 'HCAUE--' + guid();
-		ShiftingDialog.set("HeaderChangeAvatar", "Change Avatar", "Submit", "Cancel", (
-			'<div id="' + rlId + '"></div>'
-		));
-		ShiftingDialog.open();
-		ShiftingDialog.enableSubmitButton(false);
-		HeaderChangeAvatarHandler = new AvatarEditor(document.querySelector('#' + rlId), function () {
-			if (ShiftingDialog.currentId == "HeaderChangeAvatar") ShiftingDialog.enableSubmitButton(true);
-		});
-	} catch (err) { }
-}
-ShiftingDialog.addSubmitListener("HeaderChangeAvatar", function () {
-	try {
-		var rt = HeaderChangeAvatarHandler.get(function (base64) {
-			fetch(base64)
-				.then(res => res.blob())
-				.then(blob => {
-					var task = firebase.storage().ref('Avatars/' + users.getCurrentUid()).put(blob);
-					task.on('state_changed',
-						function progress(snapshot) {
-
-						},
-						function error(err) {
-
-						},
-						function complete() {
-							ShiftingDialog.close();
-							HardRefreshHeaderAvatar();
-							getAvatarUrl(users.getCurrentUid(), function (img) {
-								if (img && (ProfileTabViewing == users.getCurrentUid())) {
-									document.querySelector('.ProfileTabJI-Avatar').src = img;
-									allUsers[users.getCurrentUid] = img;
-								}
-							});
-						}
-					);
-				});
-		});
-		if (!rt) {
-			ShiftingDialog.throwFormError("Please Select An Image");
-			ShiftingDialog.enableSubmitButton(true);
-		}
-	} catch (err) { }
-});
+function HeaderChangeAvatar() {try { var rlId = "HCAUE--" + guid(); ShiftingDialog.set("HeaderChangeAvatar", "Change Avatar", "Submit", "Cancel", '<div style="width: 100%; height: 100%;" id="' + rlId + '"></div>'); ShiftingDialog.open(); ShiftingDialog.enableSubmitButton(!1); HeaderChangeAvatarHandler = new AvatarEditor(document.querySelector("#" + rlId), function () { "HeaderChangeAvatar" == ShiftingDialog.currentId && ShiftingDialog.enableSubmitButton(!0) }) } catch (a) { };}
+ShiftingDialog.addSubmitListener("HeaderChangeAvatar", function () {try{var rt=HeaderChangeAvatarHandler.get(function(c){fetch(c).then(function(b){return b.blob()}).then(function(b){firebase.storage().ref("Avatars/"+users.getCurrentUid()).put(b).on("state_changed",function(a){},function(a){},function(){ShiftingDialog.close();HardRefreshHeaderAvatar();getAvatarUrl(users.getCurrentUid(),function(a){a&&ProfileTabViewing==users.getCurrentUid()&&(document.querySelector(".ProfileTabJI-Avatar").src=a,allUsers[users.getCurrentUid]=a)})})})});rt||(ShiftingDialog.throwFormError("Please Select An Image"),ShiftingDialog.enableSubmitButton(!0))}catch(c){};});
 //  ----------------------------------------    ----------------------------------------  \\

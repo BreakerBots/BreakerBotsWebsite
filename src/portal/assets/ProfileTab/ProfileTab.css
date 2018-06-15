@@ -3,6 +3,7 @@
 
 #Profile {
 	transition: opacity 1s cubic-bezier(.2, 0, .2, 1);
+	position: relative;
 }
 
 
@@ -71,7 +72,6 @@
 	}
 	.ProfileTab-Name {
 		display: block;
-		width: 100%;
 		text-align: left;
 		font-size: 200%;
 		margin: 5px 0 0 15px;
@@ -121,6 +121,7 @@
 		text-align: center;
 	}
 }
+
 
 
 
