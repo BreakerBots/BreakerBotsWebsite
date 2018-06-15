@@ -24,7 +24,7 @@ class Autocomplete {
 							var inp = (this.parentNode.parentNode).querySelector('input');
 							inp.value = this.querySelector('input').value;
 							this.parentNode.innerHTML = '';
-							try { window[inp.dataset.autocompleteInput](); } catch (err) { alert(err); }
+							try { window[inp.dataset.autocompleteInput](); } catch (err) {  }
 					">
 						<span>` + self.options[search[i]] + `</span>
 						<input type='hidden' value="` + self.options[search[i]] + `">
