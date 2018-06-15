@@ -141,7 +141,7 @@ function ProfileChangeAvatar(pid) {
 			var rlId = 'PCAUE--' + guid();
 			ShiftingDialog.set("ProfileTabChangeAvatar", "Change Avatar", "Submit", "Cancel", (
 				'<div id="' + rlId + '"></div>'
-			));
+			), false, true);
 			ShiftingDialog.open();
 			ShiftingDialog.enableSubmitButton(false);
 			ProfileTabChangeAvatarHandler = new AvatarEditor(document.querySelector('#' + rlId), function () {
@@ -171,6 +171,7 @@ ShiftingDialog.addSubmitListener("ProfileTabChangeAvatar", function () {
 							getAvatarUrl(users.getCurrentUid(), function (img) {
 								if (img && (ProfileTabViewing == users.getCurrentUid())) {
 									document.querySelector('.ProfileTabJI-Avatar').src = img;
+									allUsers[users.getCurrentUid] = img;
 								}
 							});
 						}

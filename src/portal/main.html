@@ -128,7 +128,7 @@
 					<!--Header-->
 					<div>
 						<div style="width: 90px; height: 90px; position: absolute; margin: 4px 0 0 4px;">
-							<img style="width: 100%; height: 100%;" id="profileMenu-Avatar" alt="profilePicture" />
+							<img style="width: 100%; height: 100%;" class="noselect" id="profileMenu-Avatar" alt="profilePicture" />
 							<button onclick="HeaderChangeAvatar()" style="width: 100%; height: 100%;" class="ProfileTab-AvatarEditor ProfileTab-AvatarEditor--Editing mdc-ripple-surface" data-mdc-auto-init="MDCRipple">
 								<i style="font-size: 380%; transform: translate(0, 5px)" class="material-icons">photo_camera</i>
 							</button>
@@ -141,7 +141,7 @@
 					</div>
 					<!--Footer-->
 					<div style="background-color: rgba(0 ,0, 0, 0.1); height: 50px; margin-top: 3%;">
-						<button onclick="toggleMenu('#profileMenu'); setHashParam('tab', 'Profile'); setHashParam('profile', 'this');" class="mdc-button mdc-button--raised mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" style="margin-top: 6px; margin-left: 6px; background-color: rgb(160, 160, 160);">Edit Account</button>
+						<button onclick="toggleMenu('#profileMenu'); setHashParam('tab', 'Profile'); setHashParam('profile', 'this');" class="mdc-button mdc-button--raised mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" style="margin-top: 6px; margin-left: 6px; background-color: rgb(160, 160, 160);">My Account</button>
 						<button onclick="toggleMenu('#profileMenu'); firebase.auth().signOut();" class="mdc-button mdc-button--raised mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" style="float: right; margin-top: 6px; margin-right: 6px; background-color: rgb(214, 50, 50);">Signout</button>
 					</div>
 				</div>
@@ -322,7 +322,7 @@
 					</div>
 					<div id="Profile" class="tab" style="opacity: 0">
 						<div class="ProfileTab-Avatar">
-							<img class="ProfileTabJI-Avatar" src="../assets/img/iconT.png" />
+							<img class="ProfileTabJI-Avatar noselect" src="../assets/img/iconT.png" />
 							<button class="ProfileTab-AvatarEditor ProfileTabJI-AvatarEditor mdc-ripple-surface" data-mdc-auto-init="MDCRipple">
 								<i class="material-icons">photo_camera</i>
 							</button>
@@ -333,57 +333,57 @@
 							<p class="ProfileTab-Desc ProfileTabJI-Desc">------ ----- ---- -----</p>
 						</div>
 						<div class="ProfileTab-Info mdc-elevation--z10">
-							<h3 class="ProfileTab-Info--Header1" style="display: block; width: 100%; text-align: center; margin: 12px 0 6px 0;">Information</h3>
+							<h3 class="ProfileTab-Info--Header1 noselect" style="display: block; width: 100%; text-align: center; margin: 12px 0 6px 0;">Information</h3>
 							<hr />
 							<table class="ProfileTab-Info--Wrapper1">
 								<tr class="ProfileTab-Info--CPW">
-									<td class="ProfileTab-Info--CPW-I material-icons">person</td>
-									<td class="ProfileTab-Info--CPW-T">Username: </td>
+									<td class="ProfileTab-Info--CPW-I noselect material-icons">person</td>
+									<td class="ProfileTab-Info--CPW-T noselect">Username: </td>
 									<td class="ProfileTab-Info--CPW-V ProfileTabJI-Username">--------</td>
 								</tr>
 								<tr class="ProfileTab-Info--CPW">
-									<td class="ProfileTab-Info--CPW-I material-icons">security</td>
-									<td class="ProfileTab-Info--CPW-T">Clearance: </td>
+									<td class="ProfileTab-Info--CPW-I noselect material-icons">security</td>
+									<td class="ProfileTab-Info--CPW-T noselect">Clearance: </td>
 									<td class="ProfileTab-Info--CPW-V ProfileTabJI-Clearance">-</td>
 								</tr>
 								<tr class="ProfileTab-Info--CPW">
-									<td class="ProfileTab-Info--CPW-I material-icons">people</td>
-									<td class="ProfileTab-Info--CPW-T">Teams: </td>
+									<td class="ProfileTab-Info--CPW-I noselect material-icons">people</td>
+									<td class="ProfileTab-Info--CPW-T noselect">Teams: </td>
 									<td class="ProfileTab-Info--CPW-V ProfileTabJI-Teams">---- -------- -------</td>
 								</tr>
 								<tr class="ProfileTab-Info--CPW">
-									<td class="ProfileTab-Info--CPW-I material-icons">school</td>
-									<td class="ProfileTab-Info--CPW-T">Grade: </td>
+									<td class="ProfileTab-Info--CPW-I noselect material-icons">school</td>
+									<td class="ProfileTab-Info--CPW-T noselect">Grade: </td>
 									<td class="ProfileTab-Info--CPW-V ProfileTabJI-Grade">--------</td>
 								</tr>
 							</table>
-							<h3 style="display: block; width: 100%; text-align: center; margin: 30px 0 6px 0;">Contact</h3>
+							<h3 class="noselect" style="display: block; width: 100%; text-align: center; margin: 30px 0 6px 0;">Contact</h3>
 							<hr />
 							<table class="ProfileTab-Info--Wrapper2">
 								<tr class="ProfileTab-Info--CPW">
-									<td class="ProfileTab-Info--CPW-I material-icons"><img src="../assets/img/slack_logo.png" style="width: 20px; filter: grayscale(1); transform: translateY(-6px);"></td>
-									<td class="ProfileTab-Info--CPW-T" style="min-width: 70px;">Slack: </td>
+									<td class="ProfileTab-Info--CPW-I noselect material-icons"><img src="../assets/img/slack_logo.png" style="width: 20px; filter: grayscale(1); transform: translateY(-6px);"></td>
+									<td class="ProfileTab-Info--CPW-T noselect" style="min-width: 70px;">Slack: </td>
 									<td class="ProfileTab-Info--CPW-V ProfileTabJI-Slack">--------</td>
 								</tr>
 								<tr class="ProfileTab-Info--CPW">
-									<td class="ProfileTab-Info--CPW-I material-icons mdi"><img src="../assets/img/gh-icon.png" style="width: 20px; filter: invert(70%); transform: translateY(-6px);"></td>
-									<td class="ProfileTab-Info--CPW-T" style="min-width: 70px;">Github: </td>
+									<td class="ProfileTab-Info--CPW-I noselect material-icons mdi"><img src="../assets/img/gh-icon.png" style="width: 20px; filter: invert(70%); transform: translateY(-6px);"></td>
+									<td class="ProfileTab-Info--CPW-T noselect" style="min-width: 70px;">Github: </td>
 									<td class="ProfileTab-Info--CPW-V ProfileTabJI-Github">--------</td>
 								</tr>
 								<tr class="ProfileTab-Info--CPW">
-									<td class="ProfileTab-Info--CPW-I material-icons">phone</td>
-									<td class="ProfileTab-Info--CPW-T" style="min-width: 70px;">Phone: </td>
+									<td class="ProfileTab-Info--CPW-I noselect material-icons">phone</td>
+									<td class="ProfileTab-Info--CPW-T noselect" style="min-width: 70px;">Phone: </td>
 									<td class="ProfileTab-Info--CPW-V ProfileTabJI-Phone">(---) --------</td>
 								</tr>
 								<tr class="ProfileTab-Info--CPW">
-									<td class="ProfileTab-Info--CPW-I material-icons">email</td>
-									<td class="ProfileTab-Info--CPW-T" style="min-width: 70px;">Email: </td>
+									<td class="ProfileTab-Info--CPW-I noselect material-icons">email</td>
+									<td class="ProfileTab-Info--CPW-T noselect" style="min-width: 70px;">Email: </td>
 									<td class="ProfileTab-Info--CPW-V ProfileTabJI-Email">----------@-----.---</td>
 								</tr>
 							</table>
 						</div>
 						<div class="ProfileTab-Tasks mdc-elevation--z10">
-							<h3 style="display: block; width: 100%; text-align: center; margin: 12px 0 6px 0;">Current Tasks</h3>
+							<h3 class="noselect" style="display: block; width: 100%; text-align: center; margin: 12px 0 6px 0;">Current Tasks</h3>
 							<hr />
 							<div class="ProfileTab-TaskWrapper ProfileTabJI-Tasks" style="width: 95%; margin-left: 2.5%;">
 

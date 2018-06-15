@@ -43,11 +43,13 @@ var ShiftingDialog = new class ShiftingDialog {
 	/**
 	 * Sets the data inside the Shifiting Dialog
 	 * @param {String} title The Title of the dialog
-	 * @param {any} submitButton The text inside the submit button, entering null or undefined with have no submit button
-	 * @param {any} closeButton The text inside the cancel button, entering null or undefined with have no cancel button
+	 * @param {any} submitButton The text inside the submit button, entering null or undefined with have no submit button (Default "Submit")
+	 * @param {any} closeButton The text inside the cancel button, entering null or undefined with have no cancel button (Default "Cancel")
 	 * @param {any} contents A chunk of html representing the contents that should be inside the dialog. Ids on elements would be advised for grabbing submit data
+	 * @param {any} centerButtons If the Submit and Cancel button should be centered (Default False)
+	 * @param {any} closeOnExternalClick If the dialog should close on a click outside of the dialog (Default False)
 	 */
-	set(id, title, submitButton, cancelButton, contents, centerButtons, swapButtons) {
+	set(id, title, submitButton, cancelButton, contents, centerButtons, dontCloseOnExternalClick) {
 		//Set the title
 		document.querySelector('#SD-HeaderTitle').innerHTML = title ? title : "";
 		this.currentId = id;
@@ -62,10 +64,13 @@ var ShiftingDialog = new class ShiftingDialog {
 		document.querySelector('#SD-FooterCancel').style.display = cancelButton ? "block" : "none";
 
 		//Center and Swap Buttons
-		document.querySelector("#SD-Footer").style.justifyContent = swapButtons ? "center" : "flex-end";
+		document.querySelector("#SD-Footer").style.justifyContent = centerButtons ? "center" : "flex-end";
 
 		//The the contents
 		document.querySelector("#SD-Wrapper").innerHTML = contents ? contents : "";
+
+		//Close On External Click
+		this.closeOnExternalClick = dontCloseOnExternalClick ? false : true;
 
 		//Initialize the components
 		window.mdc.autoInit(document.querySelector("#SD-Wrapper"));
@@ -117,8 +122,8 @@ function ShiftingDialogSubmit() {
 //Close the dialog on a press somewhere else
 document.querySelector("#SD-Container").addEventListener('click', function () {
 	//Making sure it's clicking it and not its child
-	if (event.target != this) { return; } 
-	ShiftingDialog.close();
+	if (event.target != this) { return; }
+	if (ShiftingDialog.closeOnExternalClick) ShiftingDialog.close();
 });
 
 //Close the dialog on [Escape] pressed.

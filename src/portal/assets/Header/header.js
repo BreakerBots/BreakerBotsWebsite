@@ -173,6 +173,7 @@ ShiftingDialog.addSubmitListener("HeaderChangeAvatar", function () {
 							getAvatarUrl(users.getCurrentUid(), function (img) {
 								if (img && (ProfileTabViewing == users.getCurrentUid())) {
 									document.querySelector('.ProfileTabJI-Avatar').src = img;
+									allUsers[users.getCurrentUid] = img;
 								}
 							});
 						}
