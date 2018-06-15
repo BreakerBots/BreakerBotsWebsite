@@ -1,7 +1,7 @@
 //Avatar Init
 
 //Called when app is ready
-function throwInAvatar() {
+function DrawHeaderData() {
 	//Load the avatar from cache origionally, then when auth
 	//finally loads load it's image and cache it for next time
 	if (localStorage.avatar) document.querySelector('#AvatarPicture').src = localStorage.avatar;
@@ -30,4 +30,14 @@ function throwInAvatar() {
 			}
 		} SAAFR();
 	});
-} throwInAvatar();
+} DrawHeaderData();
+
+function HardRefreshHeaderAvatar() {
+	getAvatarUrl(users.getCurrentUid(), function (img) {
+		if (img) {
+			document.querySelector('#AvatarPicture').src = img;
+			document.querySelector('#profileMenu-Avatar').src = img;
+			localStorage.avatar = img;
+		}
+	});
+}

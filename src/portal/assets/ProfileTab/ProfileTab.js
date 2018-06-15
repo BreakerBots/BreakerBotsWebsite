@@ -4,6 +4,7 @@ var ProfileTab = new RegisteredTab("Profile", null, ProfileTabInit, null, false,
 addHashVariableListener('profile', ProfileTabInit);
 
 //  ----------------------------------------  Setting Data  ----------------------------------------  \\
+var ProfileTabViewing;
 function ProfileTabInit() {
 	try {
 		if (getHashParam('tab') == "Profile") {
@@ -11,6 +12,7 @@ function ProfileTabInit() {
 				TeamsAPIWait(function () { // TeamsAPI 
 					//Reroute
 					var vid = (getHashParam("profile") == "this") ? users.getCurrentUid() : getHashParam("profile");
+					ProfileTabViewing = vid;
 					var isSelf = (vid == users.getCurrentUid());
 					var userdata = users.getUser(vid);
 
@@ -27,11 +29,16 @@ function ProfileTabInit() {
 					SetProfileVarible("Phone", userdata.phone, true);
 					SetProfileVarible("Email", userdata.email, true);
 
-					var ProfileAvatarEditorButton = document.querySelector('.ProfileTab-AvatarEditor');
-					if (isSelf) ProfileAvatarEditorButton.classList.add('ProfileTab-AvatarEditor--Editing');
-					else ProfileAvatarEditorButton.classList.remove('ProfileTab-AvatarEditor--Editing');
-					ProfileAvatarEditorButton.onclick = (isSelf) ? ('ProfileChangeAvatar(' + vid + ')') : ("");
-
+					var ProfileAvatarEditorButton = document.querySelector('.ProfileTabJI-AvatarEditor');
+					if (isSelf) {
+						ProfileAvatarEditorButton.classList.add('ProfileTab-AvatarEditor--Editing');
+						ProfileAvatarEditorButton.setAttribute('onclick', `ProfileChangeAvatar('` + vid + `')`);
+					}
+					else {
+						ProfileAvatarEditorButton.classList.remove('ProfileTab-AvatarEditor--Editing');
+						ProfileAvatarEditorButton.setAttribute('onclick', ``);
+					}
+					
 					try {
 						var tasks = TodoWorkerSearchEngine.search(userdata.username);
 						var html = '';
@@ -127,15 +134,53 @@ function SetProfileVarible(id, to, hidePar, useTooltip) {
 
 
 //  ----------------------------------------  Change Avatar  ----------------------------------------  \\
+var ProfileTabChangeAvatarHandler;
 function ProfileChangeAvatar(pid) {
-	if (users.getcurrentUid() == pid) {
-		ShiftingDialog.set("ProfileChangeAvatar", "Change Avatar", "Submit", "Cancel", (
-			''
-		));
-		ShiftingDialog.open();
-	}
+	try {
+		if (users.getCurrentUid() == pid) {
+			var rlId = 'PCAUE--' + guid();
+			ShiftingDialog.set("ProfileTabChangeAvatar", "Change Avatar", "Submit", "Cancel", (
+				'<div id="' + rlId + '"></div>'
+			));
+			ShiftingDialog.open();
+			ShiftingDialog.enableSubmitButton(false);
+			ProfileTabChangeAvatarHandler = new AvatarEditor(document.querySelector('#' + rlId), function () {
+				if (ShiftingDialog.currentId == "ProfileTabChangeAvatar") ShiftingDialog.enableSubmitButton(true);
+			});
+		}
+	} catch (err) { }
 }
-ShiftingDialog.addSubmitListener("ProfileChangeAvatar", function () {
-	
+ShiftingDialog.addSubmitListener("ProfileTabChangeAvatar", function () {
+	try {
+		if (users.getCurrentUid() == ProfileTabViewing)
+		var rt = ProfileTabChangeAvatarHandler.get(function (base64) {
+			fetch(base64)
+				.then(res => res.blob())
+				.then(blob => {
+					var task = firebase.storage().ref('Avatars/' + users.getCurrentUid()).put(blob);
+					task.on('state_changed',
+						function progress(snapshot) {
+							
+						},
+						function error(err) {
+
+						},
+						function complete() {
+							ShiftingDialog.close();
+							HardRefreshHeaderAvatar();
+							getAvatarUrl(users.getCurrentUid(), function (img) {
+								if (img && (ProfileTabViewing == users.getCurrentUid())) {
+									document.querySelector('.ProfileTabJI-Avatar').src = img;
+								}
+							});
+						}
+					);
+				});
+		});
+		if (!rt) {
+			ShiftingDialog.throwFormError("Please Select An Image");
+			ShiftingDialog.enableSubmitButton(true);
+		}
+	} catch (err) { }
 });
 //  ----------------------------------------    ----------------------------------------  \\

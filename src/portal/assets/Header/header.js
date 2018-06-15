@@ -134,7 +134,55 @@ function addHeaderSearchInputListener(tabName, callback) {
 		}
 	});
 }
-//------------------------------------  ------------------------------------\\
+//  ----------------------------------------    ----------------------------------------  \\
 
 
 
+//  ----------------------------------------  Change Avatar  ----------------------------------------  \\
+var HeaderChangeAvatarHandler;
+function HeaderChangeAvatar() {
+	try {
+		var rlId = 'HCAUE--' + guid();
+		ShiftingDialog.set("HeaderChangeAvatar", "Change Avatar", "Submit", "Cancel", (
+			'<div id="' + rlId + '"></div>'
+		));
+		ShiftingDialog.open();
+		ShiftingDialog.enableSubmitButton(false);
+		HeaderChangeAvatarHandler = new AvatarEditor(document.querySelector('#' + rlId), function () {
+			if (ShiftingDialog.currentId == "HeaderChangeAvatar") ShiftingDialog.enableSubmitButton(true);
+		});
+	} catch (err) { }
+}
+ShiftingDialog.addSubmitListener("HeaderChangeAvatar", function () {
+	try {
+		var rt = HeaderChangeAvatarHandler.get(function (base64) {
+			fetch(base64)
+				.then(res => res.blob())
+				.then(blob => {
+					var task = firebase.storage().ref('Avatars/' + users.getCurrentUid()).put(blob);
+					task.on('state_changed',
+						function progress(snapshot) {
+
+						},
+						function error(err) {
+
+						},
+						function complete() {
+							ShiftingDialog.close();
+							HardRefreshHeaderAvatar();
+							getAvatarUrl(users.getCurrentUid(), function (img) {
+								if (img && (ProfileTabViewing == users.getCurrentUid())) {
+									document.querySelector('.ProfileTabJI-Avatar').src = img;
+								}
+							});
+						}
+					);
+				});
+		});
+		if (!rt) {
+			ShiftingDialog.throwFormError("Please Select An Image");
+			ShiftingDialog.enableSubmitButton(true);
+		}
+	} catch (err) { }
+});
+//  ----------------------------------------    ----------------------------------------  \\
