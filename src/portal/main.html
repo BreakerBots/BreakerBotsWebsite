@@ -229,6 +229,24 @@
 					<!--Tabs-->
 					<div id="General" class="tab">
 						<h1>General</h1>
+						<div class="material-table material-table--card">
+							<div class="material-table--header" style="position: relative;">
+								<span class="material-table--title">Sign In / Sign Out Table (Temporary)</span>
+								<button onclick="SSSignAllOut()" style="position: absolute; top: 10px; right: 10px;" class="mdc-button mdc-button--raised" data-mdc-auto-init="MDCRipple">Sign All Out</button>
+							</div>
+							<table>
+								<thead>
+									<tr>
+										<th>Name</th>
+										<th>Status</th>
+										<th>Time</th>
+									</tr>
+								</thead>
+								<tbody id="SISOTable">
+									
+								</tbody>
+							</table>
+						</div>
 					</div>
 					<div id="PartsAll" class="tab">
 						<div class="row" id="PartsAllWrapper">
@@ -436,9 +454,11 @@
 										<label>Role</label>
 										<input oninput="EditProfileCheckSubmit()" id="EditAccountJS--Role" type="text" class="EditAccountJS--Autofill form-control" placeholder="Your Role on the Team (Optional)" autocomplete="off">
 									</div>
-									<div class="form-group" style="width: 90%; min-height: 65px; max-height: 65px;">
-										<label>Grade</label>
-										<input oninput="EditProfileCheckSubmit()" id="EditAccountJS--Grade" type="text" class="EditAccountJS--Autofill form-control" placeholder="Your Grade (Optional)" autocomplete="off">
+									<div class="form-group autocomplete" style="width: 90%; min-height: 65px; max-height: 73px;" data-autocomplete-auto-init data-autocomplete-showall>
+										<label for="EditAccountJS--Grade">Grade</label>
+										<input id="EditAccountJS--Grade" type="text" class="form-control" placeholder="Your Grade Level (Optional)" autocomplete="off">
+										<div class="autocomplete-items"></div>
+										<div class="autocomplete-options"><p>Eigth</p><p>Freshman</p><p>Sophomore</p><p>Junior</p><p>Senior</p></div>
 									</div>
 									<div class="form-group" style="width: 90%; min-height: 65px; max-height: 65px;">
 										<label>Public Email</label>

@@ -30,9 +30,9 @@ var mainSnips = new class materialSnip {
 				`;
 	}
 
-	textFieldAutoComplete(id, label, placeholder, options, style) {
+	textFieldAutoComplete(id, label, placeholder, options, style, showAll) {
 		return `
-				<div class="form-group autocomplete" style="width: 90%; min-height: 65px; max-height: ` + MSNC(stringEV(label), "73", "65") + `px;` + MSN(style) + `" data-autocomplete-auto-init>
+				<div class="form-group autocomplete" style="width: 90%; min-height: 65px; max-height: ` + MSNC(stringEV(label), "73", "65") + `px;` + MSN(style) + `" data-autocomplete-auto-init ` + MSNC(showAll, "data-autocomplete-showall", "") + ` >
 					<label ` + MSN(id, ` for="`, `" `, ``) + `>` + MSN(label) + `</label>
 					<input ` + MSN_ID(id) + ` type="text" class="form-control" placeholder="` + MSN(placeholder) + `" autocomplete="off">
 					<div class="autocomplete-items"></div>
@@ -183,7 +183,7 @@ function MS_ProcessDropDown(arguments, startAt) {
 
 //Processes input for autocomplete snippit
 function Autocomplete_ArrayToOptions(options) {
-	return arrayToHTMLTags(options, tag);
+	return arrayToHTMLTags(options, "p");
 }
 
 function arrayToHTMLTags(arr, tag) {

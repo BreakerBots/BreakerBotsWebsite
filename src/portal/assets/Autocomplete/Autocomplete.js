@@ -5,6 +5,7 @@ class Autocomplete {
 		var self = this;
 		self.element = container.querySelector("input");
 		self.container = container;
+		self.showall = container.getAttribute('data-autocomplete-showall') != null;
 		self.wrapper = container.querySelector(".autocomplete-items");
 		getAutocompleteItems();
 		self.focus = -1;
@@ -13,25 +14,29 @@ class Autocomplete {
 		/*					<-- Source -->				  */
 
 		//Search
-		self.element.addEventListener('input', function () {
+		function checkInp() {
 			changeFocus(-1);
 			clearWrapper();
-
-			var search = self.fuse.search(this.value);
-			for (var i = 0; i < search.length; i++) {
-				self.wrapper.innerHTML += `
+			
+			var search = self.showall ? (self.element.value == "" ? self.options : self.fuse.search(self.element.value)) : self.fuse.search(self.element.value);
+			setTimeout(function () {
+				for (var i = 0; i < search.length; i++) {
+					self.wrapper.innerHTML += `
 					<div class="autocomplete-item" onclick="
 							var inp = (this.parentNode.parentNode).querySelector('input');
 							inp.value = this.querySelector('input').value;
 							this.parentNode.innerHTML = '';
 							try { window[inp.dataset.autocompleteInput](); } catch (err) {  }
 					">
-						<span>` + self.options[search[i]] + `</span>
-						<input type='hidden' value="` + self.options[search[i]] + `">
+						<span>` + (self.options[search[i]] || self.options[i]) + `</span>
+						<input type='hidden' value="` + (self.options[search[i]] || self.options[i]) + `">
 					</div>
 					`;
-			}
-		});
+				}
+			}, 10);
+		}
+		self.element.addEventListener('input', checkInp);
+		self.element.addEventListener('click', checkInp);
 
 		self.element.addEventListener('keydown', function (e) {
 			//Down Key
@@ -97,11 +102,12 @@ class Autocomplete {
 		function getAutocompleteItems() {
 			if (__options != JSON.stringify(self.container.querySelector(".autocomplete-options").querySelectorAll("*"))) {
 				__options = JSON.stringify(self.container.querySelector(".autocomplete-options").querySelectorAll("*"));
-				self.options = [];
+				var tempOptions = [];
 				var __tempop = self.container.querySelector(".autocomplete-options").querySelectorAll("*");
 				for (var i = 0; i < __tempop.length; i++) {
-					self.options.push(__tempop[i].innerHTML);
+					tempOptions.push(__tempop[i].innerHTML);
 				}
+				self.options = tempOptions;
 				self.refreshSearch();
 			}
 		}
