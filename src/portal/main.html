@@ -396,13 +396,13 @@
 						</button>
 					</div>
 					<div id="EditAccount" class="tab">
-						<div class="EditAccount-Card">
+						<div class="EditAccount-Card material-scrollbar">
 							<div class="EditAccount-Tabs mdc-tab-bar-scroller">
 								<div class="mdc-tab-bar-scroller__indicator mdc-tab-bar-scroller__indicator--back">
 									<span class="mdc-tab-bar-scroller__indicator__inner material-icons">navigate_before</span>
 								</div>
 								<div class="mdc-tab-bar-scroller__scroll-frame">
-									<nav class="mdc-tab-bar mdc-tab-bar-scroller__scroll-frame__tabs mdc-tab-bar-upgraded" style="transform: translateX(0px);">
+									<nav class="noselect mdc-tab-bar mdc-tab-bar-scroller__scroll-frame__tabs mdc-tab-bar-upgraded" style="transform: translateX(0px);">
 										<span onclick="setHashParam('EditAccountTab', 'EP')" class="mdc-tab mdc-tab--active mdc-ripple-upgraded">Edit Profile</span>
 										<span onclick="setHashParam('EditAccountTab', 'NS')" class="mdc-tab mdc-ripple-upgraded">Notification Settings</span>
 										<span onclick="setHashParam('EditAccountTab', 'CP')" class="mdc-tab mdc-ripple-upgraded">Change Password</span>
@@ -415,7 +415,50 @@
 							</div>
 							<div class="EditAccount-Viewer">
 								<div class="EditAccount-View EditAccount-View--Active EditAccount-View--EP">
-									
+									<img id="EditAccountJS--Avatar" style="width: 60vw; height: 60vw; min-width: 150px; max-width: 320px; min-height: 150px; max-height: 320px; margin-top: 30px;" src="../assets/img/iconT.png" />
+									<div style="width: 100%; height: 10px"></div>
+									<div onclick="EditProfileChangeAvatar()" style="height: 40px; width: 60vw; min-width: 150px; max-width: 320px; display: flex; justify-content: center;" class="mdc-ripple-surface noselect mdc-elevation--z2" data-mdc-auto-init="MDCRipple">
+										<span style="height: 30px; margin-top: 4px; width: 100%; font-size: 20px; color: #ffa000; text-align: center;">Change Avatar</span>
+									</div>
+									<div class="form-group" style="width: 90%; min-height: 65px; max-height: 65px; margin-top: 30px;">
+										<label>Username</label>
+										<input oninput="EditProfileCheckSubmit()" id="EditAccountJS--Username" type="text" class="EditAccountJS--Autofill form-control" placeholder="A Username" autocomplete="off" required>
+									</div>
+									<div class="form-group" style="width: 90%; min-height: 65px; max-height: 65px;">
+										<label>Name</label>
+										<input oninput="EditProfileCheckSubmit()" id="EditAccountJS--Name" type="text" class="EditAccountJS--Autofill form-control" placeholder="Your Name" autocomplete="off">
+									</div>
+									<div class="form-group" style="width: 90%; min-height: 65px;">
+										<label for="EditAccountJS-Desc">Description</label>
+										<textarea oninput="EditProfileCheckSubmit()" style="resize: none;" onkeydown="resizeTextarea()" id="EditAccountJS--Desc" class="EditAccountJS--Autofill form-control" placeholder="A Description of You" autocomplete="off"></textarea>
+									</div>
+									<div class="form-group" style="width: 90%; min-height: 65px; max-height: 65px;">
+										<label>Role</label>
+										<input oninput="EditProfileCheckSubmit()" id="EditAccountJS--Role" type="text" class="EditAccountJS--Autofill form-control" placeholder="Your Role on the Team (Optional)" autocomplete="off">
+									</div>
+									<div class="form-group" style="width: 90%; min-height: 65px; max-height: 65px;">
+										<label>Grade</label>
+										<input oninput="EditProfileCheckSubmit()" id="EditAccountJS--Grade" type="text" class="EditAccountJS--Autofill form-control" placeholder="Your Grade (Optional)" autocomplete="off">
+									</div>
+									<div class="form-group" style="width: 90%; min-height: 65px; max-height: 65px;">
+										<label>Public Email</label>
+										<input oninput="EditProfileCheckSubmit()" id="EditAccountJS--PublicEmail" type="text" class="EditAccountJS--Autofill form-control" placeholder="Your Public Email (Optional)" autocomplete="off">
+									</div>
+									<div class="form-group" style="width: 90%; min-height: 65px; max-height: 65px;">
+										<label>Slack</label>
+										<input oninput="EditProfileCheckSubmit()" id="EditAccountJS--Slack" type="text" class="EditAccountJS--Autofill form-control" placeholder="Your Slack Username (Optional)" autocomplete="off">
+									</div>
+									<div class="form-group" style="width: 90%; min-height: 65px; max-height: 65px;">
+										<label>Phone</label>
+										<input oninput="EditProfileCheckSubmit()" id="EditAccountJS--Phone" type="text" class="EditAccountJS--Autofill form-control" placeholder="Your Phone Number (Optional)" autocomplete="off">
+									</div>
+									<div class="form-group" style="width: 90%; min-height: 65px; max-height: 65px;">
+										<label>Github</label>
+										<input oninput="EditProfileCheckSubmit()" id="EditAccountJS--Github" type="text" class="EditAccountJS--Autofill form-control" placeholder="Your Github Username (Optional)" autocomplete="off">
+									</div>
+									<div class="form-group" style="width: 90%; min-height: 65px; max-height: 65px; margin-top: 8px">
+										<button onclick="EditProfileSubmitChanges()" id="EditAccountJS--Submit" style="float: right; transition: transform 0.4s cubic-bezier(.2, 0, .2, 1); transform: scale(0);" class="mdc-button mdc-button--raised" data-mdc-auto-init="MDCRipple">Submit</button>
+									</div>
 								</div>
 								<div class="EditAccount-View EditAccount-View--NS">
 

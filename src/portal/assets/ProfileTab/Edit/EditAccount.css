@@ -8,6 +8,9 @@
 	left: 0;
 	right: 0;
 	height: calc(100% - 35px);
+	overflow-x: hidden;
+	overflow-y: auto;
+	background-color: rgb(245, 245, 245);
 }
 
 @media (max-width: 600px) {
@@ -33,11 +36,22 @@
 
 .EditAccount-View {
 	display: none;
-}
-
-.EditAccount-View.EditAccount-View--Active {
+	flex-wrap: wrap;
+	justify-content: center;
 	width: 100%;
 	height: 100%;
-	display: flex;
-	justify-content: center;
 }
+
+	.EditAccount-View.EditAccount-View--Active {
+		display: flex;
+		animation: EditAccount-View-Open 1s cubic-bezier(.2, 0, .2, 1) 0s 1 normal forwards;
+	}
+
+	@keyframes EditAccount-View-Open {
+		from { opacity: 0 }
+		to { opacity: 1 }
+	}
+
+	.EditAccount-View.EditAccount-View--Active > * {
+		width: 100%;
+	}

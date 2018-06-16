@@ -27,7 +27,7 @@ function ProfileTabInit() {
 					SetProfileVarible("Slack", userdata.slack, true);
 					SetProfileVarible("Github", userdata.github, true);
 					SetProfileVarible("Phone", userdata.phone, true);
-					SetProfileVarible("Email", userdata.email, true);
+					SetProfileVarible("Email", userdata.publicemail, true);
 
 					var ProfileAvatarEditorButton = document.querySelector('.ProfileTabJI-AvatarEditor');
 					if (isSelf) {
