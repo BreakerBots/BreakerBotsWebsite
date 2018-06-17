@@ -4,7 +4,6 @@ function updateTabs(tab) {
 	//Switch To Tab To Select Tab From Url
 	if (tab == undefined) { tab = getTabFromURL('tab'); if (tab == null) { tab = 'SignIn'; } }
 
-	
 	//Transition
 	cardRippleTransition(
 		function adjustHeights() {
@@ -37,7 +36,7 @@ function clearTabs() {
 //Update the tab on refresh
 document.addEventListener('DOMContentLoaded', function () { updateTabs(); });
 //Update the tabs on "#" change in url
-$(window).on('hashchange', function () { updateTabs(); });
+window.addEventListener('hashchange', function () { updateTabs(); });
 
 function getTabFromURL() {
 	return window.location.hash == "" ? null : window.location.hash.substring(1);

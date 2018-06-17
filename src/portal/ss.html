@@ -8,12 +8,9 @@
 	<meta name="author" content="">
 	<link rel="shortcut icon" href="../assets/img/iconT.png">
 	<title>Breakerbots - Login</title>
-	<link rel="stylesheet" type="text/css" href="../assets/lib/perfect-scrollbar/css/perfect-scrollbar.min.css" />
-	<link rel="stylesheet" type="text/css" href="../assets/lib/material-design-icons/css/material-design-iconic-font.min.css" />
 	<meta name="theme-color" content="#d60000" />
-	<!--[if lt IE 9]><script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script><script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]--><link rel="stylesheet" href="../assets/css/app.css" type="text/css" />
 
-	<!--Firebase-->
+	<link rel="stylesheet" type="text/css" href="../assets/lib/material-design-icons/css/material-design-iconic-font.min.css" />
 	<script defer src="/__/firebase/4.12.1/firebase-app.js"></script>
 	<script defer src="/__/firebase/4.12.1/firebase-auth.js"></script>
 	<script defer src="/__/firebase/4.12.1/firebase-database.js"></script>
@@ -24,14 +21,186 @@
 
 	<!--MDC-->
 	<link rel="stylesheet" href="../assets/mdc/material.css">
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="../assets/mdc/icons.css">
+	<link rel="stylesheet" href="../assets/lib/material/ml.css">
 
 	<link rel="stylesheet" href="assets/RippleTransitions/ripple.css">
-	<link rel="stylesheet" href="assets/Header/header.css">
-
 	<link rel="stylesheet" href="assets/Autocomplete/Autocomplete.css" type="text/css" />
 
-	<style>[class~=material-loader]{fill:none;}[class~=material-loader]{stroke-width:5;}[class~=material-loader]{animation:rotate 2s linear infinite;}[class~=material-loader__circle]{stroke:#d50000;}[class~=material-loader__circle]{stroke-dasharray:1,200;}[class~=material-loader__circle]{stroke-dashoffset:0;}[class~=material-loader__circle]{animation:dash 1.5s ease-in-out infinite,color 1.5s ease-in-out infinite;}@keyframes color{0%{stroke:#d50000;}80%{stroke:#ffa000;}100%{stroke:#ffa000;}}@keyframes rotate{0%{transform:rotate(0deg) scale(.75);}100%{transform:rotate(360deg) scale(.75);}}@keyframes dash{0%{stroke-dasharray:1,200;stroke-dashoffset:0;}50%{stroke-dasharray:89,200;stroke-dashoffset:-35;}100%{stroke-dasharray:89,200;stroke-dashoffset:-124;}}.material-loader,[class~=patooltip]{position:absolute;}.material-loader{top:20%;}[class~=patooltip],.material-loader{left:50%;}.material-loader{margin-left:-.260416667in;}[class~=tab]{display:none;}[class~=patooltip-container]{overflow:visible;}#SUPC:hover > [class~=patooltip-container] > [class~=patooltip]{opacity:1;}[class~=patooltip-container]{pointer-events:none;}[class~=patooltip]{padding-left:1.5ch;}[class~=patooltip]{padding-bottom:1ch;}[class~=patooltip]{padding-right:1.5ch;}[class~=patooltip]{padding-top:1ch;}[class~=patooltip]{z-index:25;}[class~=patooltip]{text-align:center;}[class~=patooltip]{background-color:rgba(40,40,40,.8);}[class~=patooltip]{color:#fff;}[class~=patooltip]{border-radius:.3ch;}[class~=patooltip]{font-family:Roboto;}[class~=patooltip]{min-width:10em;}[class~=patooltip]{max-width:40em;}[class~=patooltip]{font-size:10.5pt;}[class~=patooltip]{line-height:1;}[class~=patooltip]{opacity:0;}[class~=patooltip]{user-select:none;}[class~=patooltip]{transition:all .45s;}.tab.active{display:block;}</style>
+	<style>
+		[class~=material-loader] {
+			fill: none;
+		}
+
+		[class~=material-loader] {
+			stroke-width: 5;
+		}
+
+		[class~=material-loader] {
+			animation: rotate 2s linear infinite;
+		}
+
+		[class~=material-loader__circle] {
+			stroke: #d50000;
+		}
+
+		[class~=material-loader__circle] {
+			stroke-dasharray: 1,200;
+		}
+
+		[class~=material-loader__circle] {
+			stroke-dashoffset: 0;
+		}
+
+		[class~=material-loader__circle] {
+			animation: dash 1.5s ease-in-out infinite,color 1.5s ease-in-out infinite;
+		}
+
+		@keyframes color {
+			0% {
+				stroke: #d50000;
+			}
+
+			80% {
+				stroke: #ffa000;
+			}
+
+			100% {
+				stroke: #ffa000;
+			}
+		}
+
+		@keyframes rotate {
+			0% {
+				transform: rotate(0deg) scale(.75);
+			}
+
+			100% {
+				transform: rotate(360deg) scale(.75);
+			}
+		}
+
+		@keyframes dash {
+			0% {
+				stroke-dasharray: 1,200;
+				stroke-dashoffset: 0;
+			}
+
+			50% {
+				stroke-dasharray: 89,200;
+				stroke-dashoffset: -35;
+			}
+
+			100% {
+				stroke-dasharray: 89,200;
+				stroke-dashoffset: -124;
+			}
+		}
+
+		.material-loader, [class~=patooltip] {
+			position: absolute;
+		}
+
+		.material-loader {
+			top: 20%;
+		}
+
+		[class~=patooltip], .material-loader {
+			left: 50%;
+		}
+
+		.material-loader {
+			margin-left: -.260416667in;
+		}
+
+		[class~=tab] {
+			display: none;
+		}
+
+		[class~=patooltip-container] {
+			overflow: visible;
+		}
+
+		#SUPC:hover > [class~=patooltip-container] > [class~=patooltip] {
+			opacity: 1;
+		}
+
+		[class~=patooltip-container] {
+			pointer-events: none;
+		}
+
+		[class~=patooltip] {
+			padding-left: 1.5ch;
+		}
+
+		[class~=patooltip] {
+			padding-bottom: 1ch;
+		}
+
+		[class~=patooltip] {
+			padding-right: 1.5ch;
+		}
+
+		[class~=patooltip] {
+			padding-top: 1ch;
+		}
+
+		[class~=patooltip] {
+			z-index: 25;
+		}
+
+		[class~=patooltip] {
+			text-align: center;
+		}
+
+		[class~=patooltip] {
+			background-color: rgba(40,40,40,.8);
+		}
+
+		[class~=patooltip] {
+			color: #fff;
+		}
+
+		[class~=patooltip] {
+			border-radius: .3ch;
+		}
+
+		[class~=patooltip] {
+			font-family: Roboto;
+		}
+
+		[class~=patooltip] {
+			min-width: 10em;
+		}
+
+		[class~=patooltip] {
+			max-width: 40em;
+		}
+
+		[class~=patooltip] {
+			font-size: 10.5pt;
+		}
+
+		[class~=patooltip] {
+			line-height: 1;
+		}
+
+		[class~=patooltip] {
+			opacity: 0;
+		}
+
+		[class~=patooltip] {
+			user-select: none;
+		}
+
+		[class~=patooltip] {
+			transition: all .45s;
+		}
+
+		.tab.active {
+			display: block;
+		}
+	</style>
 </head>
 <body class="be-splash-screen">
 	<div class="be-wrapper be-login">
@@ -50,16 +219,16 @@
 									<div>
 										<div class="form-group">
 											<div class="form-group autocomplete" style="width: 100%; max-height: 73px;" data-autocomplete-auto-init>
-												<label for="Input-Name">Name</label>
-												<input data-autocomplete-input="SignInCheck" oninput="SignInCheck()" id="Input-Name" type="text" class="form-control" placeholder="Ur Name" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+												<label for="in5104">Name</label>
+												<input data-autocomplete-input="SIC23" oninput="SIC23()" id="in5104" type="text" class="form-control" placeholder="Your Name" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
 												<div class="autocomplete-items"></div>
 												<div class="autocomplete-options" id="SignInOptions">
-													
+
 												</div>
 											</div>
 										</div>
 										<div class="form-group login-submit" style="transform: translateY(-30px) scale(1); transition: transform 0.2s cubic-bezier(.2, 0, .2, 1), top 0.4s;">
-											<button id="SignInTogo" type="submit" style="width: 90%; display: block; transition: transform 0.2s cubic-bezier(.2, 0, .2, 1), top 0.4s; transform: scale(0); margin: auto;" data-mdc-auto-init="MDCRipple" class="mdc-button mdc-button--raised mdc-ripple-upgraded">Sign In</button>
+											<button id="BS--SIB" type="submit" style="width: 90%; display: block; transition: transform 0.2s cubic-bezier(.2, 0, .2, 1), top 0.4s; transform: scale(0); margin: auto;" data-mdc-auto-init="MDCRipple" class="mdc-button mdc-button--raised mdc-ripple-upgraded">Sign In</button>
 										</div>
 									</div>
 								</div>
@@ -75,76 +244,45 @@
 	</div>
 	<div id="CloseRippleWrap" class="ripple-wrap"><div style="border-color: #EEEEEE;" id="CloseRipple" class="ripple"></div></div>
 	<div id="OpenRippleWrap" class="ripple-wrap goripple-i" style="pointer-events:none;"><div style="left: 50%; top: 20%;" id="OpenRipple" class="ripple"></div></div>
-	<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
-	<script src="../assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
-	<script src="../assets/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
-	<script src="../assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
-	<script src="../assets/js/app.js" type="text/javascript"></script>
+
+
+	<script src="../assets/mdc/material.js"></script>
+	<script src='../assets/lib/Fuse/fuse.js'></script>
+
 	<script src="assets/Resources/functions.js"></script>
-	<script src="assets/Header/header.js"></script>
 	<script src="enter/sstabs.js"></script>
 	<script src="enter/registerEnterTab.js"></script>
-	<script src='../assets/lib/Fuse/fuse.js'></script>
 	<script src="assets/ShiftingDialog/Snipits.js"></script>
 	<script src="assets/Resources/functions.js"></script>
 	<script src="assets/Autocomplete/Autocomplete.js"></script>
+
+	<!--100% OOF Proofed :_) -->
 	<script type="text/javascript">
-		$(document).ready(function () { App.init(); }); window.mdc.autoInit();
-
-		// Member Signin
-		var SignInTab = new RegisteredTab("SignIn", 330);
-
-		var SSM_Data;
-		document.addEventListener('DOMContentLoaded', function () {
-			firebase.app().firestore().collection("SS").onSnapshot(function (snapshot) {
-				SSM_Data = findObjectByKey(snapshot.docs, "id", "members").data();
-				document.querySelector("#SignInOptions").innerHTML = a952dcc6b0aaf31998cc306425c3dfaefba611e37ae268be4231f9efa61bc95e(SSM_Data);
-				SignInCheck();
-			});
+		window.mdc.autoInit();
+		new RegisteredTab("SignIn", 330);
+		var ds33;
+		document.addEventListener("DOMContentLoaded", function () {
+			firebase.app().firestore().collection("SS").onSnapshot(function (a) {
+				ds33 = a;
+				document.querySelector("#SignInOptions").innerHTML = hin45(a);
+				SIC23()
+			})
 		});
-
-		var teamMembers = {};
-		function a952dcc6b0aaf31998cc306425c3dfaefba611e37ae268be4231f9efa61bc95e(options) {
-			var ret = '';
-			teamMembers = {};
-			for (var i = 0; i < Object.keys(options).length; i++) {
-				ret += '<p>' + Object.keys(options)[i] + '</p>';
-				var siso = options[Object.keys(options)[i]];
-				teamMembers[Object.keys(options)[i]] = siso.length > 0 ? siso[siso.length - 1].in != undefined : false;
-			}
-			return ret;
+		var tm1 = {};
+		function hin45(a) {
+			for (var b = "", e = {}, c = 0; c < a.docs.length; c++){
+				var d = a.docs[c].data();
+				b += "<p>" + d.name + "</p>";
+				e[d.name] = [a.docs[c].id, 0 != d.history.length % 2]
+			} tm1 = e; return b
 		}
-
-		document.querySelector("#SignInTogo").addEventListener('click', function () {
-			document.querySelector("#SignInTogo").disabled = true;
-			document.querySelector("#SignInTogo").parentNode.style.transform = "translateY(-30px) scale(0)";
-			var val = document.querySelector("#Input-Name").value;
-			if (teamMembers[val] != undefined) {
-				SSM_Data[val].push({ [teamMembers[val] ? "out" : "in"]: new Date() });
-				firebase.app().firestore().collection("SS").doc("members").set(SSM_Data).then(function () {
-					document.querySelector("#SignInTogo").disabled = false;
-					setTimeout(function () { document.querySelector("#SignInTogo").parentNode.style.transform = "translateY(-30px) scale(1)"; }, 200);
-				});
-			}
-		});
-
-		function SignInCheck() {
-			var val = document.querySelector("#Input-Name").value;
-			if (teamMembers[val] != undefined) {
-				document.querySelector("#SignInTogo").style.transform = "scale(1)";
-				document.querySelector("#SignInTogo").innerHTML = teamMembers[val] ? "Sign Out" : "Sign In";
-			}
-			else {
-				document.querySelector("#SignInTogo").style.transform = "scale(0)";
-			}
-		}
-
-		// Register Computer ( Ooof Protected )
+		document.querySelector("#BS--SIB").addEventListener("click",function(){document.querySelector("#BS--SIB").disabled=!0;document.querySelector("#BS--SIB").parentNode.style.transform="translateY(-30px) scale(0)";var a=document.querySelector("#in5104").value;document.querySelector("#in5104").value="";if(void 0!=tm1[a]){a=tm1[a][0];var b=findObjectByKey(ds33.docs,"id",a).data();b.history.push(new Date);firebase.app().firestore().collection("SS").doc(a).set(b).then(function(){document.querySelector("#BS--SIB").disabled=
+		!1; setTimeout(function(){document.querySelector("#BS--SIB").parentNode.style.transform="translateY(-30px) scale(1)"},200)})}});function SIC23(){var a=document.querySelector("#in5104").value;void 0!=tm1[a]?(document.querySelector("#BS--SIB").style.transform="scale(1)",document.querySelector("#BS--SIB").innerHTML=tm1[a][1]?"Sign Out":"Sign In"):document.querySelector("#BS--SIB").style.transform="scale(0)"};
 		new RegisteredTab("RegisterComputer", 350, null, null, null);
 		var RC_PsVs_Timeout; function RC_PsVs() { var a = event.srcElement; clearTimeout(RC_PsVs_Timeout); document.querySelector("#RegisterComputerPassword").type = "visibility_off" != a.innerHTML ? "password" : "text"; a.parentNode.style.transform = "scale(0.4)"; RC_PsVs_Timeout = setTimeout(function () { a.innerHTML = "visibility_off" == a.innerHTML ? "visibility" : "visibility_off"; a.parentNode.style.transform = "scale(1)" }, 150) }
-		function registerComputer(a) { "d45ed65b1ce6e44628310f71e9356fdedffb12c2bcd7658a0186284f073a3786" == b3abe5d8c69b38733ad57ea75e83bcae42bbbbac75e3a5445862ed2f8a2cd677(a) && (sessionStorage['28cbc45dd86b5f89e26e180f382abf3a0661eb9f90436440c3feda70e4d7e890'] = "2cd5ac0b67f5232d9243007e01fa722420a26aeb4afdc001b2d54148b6f994d2") };
+		function registerComputer(a) { "cb096403db2f01d5142ec4e629bc5efdc2c6b4198e893639c8e5018dc566c7a2" == se32(a) && (sessionStorage['28cbc45dd86b5f89e26e180f382abf3a0661eb9f90436440c3feda70e4d7e890'] = "2cd5ac0b67f5232d9243007e01fa722420a26aeb4afdc001b2d54148b6f994d2") };
 		setInterval(function () { location.hash = "2cd5ac0b67f5232d9243007e01fa722420a26aeb4afdc001b2d54148b6f994d2" == sessionStorage['28cbc45dd86b5f89e26e180f382abf3a0661eb9f90436440c3feda70e4d7e890'] ? "#SignIn" : "#RegisterComputer" }, 200);
-		function b3abe5d8c69b38733ad57ea75e83bcae42bbbbac75e3a5445862ed2f8a2cd677(k) {
+		function se32(k) {
 			function e(c, b) { var d = (c & 65535) + (b & 65535); return (c >> 16) + (b >> 16) + (d >> 16) << 16 | d & 65535 } function g(c, b) { return c >>> b | c << 32 - b } k = function (c) { c = c.replace(/\r\n/g, "\n"); for (var b = "", d = 0; d < c.length; d++) { var a = c.charCodeAt(d); 128 > a ? b += String.fromCharCode(a) : (127 < a && 2048 > a ? b += String.fromCharCode(a >> 6 | 192) : (b += String.fromCharCode(a >> 12 | 224), b += String.fromCharCode(a >> 6 & 63 | 128)), b += String.fromCharCode(a & 63 | 128)) } return b }(k); return function (c) {
 				for (var b = "", d = 0; d < 4 * c.length; d++)b += "0123456789abcdef".charAt(c[d >>
 					2] >> 8 * (3 - d % 4) + 4 & 15) + "0123456789abcdef".charAt(c[d >> 2] >> 8 * (3 - d % 4) & 15); return b

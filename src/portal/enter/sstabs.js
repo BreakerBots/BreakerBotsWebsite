@@ -25,7 +25,7 @@ function updateTabs(tab) {
 			sendTabOpenCallback(tab);
 
 			//Open the new tab and play animation
-			document.getElementById(tab).classList.add('active');
+			document.querySelector('#' + tab).classList.add('active');
 		}
 	);
 }
@@ -37,7 +37,7 @@ function clearTabs() {
 //Update the tab on refresh
 document.addEventListener('DOMContentLoaded', function () { updateTabs(); });
 //Update the tabs on "#" change in url
-$(window).on('hashchange', function () { updateTabs(); });
+window.addEventListener('hashchange', function () { updateTabs(); });
 
 function getTabFromURL() {
 	return window.location.hash == "" ? null : window.location.hash.substring(1);

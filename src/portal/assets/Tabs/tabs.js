@@ -47,9 +47,8 @@ function updateTabs(tab) {
 		if (!lastTab || (!lastTab ? false : (lastTab.id != tab))) {
 			document.querySelector('header').style.transform = "";
 			showMainLoader(true);
-
-			//Send Open Callback to tab handlers
-			sendTabOpenCallback(tab);
+			headerUseBackArrow(false);
+			headerUseSearch(false);
 
 			//Clear the last tab's header extension
 			document.querySelector('#headerExtensionContainer');
@@ -71,10 +70,6 @@ function updateTabs(tab) {
 			//Delete Hash Junk
 			deletePerTabHashJunk(tab);
 
-			//Default the header
-			headerUseBackArrow(false);
-			headerUseSearch(false);
-
 			//Update the selected item in menu
 			var LeftNavLists = document.querySelectorAll('.LeftNavList');
 			[].forEach.call(LeftNavLists, function (lnl) {
@@ -83,7 +78,10 @@ function updateTabs(tab) {
 			});
 
 			//Open the new tab and play animation
-			document.getElementById(tab).classList.add('active');
+			document.querySelector('#' + tab).classList.add('active');
+
+			//Send Open Callback to tab handlers
+			sendTabOpenCallback(tab);
 		}
 	}
 }

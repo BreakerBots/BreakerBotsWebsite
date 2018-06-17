@@ -18,11 +18,15 @@ function authLoadedFullWait(func) {
 //Rerouting and setting names on header
 document.addEventListener('DOMContentLoaded', function () {
 	firebase.auth().onAuthStateChanged(function (user) {
+		//console.log(user);
 		if (user) { //Set the page names to the username of the user signed in
 
 		} else { //If not signed in reroute to public page
 			window.open('../index.html', '_self', false);
 		}
+	});
+	firebase.auth().addAuthTokenListener(function (a) {
+		//console.log('err', a);
 	});
 });
 

@@ -483,7 +483,7 @@ function TodoConfirmDeleteFTG(item) {
 		mainSnips.icon(null, "delete", "font-size: 160px; color: red;") + 
 		`<div style="width: 100%"></div>` +
 		`<h1 style="text-align: center;"> Are you sure you want to delete the ` + (itemData.tasks == undefined ? "folder " : "task-group ") + (itemData.title == "" ? "that is unnamed" : itemData.title) + `?</h1>`
-	, true, true);
+	, true);
 	ShiftingDialog.open();
 }
 ShiftingDialog.addSubmitListener("TodoDeleteFTG", function (content) {
@@ -508,7 +508,7 @@ function TodoConfirmDeleteTask(item, parent) {
 		mainSnips.icon(null, "delete", "font-size: 160px; color: red;") +
 		`<div style="width: 100%"></div>` +
 		`<h1 style="text-align: center;"> Are you sure you want to delete ` + itemData.title + `?</h1>`
-		, true, true);
+		, true);
 	ShiftingDialog.open();
 }
 ShiftingDialog.addSubmitListener("TodoDeleteTask", function (content) {

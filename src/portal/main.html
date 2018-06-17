@@ -8,14 +8,11 @@
 	<meta name="author" content="">
 	<link rel="shortcut icon" href="../assets/img/iconT.png">
 	<title>Breakerbots - Dashboard</title>
-	<link rel="stylesheet" type="text/css" href="../assets/lib/perfect-scrollbar/css/perfect-scrollbar.min.css" />
-	<link rel="stylesheet" type="text/css" href="../assets/lib/material-design-icons/css/material-design-iconic-font.min.css" />
 	<meta name="theme-color" content="#d60000" />
-	<!--[if lt IE 9]>
-	<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-	<![endif]-->
-	<link rel="stylesheet" href="../assets/css/app.css" type="text/css" />
+
+	<!--Other-->
+	<link rel="stylesheet" href="../assets/lib/material-design-icons/css/material-design-iconic-font.min.css" />
+	<link rel="stylesheet" href="../assets/lib/material/ml.css" />
 	<link rel="stylesheet" href="../assets/lib/datetimepicker/css/bootstrap-datetimepicker.min.css">
 	<link rel="stylesheet" href="../assets/lib/fullcalendar/fullcalendar.min.css" />
 	<link rel="stylesheet" href="../assets/lib/croppie/croppie.css" />
@@ -30,25 +27,46 @@
 	<script defer src="/__/firebase/init.js"></script>
 
 	<!--MDC-->
-	<link rel="stylesheet" href="../assets/mdc/material.css">
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link rel="stylesheet" href="../assets/mdc/material-tables.css">
+	<link href="../assets/mdc/material.css" rel="stylesheet">
+	<link href="../assets/mdc/icons.css" rel="stylesheet">
+	<link href="../assets/mdc/material-tables.css" rel="stylesheet">
 
-	<!--  -->
+
+
+	<!-- Tabs -->
 	<link rel="stylesheet" href="assets/Tabs/tabs.css" type="text/css" />
+
+	<!-- Autocomplete -->
 	<link rel="stylesheet" href="assets/Autocomplete/Autocomplete.css" type="text/css" />
-	<link rel="stylesheet" href="assets/Accounting/account.css" type="text/css" />
+
+	<!-- Todo Tab -->
 	<link rel="stylesheet" href="assets/Todo/todo.css" type="text/css" />
+
+	<!-- ShiftingDialog -->
 	<link rel="stylesheet" href="assets/ShiftingDialog/ShifitingDialog.css" type="text/css" />
+
+	<!-- Header -->
 	<link rel="stylesheet" href="assets/Header/header.css" type="text/css" />
-	<link rel="manifest" href="assets/Notifications/manifest.json">
+
+	<!-- Other Resources -->
+	<link rel="stylesheet" href="assets/Resources/Fabs.css" type="text/css" />
 	<link rel="stylesheet" href="assets/Resources/BreakerLayout.css" type="text/css" />
 	<link rel="stylesheet" href="assets/Resources/Menus.css" type="text/css" />
 	<link rel="stylesheet" href="assets/Resources/Tooltips.css" type="text/css" />
 	<link rel="stylesheet" href="assets/Resources/Scroll.css" type="text/css" />
+
+	<!-- Side Nav Drawer -->
 	<link rel="stylesheet" href="assets/SideNav/SideNav.css" type="text/css" />
+
+	<!-- Notifications -->
 	<link rel="stylesheet" href="assets/Notifications/Notifications.css" type="text/css" />
+	<link rel="manifest" href="assets/Notifications/manifest.json">
+
+	<!--Profile Tab  -->
 	<link rel="stylesheet" href="assets/ProfileTab/ProfileTab.css" type="text/css" />
+	<link rel="stylesheet" href="assets/ProfileTab/AvatarEditor.css" type="text/css" />
+	<link rel="stylesheet" href="assets/ProfileTab/Edit/EditAccount.css" type="text/css" />
+
 </head>
 <body style="background-color: #EEEEEE; overflow-y: hidden;">
 	<header class="mdc-top-app-bar mdc-top-app-bar--fixed" style="z-index: 10; transform: translateY(-100%);">
@@ -109,7 +127,12 @@
 				<div role="menu" class="dropdown-menu-c dropdown-menu mdc-elevation--z10" id="profileMenu" style="width: 300px; padding: 0; border: 0; position: absolute;">
 					<!--Header-->
 					<div>
-						<img id="profileMenu-Avatar" style="border-radius: 50%; width: 30%; margin-left: 4%; margin-top: 3%;" alt="profilePicture" />
+						<div style="width: 85px; height: 85px; position: absolute; margin: 7px 0 0 7px;">
+							<img style="border-radius: 4px; width: 100%; height: 100%;" class="noselect" id="profileMenu-Avatar" alt="profilePicture" />
+							<button onclick="HeaderChangeAvatar()" style="border-radius: 4px; width: 100%; height: 100%;" class="ProfileTab-AvatarEditor ProfileTab-AvatarEditor--Editing mdc-ripple-surface" data-mdc-auto-init="MDCRipple">
+								<i style="font-size: 380%; transform: translate(0, 5px)" class="material-icons">photo_camera</i>
+							</button>
+						</div>
 						<div style="width: 50%; text-align: right; float: right; margin-right: 10%;">
 							<h2 id="profileMenu-Name" style="margin-bottom: 5px;"></h2>
 							<p id="profileMenu-Role"></p>
@@ -118,7 +141,7 @@
 					</div>
 					<!--Footer-->
 					<div style="background-color: rgba(0 ,0, 0, 0.1); height: 50px; margin-top: 3%;">
-						<button onclick="toggleMenu('#profileMenu'); setHashParam('tab', 'Profile'); setHashParam('profile', 'this');" class="mdc-button mdc-button--raised mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" style="margin-top: 6px; margin-left: 6px; background-color: rgb(160, 160, 160);">Edit Account</button>
+						<button onclick="toggleMenu('#profileMenu'); setHashParam('tab', 'Profile'); setHashParam('profile', 'this');" class="mdc-button mdc-button--raised mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" style="margin-top: 6px; margin-left: 6px; background-color: rgb(160, 160, 160);">My Account</button>
 						<button onclick="toggleMenu('#profileMenu'); firebase.auth().signOut();" class="mdc-button mdc-button--raised mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" style="float: right; margin-top: 6px; margin-right: 6px; background-color: rgb(214, 50, 50);">Signout</button>
 					</div>
 				</div>
@@ -206,6 +229,24 @@
 					<!--Tabs-->
 					<div id="General" class="tab">
 						<h1>General</h1>
+						<div class="material-table material-table--card">
+							<div class="material-table--header" style="position: relative;">
+								<span class="material-table--title">Sign In / Sign Out Table (Temporary)</span>
+								<button onclick="SSSignAllOut()" style="position: absolute; top: 10px; right: 10px;" class="mdc-button mdc-button--raised" data-mdc-auto-init="MDCRipple">Sign All Out</button>
+							</div>
+							<table>
+								<thead>
+									<tr>
+										<th>Name</th>
+										<th>Status</th>
+										<th>Time</th>
+									</tr>
+								</thead>
+								<tbody id="SISOTable">
+									
+								</tbody>
+							</table>
+						</div>
 					</div>
 					<div id="PartsAll" class="tab">
 						<div class="row" id="PartsAllWrapper">
@@ -299,8 +340,8 @@
 					</div>
 					<div id="Profile" class="tab" style="opacity: 0">
 						<div class="ProfileTab-Avatar">
-							<img class="ProfileTabJI-Avatar" src="../assets/img/iconT.png" />
-							<button class="ProfileTab-AvatarEditor mdc-ripple-surface" data-mdc-auto-init="MDCRipple">
+							<img class="ProfileTabJI-Avatar noselect" src="../assets/img/iconT.png" />
+							<button class="ProfileTab-AvatarEditor ProfileTabJI-AvatarEditor mdc-ripple-surface" data-mdc-auto-init="MDCRipple">
 								<i class="material-icons">photo_camera</i>
 							</button>
 						</div>
@@ -310,60 +351,141 @@
 							<p class="ProfileTab-Desc ProfileTabJI-Desc">------ ----- ---- -----</p>
 						</div>
 						<div class="ProfileTab-Info mdc-elevation--z10">
-							<h3 class="ProfileTab-Info--Header1"  style="display: block; width: 100%; text-align: center; margin: 12px 0 6px 0;">Information</h3>
+							<h3 class="ProfileTab-Info--Header1 noselect" style="display: block; width: 100%; text-align: center; margin: 12px 0 6px 0;">Information</h3>
 							<hr />
 							<table class="ProfileTab-Info--Wrapper1">
 								<tr class="ProfileTab-Info--CPW">
-									<td class="ProfileTab-Info--CPW-I material-icons">person</td>
-									<td class="ProfileTab-Info--CPW-T">Username: </td>
+									<td class="ProfileTab-Info--CPW-I noselect material-icons">person</td>
+									<td class="ProfileTab-Info--CPW-T noselect">Username: </td>
 									<td class="ProfileTab-Info--CPW-V ProfileTabJI-Username">--------</td>
 								</tr>
 								<tr class="ProfileTab-Info--CPW">
-									<td class="ProfileTab-Info--CPW-I material-icons">security</td>
-									<td class="ProfileTab-Info--CPW-T">Clearance: </td>
+									<td class="ProfileTab-Info--CPW-I noselect material-icons">security</td>
+									<td class="ProfileTab-Info--CPW-T noselect">Clearance: </td>
 									<td class="ProfileTab-Info--CPW-V ProfileTabJI-Clearance">-</td>
 								</tr>
 								<tr class="ProfileTab-Info--CPW">
-									<td class="ProfileTab-Info--CPW-I material-icons">people</td>
-									<td class="ProfileTab-Info--CPW-T">Teams: </td>
+									<td class="ProfileTab-Info--CPW-I noselect material-icons">people</td>
+									<td class="ProfileTab-Info--CPW-T noselect">Teams: </td>
 									<td class="ProfileTab-Info--CPW-V ProfileTabJI-Teams">---- -------- -------</td>
 								</tr>
 								<tr class="ProfileTab-Info--CPW">
-									<td class="ProfileTab-Info--CPW-I material-icons">school</td>
-									<td class="ProfileTab-Info--CPW-T">Grade: </td>
+									<td class="ProfileTab-Info--CPW-I noselect material-icons">school</td>
+									<td class="ProfileTab-Info--CPW-T noselect">Grade: </td>
 									<td class="ProfileTab-Info--CPW-V ProfileTabJI-Grade">--------</td>
 								</tr>
 							</table>
-							<h3 style="display: block; width: 100%; text-align: center; margin: 30px 0 6px 0;">Contact</h3>
+							<h3 class="noselect" style="display: block; width: 100%; text-align: center; margin: 30px 0 6px 0;">Contact</h3>
 							<hr />
 							<table class="ProfileTab-Info--Wrapper2">
 								<tr class="ProfileTab-Info--CPW">
-									<td class="ProfileTab-Info--CPW-I material-icons"><img src="../assets/img/slack_logo.png" style="width: 20px; filter: grayscale(1); transform: translateY(-6px);"></td>
-									<td class="ProfileTab-Info--CPW-T" style="min-width: 70px;">Slack: </td>
+									<td class="ProfileTab-Info--CPW-I noselect material-icons"><img src="../assets/img/slack_logo.png" style="width: 20px; filter: grayscale(1); transform: translateY(-6px);"></td>
+									<td class="ProfileTab-Info--CPW-T noselect" style="min-width: 70px;">Slack: </td>
 									<td class="ProfileTab-Info--CPW-V ProfileTabJI-Slack">--------</td>
 								</tr>
 								<tr class="ProfileTab-Info--CPW">
-									<td class="ProfileTab-Info--CPW-I material-icons mdi"><img src="../assets/img/gh-icon.png" style="width: 20px; filter: invert(70%); transform: translateY(-6px);"></td>
-									<td class="ProfileTab-Info--CPW-T" style="min-width: 70px;">Github: </td>
+									<td class="ProfileTab-Info--CPW-I noselect material-icons mdi"><img src="../assets/img/gh-icon.png" style="width: 20px; filter: invert(70%); transform: translateY(-6px);"></td>
+									<td class="ProfileTab-Info--CPW-T noselect" style="min-width: 70px;">Github: </td>
 									<td class="ProfileTab-Info--CPW-V ProfileTabJI-Github">--------</td>
 								</tr>
 								<tr class="ProfileTab-Info--CPW">
-									<td class="ProfileTab-Info--CPW-I material-icons">phone</td>
-									<td class="ProfileTab-Info--CPW-T" style="min-width: 70px;">Phone: </td>
+									<td class="ProfileTab-Info--CPW-I noselect material-icons">phone</td>
+									<td class="ProfileTab-Info--CPW-T noselect" style="min-width: 70px;">Phone: </td>
 									<td class="ProfileTab-Info--CPW-V ProfileTabJI-Phone">(---) --------</td>
 								</tr>
 								<tr class="ProfileTab-Info--CPW">
-									<td class="ProfileTab-Info--CPW-I material-icons">email</td>
-									<td class="ProfileTab-Info--CPW-T" style="min-width: 70px;">Email: </td>
+									<td class="ProfileTab-Info--CPW-I noselect material-icons">email</td>
+									<td class="ProfileTab-Info--CPW-T noselect" style="min-width: 70px;">Email: </td>
 									<td class="ProfileTab-Info--CPW-V ProfileTabJI-Email">----------@-----.---</td>
 								</tr>
 							</table>
 						</div>
 						<div class="ProfileTab-Tasks mdc-elevation--z10">
-							<h3 style="display: block; width: 100%; text-align: center; margin: 12px 0 6px 0;">Current Tasks</h3>
+							<h3 class="noselect" style="display: block; width: 100%; text-align: center; margin: 12px 0 6px 0;">Current Tasks</h3>
 							<hr />
 							<div class="ProfileTab-TaskWrapper ProfileTabJI-Tasks" style="width: 95%; margin-left: 2.5%;">
-								
+
+							</div>
+						</div>
+						<button onclick="setHashParam('tab', 'EditAccount')" id="ProfileTabSettingsFab" class="mdc-fab demo-fixed-fab mdc-ripple-upgraded mdc-fab--exited">
+							<span class="mdc-fab__icon">
+								<i class="material-icons">settings</i>
+							</span>
+						</button>
+					</div>
+					<div id="EditAccount" class="tab">
+						<div class="EditAccount-Card material-scrollbar">
+							<div class="EditAccount-Tabs mdc-tab-bar-scroller">
+								<div class="mdc-tab-bar-scroller__indicator mdc-tab-bar-scroller__indicator--back">
+									<span class="mdc-tab-bar-scroller__indicator__inner material-icons">navigate_before</span>
+								</div>
+								<div class="mdc-tab-bar-scroller__scroll-frame">
+									<nav class="noselect mdc-tab-bar mdc-tab-bar-scroller__scroll-frame__tabs mdc-tab-bar-upgraded" style="transform: translateX(0px);">
+										<span onclick="setHashParam('EditAccountTab', 'EP')" class="mdc-tab mdc-tab--active mdc-ripple-upgraded">Edit Profile</span>
+										<span onclick="setHashParam('EditAccountTab', 'NS')" class="mdc-tab mdc-ripple-upgraded">Notification Settings</span>
+										<span onclick="setHashParam('EditAccountTab', 'CP')" class="mdc-tab mdc-ripple-upgraded">Change Password</span>
+										<span class="mdc-tab-bar__indicator" style="transform: translateX(0px) scale(0.0714286, 1); visibility: visible;"></span>
+									</nav>
+								</div>
+								<div class="mdc-tab-bar-scroller__indicator mdc-tab-bar-scroller__indicator--forward mdc-tab-bar-scroller__indicator--enabled">
+									<span class="mdc-tab-bar-scroller__indicator__inner material-icons">navigate_next</span>
+								</div>
+							</div>
+							<div class="EditAccount-Viewer">
+								<div class="EditAccount-View EditAccount-View--Active EditAccount-View--EP">
+									<img id="EditAccountJS--Avatar" style="width: 60vw; height: 60vw; min-width: 150px; max-width: 320px; min-height: 150px; max-height: 320px; margin-top: 30px;" src="../assets/img/iconT.png" />
+									<div style="width: 100%; height: 10px"></div>
+									<div onclick="EditProfileChangeAvatar()" style="height: 40px; width: 60vw; min-width: 150px; max-width: 320px; display: flex; justify-content: center;" class="mdc-ripple-surface noselect mdc-elevation--z2" data-mdc-auto-init="MDCRipple">
+										<span style="height: 30px; margin-top: 4px; width: 100%; font-size: 20px; color: #ffa000; text-align: center;">Change Avatar</span>
+									</div>
+									<div class="form-group" style="width: 90%; min-height: 65px; max-height: 65px; margin-top: 30px;">
+										<label>Username</label>
+										<input oninput="EditProfileCheckSubmit()" id="EditAccountJS--Username" type="text" class="EditAccountJS--Autofill form-control" placeholder="A Username" autocomplete="off" required>
+									</div>
+									<div class="form-group" style="width: 90%; min-height: 65px; max-height: 65px;">
+										<label>Name</label>
+										<input oninput="EditProfileCheckSubmit()" id="EditAccountJS--Name" type="text" class="EditAccountJS--Autofill form-control" placeholder="Your Name" autocomplete="off">
+									</div>
+									<div class="form-group" style="width: 90%; min-height: 65px;">
+										<label for="EditAccountJS-Desc">Description</label>
+										<textarea oninput="EditProfileCheckSubmit()" style="resize: none;" onkeydown="resizeTextarea()" id="EditAccountJS--Desc" class="EditAccountJS--Autofill form-control" placeholder="A Description of You" autocomplete="off"></textarea>
+									</div>
+									<div class="form-group" style="width: 90%; min-height: 65px; max-height: 65px;">
+										<label>Role</label>
+										<input oninput="EditProfileCheckSubmit()" id="EditAccountJS--Role" type="text" class="EditAccountJS--Autofill form-control" placeholder="Your Role on the Team (Optional)" autocomplete="off">
+									</div>
+									<div class="form-group autocomplete" style="width: 90%; min-height: 65px; max-height: 73px;" data-autocomplete-auto-init data-autocomplete-showall>
+										<label for="EditAccountJS--Grade">Grade</label>
+										<input id="EditAccountJS--Grade" type="text" class="form-control" placeholder="Your Grade Level (Optional)" autocomplete="off">
+										<div class="autocomplete-items"></div>
+										<div class="autocomplete-options"><p>Eigth</p><p>Freshman</p><p>Sophomore</p><p>Junior</p><p>Senior</p></div>
+									</div>
+									<div class="form-group" style="width: 90%; min-height: 65px; max-height: 65px;">
+										<label>Public Email</label>
+										<input oninput="EditProfileCheckSubmit()" id="EditAccountJS--PublicEmail" type="text" class="EditAccountJS--Autofill form-control" placeholder="Your Public Email (Optional)" autocomplete="off">
+									</div>
+									<div class="form-group" style="width: 90%; min-height: 65px; max-height: 65px;">
+										<label>Slack</label>
+										<input oninput="EditProfileCheckSubmit()" id="EditAccountJS--Slack" type="text" class="EditAccountJS--Autofill form-control" placeholder="Your Slack Username (Optional)" autocomplete="off">
+									</div>
+									<div class="form-group" style="width: 90%; min-height: 65px; max-height: 65px;">
+										<label>Phone</label>
+										<input oninput="EditProfileCheckSubmit()" id="EditAccountJS--Phone" type="text" class="EditAccountJS--Autofill form-control" placeholder="Your Phone Number (Optional)" autocomplete="off">
+									</div>
+									<div class="form-group" style="width: 90%; min-height: 65px; max-height: 65px;">
+										<label>Github</label>
+										<input oninput="EditProfileCheckSubmit()" id="EditAccountJS--Github" type="text" class="EditAccountJS--Autofill form-control" placeholder="Your Github Username (Optional)" autocomplete="off">
+									</div>
+									<div class="form-group" style="width: 90%; min-height: 65px; max-height: 65px; margin-top: 8px">
+										<button onclick="EditProfileSubmitChanges()" id="EditAccountJS--Submit" style="float: right; transition: transform 0.4s cubic-bezier(.2, 0, .2, 1); transform: scale(0);" class="mdc-button mdc-button--raised" data-mdc-auto-init="MDCRipple">Submit</button>
+									</div>
+								</div>
+								<div class="EditAccount-View EditAccount-View--NS">
+
+								</div>
+								<div class="EditAccount-View EditAccount-View--CP">
+
+								</div>
 							</div>
 						</div>
 					</div>
@@ -857,7 +979,7 @@
 		<!--Notification Alert-->
 		<div>
 			<div id="Notification-Alert-Wrapper">
-				
+
 			</div>
 		</div>
 
@@ -866,11 +988,7 @@
 		<!--Imports-->
 		<script src="../assets/mdc/material.js"></script>
 		<script src="../assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
-		<script src="../assets/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
-		<script src="../assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
-		<script src="../assets/js/app.js" type="text/javascript"></script>
 		<script src="../assets/lib/datetimepicker/js/bootstrap-datetimepicker.js" type="text/javascript"></script>
-		<script src="../assets/lib/chartjs/Chart.min.js" type="text/javascript"></script>
 		<script src='../assets/lib/fullcalendar/lib/moment.min.js'></script>
 		<script src="../assets/lib/fullcalendar/lib/jquery-ui.min.js"></script>
 		<script src='../assets/lib/fullcalendar/fullcalendar.js'></script>
@@ -881,25 +999,27 @@
 		<!--General Functions-->
 		<script src="assets/Resources/functions.js"></script>
 
+		<!--Firebase Account Management-->
+		<script src="assets/Accounting/accountHandler.js"></script>
+		<script src="assets/Accounting/avatarInit.js"></script>
+
 		<!--Main Tab Bar Handler-->
 		<script src="assets/Tabs/hashHandler.js"></script>
 		<script src="assets/Tabs/tabs.js"></script>
 		<script src="assets/Tabs/registerTab.js"></script>
 
-		<!--Firebase Account Management-->
-		<script src="assets/Accounting/accountHandler.js"></script>
-		<script src="assets/Accounting/avatarInit.js"></script>
-
-		<!--Profile Tab-->
-		<script src="assets/ProfileTab/ProfileTab.js"></script>
-		<script src="assets/ProfileTab/ProfilePicture.js"></script>
-
 		<!--Shifting Dialog-->
 		<script src="assets/ShiftingDialog/ShiftingDialog.js"></script>
 		<script src="assets/ShiftingDialog/Snipits.js"></script>
 
-		<!--Fab Handler-->
+		<!-- Other Resources -->
 		<script src="assets/Resources/FabHandler.js"></script>
+		<script src="assets/Autocomplete/Autocomplete.js"></script>
+		<script src="assets/Autocomplete/AutocompleteUsers.js"></script>
+		<script src="assets/Resources/ExpandingTextArea.js"></script>
+		<script src="assets/Autocomplete/PMSAutocomplete.js"></script>
+		<script src="assets/Resources/Menus.js"></script>
+		<script src="assets/Resources/Tooltips.js"></script>
 
 		<!--Header-->
 		<script src="assets/Header/header.js"></script>
@@ -908,20 +1028,17 @@
 		<script src="assets/SideNav/SideNav.js"></script>
 		<script src="assets/SideNav/PeTeSwitcher.js"></script>
 
-		<!--Other-->
-		<script src="assets/Autocomplete/Autocomplete.js"></script>
-		<script src="assets/Autocomplete/AutocompleteUsers.js"></script>
-		<script src="assets/Resources/ExpandingTextArea.js"></script>
-		<script src="assets/Autocomplete/PMSAutocomplete.js"></script>
-		<script src="assets/Resources/Menus.js"></script>
-		<script src="assets/Resources/Tooltips.js"></script>
-
 		<!--Calendar Tab-->
 		<script src="assets/Calendar/CalendarTab.js"></script>
 
 		<!--Github API and Tab-->
 		<script src="assets/Github/GHAPI.js"></script>
 		<script src="assets/Github/GHUI.js"></script>
+
+		<!--Profile Tab-->
+		<script src="assets/ProfileTab/ProfileTab.js"></script>
+		<script src="assets/ProfileTab/AvatarEditor.js"></script>
+		<script src="assets/ProfileTab/Edit/EditAccount.js"></script>
 
 		<!--Teams Tab and Resources-->
 		<script src="assets/Teams/TeamsTab.js"></script>
@@ -959,7 +1076,7 @@
 
 		<!--Main Script-->
 		<script type="text/javascript">
-			document.addEventListener("DOMContentLoaded",function(){App.init()});window.mdc.autoInit();
+			window.mdc.autoInit();
 
 			function slack(message) {
 				$.ajax({

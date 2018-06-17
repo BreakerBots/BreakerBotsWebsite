@@ -1,0 +1,59 @@
+﻿/* AvatarEditor.js */
+.bs-file-upload {
+	border: 2px dashed rgb(150, 150, 150);
+	display: flex;
+	justify-content: center;
+	align-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	background: rgb(245, 245, 245);
+	transition: background-color 1s cubic-bezier(.2, 0, .2, 1);
+}
+
+@keyframes bs-file-upload-hover-open {
+	0% {
+		opacity: 1;
+		background: rgb(245, 245, 245);
+	}
+
+	50% {
+		opacity: 0.7;
+		background: repeating-linear-gradient( 45deg, #dfdfdf, #dfdfdf 10px, #efefef 10px, #efefef 20px );
+	}
+
+	100% {
+		opacity: 1;
+		background: repeating-linear-gradient( 45deg, #dfdfdf, #dfdfdf 10px, #efefef 10px, #efefef 20px );
+	}
+}
+
+@keyframes bs-file-upload-hover-close {
+	100% {
+		opacity: 1;
+		background: rgb(245, 245, 245);
+	}
+
+	50% {
+		opacity: 1;
+		background: repeating-linear-gradient( 45deg, #dfdfdf, #dfdfdf 10px, #efefef 10px, #efefef 20px );
+	}
+
+	0% {
+		opacity: 1;
+		background: repeating-linear-gradient( 45deg, #dfdfdf, #dfdfdf 10px, #efefef 10px, #efefef 20px );
+	}
+}
+
+.bs-file-upload-icon {
+	font-size: 400%;
+	color: rgb(80, 80, 80);
+	width: 100%;
+	text-align: center;
+}
+
+.bs-file-upload-text {
+	font-weight: 300;
+	width: 100%;
+	text-align: center;
+	margin: 0;
+}

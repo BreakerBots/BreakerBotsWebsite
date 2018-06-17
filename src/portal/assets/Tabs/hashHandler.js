@@ -7,11 +7,13 @@ var _lasthashData = [ { } ];
 function readHash() {
 	try {
 		//Push to history
-		_lasthashData.push(JSON.parse((decodeURIComponent(window.location.hash.substring(1)))));
+		var convertedHash = HashSyntaxParseQuote(decodeURIComponent(window.location.hash.substring(1)), false);
+		convertedHash = ('{' + convertedHash + '}').replace(/\//g, ',').replace(/=/g, ':');
+		_lasthashData.push(JSON.parse(convertedHash));
 		if (_lasthashData.length > 2) _lasthashData.shift();
 
 		//Remove #, decode encoded characters from url, and parse to Object
-		hashData = JSON.parse((decodeURIComponent(window.location.hash.substring(1))));
+		hashData = JSON.parse(convertedHash);
 	}
 	catch (error) {
 		//Default to empty object and push to history
@@ -31,9 +33,30 @@ function readHash() {
 	}
 }
 
+function HashSyntaxParseQuote(str, forw) {
+	if (forw) {
+		return str.replace(/"/g, '').replace('tab=', '');
+	}
+	else {
+		try {
+			if (str[0] == "/") str = str.substring(1);
+			if (str[str.length - 1] == "/") str = str.slice(0, -1);
+			str = '"' + 'tab=' + str + '"';
+			for (var i = 0; i < str.length; i++) {
+				if (str[i] == "/" || str[i] == "=") {
+					str = str.insert(i, '"');
+					str = str.insert(i + 2, '"');
+					i += 2;
+				}
+			}
+			return str;
+		} catch (err) { return; }
+	}
+}
+
 function updateHash() {
 	//Go to the new page
-	window.location.hash = "#" + JSON.stringify(hashData);
+	window.location.hash = "#" + HashSyntaxParseQuote((JSON.stringify(hashData).replace(/{|}/g, '').replace(/,/g, '/')).replace(/:/g, '='), true);
 }
 
 //Functions for external use
