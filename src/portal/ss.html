@@ -234,7 +234,17 @@
 								</div>
 							</div>
 
-							<div class="tab" id="RegisterComputer"><div class="card-header" style="margin-bottom: 0;"><img src="../assets/img/logosheet.png" alt="logo" style="width: 35%;" class="logo-img"><span class="hideMeCo splash-description">Register This Computer</span></div><div class="card-body"><form id="RPForm" class="hideMeCo" onsubmit="if (event.preventDefault) event.preventDefault(); registerComputer(document.querySelector('#RegisterComputerPassword').value);"><div class="form-group pt-4"><div style="border: 1px solid #bdc0c7; position: relative;"><input style="border: none; display: inline; width: 80%;" id="RegisterComputerPassword" type="password" required placeholder="Super Secret Admin Password" autocomplete="off" class="form-control"><div style="position: absolute; right: 0; float: right; top: 10px; transform: scale(1); transition: all 0.15s cubic-bezier(.2, 0, .2, 1);"><i style="display: inline; font-size: 27px;" class="material-icons mdc-icon-toggle" role="button" data-mdc-auto-init="MDCIconToggle" onclick="RC_PsVs()">visibility_off</i></div></div></div><div class="form-group pt-1"><button type="submit" style="width: 90%; display: block; margin: auto;" data-mdc-auto-init="MDCRipple" class="mdc-button mdc-button--raised mdc-ripple-upgraded">Register</button></div></form></div></div>
+							<div class="tab" id="RegisterComputer"><div class="card-header" style="margin-bottom: 0;"><img src="../assets/img/logosheet.png" alt="logo" style="width: 35%;" class="logo-img"><span class="hideMeCo splash-description">Register This Computer</span></div><div class="card-body">
+								<form id="RPForm" class="hideMeCo" onsubmit="if (event.preventDefault) event.preventDefault(); registerComputer(document.querySelector('#RegisterComputerPassword').value);">
+								<div class="form-group pt-4">
+									<div style="border: 1px solid #bdc0c7; position: relative;">
+										<input style="border: none; display: inline; width: 80%;" id="RegisterComputerPassword" type="password" required placeholder="Super Secret Admin Password" autocomplete="off" class="form-control">
+										<div style="position: absolute; right: 0; float: right; top: 10px; transform: scale(1); transition: all 0.15s cubic-bezier(.2, 0, .2, 1);">
+											<i style="display: inline; font-size: 27px;" class="material-icons mdc-icon-toggle" role="button" data-mdc-auto-init="MDCIconToggle" onclick="RC_PsVs()">visibility_off</i>
+										</div>
+									</div>
+								</div>
+							<div class="form-group pt-1"><button type="submit" style="width: 90%; display: block; margin: auto;" data-mdc-auto-init="MDCRipple" class="mdc-button mdc-button--raised mdc-ripple-upgraded">Register</button></div></form></div></div>
 						</div>
 						<div id="CardCloseRippleWrap" class="ripple-wrap ripple-wrap-small"><div style="" id="CardCloseRipple" class="ripple"></div></div>
 					</div>

@@ -13,7 +13,7 @@ var mainSnips = new class materialSnip {
 	 */
 	textField(id, label, placeholder, type, style, isRequired, value, tooltip) {
 		return `
-				<div class="form-group" style="width: 90%; min-height: 65px; max-height: ` + MSNC(stringEV(label), "73", "65") + `px;` + MSN(style) + `" ` + MSN(tooltip, ' aria-label="', '"') + ` aria-label-z-index="1001" aria-label-delay="0.1">
+				<div class="form-group" style="width: 90%; min-height: 65px; max-height: ` + MSNC(stringEV(label), "73", "65") + `px;` + MSN(style) + `" ` + MSN(tooltip, ' aria-label="', '" aria-label-z-index="1001" aria-label-delay="0.1"') + `>
 					<label ` + MSN(id, ` for="`, `" `, ``) + `>` + MSN(label) + `</label>
 					<input ` + MSN_ID(id) + MSNC(isRequired, "required ", "") + ` type="` + MSN(type, ``, ``, `text`) + `" ` + MSN(value, 'value="', '"', '') + ` class="form-control" placeholder="` + MSN(placeholder) + `" autocomplete="off">
 				</div>
@@ -22,35 +22,49 @@ var mainSnips = new class materialSnip {
 
 	textArea(id, label, placeholder, style, value, isRequired) {
 		return `
-				<div class="form-group" style="width: 90%; min-height: 65px;` + MSN(style) + `">
-					<img src="../assets/img/freeload.png" style="display: none;" onload="resizeTextarea(this.parentNode.querySelector('textarea'))"/>
-					<label ` + MSN(id, ` for="`, `" `, ``) + `>` + MSN(label) + `</label>
-					<textarea style="resize: none;" onkeydown="resizeTextarea()"` + MSN_ID(id) + MSNC(isRequired, "required ", "") + ` class="form-control" placeholder="` + MSN(placeholder) + `" autocomplete="off">` + MSN(value, "", "", "") + `</textarea>
-				</div>
-				`;
+			<div class="form-group" style="width: 90%; min-height: 65px;` + MSN(style) + `">
+				<img src="../assets/img/freeload.png" style="display: none;" onload="resizeTextarea(this.parentNode.querySelector('textarea'))"/>
+				<label ` + MSN(id, ` for="`, `" `, ``) + `>` + MSN(label) + `</label>
+				<textarea style="resize: none;" onkeydown="resizeTextarea()"` + MSN_ID(id) + MSNC(isRequired, "required ", "") + ` class="form-control" placeholder="` + MSN(placeholder) + `" autocomplete="off">` + MSN(value, "", "", "") + `</textarea>
+			</div>
+		`;
 	}
 
 	textFieldAutoComplete(id, label, placeholder, options, style, showAll) {
 		return `
-				<div class="form-group autocomplete" style="width: 90%; min-height: 65px; max-height: ` + MSNC(stringEV(label), "73", "65") + `px;` + MSN(style) + `" data-autocomplete-auto-init ` + MSNC(showAll, "data-autocomplete-showall", "") + ` >
-					<label ` + MSN(id, ` for="`, `" `, ``) + `>` + MSN(label) + `</label>
-					<input ` + MSN_ID(id) + ` type="text" class="form-control" placeholder="` + MSN(placeholder) + `" autocomplete="off">
-					<div class="autocomplete-items"></div>
-					<div class="autocomplete-options">` +
-						Autocomplete_ArrayToOptions(options)
-					+ `</div>
+			<div class="form-group autocomplete" style="width: 90%; min-height: 65px; max-height: ` + MSNC(stringEV(label), "73", "65") + `px;` + MSN(style) + `" data-autocomplete-auto-init ` + MSNC(showAll, "data-autocomplete-showall", "") + ` >
+				<label ` + MSN(id, ` for="`, `" `, ``) + `>` + MSN(label) + `</label>
+				<input ` + MSN_ID(id) + ` type="text" class="form-control" placeholder="` + MSN(placeholder) + `" autocomplete="off">
+				<div class="autocomplete-items"></div>
+				<div class="autocomplete-options">` +
+					Autocomplete_ArrayToOptions(options)
+				+ `</div>
+			</div>
+		`;
+	}
+
+	textFieldPassword(id, label, placeholder, style, value, tooltip) {
+		return `
+			<div class="form-group" style="width: 90%; min-height: 65px; max-height: ` + MSNC(stringEV(label), "73", "65") + `px;` + MSN(style) + `" ` + MSN(tooltip, ' aria-label="', '" aria-label-z-index="1001" aria-label-delay="0.1"') + `>
+				<label>` + MSN(label) + `</label>
+				<div class="SHP">
+					<input ` + MSN_ID(id) + ` value="` + MSN(value) + `" style="border: none; display: inline; width: 80%;" type="password" required placeholder="` + MSN(placeholder) + `" autocomplete="off" class="form-control">
+					<div style="position: absolute; right: 0; float: right; top: 10px; transform: scale(1); transition: all 0.15s cubic-bezier(.2, 0, .2, 1);">
+						<i style="display: inline; font-size: 27px;" class="material-icons mdc-icon-toggle" role="button" data-mdc-auto-init="MDCIconToggle" onclick="SHP(this.parentNode.parentNode.querySelector('input'));">visibility_off</i>
+					</div>
 				</div>
-				`;
+			</div>
+		`;
 	}
 
 	textFieldUsersAutoComplete(id, label, placeholder, style, value) {
 		return `
-				<div class="form-group autocomplete" style="width: 90%; min-height: 65px; max-height: ` + MSNC(stringEV(label), "73", "65") + `px;` + MSN(style) + `" data-autocomplete-users-auto-init data-autocomplete-users-char="">
-					<label ` + MSN(id, ` for="`, `" `, ``) + `>` + MSN(label) + `</label>
-					<input ` + MSN_ID(id) + ` type="text" class="form-control" ` + MSN(value, 'value="', '"', '') + ` placeholder="` + MSN(placeholder) + `" autocomplete="off">
-					<div class="autocomplete-items"></div>
-				</div>
-				`;
+			<div class="form-group autocomplete" style="width: 90%; min-height: 65px; max-height: ` + MSNC(stringEV(label), "73", "65") + `px;` + MSN(style) + `" data-autocomplete-users-auto-init data-autocomplete-users-char="">
+				<label ` + MSN(id, ` for="`, `" `, ``) + `>` + MSN(label) + `</label>
+				<input ` + MSN_ID(id) + ` type="text" class="form-control" ` + MSN(value, 'value="', '"', '') + ` placeholder="` + MSN(placeholder) + `" autocomplete="off">
+				<div class="autocomplete-items"></div>
+			</div>
+		`;
 	}
 
 	textFieldDate(id, label, placeholder, style) {

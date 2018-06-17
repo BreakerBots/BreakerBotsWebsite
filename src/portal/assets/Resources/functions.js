@@ -305,3 +305,15 @@ Number.prototype.addOrdinal = function () {
 		v = this % 100;
 	return this + (s[(v - 20) % 10] || s[v] || s[0]);
 }
+
+var SHP_Timeout; 
+function SHP(b) {
+	var a = event.srcElement;
+	clearTimeout(SHP_Timeout);
+	b.type = "visibility_off" != a.innerHTML ? "password" : "text";
+	a.parentNode.style.transform = "scale(0.4)";
+	SHP_Timeout = setTimeout(function () {
+		a.innerHTML = "visibility_off" == a.innerHTML ? "visibility" : "visibility_off";
+		a.parentNode.style.transform = "scale(1)"
+	}, 150)
+}

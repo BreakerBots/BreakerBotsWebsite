@@ -3,8 +3,9 @@ var EditAccountTab = new RegisteredTab("EditAccount", EditProfileFirstInit, Edit
 
 
 //  ----------------------------------------  Init  ----------------------------------------  \\
+var EditProfileTabBar;
 function EditProfileFirstInit() {
-	new mdc.tabs.MDCTabBarScroller(document.querySelector('.EditAccount-Tabs'));
+	EditProfileTabBar = new mdc.tabs.MDCTabBarScroller(document.querySelector('.EditAccount-Tabs'));
 }
 function EditProfileInit() {
 	authLoadedFullWait(function () {
@@ -12,7 +13,6 @@ function EditProfileInit() {
 		headerUseBackArrow(true, `setHashParam('profile', '` + users.getCurrentUid() + `'); setHashParam('tab', 'Profile');`);
 		showMainLoader(false);
 		document.querySelector('#page-scroll').scrollTop = 0; document.querySelector('#page-scroll').style.overflowY = 'hidden';
-		EditProfileDraw();
 		EditProfileChangeTab();
 	});
 }
@@ -30,7 +30,20 @@ function EditProfileChangeTab() {
 	});
 
 	//Show the new One
-	document.querySelector('.EditAccount-View--' + (getHashParam('EditAccountTab') || "EP")).classList.add('EditAccount-View--Active');
+	var tab = 0;
+	try {
+		document.querySelector('.EditAccount-View--' + (getHashParam('EditAccountTab') || "0")).classList.add('EditAccount-View--Active');
+		EditProfileTabBar.tabBar.setActiveTabIndex_(Number(getHashParam('EditAccountTab') || "0"));
+		tab = Number(getHashParam('EditAccountTab') || "0");
+	} catch (err) {
+		setHashParam('EditAccountTab', 0);
+		tab = 0;
+	}
+	switch (tab) {
+		case 0: EditProfileDraw(); break;
+		case 1: break;
+		case 2: break;
+	};
 }
 //  ----------------------------------------    ----------------------------------------  \\
 
@@ -49,7 +62,6 @@ function EditProfileDraw() {
 	resizeTextarea(document.querySelector('#EditAccountJS--Desc'));
 	document.querySelector('#EditAccountJS--Avatar').src = data.avatar || '../assets/img/iconT.png';
 }
-
 function EditProfileCheckSubmit() {
 	var data = users.getCurrentUser();
 	var hc = false;
@@ -86,10 +98,6 @@ function EditProfileSubmitChanges() {
 
 
 //  ----------------------------------------  Change Avatar  ----------------------------------------  \\
-function EditProfileChangeAvatar() {
-	
-}
-
 var EditProfileChangeAvatarHandler;
 function EditProfileChangeAvatar() {
 	try {
@@ -122,3 +130,25 @@ ShiftingDialog.addSubmitListener("EditProfileChangeAvatar", function () {
 		}); rt || (ShiftingDialog.throwFormError("Please Select An Image"), ShiftingDialog.enableSubmitButton(!0))
 	} catch (c) { };
 });
+//  ----------------------------------------    ----------------------------------------  \\
+
+
+
+//  ----------------------------------------    ----------------------------------------  \\
+function b84eef34da92d0db411e42dea26c16f5bd1b3aa2bbe7ab24f288964f8a7497d6(a, b) {
+	if (a == b) {
+		firebase.auth().currentUser.updatePassword(a).then(function () {
+			location.reload();
+		}).catch(function (error) {
+			console.log(error);
+		});
+	}
+}
+function f494414f4727bd3e133e5aa895426e8c928e5dff22533a89642e3e9a14a032c9(a) {
+	firebase.auth().currentUser.updateEmail(a).then(function () {
+		location.reload();	
+	}).catch(function (error) {
+		console.log(error);
+	});
+}
+//  ----------------------------------------    ----------------------------------------  \\

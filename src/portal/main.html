@@ -54,6 +54,7 @@
 	<link rel="stylesheet" href="assets/Resources/Menus.css" type="text/css" />
 	<link rel="stylesheet" href="assets/Resources/Tooltips.css" type="text/css" />
 	<link rel="stylesheet" href="assets/Resources/Scroll.css" type="text/css" />
+	<link rel="stylesheet" href="assets/Resources/SHP.css">
 
 	<!-- Side Nav Drawer -->
 	<link rel="stylesheet" href="assets/SideNav/SideNav.css" type="text/css" />
@@ -421,9 +422,9 @@
 								</div>
 								<div class="mdc-tab-bar-scroller__scroll-frame">
 									<nav class="noselect mdc-tab-bar mdc-tab-bar-scroller__scroll-frame__tabs mdc-tab-bar-upgraded" style="transform: translateX(0px);">
-										<span onclick="setHashParam('EditAccountTab', 'EP')" class="mdc-tab mdc-tab--active mdc-ripple-upgraded">Edit Profile</span>
-										<span onclick="setHashParam('EditAccountTab', 'NS')" class="mdc-tab mdc-ripple-upgraded">Notification Settings</span>
-										<span onclick="setHashParam('EditAccountTab', 'CP')" class="mdc-tab mdc-ripple-upgraded">Change Password</span>
+										<span onclick="setHashParam('EditAccountTab', 0)" class="mdc-tab mdc-tab--active mdc-ripple-upgraded">Edit Profile</span>
+										<span onclick="setHashParam('EditAccountTab', 1)" class="mdc-tab mdc-ripple-upgraded">User Settings</span>
+										<span onclick="setHashParam('EditAccountTab', 2)" class="mdc-tab mdc-ripple-upgraded">Change Credentials</span>
 										<span class="mdc-tab-bar__indicator" style="transform: translateX(0px) scale(0.0714286, 1); visibility: visible;"></span>
 									</nav>
 								</div>
@@ -432,7 +433,7 @@
 								</div>
 							</div>
 							<div class="EditAccount-Viewer">
-								<div class="EditAccount-View EditAccount-View--Active EditAccount-View--EP">
+								<div class="EditAccount-View EditAccount-View--0">
 									<img id="EditAccountJS--Avatar" style="width: 60vw; height: 60vw; min-width: 150px; max-width: 320px; min-height: 150px; max-height: 320px; margin-top: 30px;" src="../assets/img/iconT.png" />
 									<div style="width: 100%; height: 10px"></div>
 									<div onclick="EditProfileChangeAvatar()" style="height: 40px; width: 60vw; min-width: 150px; max-width: 320px; display: flex; justify-content: center;" class="mdc-ripple-surface noselect mdc-elevation--z2" data-mdc-auto-init="MDCRipple">
@@ -480,11 +481,51 @@
 										<button onclick="EditProfileSubmitChanges()" id="EditAccountJS--Submit" style="float: right; transition: transform 0.4s cubic-bezier(.2, 0, .2, 1); transform: scale(0);" class="mdc-button mdc-button--raised" data-mdc-auto-init="MDCRipple">Submit</button>
 									</div>
 								</div>
-								<div class="EditAccount-View EditAccount-View--NS">
+								<div class="EditAccount-View EditAccount-View--1">
 
 								</div>
-								<div class="EditAccount-View EditAccount-View--CP">
-
+								<div class="EditAccount-View EditAccount-View--2">
+									<div style="width: 30%; min-width: 300px; height: calc(110% - 60px); display: flex; justify-content: center; align-content: center; flex-wrap: wrap;">
+										<div style="width: 100%; margin-top: 5px; display: flex; flex-wrap: wrap; align-content: center; justify-content: center;" class="noselect mdc-elevation--z2">
+											<span onclick="var rdtc = [document.querySelector('#EditAccountChangeCredentials-0'), document.querySelector('#EditAccountChangeCredentials-1')]; rdtc[0].style.maxHeight = rdtc[0].style.maxHeight == '0px' ? '251px' : '0px'; rdtc[1].style.maxHeight = rdtc[0].style.maxHeight != '0px' ? '0px' : rdtc[1].style.maxHeight;" style="text-align: center; padding-top: 6px; height: 40px; font-size: 20px; width: 100%;" class="mdc-ripple-surface" data-mdc-auto-init="MDCRipple">
+												Change Password
+											</span>
+											<form onsubmit="b84eef34da92d0db411e42dea26c16f5bd1b3aa2bbe7ab24f288964f8a7497d6(this.querySelectorAll('input')[0].value, this.querySelectorAll('input')[1].value); return false;" id="EditAccountChangeCredentials-0" style="border-top: 1px solid rgb(200, 200, 200); width: 100%; display: flex; flex-wrap: wrap; justify-content: center; max-height: 1200px; overflow: hidden; transition: max-height 0.6s cubic-bezier(.2, 0, .2, 1);">
+												<div class="form-group" style="margin-top: 20px; width: 90%; min-height: 65px; max-height: 65px;">
+													<label>New Password</label>
+													<div class="SHP">
+														<input pattern=".{6,}" oninvalid="setCustomValidity('Your Need At Least 6 Characters')" onchange="try{setCustomValidity('')}catch(e){}" style="border: none; display: inline; width: 80%;" type="password" required placeholder="A New Password" autocomplete="off" class="form-control">
+														<div style="position: absolute; right: 0; float: right; top: 10px; transform: scale(1); transition: all 0.15s cubic-bezier(.2, 0, .2, 1);">
+															<i style="display: inline; font-size: 27px;" class="material-icons mdc-icon-toggle" role="button" data-mdc-auto-init="MDCIconToggle" onclick="SHP(this.parentNode.parentNode.querySelector('input'));">visibility_off</i>
+														</div>
+													</div>
+												</div>
+												<div class="form-group" style="width: 90%; min-height: 65px; max-height: 65px;">
+													<label>Repeat Password</label>
+													<div class="SHP">
+														<input oninput="if (this.parentNode.parentNode.parentNode.querySelectorAll('input')[0].value != this.value) this.setCustomValidity('Passwords do not match!'); else this.setCustomValidity('')" style="border: none; display: inline; width: 80%;" type="password" required placeholder="Repeat Your New Password" autocomplete="off" class="form-control">
+														<div style="position: absolute; right: 0; float: right; top: 10px; transform: scale(1); transition: all 0.15s cubic-bezier(.2, 0, .2, 1);">
+															<i style="display: inline; font-size: 27px;" class="material-icons mdc-icon-toggle" role="button" data-mdc-auto-init="MDCIconToggle" onclick="SHP(this.parentNode.parentNode.querySelector('input'));">visibility_off</i>
+														</div>
+													</div>
+												</div>
+												<button type="submit" style="margin-top: 10px; width: 80%; margin-bottom: 15px;" class="mdc-button mdc-button--raised" data-mdc-auto-init="MDCRipple">Submit</button>
+											</form>
+										</div>
+										<div style="width: 100%; margin-top: 10px; display: flex; flex-wrap: wrap; align-content: center; justify-content: center;" class="noselect mdc-elevation--z2">
+											<span onclick="var rdtc = [document.querySelector('#EditAccountChangeCredentials-1'), document.querySelector('#EditAccountChangeCredentials-0')]; rdtc[0].style.maxHeight = rdtc[0].style.maxHeight == '0px' ? '161px' : '0px'; rdtc[1].style.maxHeight = rdtc[0].style.maxHeight != '0px' ? '0px' : rdtc[1].style.maxHeight;" style="text-align: center; padding-top: 6px; height: 40px; font-size: 20px; width: 100%;" class="mdc-ripple-surface" data-mdc-auto-init="MDCRipple">
+												Change Email
+											</span>
+											<form onsubmit="f494414f4727bd3e133e5aa895426e8c928e5dff22533a89642e3e9a14a032c9(this.querySelectorAll('input')[0].value); return false;" id="EditAccountChangeCredentials-1" style="border-top: 1px solid rgb(200, 200, 200); width: 100%; display: flex; flex-wrap: wrap; justify-content: center; max-height: 0px; overflow: hidden; transition: max-height 0.6s cubic-bezier(.2, 0, .2, 1);">
+												<div style="margin-top: 20px"></div>
+												<div class="form-group" style="margin-top: 15px; width: 90%; min-height: 65px; max-height: 65px;">
+													<label>New Email</label>
+													<input type="email" class="form-control" placeholder="A New Email" autocomplete="off" required>
+												</div>
+												<button type="submit" style="margin-top: 10px; width: 80%; margin-bottom: 15px;" class="mdc-button mdc-button--raised" data-mdc-auto-init="MDCRipple">Submit</button>
+											</form>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
