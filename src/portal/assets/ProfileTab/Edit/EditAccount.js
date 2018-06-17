@@ -73,7 +73,7 @@ function EditProfileSubmitChanges() {
 	delete data.avatar;
 	[].forEach.call(document.querySelectorAll('.EditAccountJS--Autofill'), function (item) {
 		try {
-			data[item.id.replace('EditAccountJS--', '').toLowerCase()] = item.value || "";
+			data[item.id.replace('EditAccountJS--', '').toLowerCase()] = item.value == "undefined" ? "" : item.value || "";
 		} catch (err) { }
 	});
 	firebase.app().firestore().collection("users").doc(users.getCurrentUid()).set(data, { merge: true }).then(function () {
@@ -114,7 +114,9 @@ ShiftingDialog.addSubmitListener("EditProfileChangeAvatar", function () {
 					function (a) { }, function (a) { },
 					function () {
 						ShiftingDialog.close();
-						location.reload();
+						getAvatarUrl(users.getCurrentUid(), function (img) {
+							document.querySelector('#EditAccountJS--Avatar').src = img;
+						});
 					})
 			})
 		}); rt || (ShiftingDialog.throwFormError("Please Select An Image"), ShiftingDialog.enableSubmitButton(!0))
