@@ -52,27 +52,35 @@ function EditProfileChangeTab() {
 
 //  ----------------------------------------  Fill In Values  ----------------------------------------  \\
 function EditProfileDraw() {
-	//Do Some Magic
-	var data = users.getCurrentUser();
-	[].forEach.call(document.querySelectorAll('.EditAccountJS--Autofill'), function (item) {
+	try {
+		//Do Some Magic
+		var data = users.getCurrentUser();
+		[].forEach.call(document.querySelectorAll('.EditAccountJS--Autofill'), function (item) {
+			try {
+				if (item.tagName == "INPUT") item.value = data[item.id.replace('EditAccountJS--', '').toLowerCase()];
+				else item.innerHTML = data[item.id.replace('EditAccountJS--', '').toLowerCase()];
+			} catch (err) { }
+		});
+		resizeTextarea(document.querySelector('#EditAccountJS--Desc'));
+		document.querySelector('#EditAccountJS--Avatar').src = data.avatar || '../assets/img/iconT.png';
 		try {
-			if (item.tagName == "INPUT") item.value = data[item.id.replace('EditAccountJS--', '').toLowerCase()];
-			else item.innerHTML = data[item.id.replace('EditAccountJS--', '').toLowerCase()];
-		} catch (err) { } });
-	resizeTextarea(document.querySelector('#EditAccountJS--Desc'));
-	document.querySelector('#EditAccountJS--Avatar').src = data.avatar || '../assets/img/iconT.png';
+			$('#EditAccountJS--Phone').inputmask({ 'mask': '(999) 999-9999' });
+		} catch (err) { }
+	} catch (err) { }
 }
 function EditProfileCheckSubmit() {
-	var data = users.getCurrentUser();
-	var hc = false;
-	[].forEach.call(document.querySelectorAll('.EditAccountJS--Autofill'), function (item) {
-		try {
-			if (!hc) {
-				hc = !(item.value == data[item.id.replace('EditAccountJS--', '').toLowerCase()]);
-			}
-		} catch (err) { }
-	});
-	document.querySelector('#EditAccountJS--Submit').style.transform = "scale(" + (hc ? 1 : 0) + ")";
+	try {
+		var data = users.getCurrentUser();
+		var hc = false;
+		[].forEach.call(document.querySelectorAll('.EditAccountJS--Autofill'), function (item) {
+			try {
+				if (!hc) {
+					hc = !(item.value == data[item.id.replace('EditAccountJS--', '').toLowerCase()]);
+				}
+			} catch (err) { }
+		});
+		document.querySelector('#EditAccountJS--Submit').style.transform = "scale(" + (hc ? 1 : 0) + ")";
+	} catch (err) { }
 }
 //  ----------------------------------------    ----------------------------------------  \\
 

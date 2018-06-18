@@ -18,11 +18,14 @@ function authLoadedFullWait(func) {
 //Rerouting and setting names on header
 document.addEventListener('DOMContentLoaded', function () {
 	firebase.auth().onAuthStateChanged(function (user) {
-		//console.log(user);
-		if (user) { //Set the page names to the username of the user signed in
-
-		} else { //If not signed in reroute to public page
-			window.open('../index.html', '_self', false);
+		if (user) {
+			firebase.app().firestore().collection("Clearance").doc(user.uid).get().then(function (doc) {
+				var ud = doc.data();
+				if (!ud)
+					window.open('unverified.html', '_self', false);
+			});
+		} else { //If not signed in reroute to signin
+			window.open('enter.html', '_self', false);
 		}
 	});
 	firebase.auth().addAuthTokenListener(function (a) {
@@ -59,8 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		});
 });
 
-const masterAdminLevel = 10; const adminLevel = 5;
-var users = {
+const users = {
 	getUsername: function (Uid) { return allUsers[Uid].username; },
 	getUid: function (Username) { return Object.keys(allUsers).find(key => allUsers[key].username === Username); },
 	getAvatar: function (uid) { return allUsers[uid].avatar; },
@@ -68,9 +70,7 @@ var users = {
 	getCurrentUser: function () { return allUsers[firebase.auth().currentUser.uid]; },
 	getCurrentUid: function () { return firebase.auth().currentUser.uid; },
 	getCurrentUsername: function () { return firebase.auth().currentUser.displayName; },
-	getCurrentClearance: function () { return allUsers[firebase.auth().currentUser.uid].clearance; },
-	amAdmin: function () { return this.getCurrentClearance() >= adminLevel; },
-	amMasterAdmin: function () { return this.getCurrentClearance() >= masterAdminLevel; },
+	getCurrentClearance: function () {  },
 	isUsername: function (Username) { return Object.keys(allUsers).find(key => allUsers[key].username === Username) != undefined; },
 	isUid: function (Uid) { return allUsers.hasOwnProperty(Uid); }
 };

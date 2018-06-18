@@ -243,9 +243,7 @@
 										<th>Time</th>
 									</tr>
 								</thead>
-								<tbody id="SISOTable">
-									
-								</tbody>
+								<tbody id="SISOTable"></tbody>
 							</table>
 						</div>
 					</div>
@@ -422,9 +420,9 @@
 								</div>
 								<div class="mdc-tab-bar-scroller__scroll-frame">
 									<nav class="noselect mdc-tab-bar mdc-tab-bar-scroller__scroll-frame__tabs mdc-tab-bar-upgraded" style="transform: translateX(0px);">
-										<span onclick="setHashParam('EditAccountTab', 0)" class="mdc-tab mdc-tab--active mdc-ripple-upgraded">Edit Profile</span>
-										<span onclick="setHashParam('EditAccountTab', 1)" class="mdc-tab mdc-ripple-upgraded">User Settings</span>
-										<span onclick="setHashParam('EditAccountTab', 2)" class="mdc-tab mdc-ripple-upgraded">Change Credentials</span>
+										<span onclick="setHashParam('EditAccountTab', '0')" class="mdc-tab mdc-tab--active mdc-ripple-upgraded">Edit Profile</span>
+										<span onclick="setHashParam('EditAccountTab', '1')" class="mdc-tab mdc-ripple-upgraded">User Settings</span>
+										<span onclick="setHashParam('EditAccountTab', '2')" class="mdc-tab mdc-ripple-upgraded">Change Credentials</span>
 										<span class="mdc-tab-bar__indicator" style="transform: translateX(0px) scale(0.0714286, 1); visibility: visible;"></span>
 									</nav>
 								</div>
@@ -485,7 +483,7 @@
 
 								</div>
 								<div class="EditAccount-View EditAccount-View--2">
-									<div style="width: 30%; min-width: 300px; height: calc(110% - 60px); display: flex; justify-content: center; align-content: center; flex-wrap: wrap;">
+									<div style="width: 30%; min-width: 300px; height: calc(70% + 10px); display: flex; justify-content: center; align-content: center; flex-wrap: wrap;">
 										<div style="width: 100%; margin-top: 5px; display: flex; flex-wrap: wrap; align-content: center; justify-content: center;" class="noselect mdc-elevation--z2">
 											<span onclick="var rdtc = [document.querySelector('#EditAccountChangeCredentials-0'), document.querySelector('#EditAccountChangeCredentials-1')]; rdtc[0].style.maxHeight = rdtc[0].style.maxHeight == '0px' ? '251px' : '0px'; rdtc[1].style.maxHeight = rdtc[0].style.maxHeight != '0px' ? '0px' : rdtc[1].style.maxHeight;" style="text-align: center; padding-top: 6px; height: 40px; font-size: 20px; width: 100%;" class="mdc-ripple-surface" data-mdc-auto-init="MDCRipple">
 												Change Password
@@ -1029,6 +1027,7 @@
 		<!--Imports-->
 		<script src="../assets/mdc/material.js"></script>
 		<script src="../assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
+		<script src="../assets/lib/jquery/inputmask.js" type="text/javascript"></script>
 		<script src="../assets/lib/datetimepicker/js/bootstrap-datetimepicker.js" type="text/javascript"></script>
 		<script src='../assets/lib/fullcalendar/lib/moment.min.js'></script>
 		<script src="../assets/lib/fullcalendar/lib/jquery-ui.min.js"></script>
