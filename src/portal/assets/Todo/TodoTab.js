@@ -397,8 +397,6 @@ ShiftingDialog.addSubmitListener("TodoAddFTG", function (content) {
 		var desc = content.querySelector("#TodoAdd_Desc").value || "";
 		var filter = content.querySelector("#TodoAdd_Filter").value || "";
 
-		var tocJson = findObjectByKey(todoSnapshot.docs, "id", "TableOfContents").data();
-
 		var json = { title: title, desc: desc };
 		if (type == "Task-Group") json.tasks = {};
 		else if (type == "Item-View") {
@@ -417,7 +415,7 @@ ShiftingDialog.addSubmitListener("TodoAddFTG", function (content) {
 		}
 		firebase.app().firestore().collection("Todo").add(json)
 			.then(function (doc) {
-				tocJson = pushDataToJsonByDotnot(tocJson, stringUnNull(getHashParam('todoView')), doc.id, { } );
+				tocJson = pushDataToJsonByDotnot(findObjectByKey(todoSnapshot.docs, "id", "TableOfContents").data(), stringUnNull(getHashParam('todoView')), doc.id, { } );
 
 				firebase.app().firestore().collection("Todo").doc("TableOfContents").set(tocJson)
 					.then(function () {

@@ -32,7 +32,7 @@ function PeteSwitcher(pageContent, pdrawer, tdrawerEl, openDrawerButton, topAppB
 		}
 		pdrawer_adjustpagecontent();
 		tdrawerEl.style.marginTop = topAppBarElement.clientHeight + "px"; //Adjust the height of the temp drawer relative to the header
-		document.querySelector("main").style.paddingTop = topAppBarElement.clientHeight + "px"; //Adjust the page-content relative too the header
+		document.querySelector("main").style.paddingTop = topAppBarElement.getBoundingClientRect().height + "px"; //Adjust the page-content relative too the header
 	}
 	openDrawerButton.addEventListener('click', toggleDrawer);
 	PeteSwitcher.toggle = toggleDrawer;
