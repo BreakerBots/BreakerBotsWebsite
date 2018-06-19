@@ -107,7 +107,7 @@ function stringUnNull(str) {
  */
 function refByString(theObject, path, separator) {
 	try {
-		separator = separator || '/';
+		separator = separator || '\\';
 
 		return path.
 			replace('[', separator).replace(']', '').
@@ -145,7 +145,7 @@ function pushDataToJsonByDotnot(obj, path, key, value) {
 }
 function dotnot(obj, is, value) {
 	if (typeof is == 'string')
-		return dotnot(obj, is.split('/'), value);
+		return dotnot(obj, is.split('\\'), value);
 	else if (is.length == 1 && value !== undefined)
 		return obj[is[0]] = value;
 	else if (is.length == 0)

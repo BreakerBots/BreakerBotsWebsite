@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
 //All User
 var allUsers = {};
 document.addEventListener('DOMContentLoaded', function () {
-	firebase.app().firestore().collection("users").get().then(function (snapshot) {
+	firebase.app().firestore().collection("users").onSnapshot(function (snapshot) {
 		snapshot.docs.lforEach(function (doc, last) {
 			allUsers[doc.id] = doc.data();
 			getAvatarUrl(doc.id, function (url, rem) {
@@ -45,6 +45,12 @@ document.addEventListener('DOMContentLoaded', function () {
 			}, last);
 		});
 		authLoadedVal = true; //Notify Wait Events
+	});
+
+	firebase.app().firestore().collection("Clearance").onSnapshot(function (snapshot) {
+		snapshot.docs.lforEach(function (doc, last) {
+			allUsers[doc.id].clearance = doc.data().a;
+		});
 	});
 
 	//Update data on user profile updates
@@ -63,16 +69,36 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 const users = {
-	getUsername: function (Uid) { return allUsers[Uid].username; },
-	getUid: function (Username) { return Object.keys(allUsers).find(key => allUsers[key].username === Username); },
-	getAvatar: function (uid) { return allUsers[uid].avatar; },
-	getUser: function (uid) { return allUsers[uid]; },
-	getCurrentUser: function () { return allUsers[firebase.auth().currentUser.uid]; },
-	getCurrentUid: function () { return firebase.auth().currentUser.uid; },
-	getCurrentUsername: function () { return firebase.auth().currentUser.displayName; },
-	getCurrentClearance: function () {  },
-	isUsername: function (Username) { return Object.keys(allUsers).find(key => allUsers[key].username === Username) != undefined; },
-	isUid: function (Uid) { return allUsers.hasOwnProperty(Uid); }
+	getUsername: function (Uid) { try {
+		return allUsers[Uid].username;
+	} catch (err) { return; } },
+	getUid: function (Username) { try {
+		return Object.keys(allUsers).find(key => allUsers[key].username === Username);
+	} catch (err) { return; } },
+	getAvatar: function (uid) { try {
+		return allUsers[uid].avatar;
+	} catch (err) { return "../assets/img/iconT.png"; } },
+	getUser: function (uid) { try {
+		return allUsers[uid];
+	} catch (err) { return; } },
+	getCurrentUser: function () { try {
+		return allUsers[firebase.auth().currentUser.uid];
+	} catch (err) { return; } },
+	getCurrentUid: function () { try {
+		return firebase.auth().currentUser.uid;
+	} catch (err) { return; } },
+	getCurrentUsername: function () { try {
+		return firebase.auth().currentUser.displayName;
+	} catch (err) { return; } },
+	getCurrentClearance: function () { try {
+		return Number(allUsers[firebase.auth().currentUser.uid].clearance);
+	} catch (err) { return 0; } },
+	isUsername: function (Username) { try {
+		return Object.keys(allUsers).find(key => allUsers[key].username === Username) != undefined;
+	} catch (err) { return false; } },
+	isUid: function (Uid) { try {
+		return allUsers.hasOwnProperty(Uid);
+	} catch (err) { return false; } }
 };
 //
 

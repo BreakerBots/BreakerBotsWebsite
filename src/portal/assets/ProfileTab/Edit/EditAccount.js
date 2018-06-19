@@ -110,9 +110,15 @@ var EditProfileChangeAvatarHandler;
 function EditProfileChangeAvatar() {
 	try {
 		var rlId = "HCAUE--" + guid();
-		ShiftingDialog.set("EditProfileChangeAvatar", "Change Avatar", "Submit", "Cancel",
-			'<div style="width: 100%; height: 100%;" id="' + rlId + '"></div>'
-		);
+		ShiftingDialog.set({
+			id: "EditProfileChangeAvatar",
+			title: "Change Avatar",
+			submitButton: "Submit",
+			cancelButton: "Cancel",
+			contents: '<div style="width: 100%; height: 100%;" id="' + rlId + '"></div>',
+			centerButtons: !1,
+			dontCloseOnExternalClick: !0
+		});
 		ShiftingDialog.open();
 		ShiftingDialog.enableSubmitButton(!1);
 		EditProfileChangeAvatarHandler = new AvatarEditor(document.querySelector("#" + rlId), function () {

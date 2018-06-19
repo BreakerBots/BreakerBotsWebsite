@@ -61,14 +61,14 @@ function drawTodoTab(todoDrawTransition) {
 
 	//Stop if path is invalid
 	if (tocR == undefined) {
-		setHashParam('todoView', todoView.substring(0, todoView.lastIndexOf('/')));
+		setHashParam('todoView', todoView.substring(0, todoView.lastIndexOf('\\')));
 		return false;
 	}
 
 	//Fill in the stepper with new data
 	fillTodoStepper(todoView, todoSnapshot.docs);
 
-	var cv = findObjectByKey(todoSnapshot.docs, "id", (todoView.indexOf('/') != -1 ? todoView.substring(todoView.lastIndexOf('/') + 1) : todoView));
+	var cv = findObjectByKey(todoSnapshot.docs, "id", (todoView.indexOf('\\') != -1 ? todoView.substring(todoView.lastIndexOf('\\') + 1) : todoView));
 
 	// Not In Search
 	if (!TodoInSearch) {
@@ -77,7 +77,7 @@ function drawTodoTab(todoDrawTransition) {
 		// Viewing Inside Task-Group
 		if (view == "Task-Group") {
 			todoViewingTaskGroup = true;
-			var tg = findObjectByKey(todoSnapshot.docs, "id", (todoView.lastIndexOf('/') != -1 ? todoView.substring(todoView.lastIndexOf('/') + 1) : todoView)).data();
+			var tg = findObjectByKey(todoSnapshot.docs, "id", (todoView.lastIndexOf('\\') != -1 ? todoView.substring(todoView.lastIndexOf('\\') + 1) : todoView)).data();
 			var htmlTrash = '';
 			for (var i = 0; i < Object.keys(tg.tasks).length; i++) {
 				try {
@@ -206,7 +206,7 @@ function TodoGetFTGHtml(fotg, fotgN, fotgP, transi) {
 		return (`
 		<div class="breaker-layout__panel">
 			<div class="mdc-card ` + (transi ? 'todo-card' : '') + `" id="` + fotgN + `" style="min-height: 65px; background-color: rgba(` + (fotg.trash ? '190, 190, 190, 1' : '255, 255, 255, 1') +  `)">
-				<div class="mdc-ripple-surface mdc-ripple-upgraded bl1" style="display: flex; min-height: 65px; align-items: center;" data-mdc-auto-init="MDCRipple" onclick="setHashParam('todoView', '` + ((todoView == "" ? "" : todoView + "/") + fotgN) + `');">
+				<div class="mdc-ripple-surface mdc-ripple-upgraded bl1" style="display: flex; min-height: 65px; align-items: center;" data-mdc-auto-init="MDCRipple" onclick="setHashParam('todoView', '` + (todoView.split('\\').join("\\\\") + (todoView == "" ? "" : "\\\\") + fotgN) + `');">
 					<div style="margin-left: 20px; width: 100%;">
 						<div class="demo-card__primary" style="width: 70%">
 							<h2 class="demo-card__title mdc-typography--headline6">` + (fotg.title == "" ? "&nbsp;" : fotg.title) + `</h2>
@@ -257,7 +257,7 @@ function TodoGetFTGHtml(fotg, fotgN, fotgP, transi) {
 		return (`
 		<tr style="` + (fotg.trash ? 'background-color: rgba(190, 190, 190, 1)' : '') + `">
 			<td style="min-width: 60px; max-width: 60px; float: left; overflow: visible; text-overflow: visible;">
-				<i data-mdc-auto-init="MDCIconToggle" onclick="setHashParam('todoView', '` + ((todoView == "" ? "" : todoView + "/") + fotgN) + `');" class="mdc-icon-toggle material-icons" style="color: rgb(80, 80, 80); font-size: 200%;" role="button" aria-pressed="false">` + ((fotg.tasks == undefined) ? "folder" : "assignment") + `</i>
+				<i data-mdc-auto-init="MDCIconToggle" onclick="setHashParam('todoView', '` + (todoView.split('\\').join("\\\\") + (todoView == "" ? "" : "\\\\") + fotgN) + `');" class="mdc-icon-toggle material-icons" style="color: rgb(80, 80, 80); font-size: 200%;" role="button" aria-pressed="false">` + ((fotg.tasks == undefined) ? "folder" : "assignment") + `</i>
 			</td>
 			<td style="min-width: 300px; width: 20%; padding-left: 30px;">` + (fotg.title == "" ? "&nbsp;" : fotg.title) + `</td>
 			<td style="min-width: 400px; width: 60%;">` + (fotg.desc) + `</td>
@@ -367,22 +367,32 @@ var TodoAddFab = new FabHandler(document.querySelector('#Todo-Add-Fab'));
 TodoAddFab.element.addEventListener('click', function () {
 	// Folder and Task-Groups (FTG)
 	if (!todoViewingTaskGroup) {
-		ShiftingDialog.set("TodoAddFTG", "Add Folder or Task-Group", "Submit", "Cancel",
-			mainSnips.dropDown("TodoAdd_Type", "Type", "", "TodoAddFTGDropdownUpdate()", ["Folder", "Folder - Contains Other Folders and Task-Groups", true], ["Task-Group", "Task-Group - Contains Tasks", false], ["Item-View", "Item-View - Contains Anything Matching It's Filter", false]) +
-			mainSnips.textField("TodoAdd_Title", "Title", "The Title of the Item", null, null, true) +
-			mainSnips.textArea("TodoAdd_Desc", "Description", "A Desc Of the Item") +
-			mainSnips.textField("TodoAdd_Filter", "Filter", `A Pattern To Display Children`, null, "display: none;", null, null, "Examples: <br> Programming => Search Results For Programming <br> target: @Anyone => Every Task With A Target Anyone <br> target: LiamSnow => Every Task Assigned To Liam <br> target: @Scout-Team @Programming => Every Task Assigned To The Scout Team or Programming Team")
-		);
+		ShiftingDialog.set({
+			id: "TodoAddFTG",
+			title: "Add Folder or Task-Group",
+			submitButton: "Submit",
+			cancelButton: "Cancel",
+			contents:
+				mainSnips.dropDown("TodoAdd_Type", "Type", "", "TodoAddFTGDropdownUpdate()", ["Folder", "Folder - Contains Other Folders and Task-Groups", true], ["Task-Group", "Task-Group - Contains Tasks", false], ["Item-View", "Item-View - Contains Anything Matching It's Filter", false]) +
+				mainSnips.textField("TodoAdd_Title", "Title", "The Title of the Item", null, null, true) +
+				mainSnips.textArea("TodoAdd_Desc", "Description", "A Desc Of the Item") +
+				mainSnips.textField("TodoAdd_Filter", "Filter", `A Pattern To Display Children`, null, "display: none;", null, null, "Examples: <br> Programming => Search Results For Programming <br> target: @Anyone => Every Task With A Target Anyone <br> target: LiamSnow => Every Task Assigned To Liam <br> target: @Scout-Team @Programming => Every Task Assigned To The Scout Team or Programming Team")
+		});
 		ShiftingDialog.open();
 	}
 	// Tasks
 	else {
-		ShiftingDialog.set("TodoAddTask", "Add a new Task", "Submit", "Cancel",
-			mainSnips.textField("TodoAdd_Title", "Title", "The Title of the Task", null, null, true) +
-			mainSnips.textFieldUsersAutoComplete("TodoAdd_Target", "People", "People able or have to complete this task") +
-			mainSnips.checkbox("TodoAdd_Notify", "Notify Users?") + 
-			mainSnips.textArea("TodoAdd_Desc", "Description", "A Desc Of the Task")
-		);
+		ShiftingDialog.set({
+			id: "TodoAddTask",
+			title: "Add a new Task",
+			submitButton: "Submit",
+			cancelButton: "Cancel",
+			contents:
+				mainSnips.textField("TodoAdd_Title", "Title", "The Title of the Task", null, null, true) +
+				mainSnips.textFieldUsersAutoComplete("TodoAdd_Target", "People", "People able or have to complete this task") +
+				mainSnips.checkbox("TodoAdd_Notify", "Notify Users?") +
+				mainSnips.textArea("TodoAdd_Desc", "Description", "A Desc Of the Task")
+		});
 		ShiftingDialog.open();
 	}
 });
@@ -450,7 +460,7 @@ ShiftingDialog.addSubmitListener("TodoAddTask", function (content) {
 			}
 		}
 
-		var ctgN = todoView.indexOf('/') != -1 ? todoView.substring(todoView.lastIndexOf('/') + 1) : todoView;
+		var ctgN = todoView.indexOf('\\') != -1 ? todoView.substring(todoView.lastIndexOf('\\') + 1) : todoView;
 		var ctg = findObjectByKey(todoSnapshot.docs, "id", ctgN).data();
 
 		//Find a unused id
@@ -477,11 +487,17 @@ var TodoFTG_Deleting = "";
 function TodoConfirmDeleteFTG(item) {
 	TodoFTG_Deleting = item;
 	var itemData = findObjectByKey(todoSnapshot.docs, "id", item).data();
-	ShiftingDialog.set("TodoDeleteFTG", "Delete Item", "Yes", "No",
-		mainSnips.icon(null, "delete", "font-size: 160px; color: red;") + 
-		`<div style="width: 100%"></div>` +
-		`<h1 style="text-align: center;"> Are you sure you want to delete the ` + (itemData.tasks == undefined ? "folder " : "task-group ") + (itemData.title == "" ? "that is unnamed" : itemData.title) + `?</h1>`
-	, true);
+	ShiftingDialog.set({
+		id: "TodoDeleteFTG",
+		title: "Delete Item",
+		submitButton: "Yes",
+		cancelButton: "No",
+		contents: 
+			mainSnips.icon(null, "delete", "font-size: 160px; color: red;") +
+			`<div style="width: 100%"></div>` +
+			`<h1 style="text-align: center;"> Are you sure you want to delete the ` + (itemData.tasks == undefined ? "folder " : "task-group ") + (itemData.title == "" ? "that is unnamed" : itemData.title) + `?</h1>`
+		, centerButtons: true
+	});
 	ShiftingDialog.open();
 }
 ShiftingDialog.addSubmitListener("TodoDeleteFTG", function (content) {
@@ -501,17 +517,23 @@ ShiftingDialog.addSubmitListener("TodoDeleteFTG", function (content) {
 var TodoTask_Deleting = ["", null];
 function TodoConfirmDeleteTask(item, parent) {
 	TodoTask_Deleting = [item, parent];
-	var itemData = (findObjectByKey(todoSnapshot.docs, "id", (parent ? parent : (todoView.indexOf('/') != -1 ? todoView.substring(todoView.lastIndexOf('/') + 1) : todoView))).data()).tasks[item];
-	ShiftingDialog.set("TodoDeleteTask", "Delete Task", "Yes", "No",
-		mainSnips.icon(null, "delete", "font-size: 160px; color: red;") +
-		`<div style="width: 100%"></div>` +
-		`<h1 style="text-align: center;"> Are you sure you want to delete ` + itemData.title + `?</h1>`
-		, true);
+	var itemData = (findObjectByKey(todoSnapshot.docs, "id", (parent ? parent : (todoView.indexOf('\\') != -1 ? todoView.substring(todoView.lastIndexOf('\\') + 1) : todoView))).data()).tasks[item];
+	ShiftingDialog.set({
+		id: "TodoDeleteTask",
+		title: "Delete Task",
+		submitButton: "Yes",
+		cancelButton: "No",
+		contents:
+			mainSnips.icon(null, "delete", "font-size: 160px; color: red;") +
+			`<div style="width: 100%"></div>` +
+			`<h1 style="text-align: center;"> Are you sure you want to delete ` + itemData.title + `?</h1>`
+		, centerButtons: true
+	});
 	ShiftingDialog.open();
 }
 ShiftingDialog.addSubmitListener("TodoDeleteTask", function (content) {
 	try {
-		var ctgN = TodoTask_Deleting[1] ? TodoTask_Deleting[1] : (todoView.indexOf('/') != -1 ? todoView.substring(todoView.lastIndexOf('/') + 1) : todoView);
+		var ctgN = TodoTask_Deleting[1] ? TodoTask_Deleting[1] : (todoView.indexOf('\\') != -1 ? todoView.substring(todoView.lastIndexOf('\\') + 1) : todoView);
 		var ctg = findObjectByKey(todoSnapshot.docs, "id", ctgN).data();
 		delete ctg.tasks[TodoTask_Deleting[0]];
 		firebase.app().firestore().collection("Todo").doc(ctgN).set(ctg)
@@ -545,7 +567,7 @@ function TodoRecoverFTG(item) {
 //Tasks
 function TodoTrashTask(item, parent) {
 	try {
-		var ctgN = parent ? parent : todoView.indexOf('/') != -1 ? todoView.substring(todoView.lastIndexOf('/') + 1) : todoView;
+		var ctgN = parent ? parent : todoView.indexOf('\\') != -1 ? todoView.substring(todoView.lastIndexOf('\\') + 1) : todoView;
 		var ctg = findObjectByKey(todoSnapshot.docs, "id", ctgN).data();
 		ctg.tasks[item].status = 4;
 		firebase.app().firestore().collection("Todo").doc(ctgN).set(ctg);
@@ -553,7 +575,7 @@ function TodoTrashTask(item, parent) {
 }
 function TodoRecoverTask(item, parent) {
 	try {
-		var ctgN = parent ? parent : todoView.indexOf('/') != -1 ? todoView.substring(todoView.lastIndexOf('/') + 1) : todoView;
+		var ctgN = parent ? parent : todoView.indexOf('\\') != -1 ? todoView.substring(todoView.lastIndexOf('\\') + 1) : todoView;
 		var ctg = findObjectByKey(todoSnapshot.docs, "id", ctgN).data();
 		ctg.tasks[item].status = 0;
 		firebase.app().firestore().collection("Todo").doc(ctgN).set(ctg);
@@ -571,12 +593,17 @@ var TodoFTG_Editing = "";
 function TodoEditFTG(item) {
 	TodoFTG_Editing = item;
 	var itemData = findObjectByKey(todoSnapshot.docs, "id", item).data();
-	ShiftingDialog.set("TodoEditFTG", "Edit the " + MSNC(itemData.tasks, "Task-Group ", "Folder ") + itemData.title, "Submit", "Cancel",
-		mainSnips.dropDown("TodoEdit_Type", "Type", "", "TodoEditFTGDropdownUpdate()", ["Folder", "Folder - Contains Other Folders and Task-Groups", !itemData.tasks && !itemData.filter], ["Task-Group", "Task-Group - Contains Tasks", itemData.tasks && !itemData.filter], ["Item-View", "Item-View - Contains Anything Matching It's Filter", !itemData.tasks && itemData.filter]) +
-		mainSnips.textField("TodoEdit_Title", "Title", "The Title of the Item", null, null, true, itemData.title) +
-		mainSnips.textField("TodoEdit_Desc", "Description", "A Description of the Item", null, null, false, itemData.desc) +
-		mainSnips.textField("TodoEdit_Filter", "Filter", `A Pattern To Display Children`, null, "display: " + ((!itemData.tasks && itemData.filter) ? "block" : "none") + ";", null, itemData.filter || "", "Examples: <br> Programming => Search Results For Programming <br> target: @Anyone => Every Task With A Target Anyone <br> target: LiamSnow => Every Task Assigned To Liam <br> target: @Scout-Team @Programming => Every Task Assigned To The Scout Team or Programming Team")
-	);
+	ShiftingDialog.set({
+		id: "TodoEditFTG",
+		title: "Edit the " + MSNC(itemData.tasks, "Task-Group ", "Folder ") + itemData.title,
+		submitButton: "Submit",
+		cancelButton: "Cancel",
+		contents:
+			mainSnips.dropDown("TodoEdit_Type", "Type", "", "TodoEditFTGDropdownUpdate()", ["Folder", "Folder - Contains Other Folders and Task-Groups", !itemData.tasks && !itemData.filter], ["Task-Group", "Task-Group - Contains Tasks", itemData.tasks && !itemData.filter], ["Item-View", "Item-View - Contains Anything Matching It's Filter", !itemData.tasks && itemData.filter]) +
+			mainSnips.textField("TodoEdit_Title", "Title", "The Title of the Item", null, null, true, itemData.title) +
+			mainSnips.textField("TodoEdit_Desc", "Description", "A Description of the Item", null, null, false, itemData.desc) +
+			mainSnips.textField("TodoEdit_Filter", "Filter", `A Pattern To Display Children`, null, "display: " + ((!itemData.tasks && itemData.filter) ? "block" : "none") + ";", null, itemData.filter || "", "Examples: <br> Programming => Search Results For Programming <br> target: @Anyone => Every Task With A Target Anyone <br> target: LiamSnow => Every Task Assigned To Liam <br> target: @Scout-Team @Programming => Every Task Assigned To The Scout Team or Programming Team")
+	});
 	ShiftingDialog.open();
 }
 function TodoEditFTGDropdownUpdate() {
@@ -623,17 +650,22 @@ ShiftingDialog.addSubmitListener("TodoEditFTG", function (content) {
 var TodoTasks_Editing = ["", null];
 function TodoEditTask(item, parent) {
 	TodoTasks_Editing = [item, parent];
-	var itemData = findObjectByKey(todoSnapshot.docs, "id", (parent ? parent : (todoView.indexOf('/') != -1 ? todoView.substring(todoView.lastIndexOf('/') + 1) : todoView))).data().tasks[item];
-	ShiftingDialog.set("TodoEditTask", "Edit " + itemData.title, "Submit", "Cancel",
-		mainSnips.textField("TodoAdd_Title", "Title", "The Title of the Task", null, null, true, itemData.title) +
-		mainSnips.textFieldUsersAutoComplete("TodoAdd_Target", "People", "People able or have to complete this task", null, itemData.targets.join(" ")) +
-		mainSnips.checkbox("TodoAdd_Notify", "Notify New Users?") + 
-		mainSnips.textArea("TodoAdd_Desc", "Description", "A Desc Of the Task", null, itemData.desc.replace(/<br>/g, '\n'))
-	);
+	var itemData = findObjectByKey(todoSnapshot.docs, "id", (parent ? parent : (todoView.indexOf('\\') != -1 ? todoView.substring(todoView.lastIndexOf('\\') + 1) : todoView))).data().tasks[item];
+	ShiftingDialog.set({
+		id: "TodoEditTask",
+		title: "Edit " + itemData.title,
+		submitButton: "Submit",
+		cancelButton: "Cancel",
+		contents:
+			mainSnips.textField("TodoAdd_Title", "Title", "The Title of the Task", null, null, true, itemData.title) +
+			mainSnips.textFieldUsersAutoComplete("TodoAdd_Target", "People", "People able or have to complete this task", null, itemData.targets.join(" ")) +
+			mainSnips.checkbox("TodoAdd_Notify", "Notify New Users?") +
+			mainSnips.textArea("TodoAdd_Desc", "Description", "A Desc Of the Task", null, itemData.desc.replace(/<br>/g, '\n'))
+	});
 	ShiftingDialog.open();
 }
 ShiftingDialog.addSubmitListener("TodoEditTask", function (content) {
-	try {
+	try { 
 		var title = content.querySelector("#TodoAdd_Title").value || "";
 		var desc = content.querySelector("#TodoAdd_Desc").value.replace(/\n/g, '<br>') || "";
 		var targets = content.querySelector("#TodoAdd_Target").value.split(" ") || [];
@@ -650,7 +682,7 @@ ShiftingDialog.addSubmitListener("TodoEditTask", function (content) {
 			}
 		}
 
-		var ctgN = TodoTasks_Editing[1] ? TodoTasks_Editing[1] : todoView.indexOf('/') != -1 ? todoView.substring(todoView.lastIndexOf('/') + 1) : todoView;
+		var ctgN = TodoTasks_Editing[1] ? TodoTasks_Editing[1] : todoView.indexOf('\\') != -1 ? todoView.substring(todoView.lastIndexOf('\\') + 1) : todoView;
 		var ctg = findObjectByKey(todoSnapshot.docs, "id", ctgN).data();
 
 		if (notifyUsers) {
@@ -677,18 +709,23 @@ ShiftingDialog.addSubmitListener("TodoEditTask", function (content) {
 var TodoTasks_CS = ["", null];
 function TodoCSTask(item, parent) { //  CS (Change Status)
 	TodoTasks_CS = [item, parent];
-	var itemData = findObjectByKey(todoSnapshot.docs, "id", (parent ? parent : (todoView.indexOf('/') != -1 ? todoView.substring(todoView.lastIndexOf('/') + 1) : todoView))).data().tasks[item];
-	ShiftingDialog.set("TodoCSTask", "Change Status of " + itemData.title, "Submit", "Cancel",
-		mainSnips.radioButtons("TodoCS_State", [
-			'<img class="noselect" src="../assets/icons/todoNS.png"/> <span style="font-size: 120%;">Todo</span> <span style="font-size: 100%;"> (To Be Done)</span>',
-			'<img class="noselect" src="../assets/icons/todoIP.png"/> <span style="font-size: 120%;">In Progress</span> <span style="font-size: 100%;"> (Being Working)</span>',
-			'<img class="noselect" src="../assets/icons/todoF.png"/> <span style="font-size: 120%;">Finished</span> <span style="font-size: 100%;"> (The Task is Officially Completed)</span>',
-			'<img class="noselect" src="../assets/icons/todoB.png"/> <span style="font-size: 120%;">Blocked</span> <span style="font-size: 100%;"> (Stopped Because a Holdup Preventing The Task)</span>',
-			'<img class="noselect" src="../assets/icons/todoD.png"/> <span style="font-size: 120%;">Junked</span> <span style="font-size: 100%;"> (Move To Trash)</span>'
-		], `TodoCSSetRadioAppearance()`) +
-		mainSnips.textField("TodoCS_Reason", "Reason", "The Reason in which the task is being blocked or trashed.", null, "display: none;", null, MSN(itemData.reason, "", "", "")) +
-		mainSnips.textFieldUsersAutoComplete("TodoCS_People", "People", "People Working on The Task", "display: none;", MSN(itemData.people, "", "", ""))
-	);
+	var itemData = findObjectByKey(todoSnapshot.docs, "id", (parent ? parent : (todoView.indexOf('\\') != -1 ? todoView.substring(todoView.lastIndexOf('\\') + 1) : todoView))).data().tasks[item];
+	ShiftingDialog.set({
+		id: "TodoCSTask",
+		title: "Change Status of " + itemData.title,
+		submitButton: "Submit",
+		cancelButton: "Cancel",
+		contents: 
+			mainSnips.radioButtons("TodoCS_State", [
+				'<img class="noselect" src="../assets/icons/todoNS.png"/> <span style="font-size: 120%;">Todo</span> <span style="font-size: 100%;"> (To Be Done)</span>',
+				'<img class="noselect" src="../assets/icons/todoIP.png"/> <span style="font-size: 120%;">In Progress</span> <span style="font-size: 100%;"> (Being Working)</span>',
+				'<img class="noselect" src="../assets/icons/todoF.png"/> <span style="font-size: 120%;">Finished</span> <span style="font-size: 100%;"> (The Task is Officially Completed)</span>',
+				'<img class="noselect" src="../assets/icons/todoB.png"/> <span style="font-size: 120%;">Blocked</span> <span style="font-size: 100%;"> (Stopped Because a Holdup Preventing The Task)</span>',
+				'<img class="noselect" src="../assets/icons/todoD.png"/> <span style="font-size: 120%;">Junked</span> <span style="font-size: 100%;"> (Move To Trash)</span>'
+			], `TodoCSSetRadioAppearance()`) +
+			mainSnips.textField("TodoCS_Reason", "Reason", "The Reason in which the task is being blocked or trashed.", null, "display: none;", null, MSN(itemData.reason, "", "", "")) +
+			mainSnips.textFieldUsersAutoComplete("TodoCS_People", "People", "People Working on The Task", "display: none;", MSN(itemData.people, "", "", ""))
+	});
 	ShiftingDialog.open();
 	setRadioButtonValue(document.querySelector("#TodoCS_State"), itemData.status || 0);
 	TodoCSSetRadioAppearance(1);
@@ -711,7 +748,7 @@ ShiftingDialog.addSubmitListener("TodoCSTask", function (content) {
 		var reason = content.querySelector("#TodoCS_Reason").value;
 		var people = content.querySelector("#TodoCS_People").value;
 
-		var ctgN = TodoTasks_CS[1] ? TodoTasks_CS[1] : todoView.indexOf('/') != -1 ? todoView.substring(todoView.lastIndexOf('/') + 1) : todoView;
+		var ctgN = TodoTasks_CS[1] ? TodoTasks_CS[1] : todoView.indexOf('\\') != -1 ? todoView.substring(todoView.lastIndexOf('\\') + 1) : todoView;
 		var ctg = findObjectByKey(todoSnapshot.docs, "id", ctgN).data();
 
 		if ((people || "") != "") {

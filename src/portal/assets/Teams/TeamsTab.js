@@ -95,10 +95,15 @@ function teamsDraw(teamsDrawTransition) {
 //  ----------------------------------------  Add  -------------------------------------------------\\
 var TeamsFab = new FabHandler(document.querySelector("#AddTeamFab"));
 TeamsFab.addListener(function () {
-	ShiftingDialog.set("TeamsAdd", "Add Team", "Submit", "Cancel", (
-		mainSnips.textField("Teams_Name", "Name", "The Name of the Team", null, null, true, "") + 
-		mainSnips.textField("Teams_Desc", "Description", "A Short Description of the Team", null, null, false, "")
-	));
+	ShiftingDialog.set({
+		id: "TeamsAdd",
+		title: "Add Team",
+		submitButton: "Submit",
+		cancelButton: "Cancel",
+		contents:
+			mainSnips.textField("Teams_Name", "Name", "The Name of the Team", null, null, true, "") +
+			mainSnips.textField("Teams_Desc", "Description", "A Short Description of the Team", null, null, false, "")
+	});
 	ShiftingDialog.open();
 });
 ShiftingDialog.addSubmitListener("TeamsAdd", function () {
@@ -119,10 +124,15 @@ var teamEditing = "";
 function teamsEdit(team) {
 	teamEditing = team;
 	var teamData = teams.getData(team);
-	ShiftingDialog.set("TeamsEdit", "Edit " + teamData.name, "Submit", "Cancel", (
-		mainSnips.textField("Teams_Name", "Name", "The Name of the Team", null, null, true, teamData.name) +
-		mainSnips.textField("Teams_Desc", "Description", "A Short Description of the Team", null, null, false, teamData.desc)
-	));
+	ShiftingDialog.set({
+		id: "TeamsEdit",
+		title: "Edit " + teamData.name,
+		submitButton: "Submit",
+		cancelButton: "Cancel", 
+		contents:
+			mainSnips.textField("Teams_Name", "Name", "The Name of the Team", null, null, true, teamData.name) +
+			mainSnips.textField("Teams_Desc", "Description", "A Short Description of the Team", null, null, false, teamData.desc)
+	});
 	ShiftingDialog.open();
 }
 ShiftingDialog.addSubmitListener("TeamsEdit", function () {
@@ -143,11 +153,17 @@ var teamDeleting = "";
 function teamsDelete(team) {
 	teamDeleting = team;
 	var teamData = teams.getData(team);
-	ShiftingDialog.set("TeamsDelete", "Delete Team", "Yes", "No",
-		mainSnips.icon(null, "delete", "font-size: 160px; color: red;") +
-		`<div style="width: 100%"></div>` +
-		`<h1 style="text-align: center;"> Are you sure you want to delete ` + teamData.name + `?</h1>`
-		, true);
+	ShiftingDialog.set({
+		id: "TeamsDelete",
+		title: "Delete Team",
+		submitButton: "Yes",
+		cancelButton: "No",
+		contents:
+			mainSnips.icon(null, "delete", "font-size: 160px; color: red;") +
+			`<div style="width: 100%"></div>` +
+			`<h1 style="text-align: center;"> Are you sure you want to delete ` + teamData.name + `?</h1>`
+		,centerButtons: true
+	});
 	ShiftingDialog.open();
 }
 ShiftingDialog.addSubmitListener("TeamsDelete", function () {

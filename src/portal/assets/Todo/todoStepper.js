@@ -2,7 +2,7 @@
 
 var currentTodoStepper = [];
 function fillTodoStepper(todoView, snapshotDocs) {
-	todoView = todoView.split('/');
+	todoView = todoView.split('\\');
 	var stepperChange = findStepperChange(currentTodoStepper, todoView); 
 
 	//(Cheap solution) draw in old data and play closing transition if applicable
@@ -19,11 +19,11 @@ function fillTodoStepper(todoView, snapshotDocs) {
 
 	setTimeout(function () {
 		//Draw in new and play transition if applicable
-		var html = `<div class="stepperD mdc-ripple-surface mdc-ripple-upgraded" onclick="setHashParam('todoView', '');" data-mdc-auto-init="MDCRipple"><i class="noselect stepperH material-icons">home</i></div>`;
+		var html = `<div class="stepperD mdc-ripple-surface mdc-ripple-upgraded" onclick="deleteHashParam('todoView');" data-mdc-auto-init="MDCRipple"><i class="noselect stepperH material-icons">home</i></div>`;
 		for (var i = 0; i < todoView.length; i++) {
 			if (todoView[i] != "") {
 				html += '<i class="noselect stepperI material-icons' + ((stepperChange.nun == 1 && i >= stepperChange.i) ? ' stepperPITransition' : '') + '">arrow_forward_ios</i>';
-				html += `<div class="stepperD` + ((stepperChange.nun == 1 && i >= stepperChange.i) ? ' stepperPITransition' : '') + ` mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('todoView', '` + drawRelativeDirectory(todoView, i) + `');"><p class="stepperP">` + findObjectByKey(snapshotDocs, "id", todoView[i]).data().title + `</p></div>`;
+				html += `<div class="stepperD` + ((stepperChange.nun == 1 && i >= stepperChange.i) ? ' stepperPITransition' : '') + ` mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('todoView', '` + drawRelativeDirectory(todoView, i).split('\\').join('\\\\') + `');"><p class="stepperP">` + findObjectByKey(snapshotDocs, "id", todoView[i]).data().title + `</p></div>`;
 			}
 		}
 		currentTodoStepper = todoView;
@@ -36,7 +36,7 @@ function drawRelativeDirectory(array, arrPos) {
 	var str = '';
 	for (var i = 0; i <= arrPos; i++) {
 		if (array[i] != "")
-			str += ((i == 0 ? "" : "/") + array[i]);
+			str += ((i == 0 ? "" : '\\') + array[i]);
 	}
 	return str;
 }

@@ -29,7 +29,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
 function SSFindTotalHours(a) {
 	var totalMinutes = 0;
-	for (var i = 0; i < a.length; i++) {
+	for (var i = 0; i < a.length; i += 2) {
 		totalMinutes += Math.round(((a[i + 1] || new Date()).getTime() - a[i].getTime()) / 1000 / 60);
 	}
 	return Math.floor(totalMinutes / 60) + "h " + Math.floor(totalMinutes % 60) + "m";

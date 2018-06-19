@@ -1,6 +1,6 @@
 ﻿/* SideNav.css */
 
-.mdc-drawer__drawer .mdc-list-item, .mdc-drawer__drawer .side-nav__link {
+.mdc-drawer__drawer .sidenav-list-item, .mdc-drawer__drawer .side-nav__link {
 	border-radius: 8px;
 }
 
@@ -10,7 +10,7 @@
 }
 
 	.mdc-drawer-item--selected > i {
-		color: rgba(214, 0, 0, 0.7);
+		color: rgba(214, 0, 0, 0.7) !important;
 	}
 
 	.mdc-drawer-item--selected > span {
@@ -137,4 +137,12 @@
 	top: 0;
 	transition: height .2s ease,top .2s ease;
 	width: 100%
+}
+
+.sidenav-list-item {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	height: 48px;
+	padding: 0 16px;
 }

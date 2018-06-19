@@ -33,6 +33,7 @@ service cloud.firestore {
 
 	match /Clearance/{user} {
 		allow read: if request.auth.uid != null;
+		allow create: if get(/databases/$(database)/documents/Clearance/$(request.auth.uid)).data.a > 1;
 		allow write: if get(/databases/$(database)/documents/Clearance/$(request.auth.uid)).data.a > 1;
 		allow delete: if false;
 	}

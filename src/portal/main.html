@@ -85,7 +85,9 @@
 				<button onclick="" style="display: none; opacity: 0; transform: scale(0); transition: all 0.2s cubic-bezier(.2, 0, .2, 1);" id="headerSearchBoxOpen" class="noselect material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded">search</button>
 
 				<!--Admin Console-->
-				<button class="noselect material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" aria-label="Admin Console">group</button>
+				<div id="AdminViewEnter">
+
+				</div>
 
 				<!--Apps-->
 				<button data-delete-overflow-min="400" onclick="toggleMenu('#appsMenu', true)" id="headerAppsOpen" class="noselect material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" aria-label="Apps">apps</button>
@@ -157,74 +159,76 @@
 		</div>
 	</header>
 	<main>
-		<!--Left Nav Drawer (Collabsible and Permament)-->
-		<div id="MainNavDrawers">
-			<aside class="mdc-drawer mdc-drawer--temporary mdc-typography main-nav-drawer" style="z-index: 70;"></aside>
-			<div class="noselect permanent-drawer mdc-elevation--z10" style="overflow-y: scroll; transform: translateX(-320px); width: 320px; position: fixed; left: 0; z-index: 70; height: 100%; transition: transform 0.6s, top 0.6s; transition-timing-function: cubic-bezier(0.2, 0.0, 0.2, 1);">
-				<nav class="mdc-drawer__drawer">
-					<nav class="mdc-drawer__content mdc-list LeftNavList">
-						<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','General');">
-							<i class="material-icons mdc-list-item__graphic">image</i><span>General</span>
-						</a>
-						<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="toggleNavSubMenu('#PartsSubmenu')">
-							<i class="material-icons mdc-list-item__graphic mdi-wrench"></i><span>Parts</span>
-						</a>
-						<div class="side-nav__submenu-wrapper">
-							<ul class="side-nav__submenu" id="PartsSubmenu">
-								<li>
-									<a onclick="setHashParam('tab','PartsAll');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded">
-										<span>All</span>
-									</a>
-								</li>
-								<li>
-									<a onclick="setHashParam('tab','PartsOrdered');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded">
-										<span>Ordered</span>
-									</a>
-								</li>
-								<li>
-									<a onclick="setHashParam('tab','PartsArchived');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded">
-										<span>Archived</span>
-									</a>
-								</li>
-							</ul>
-						</div>
-						<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Todo');">
-							<i class="material-icons mdc-list-item__graphic">format_list_numbered </i><span>Todo</span>
-						</a>
-						<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Calendar');">
-							<i class="material-icons mdc-list-item__graphic">calendar_today</i><span>Calendar</span>
-						</a>
-						<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Github');">
-							<i class="material-icons mdi-github mdc-list-item__graphic"></i><span>Github</span>
-						</a>
-						<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Teams');">
-							<i class="material-icons mdc-list-item__graphic">supervisor_account</i><span>Teams</span>
-						</a>
-					</nav>
-				</nav>
-			</div>
-		</div>
-
-		<!--Loader-->
-		<div style="position: relative">
-			<div id="MainLoader" role="progressbar" class="mdc-linear-progress mdc-linear-progress--indeterminate" style="opacity: 0; transition: opacity 0.5s ease 0s; transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1); position: absolute; left: 0; top: 0; z-index: 100;">
-				<div class="mdc-linear-progress__buffering-dots"></div>
-				<div class="mdc-linear-progress__buffer"></div>
-				<div class="mdc-linear-progress__bar mdc-linear-progress__primary-bar">
-					<span class="mdc-linear-progress__bar-inner"></span>
-				</div>
-				<div class="mdc-linear-progress__bar mdc-linear-progress__secondary-bar">
-					<span class="mdc-linear-progress__bar-inner"></span>
-				</div>
-			</div>
-		</div>
-
 		<!--Global Tooltip-->
 		<div class="bstooltip-container">
 			<span class="bstooltip">2 Not Started / 4 In Progress / 7 Done / 1 Blocked</span>
 		</div>
 
-		<div class="page-content" style="transition: margin-left 0.6s cubic-bezier(.2, 0, .2, 1); z-index: 7;">
+		<div class="page-content" style="transition: margin-left 0.6s cubic-bezier(.2, 0, .2, 1), width 0.6s; z-index: 7; position: fixed; width: 100%; height: 100%; overflow: visible;">
+
+			<!--Left Nav Drawer (Collabsible and Permament)-->
+			<div id="MainNavDrawers">
+				<aside class="mdc-drawer mdc-drawer--temporary mdc-typography main-nav-drawer" style="z-index: 70;"></aside>
+				<div class="noselect permanent-drawer mdc-elevation--z10" style="overflow-y: scroll; transform: translateX(-320px); width: 320px; position: fixed; left: 0; z-index: 70; height: 100%; transition: transform 0.6s, top 0.6s; transition-timing-function: cubic-bezier(0.2, 0.0, 0.2, 1);">
+					<nav class="mdc-drawer__drawer">
+						<nav class="mdc-drawer__content mdc-list LeftNavList">
+							<a class="sidenav-list-item mdc-ripple-surface mdc-ripple-surface--primary" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','General');">
+								<i class="material-icons mdc-list-item__graphic">image</i><span>General</span>
+							</a>
+							<a class="sidenav-list-item mdc-ripple-surface mdc-ripple-surface--primary" data-mdc-auto-init="MDCRipple" onclick="toggleNavSubMenu('#PartsSubmenu')">
+								<i class="material-icons mdc-list-item__graphic mdi-wrench"></i><span>Parts</span>
+							</a>
+							<div class="side-nav__submenu-wrapper">
+								<ul class="side-nav__submenu" id="PartsSubmenu">
+									<li>
+										<a onclick="setHashParam('tab','PartsAll');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-surface--primary">
+											<span>All</span>
+										</a>
+									</li>
+									<li>
+										<a onclick="setHashParam('tab','PartsOrdered');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-surface--primary">
+											<span>Ordered</span>
+										</a>
+									</li>
+									<li>
+										<a onclick="setHashParam('tab','PartsArchived');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-surface--primary">
+											<span>Archived</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+							<a class="sidenav-list-item mdc-ripple-surface mdc-ripple-surface--primary" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Todo');">
+								<i class="material-icons mdc-list-item__graphic">format_list_numbered </i><span>Todo</span>
+							</a>
+							<a class="sidenav-list-item mdc-ripple-surface mdc-ripple-surface--primary" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Calendar');">
+								<i class="material-icons mdc-list-item__graphic">calendar_today</i><span>Calendar</span>
+							</a>
+							<a class="sidenav-list-item mdc-ripple-surface mdc-ripple-surface--primary" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Github');">
+								<i class="material-icons mdi-github mdc-list-item__graphic"></i><span>Github</span>
+							</a>
+							<a class="sidenav-list-item mdc-ripple-surface mdc-ripple-surface--primary" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Teams');">
+								<i class="material-icons mdc-list-item__graphic">supervisor_account</i><span>Teams</span>
+							</a>
+						</nav>
+					</nav>
+				</div>
+			</div>
+
+			<!--Loader-->
+			<div style="position: relative">
+				<div id="MainLoader" role="progressbar" class="mdc-linear-progress mdc-linear-progress--indeterminate" style="opacity: 0; transition: opacity 0.5s ease 0s; transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1); position: absolute; left: 0; top: 0; z-index: 100;">
+					<div class="mdc-linear-progress__buffering-dots"></div>
+					<div class="mdc-linear-progress__buffer"></div>
+					<div class="mdc-linear-progress__bar mdc-linear-progress__primary-bar">
+						<span class="mdc-linear-progress__bar-inner"></span>
+					</div>
+					<div class="mdc-linear-progress__bar mdc-linear-progress__secondary-bar">
+						<span class="mdc-linear-progress__bar-inner"></span>
+					</div>
+				</div>
+			</div>
+
+			<!--Tab Viewer-->
 			<div class="" style="height: 100%;">
 				<div class="material-scrollbar" id="page-scroll" onscroll="function PageScrollShadow(sel, header) { if (sel.scrollTop > 5) header.classList.add('mdc-elevation--z10'); else header.classList.remove('mdc-elevation--z10'); } PageScrollShadow(this, document.querySelector('header'));" style="overflow-x: hidden; overflow-y: auto; position: relative; height: calc(100vh - 64px); ">
 					<!--Tabs-->
@@ -538,9 +542,33 @@
 							</span>
 						</button>
 					</div>
+					<div id="AdminView">
+						<div id="AdminViewG" class="tab">
+
+						</div>
+						<div id="AdminViewAU" class="tab">
+
+						</div>
+						<div id="AdminViewSS" class="tab">
+
+						</div>
+						<div id="AdminViewIMS" class="tab">
+
+						</div>
+						<div id="AdminViewTLS" class="tab">
+
+						</div>
+						<div id="AdminViewTMS" class="tab">
+
+						</div>
+					</div>
 				</div>
-			</div><!--End Of Content-->
-		</div><!--End Of Wrapper-->
+			</div>
+			<!--End Of Tab Viewer-->
+
+		</div>
+
+
 		<!--Parts All Dialogues-->
 		<div>
 			<!--Create Folder Dialogue-->
@@ -1022,7 +1050,15 @@
 			</div>
 		</div>
 
-
+		<!--Snackbar-->
+		<div>
+			<div id="MainSnackbar" style="z-index: 100000" data-mdc-auto-init="MDCSnackbar" class="mdc-snackbar" aria-atomic="true" aria-live="assertive" aria-hidden="true">
+				<div class="mdc-snackbar__text"></div>
+				<div class="mdc-snackbar__action-wrapper">
+					<button type="button" class="mdc-snackbar__action-button"></button>
+				</div>
+			</div>
+		</div>
 
 		<!--Imports-->
 		<script src="../assets/mdc/material.js"></script>
@@ -1060,6 +1096,8 @@
 		<script src="assets/Autocomplete/PMSAutocomplete.js"></script>
 		<script src="assets/Resources/Menus.js"></script>
 		<script src="assets/Resources/Tooltips.js"></script>
+		<script src="assets/Resources/IdleHandler.js"></script>
+		<script src="assets/Resources/Snackbar.js"></script>
 
 		<!--Header-->
 		<script src="assets/Header/header.js"></script>
@@ -1074,6 +1112,9 @@
 		<!--Github API and Tab-->
 		<script src="assets/Github/GHAPI.js"></script>
 		<script src="assets/Github/GHUI.js"></script>
+
+		<!--Admin View-->
+		<script src="assets/AdminView/AV-General.js"></script>
 
 		<!--Profile Tab-->
 		<script src="assets/ProfileTab/ProfileTab.js"></script>
