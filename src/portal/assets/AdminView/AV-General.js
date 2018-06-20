@@ -1,10 +1,5 @@
 // Admin View General
 
-var AdminViewGeneral = new RegisteredTab("AdminView", null, AdminViewGeneralInit, null, false);
-
-function AdminViewGeneralInit() {
-	AVSC.TabEnterCheck();
-}
 
 function AVSC() {
 	document.addEventListener('DOMContentLoaded', function () {
@@ -28,7 +23,7 @@ function AVSC() {
 				if (Number(AVCC.a) >= 2) {
 					var AVE = document.querySelector('#AdminViewEnter');
 					if (AVE.innerHTML.indexOf('<i') < 0) {
-						AVE.innerHTML = `<i onclick="setHashParam('tab', 'AdminView')" style="color: white" class="noselect material-icons mdc-icon-toggle" data-mdc-auto-init="MDCIconToggle" aria-label="Admin Console">group</i>`;
+						AVE.innerHTML = `<i onclick="toggleMenu('#AdminConsoleMenu', true)" style="color: white" class="noselect material-icons mdc-icon-toggle" data-mdc-auto-init="MDCIconToggle" aria-label="Admin Console">group</i>`;
 						window.mdc.autoInit(AVE);
 					}
 					//If In Admin View
@@ -62,21 +57,41 @@ function AVSC() {
 	}
 
 	function TabEnterCheck() {
-		if (true || new Date().getTime() - new Date(Date.parse(firebase.auth().currentUser.metadata.lastSignInTime)).getTime() > (20 * 60 * 1000)) {
-			DisplaySignin();
-		}
+		function a() {
+			if (firebase.auth().currentUser) {
+				if (new Date().getTime() - new Date(Date.parse(firebase.auth().currentUser.metadata.lastSignInTime)).getTime() > (40 * 60 * 1000)) {
+					DisplaySignin();
+				}
+			}
+			else
+				setTimeout(a, 1000);
+		} a();
 	}
 	AVSC.TabEnterCheck = TabEnterCheck;
 
 	setInterval(function () {
-		if (IdleTimer > (5 * 60 * 1000)) {
-			if (getHashParam('tab').indexOf("AdminView") != -1) {
-				snackbar.set("Are You Still There?", "Yes", function () {
-
-				}, 10000, false, false);
+		if (IdleTimer > (10 * 60 * 1000)) {
+			if (getHashParam('tab').indexOf("AdminView") != -1 && !((ShiftingDialog.currentId == "AdminViewSignin" || ShiftingDialog.currentId == "AVStillThere") && ShiftingDialog.isOpen())) {
+				ShiftingDialog.set({
+					id: "AVStillThere",
+					centerButtons: true,
+					submitButton: "Yes",
+					title: "Still There?",
+					contents:
+						mainSnips.icon(null, "delete", "font-size: 160px; color: red;") +
+						`<div style="width: 100%"></div>
+						<h1 style="text-align: center;">Are You Still There?</h1>`
+				});
+				ShiftingDialog.open();
+			}
+			if ((IdleTimer > (10 * 60 * 1000) + 10000) && ShiftingDialog.currentId == "AVStillThere" && ShiftingDialog.isOpen()) {
+				DisplaySignin();
 			}
 		}
-	}, 11000);
+		else if (ShiftingDialog.currentId == "AVStillThere" && ShiftingDialog.isOpen()) {
+			ShiftingDialog.close();
+		}
+	}, 1000);
 
 	function DisplaySignin() {
 		if (((ShiftingDialog.currentId || "").indexOf("AdminView") == -1) || !ShiftingDialog.isOpen()) {

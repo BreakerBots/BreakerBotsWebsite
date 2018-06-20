@@ -371,7 +371,16 @@
 			firebase.auth().onAuthStateChanged(function (user) {
 				if (user) {
 					closePage();
-					setTimeout(function () { window.open('main.html#jsi', '_self', false); }, 700);
+					var isVer = false;
+					var isVerST = new Date();
+
+					firebase.app().firestore().collection("Clearance").doc(user.uid).get().then(function (doc) {
+						console.log(doc);
+						isVer = doc.exists;
+						setTimeout(function () {
+							window.open(isVer ? 'main.html#jsi' : 'unverified.html', '_self', false);
+						}, (700 - (new Date().getTime() - isVerST.getTime())).clamp(1, 700));
+					});
 				} else {
 
 				}
@@ -484,7 +493,7 @@
 										.then(function () {
 											setTimeout(function () {
 												closePage();
-												setTimeout(function () { window.open('main.html#jsi', '_self', false); }, 700);
+												setTimeout(function () { window.open('unverified.html', '_self', false); }, 700);
 											}, 1000);
 										});
 								}).catch(function (error) {
@@ -528,7 +537,7 @@
 					firebase.auth().onAuthStateChanged(function (user) {
 						if (user && !dontReroute) {
 							closePage();
-							setTimeout(function () { window.open('main.html#jsi', '_self', false); }, 700);
+							setTimeout(function () { window.open('unverified.html', '_self', false); }, 700);
 						} else {
 
 						}

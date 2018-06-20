@@ -76,8 +76,8 @@
 				<button id="OpenDrawer" style="transition: all 0.2s cubic-bezier(.2, 0, .2, 1);" class="noselect material-icons mdc-top-app-bar__navigation-icon mdc-ripple-upgraded--unbounded mdc-ripple-upgraded">menu</button>
 				<button id="HeaderBackArrow" style="transition: all 0.2s cubic-bezier(.2, 0, .2, 1); display: none; opacity: 0; transform: scale(0);" data-mdc-auto-init="MDCIconToggle" onclick="window.history.back();" class="noselect material-icons mdc-top-app-bar__navigation-icon mdc-ripple-upgraded--unbounded mdc-ripple-upgraded">arrow_back</button>
 				<img src="../assets/img/iconT.png" class="mdc-top-app-bar__navigation-icon" style="width: 64px; height: auto; padding-top: 8px; padding-bottom: 8px; margin-bottom: 0; margin-left: 10px;" />
-				<span class="mdc-top-app-bar__title" data-delete-overflow-min="660" style="font-size: 2em; font-weight: 400; font-family: Roboto !important;">
-					&nbsp; Breakersite - Dashboard
+				<span class="mdc-top-app-bar__title noselect" data-delete-overflow-min="660" style="font-size: 2em; font-weight: 400; font-family: Roboto !important;">
+					&nbsp; Breakersite
 				</span>
 			</section>
 			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
@@ -88,6 +88,55 @@
 				<div id="AdminViewEnter">
 
 				</div>
+				<div role="menu" class="dropdown-menu-c dropdown-menu mdc-elevation--z10 noselect" id="AdminConsoleMenu" style="width: 300px; padding: 0; border: 0; position: absolute;">
+					<ul class="mdc-list demo-list mdc-list--two-line mdc-list--avatar-list">
+						<li onclick="toggleMenu('#AdminConsoleMenu'); setHashParam('tab', 'AV-TLS')" class="mdc-list-item mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">
+							<span class="mdc-list-item__graphic material-icons" aria-hidden="true" style="font-size: 30px;">assignment</span>
+							<span class="mdc-list-item__text" style="font-size: 16px;">
+								Todo List
+								<span class="mdc-list-item__secondary-text" style="font-size: 13px;">
+									Revert From A Version in History, ...
+								</span>
+							</span>
+						</li>
+						<li onclick="toggleMenu('#AdminConsoleMenu'); setHashParam('tab', 'AV-IMS')" class="mdc-list-item mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">
+							<span class="mdc-list-item__graphic material-icons" aria-hidden="true" style="font-size: 30px;">build</span>
+							<span class="mdc-list-item__text" style="font-size: 16px;">
+								Item Management System
+								<span class="mdc-list-item__secondary-text" style="font-size: 13px;">
+									Add a new Part, Approve Part Requests, 
+								</span>
+							</span>
+						</li>
+						<li onclick="toggleMenu('#AdminConsoleMenu'); setHashParam('tab', 'AV-SS')" class="mdc-list-item mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">
+							<span class="mdc-list-item__graphic material-icons" aria-hidden="true" style="font-size: 30px;">person</span>
+							<span class="mdc-list-item__text" style="font-size: 16px;">
+								Sign In/Sign Out
+								<span class="mdc-list-item__secondary-text" style="font-size: 13px;">
+									View Hours Of Members or Sign Everyone Out
+								</span>
+							</span>
+						</li>
+						<li onclick="toggleMenu('#AdminConsoleMenu'); setHashParam('tab', 'AV-TMS')" class="mdc-list-item mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">
+							<span class="mdc-list-item__graphic material-icons" aria-hidden="true" style="font-size: 30px;">group</span>
+							<span class="mdc-list-item__text" style="font-size: 16px;">
+								Teams
+								<span class="mdc-list-item__secondary-text" style="font-size: 13px;">
+									Make A User A Team Lead, or Add Them To Team
+								</span>
+							</span>
+						</li>
+						<li onclick="toggleMenu('#AdminConsoleMenu'); setHashParam('tab', 'AV-AU')" class="mdc-list-item mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">
+							<span class="mdc-list-item__graphic material-icons" aria-hidden="true" style="font-size: 30px;">person_add</span>
+							<span class="mdc-list-item__text" style="font-size: 16px;">
+								Approve Users
+								<span class="mdc-list-item__secondary-text" style="font-size: 13px;">
+									Approve A User
+								</span>
+							</span>
+						</li>
+					</ul>
+				</div>
 
 				<!--Apps-->
 				<button data-delete-overflow-min="400" onclick="toggleMenu('#appsMenu', true)" id="headerAppsOpen" class="noselect material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" aria-label="Apps">apps</button>
@@ -97,10 +146,10 @@
 							<div class="content">
 								<div class="row">
 									<div class="col mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">
-										<a style="border: none;" href="https://github.com/frc5104/" onclick="toggleMenu('#appsMenu', false)" class="connection-item"><img src="../assets/img/github.png" alt="Github"><span>GitHub</span></a>
+										<a style="border: none;" href="https://github.com/frc5104/" onclick="toggleMenu('#appsMenu', false)" class="connection-item"><img src="../assets/img/github.png" class="noselect" alt="Github"><span>GitHub</span></a>
 									</div>
 									<div class="col mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">
-										<a style="border: none;" href="https://breakerbots.slack.com/messages/C0HNZANTE/" onclick="toggleMenu('#appsMenu', false)" class="connection-item"><img src="../assets/img/slack.png" alt="Slack"><span>Slack</span></a>
+										<a style="border: none;" href="https://breakerbots.slack.com/messages/C0HNZANTE/" onclick="toggleMenu('#appsMenu', false)" class="connection-item"><img class="noselect" src="../assets/img/slack.png" alt="Slack"><span>Slack</span></a>
 									</div>
 								</div>
 							</div>
@@ -111,13 +160,13 @@
 				<!--Notifications-->
 				<button onclick="toggleMenu('#Notification-Menu', true);" id="headerNotificationsOpen" class="noselect material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" aria-label="Notifications">notifications</button>
 				<div class="dropdown-menu-c dropdown-menu mdc-elevation--z10" id="Notification-Menu">
-					<div class="Notification-Menu-Header">
+					<div class="Notification-Menu-Header noselect">
 						<p style="margin: 3px 0 0 0; font-size: 16px;">Notifications</p>
 					</div>
 					<div class="Notification-Menu-Content material-scrollbar">
-						
+
 					</div>
-					<div class="Notification-Menu-Footer mdc-ripple-surface" data-mdc-auto-init="MDCRipple" onclick="toggleMenu('#Notification-Menu', false); ViewAllNotifications();">
+					<div class="Notification-Menu-Footer mdc-ripple-surface noselect" data-mdc-auto-init="MDCRipple" onclick="toggleMenu('#Notification-Menu', false); ViewAllNotifications();">
 						<p style="width: 100%; text-align: center; margin-top: 5px; font-size: 14px;">See All</p>
 					</div>
 				</div>
@@ -144,7 +193,7 @@
 					</div>
 					<!--Footer-->
 					<div style="background-color: rgba(0 ,0, 0, 0.1); height: 50px; margin-top: 3%;">
-						<button onclick="toggleMenu('#profileMenu'); setHashParam('tab', 'Profile'); setHashParam('profile', 'this');" class="mdc-button mdc-button--raised mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" style="margin-top: 6px; margin-left: 6px; background-color: rgb(160, 160, 160);">My Account</button>
+						<button onclick="toggleMenu('#profileMenu'); setHashParam('tab', 'Profile', 'profile', 'this');" class="mdc-button mdc-button--raised mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" style="margin-top: 6px; margin-left: 6px; background-color: rgb(160, 160, 160);">My Account</button>
 						<button onclick="toggleMenu('#profileMenu'); firebase.auth().signOut();" class="mdc-button mdc-button--raised mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" style="float: right; margin-top: 6px; margin-right: 6px; background-color: rgb(214, 50, 50);">Signout</button>
 					</div>
 				</div>
@@ -382,12 +431,16 @@
 							<hr />
 							<table class="ProfileTab-Info--Wrapper2">
 								<tr class="ProfileTab-Info--CPW">
-									<td class="ProfileTab-Info--CPW-I noselect material-icons"><img src="../assets/img/slack_logo.png" style="width: 20px; filter: grayscale(1); transform: translateY(-6px);"></td>
+									<td class="ProfileTab-Info--CPW-I noselect material-icons">
+										<img src="../assets/img/slack_logo.png" style="width: 20px; filter: grayscale(1); transform: translateY(-6px);">
+									</td>
 									<td class="ProfileTab-Info--CPW-T noselect" style="min-width: 70px;">Slack: </td>
 									<td class="ProfileTab-Info--CPW-V ProfileTabJI-Slack">--------</td>
 								</tr>
 								<tr class="ProfileTab-Info--CPW">
-									<td class="ProfileTab-Info--CPW-I noselect material-icons mdi"><img src="../assets/img/gh-icon.png" style="width: 20px; filter: invert(70%); transform: translateY(-6px);"></td>
+									<td class="ProfileTab-Info--CPW-I noselect material-icons mdi">
+										<img src="../assets/img/gh-icon.png" style="width: 20px; filter: invert(70%); transform: translateY(-6px);">
+									</td>
 									<td class="ProfileTab-Info--CPW-T noselect" style="min-width: 70px;">Github: </td>
 									<td class="ProfileTab-Info--CPW-V ProfileTabJI-Github">--------</td>
 								</tr>
@@ -457,11 +510,17 @@
 										<label>Role</label>
 										<input oninput="EditProfileCheckSubmit()" id="EditAccountJS--Role" type="text" class="EditAccountJS--Autofill form-control" placeholder="Your Role on the Team (Optional)" autocomplete="off">
 									</div>
-									<div class="form-group autocomplete" style="width: 90%; min-height: 65px; max-height: 73px;" data-autocomplete-auto-init data-autocomplete-showall>
+									<div onclick="setTimeout(function () { EditProfileCheckSubmit(); }, 10);" onkeydown="setTimeout(function () { EditProfileCheckSubmit(); }, 10);" class="form-group autocomplete" style="width: 90%; min-height: 65px; max-height: 73px;" data-autocomplete-auto-init data-autocomplete-showall>
 										<label for="EditAccountJS--Grade">Grade</label>
-										<input id="EditAccountJS--Grade" type="text" class="form-control" placeholder="Your Grade Level (Optional)" autocomplete="off">
+										<input id="EditAccountJS--Grade" type="text"  class="form-control EditAccountJS--Autofill" placeholder="Your Grade Level (Optional)" autocomplete="off">
 										<div class="autocomplete-items"></div>
-										<div class="autocomplete-options"><p>Eigth</p><p>Freshman</p><p>Sophomore</p><p>Junior</p><p>Senior</p></div>
+										<div class="autocomplete-options">
+											<p>Eigth</p>
+											<p>Freshman</p>
+											<p>Sophomore</p>
+											<p>Junior</p>
+											<p>Senior</p>
+										</div>
 									</div>
 									<div class="form-group" style="width: 90%; min-height: 65px; max-height: 65px;">
 										<label>Public Email</label>
@@ -542,23 +601,20 @@
 							</span>
 						</button>
 					</div>
-					<div id="AdminView">
-						<div id="AdminViewG" class="tab">
+					<div id="AdminViewTabs">
+						<div id="AV-AU" class="tab">
 
 						</div>
-						<div id="AdminViewAU" class="tab">
+						<div id="AV-SS" class="tab">
 
 						</div>
-						<div id="AdminViewSS" class="tab">
+						<div id="AV-IMS" class="tab">
 
 						</div>
-						<div id="AdminViewIMS" class="tab">
+						<div id="AV-TLS" class="tab">
 
 						</div>
-						<div id="AdminViewTLS" class="tab">
-
-						</div>
-						<div id="AdminViewTMS" class="tab">
+						<div id="AV-TMS" class="tab">
 
 						</div>
 					</div>
@@ -1115,6 +1171,11 @@
 
 		<!--Admin View-->
 		<script src="assets/AdminView/AV-General.js"></script>
+		<script src="assets/AdminView/AV-AU.js"></script>
+		<script src="assets/AdminView/AV-IMS.js"></script>
+		<script src="assets/AdminView/AV-SS.js"></script>
+		<script src="assets/AdminView/AV-TLS.js"></script>
+		<script src="assets/AdminView/AV-TMS.js"></script>
 
 		<!--Profile Tab-->
 		<script src="assets/ProfileTab/ProfileTab.js"></script>

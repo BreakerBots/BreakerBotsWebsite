@@ -14,8 +14,10 @@ var ShiftingDialog = new class ShiftingDialog {
 		var sdc = document.querySelector('#SD-Container');
 		document.querySelector("#SD-Form").removeAttribute('novalidate');
 		if (sdc.dataset.sdContainerState != "opening" && sdc.dataset.sdContainerState != "open") {
-			this.scrollWasHidden = document.querySelector("#page-scroll").style.overflowY == "hidden";
-			document.querySelector("#page-scroll").style.overflowY = "hidden";
+			if (document.querySelector("#page-scroll")) {
+				this.scrollWasHidden = document.querySelector("#page-scroll").style.overflowY == "hidden";
+				document.querySelector("#page-scroll").style.overflowY = "hidden";
+			}
 			sdc.dataset.sdContainerState = "opening";
 			setTimeout(function () {
 				if (sdc.dataset.sdContainerState == "opening")
@@ -28,7 +30,7 @@ var ShiftingDialog = new class ShiftingDialog {
 		var sdc = document.querySelector('#SD-Container');
 		document.querySelector("#SD-Form").setAttribute('novalidate', '');
 		if (sdc.dataset.sdContainerState != "closed" && sdc.dataset.sdContainerState != "closed") {
-			if (!this.scrollWasHidden) document.querySelector("#page-scroll").style.overflowY = "auto";
+			if (!this.scrollWasHidden && document.querySelector("#page-scroll")) document.querySelector("#page-scroll").style.overflowY = "auto";
 			sdc.dataset.sdContainerState = "closing";
 			setTimeout(function () {
 				if (sdc.dataset.sdContainerState == "closing")
@@ -96,9 +98,11 @@ var ShiftingDialog = new class ShiftingDialog {
 		// AutoInit on contents
 		setTimeout(function () {
 			window.mdc.autoInit(document.querySelector("#SD-Wrapper"));
-			dateTimePickerAutoInit($("#SD-Wrapper"));
-			AutocompleteAutoInit();
-			AutocompleteUsersAutoInit();
+			try {
+				if (dateTimePickerAutoInit) dateTimePickerAutoInit($("#SD-Wrapper"));
+				if (AutocompleteAutoInit) AutocompleteAutoInit();
+				if (AutocompleteUsersAutoInit) AutocompleteUsersAutoInit();
+			} catch (err) { }
 		}, 1);
 	}
 	addSubmitListener(title, callback) {

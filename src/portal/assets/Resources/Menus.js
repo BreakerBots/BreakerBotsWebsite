@@ -88,8 +88,8 @@ function updateMenuAnchors() {
 			pos[1] += menuELP_HPS;
 
 			//Update all the newly generated css
-			menuEl.style.left = pos[0] + "px";
-			menuEl.style.top = pos[1] + "px";
+			menuEl.style.left = pos[0].min(0) + "px";
+			menuEl.style.top = pos[1].min(0) + "px";
 			menuEl.style.transformOrigin = transfOrX + "% 0%";
 		}
 	}

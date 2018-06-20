@@ -66,7 +66,7 @@ function EditProfileDraw() {
 		try {
 			$('#EditAccountJS--Phone').inputmask({ 'mask': '(999) 999-9999' });
 		} catch (err) { }
-	} catch (err) { }
+	} catch (err) {  }
 }
 function EditProfileCheckSubmit() {
 	try {

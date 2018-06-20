@@ -11,7 +11,7 @@ function ProfileTabInit() {
 			authLoadedFullWait(function () { // Wait for AuthAPI
 				TeamsAPIWait(function () { // TeamsAPI 
 					//Reroute
-					var vid = (getHashParam("profile") == "this") ? users.getCurrentUid() : getHashParam("profile");
+					var vid = (stringUnNull(getHashParam("profile")) == "this" || stringUnNull(getHashParam("profile")) == "") ? users.getCurrentUid() : getHashParam("profile");
 					ProfileTabViewing = vid;
 					var isSelf = (vid == users.getCurrentUid());
 					var userdata = users.getUser(vid);
@@ -87,7 +87,7 @@ function ProfileTabExit() {
 var ProfileTabAPI = new class ProfileTabAPI {
 	getLink(uid) {
 		try {
-			return `setHashParam('profile', '` + uid + `'); setHashParam('tab', 'Profile');`;
+			return `setHashParam('tab', 'Profile', 'profile', '` + uid + `');`;
 		} catch (err) { return; }
 	}
 }

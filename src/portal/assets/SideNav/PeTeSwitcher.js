@@ -55,6 +55,18 @@ function PeteSwitcher(pageContent, pdrawer, tdrawerEl, openDrawerButton, topAppB
 	PeteSwitcher.closeTempDrawer = function () {
 		tdrawer.open = false;
 	}
+	PeteSwitcher.instantClosePermDrawer = function () {
+		if (CPeteState == -1) {
+			document.querySelector('.permanent-drawer').classList.add("transition--instant");
+			document.querySelector('.permanent-drawer').style.transform = "translateX(-320px)";
+			setTimeout(function () { document.querySelector('.permanent-drawer').classList.remove("transition--instant"); }, 10);
+		}
+	}
+	PeteSwitcher.openPermDrawer = function () {
+		if (CPeteState == -1) {
+			openPDrawer(true);
+		}
+	}
 	window.addEventListener('hashchange', function () {
 		tdrawer.open = false;
 	});

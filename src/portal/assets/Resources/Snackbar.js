@@ -10,15 +10,18 @@ var snackbar = new class Snackbar {
 	 * @param {Boolean} multiline Whether to show the snackbar with space for multiple lines of text. (default false)
 	 * @param {Boolean} actionOnBottom Whether to show the action below the multiple lines of text. (default false)
 	 */
-	set(message, buttonText, buttonCallback, timeout, multiline, actionOnBottom) {
+	set(message, buttonText, buttonCallback, timeout, multiline, actionOnBottom, autoCloseCallback) {
 		document.querySelector('#MainSnackbar').MDCSnackbar.show({
 			message: message || "",
 			actionText: buttonText || "",
-			actionHandler: buttonCallback || null,
+			actionHandler: function () { if (snST) clearTimeout(snST); if (buttonCallback) buttonCallback(); },
 			actionOnBottom: actionOnBottom || false,
 			multiline: multiline || false,
 			timeout: timeout || 2750
 		});
+		var snST = setTimeout(function () {
+			if (autoCloseCallback) autoCloseCallback();
+		}, (timeout || 2750));
 	}
 
 	get open() {
