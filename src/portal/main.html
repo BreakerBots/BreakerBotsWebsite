@@ -7,7 +7,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<link rel="shortcut icon" href="../assets/img/iconT.png">
-	<title>Breakerbots - Dashboard</title>
+	<title>Breakersite</title>
 	<meta name="theme-color" content="#d60000" />
 
 	<!--Other-->
@@ -68,6 +68,8 @@
 	<link rel="stylesheet" href="assets/ProfileTab/AvatarEditor.css" type="text/css" />
 	<link rel="stylesheet" href="assets/ProfileTab/Edit/EditAccount.css" type="text/css" />
 
+	<!--Admin View -->
+	<link rel="stylesheet" href="assets/AdminView/AV.css" type="text/css" />
 </head>
 <body style="background-color: #EEEEEE; overflow-y: hidden;">
 	<header class="mdc-top-app-bar mdc-top-app-bar--fixed" style="z-index: 10; transform: translateY(-100%);">
@@ -132,6 +134,15 @@
 								Approve Users
 								<span class="mdc-list-item__secondary-text" style="font-size: 13px;">
 									Approve A User
+								</span>
+							</span>
+						</li>
+						<li onclick="toggleMenu('#AdminConsoleMenu'); setHashParam('tab', 'AV-MU')" class="mdc-list-item mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">
+							<span class="mdc-list-item__graphic material-icons" aria-hidden="true" style="font-size: 30px;">lock</span>
+							<span class="mdc-list-item__text" style="font-size: 16px;">
+								Manage Users
+								<span class="mdc-list-item__secondary-text" style="font-size: 13px;">
+									Change a users Clearance
 								</span>
 							</span>
 						</li>
@@ -283,22 +294,6 @@
 					<!--Tabs-->
 					<div id="General" class="tab">
 						<h1>General</h1>
-						<div class="material-table material-table--card">
-							<div class="material-table--header" style="position: relative;">
-								<span class="material-table--title">Sign In / Sign Out Table (Temporary)</span>
-								<button onclick="SSSignAllOut()" style="position: absolute; top: 10px; right: 10px;" class="mdc-button mdc-button--raised" data-mdc-auto-init="MDCRipple">Sign All Out</button>
-							</div>
-							<table>
-								<thead>
-									<tr>
-										<th>Name</th>
-										<th>Status</th>
-										<th>Time</th>
-									</tr>
-								</thead>
-								<tbody id="SISOTable"></tbody>
-							</table>
-						</div>
 					</div>
 					<div id="PartsAll" class="tab">
 						<div class="row" id="PartsAllWrapper">
@@ -603,10 +598,19 @@
 					</div>
 					<div id="AdminViewTabs">
 						<div id="AV-AU" class="tab">
+							<div class="breaker-layout" id="AV-AU-Wrapper">
 
+							</div>
+							<div id="AV-AU-Empty" style="display: none; flex-wrap: wrap; justify-content: center;">
+								<h1>No Users To Approve</h1>
+								<div style="width: 100%; height: 1px"></div>
+								<h4>Once User Have Created An Account They Will Appear Here To Be Approved</h4>
+							</div>
 						</div>
 						<div id="AV-SS" class="tab">
+							<div id="AV-SS-Wrapper">
 
+							</div>
 						</div>
 						<div id="AV-IMS" class="tab">
 
@@ -616,6 +620,11 @@
 						</div>
 						<div id="AV-TMS" class="tab">
 
+						</div>
+						<div id="AV-MU" class="tab">
+							<div id="AV-MU-Wrapper" class="breaker-layout">
+								
+							</div>
 						</div>
 					</div>
 				</div>
@@ -1118,6 +1127,7 @@
 
 		<!--Imports-->
 		<script src="../assets/mdc/material.js"></script>
+		<script type="text/javascript">window.mdc.autoInit();</script>
 		<script src="../assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
 		<script src="../assets/lib/jquery/inputmask.js" type="text/javascript"></script>
 		<script src="../assets/lib/datetimepicker/js/bootstrap-datetimepicker.js" type="text/javascript"></script>
@@ -1171,11 +1181,14 @@
 
 		<!--Admin View-->
 		<script src="assets/AdminView/AV-General.js"></script>
-		<script src="assets/AdminView/AV-AU.js"></script>
-		<script src="assets/AdminView/AV-IMS.js"></script>
-		<script src="assets/AdminView/AV-SS.js"></script>
-		<script src="assets/AdminView/AV-TLS.js"></script>
-		<script src="assets/AdminView/AV-TMS.js"></script>
+		<div id="AdminViewScripts">
+			<script src="assets/AdminView/AV-AU.js"></script>
+			<script src="assets/AdminView/AV-IMS.js"></script>
+			<script src="assets/AdminView/AV-SS.js"></script>
+			<script src="assets/AdminView/AV-TLS.js"></script>
+			<script src="assets/AdminView/AV-TMS.js"></script>
+			<script src="assets/AdminView/AV-MU.js"></script>
+		</div>
 
 		<!--Profile Tab-->
 		<script src="assets/ProfileTab/ProfileTab.js"></script>
@@ -1214,26 +1227,6 @@
 
 		<!--General Tab-->
 		<script src="assets/General/GeneralTab.js"></script>
-
-
-		<!--Main Script-->
-		<script type="text/javascript">
-			window.mdc.autoInit();
-			function slack(message) {
-				$.ajax({
-					"async": true,
-					"crossDomain": true,
-					"dataType": "json",
-					"url": "https://hooks.slack.com/services/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",
-					"method": "POST",
-					"data": '{ "text": "' + message + '" }',
-					"headers": {
-						"accept": "application/json",
-					}
-				});
-				return;
-			}
-		</script>
 	</main>
 </body>
 </html>

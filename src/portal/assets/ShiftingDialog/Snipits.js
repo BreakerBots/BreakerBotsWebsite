@@ -89,8 +89,8 @@ var mainSnips = new class materialSnip {
 			try {
 				html += `
 			<div class="mdc-form-field" style="margin: 0 0 0 3px;">
-				<div class="mdc-radio" data-mdc-auto-init="MDCRadio" id="` + (id + '-' + i) + `">
-					<input class="mdc-radio__native-control" type="radio" checked onclick="` + onchange + `">
+				<div class="mdc-radio" data-mdc-auto-init="MDCRadio" id="` + (id + '--rbv--' + i) + `">
+					<input class="mdc-radio__native-control" type="radio" name="radios" checked onclick="` + MSN(onchange) + `">
 					<div class="mdc-radio__background">
 						<div class="mdc-radio__outer-circle"></div>
 						<div class="mdc-radio__inner-circle"></div>
@@ -123,9 +123,9 @@ var mainSnips = new class materialSnip {
 				`;
 	}
 
-	button(id) {
+	//button(id) {
 
-	}
+	//}
 
 	icon(id, name, style) {
 		return `<i ` + MSN_ID(id) + `class="material-icons" style="` + style + `">` + name + `</i>`;
@@ -153,6 +153,28 @@ var mainSnips = new class materialSnip {
 			</div>
 		  </div>
 		  <label>` + label + `</label>
+		</div>
+		`;
+	}
+
+	slider(id, min, max, val) {
+		return `
+		<div ` + MSN_ID(id) + ` class="mdc-slider mdc-slider--discrete mdc-slider--display-markers" tabindex="0" role="slider"
+				aria-valuemin="` + (min || 0) + `" aria-valuemax="` + (max || 10) + `" aria-valuenow="` + (val || (min || 0)) + `"
+				aria-label="Select Value" data-mdc-auto-init="MDCSlider">
+			<div class="mdc-slider__track-container">
+				<div class="mdc-slider__track"></div>
+				<div class="mdc-slider__track-marker-container"></div>
+			</div>
+			<div class="mdc-slider__thumb-container">
+				<div class="mdc-slider__pin">
+					<span class="mdc-slider__pin-value-marker"></span>
+				</div>
+				<svg class="mdc-slider__thumb" width="21" height="21">
+					<circle cx="10.5" cy="10.5" r="7.875"></circle>
+				</svg>
+				<div class="mdc-slider__focus-ring"></div>
+			</div>
 		</div>
 		`;
 	}
@@ -213,16 +235,16 @@ function arrayToHTMLTags(arr, tag) {
 }
 
 //Get and Set value from radio buttons
-getRadioButtonValue = function (el) {
+getRadioButtonValue = function (el, useid) {
 	var clid;
 	[].forEach.call(el.querySelectorAll('.mdc-radio'), function (item) {
-		if (item.MDCRadio.checked) clid = item.id;
+		if (item.MDCRadio.checked) clid = useid ? item.id : Number(item.id.split('--rbv--')[1]);
 	});
 	return clid;
 }
 setRadioButtonValue = function (el, i) {
 	[].forEach.call(el.querySelectorAll('.mdc-radio'), function (item) {
-		item.MDCRadio.checked = (item.id.split('-')[1] == i);
+		item.MDCRadio.checked = (item.id.split('--rbv--')[1] == i);
 	});
 	return;
 }

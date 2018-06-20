@@ -27,15 +27,18 @@ function AVSC() {
 						window.mdc.autoInit(AVE);
 					}
 					//If In Admin View
-					if ((getHashParam('tab') || "").indexOf("AdminView") != -1) {
+					if ((getHashParam('tab') || "").indexOf("AV") != -1) {
 						
 					}
+					//Close If In Another Tab
 					else if ((ShiftingDialog.currentId || "").indexOf("AdminView") != -1) {
+						//console.log('c ot');
 						ShiftingDialog.close();
 					}
 				}
 				else {
-					if (getHashParam('tab').indexOf("AdminView") != -1) {
+					document.querySelector("#AdminViewScripts").innerHTML = '';
+					if (getHashParam('tab').indexOf("AV") != -1) {
 						setHashParam('tab', 'General');
 					}
 					else
@@ -45,7 +48,7 @@ function AVSC() {
 			}
 			catch (err) {
 				console.log("cauyge", err);
-				if (getHashParam('tab').indexOf("AdminView") != -1) {
+				if (getHashParam('tab').indexOf("AV") != -1) {
 					setHashParam('tab', 'General');
 				}
 				else
@@ -71,7 +74,7 @@ function AVSC() {
 
 	setInterval(function () {
 		if (IdleTimer > (10 * 60 * 1000)) {
-			if (getHashParam('tab').indexOf("AdminView") != -1 && !((ShiftingDialog.currentId == "AdminViewSignin" || ShiftingDialog.currentId == "AVStillThere") && ShiftingDialog.isOpen())) {
+			if (getHashParam('tab').indexOf("AV") != -1 && !((ShiftingDialog.currentId == "AdminViewSignin" || ShiftingDialog.currentId == "AVStillThere") && ShiftingDialog.isOpen())) {
 				ShiftingDialog.set({
 					id: "AVStillThere",
 					centerButtons: true,
@@ -89,6 +92,7 @@ function AVSC() {
 			}
 		}
 		else if (ShiftingDialog.currentId == "AVStillThere" && ShiftingDialog.isOpen()) {
+			//console.log('c st');
 			ShiftingDialog.close();
 		}
 	}, 1000);

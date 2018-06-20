@@ -275,7 +275,7 @@ function TodoGetFTGHtml(fotg, fotgN, fotgP, transi) {
 				<i data-mdc-auto-init="MDCIconToggle" onclick="toggleMenu('` + ('#ddm_' + fotgN) + `', true)" class="mdc-icon-toggle material-icons" style="color: rgb(80, 80, 80);" role="button" aria-pressed="false">more_vert</i>
 			</td>
 			<td style="width: 0px; padding: 0px; margin: 0px; border: 0px; height: 0px;">
-				<ul class="dropdown-menu-c dropdown-menu be-connections" style="padding: 0;" id="` + ('ddm_' + fotgN) + `">
+				<ul class="dropdown-menu-c dropdown-menu be-connections" style="padding: 0;" id="` + ('ddm_' + fotgN) + `" data-menu-offset="-10 -53">
 					<li class="mdc-elevation--z10">
 						<ul class="mdc-list">
 							<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="TodoEditFTG('` + fotgN + `')">
@@ -727,24 +727,23 @@ function TodoCSTask(item, parent) { //  CS (Change Status)
 			mainSnips.textFieldUsersAutoComplete("TodoCS_People", "People", "People Working on The Task", "display: none;", MSN(itemData.people, "", "", ""))
 	});
 	ShiftingDialog.open();
-	setRadioButtonValue(document.querySelector("#TodoCS_State"), itemData.status || 0);
-	TodoCSSetRadioAppearance(1);
+	setTimeout(function () {
+		setRadioButtonValue(document.querySelector("#TodoCS_State"), itemData.status || 0);
+		TodoCSSetRadioAppearance(1);
+	}, 10);
 }
 function TodoCSSetRadioAppearance(el) {
-	if (el) el = document.querySelector('#' + getRadioButtonValue(document.querySelector("#TodoCS_State"))).querySelector("input");
+	if (el) el = document.querySelector('#' + getRadioButtonValue(document.querySelector("#TodoCS_State"), true)).querySelector("input");
 	else el = event.srcElement;
-	//Uncheck others
-	[].forEach.call(el.parentNode.parentNode.parentNode.querySelectorAll('.mdc-radio'), function (item) {
-		if (item.id.split('-')[1] != el.parentNode.id.split('-')[1]) item.MDCRadio.checked = false; });
 
 	//Find and Set which textboxes it wants visible
-	var selected = ([[false, false], [false, true], [false, false], [true, false], [true, false]])[getRadioButtonValue(el.parentNode.parentNode).split('-')[1]];
+	var selected = ([[false, false], [false, true], [false, false], [true, false], [true, false]])[getRadioButtonValue(el.parentNode.parentNode)];
 	document.querySelector('#TodoCS_Reason').parentNode.style.display = selected[0] ? "block" : "none";
 	document.querySelector('#TodoCS_People').parentNode.style.display = selected[1] ? "block" : "none";
 }
 ShiftingDialog.addSubmitListener("TodoCSTask", function (content) {
 	try {
-		var status = getRadioButtonValue(content.querySelector("#TodoCS_State")).split('-')[1];
+		var status = getRadioButtonValue(content.querySelector("#TodoCS_State"));
 		var reason = content.querySelector("#TodoCS_Reason").value;
 		var people = content.querySelector("#TodoCS_People").value;
 
@@ -790,7 +789,7 @@ function TodoGetTaskStatus(status) {
 function getTodoTableStart(useTable, transi) {
 	if (useTable)
 		return `
-		<div class="material-table material-table--card ` + (transi ? 'todo-card' : '') + ` table-responsive" style="overscroll-behavior: none; width: calc(100vw - 30px); overflow: scroll; position: fixed; height: calc(100vh - 135px); transform: translateY(20px)">
+		<div class="material-table material-table--card ` + (transi ? 'todo-card' : '') + ` table-responsive" style="overscroll-behavior: none; width: 100%; overflow: scroll; position: fixed; height: calc(100vh - 135px); transform: translateY(20px)">
 			<table class="striped" style="min-width: 700px;">
 				<thead>
 					<tr>
