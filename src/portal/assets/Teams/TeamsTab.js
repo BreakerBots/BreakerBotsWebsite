@@ -21,8 +21,11 @@ function teamsInitEvery() {
 
 	teamsDraw(true);
 
-	TeamsFab.tabSwitch();
-	showMainLoader(false);
+	authLoadedWait(function () {
+		if (users.getCurrentClearance() > 1)
+			TeamsFab.tabSwitch();
+		showMainLoader(false);
+	});
 }
 
 function teamsExit() {
@@ -48,30 +51,35 @@ function teamsDraw(teamsDrawTransition) {
 					<div class="mdc-card ` + (teamsDrawTransition ? 'todo-card' : '') + `">
 						<div style="margin-left: 20px; width: 100%; position: relative;">
 							<div class="demo-card__primary" style="width: 90%">
-								<h2 class="demo-card__title mdc-typography--headline6">` + data.name + `</h2>
+								<h2 class="demo-card__title mdc-typography--headline6">` + MSN(data.name || "") + `</h2>
 							</div>
-							<div class="mdc-typography--body2" style="width: 90%;">` + data.desc + `</div>
-							<i onclick="teamsJL('` + id + `', ` + teams.memberInTeam(users.getCurrentUid(), id) + `)" data-mdc-auto-init="MDCIconToggle" class="mdc-icon-toggle material-icons" style="color: rgb(80, 80, 80); position: absolute; right: 20px; top: 0px;" role="button" aria-pressed="false" aria-label="` + (teams.memberInTeam(users.getCurrentUid(), id) ? 'Leave Team' : 'Join Team') + `" aria-label-delay="0.2s"><i class="material-icons" style="font-size: 150%; position: absolute; left: 7px; top: 7px;">` + (teams.memberInTeam(users.getCurrentUid(), id) ? 'call_made' : 'call_received') + `</i></i>
+							<div class="mdc-typography--body2" style="width: 90%;">` + MSN(data.desc) + `</div>
 						</div>
 						<div class="mdc-card__action-icons" style="position: relative;">
-							<i data-mdc-auto-init="MDCIconToggle" onclick="teamsExpandCollapseMembers('` + id + `')" class="material-icons mdc-icon-toggle" role="button" style="color: rgb(80, 80, 80); position: absolute; left: 0; font-size: 200%;" aria-label="Show Members">expand_more</i>
+							<i data-mdc-auto-init="MDCIconToggle" onclick="teamsExpandCollapseMembers('` + id + `')" class="teamsExpandCollapseButton material-icons mdc-icon-toggle" role="button" style="color: rgb(80, 80, 80); position: absolute; left: 0; font-size: 200%;" aria-label="Show Members">expand_more</i>
 							<i data-mdc-auto-init="MDCIconToggle" onclick="toggleMenu(null, true)" class="mdc-icon-toggle material-icons" style="color: rgb(80, 80, 80);" role="button" aria-pressed="false">more_vert</i>
 						</div>
-						<div class="teamsMemberList" style="overflow: hidden; opacity: 0; max-height: 0px; transition: opacity .8s, max-height 1s; transition-timing-function: cubic-bezier(.4, 0, .4, 1);">
-							` + teamsGetMembersHtml(id) + `
+						<div class="teamsMemberList" id="teamsMemberList--` + id + `" style="overflow: hidden; opacity: 0; max-height: 0px; transition: opacity .8s, max-height 1s; transition-timing-function: cubic-bezier(.4, 0, .4, 1);">
+							` + MSN(teamsGetMembersHtml(id)) + `
 						</div>
 						<ul class="dropdown-menu-c dropdown-menu be-connections" style="padding: 0;" data-menu-offset="0 -27">
 							<li class="mdc-elevation--z10">
 								<ul class="mdc-list">
-									<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="teamsEdit('` + id + `')">
+									<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" aria-label-delay="0.2s" aria-label="` + (teams.memberInTeam(users.getCurrentUid(), id) ? 'Leave Team' : 'Join Team') + `" onclick="teamsJL('` + id + `', ` + teams.memberInTeam(users.getCurrentUid(), id) + `)">
+										<span class="noselect mdc-list-item__graphic material-icons">` + (teams.memberInTeam(users.getCurrentUid(), id) ? 'call_made' : 'call_received') + `</span>
+										<span class="noselect mdc-list-item__text">` + (teams.memberInTeam(users.getCurrentUid(), id) ? 'Leave Team' : 'Join Team') + `</span>
+									</li>` +
+									(users.getCurrentClearance() > 1 ?
+									`<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="teamsEdit('` + id + `')">
 										<span class="noselect mdc-list-item__graphic material-icons">edit</span>
 										<span class="noselect mdc-list-item__text">Edit</span>
-									</li>
-									<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="teamsDelete('` + id + `')">
+									</li>` +
+									(users.getCurrentClearance() > 2 ?
+									`<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="teamsDelete('` + id + `')">
 										<span class="noselect mdc-list-item__graphic material-icons" style="color: red">delete</span>
 										<span class="noselect mdc-list-item__text" style="color: red">Delete</span>
-									</li>
-								</ul>
+									</li>` : ``) : ``) +
+								`</ul>
 							</li>
 						</ul>
 					</div>
@@ -81,6 +89,7 @@ function teamsDraw(teamsDrawTransition) {
 
 			document.querySelector('#TeamsWrapper').innerHTML = html;
 			window.mdc.autoInit(document.querySelector("#TeamsWrapper"));
+			teamsUpdateExpandCollapseMembers();
 			return true;
 		}
 		else return false;
@@ -107,11 +116,13 @@ TeamsFab.addListener(function () {
 	ShiftingDialog.open();
 });
 ShiftingDialog.addSubmitListener("TeamsAdd", function () {
-	var name = document.querySelector("#Teams_Name").value || "";
-	var desc = document.querySelector("#Teams_Desc").value || "";
-	firebase.app().firestore().collection("Teams").add({ name: name, desc: desc, members: [] }).then(function () {
-		ShiftingDialog.close();
-	});
+	if (users.getCurrentClearance() > 1) {
+		var name = document.querySelector("#Teams_Name").value || "";
+		var desc = document.querySelector("#Teams_Desc").value || "";
+		firebase.app().firestore().collection("Teams").add({ name: name, desc: desc, members: [] }).then(function () {
+			ShiftingDialog.close();
+		});
+	}
 });
 //  ----------------------------------------    -------------------------------------------------\\
 
@@ -136,11 +147,13 @@ function teamsEdit(team) {
 	ShiftingDialog.open();
 }
 ShiftingDialog.addSubmitListener("TeamsEdit", function () {
-	var name = document.querySelector("#Teams_Name").value || "";
-	var desc = document.querySelector("#Teams_Desc").value || "";
-	firebase.app().firestore().collection("Teams").doc(teamEditing).set({ name: name, desc: desc }, { merge: true }).then(function () {
-		ShiftingDialog.close();
-	});
+	if (users.getCurrentClearance() > 1) {
+		var name = document.querySelector("#Teams_Name").value || "";
+		var desc = document.querySelector("#Teams_Desc").value || "";
+		firebase.app().firestore().collection("Teams").doc(teamEditing).set({ name: name, desc: desc }, { merge: true }).then(function () {
+			ShiftingDialog.close();
+		});
+	}
 });
 //  ----------------------------------------    -------------------------------------------------\\
 
@@ -167,9 +180,11 @@ function teamsDelete(team) {
 	ShiftingDialog.open();
 }
 ShiftingDialog.addSubmitListener("TeamsDelete", function () {
-	firebase.app().firestore().collection("Teams").doc(teamDeleting).delete().then(function () {
-		ShiftingDialog.close();
-	});
+	if (users.getCurrentClearance() > 2) {
+		firebase.app().firestore().collection("Teams").doc(teamDeleting).delete().then(function () {
+			ShiftingDialog.close();
+		});
+	}
 });
 //  ----------------------------------------    -------------------------------------------------\\
 
@@ -186,8 +201,31 @@ function teamsJL(team, leave) {
 
 	firebase.app().firestore().collection("Teams").doc(team).set(data);
 }
+function teamsRemoveUser(team, user) {
+	var data = teams.getData(team);
+	data.members.splice(data.members.indexOf(user), 1);
+	firebase.app().firestore().collection("Teams").doc(team).set(data);
+}
 //  ----------------------------------------    -------------------------------------------------\\
 
+
+
+
+//  ----------------------------------------  Team Leaders  ----------------------------------------  \\
+function teamsChangeTeamLeadStatus(team, user, add) {
+	var data = teams.getData(team);
+
+	if (!data.leads)
+		data.leads = [];
+
+	if (add && data.leads.indexOf(user) == -1) 
+		data.leads.push(user);
+	else if (data.leads.indexOf(user) != -1)
+		data.leads.splice(data.leads.indexOf(user), 1);
+
+	firebase.app().firestore().collection("Teams").doc(team).set(data);
+}
+//  ----------------------------------------    ----------------------------------------  \\
 
 
 
@@ -200,31 +238,73 @@ function teamsExpandCollapseMembers(id) {
 		btn.innerHTML = doExpand ? "expand_less" : "expand_more";
 		var lst = btn.parentNode.parentNode.querySelector('.teamsMemberList');
 		if (doExpand) {
-			lst.style.opacity = "1";
-			lst.style.maxHeight = (40 * lst.childNodes.length) + "px";
+			if (teamsExpandCollapseList.indexOf('teamsMemberList--' + id) == -1)
+				teamsExpandCollapseList.push('teamsMemberList--' + id);
 		}
 		else {
-			lst.style.opacity = "0";
-			lst.style.maxHeight = "0px";
+			if (teamsExpandCollapseList.indexOf('teamsMemberList--' + id) != -1)
+				teamsExpandCollapseList.remove('teamsMemberList--' + id);
 		}
+		teamsUpdateExpandCollapseMembers();
 	} catch (err) { console.log(err); }
 }
+teamsExpandCollapseList = [];
+function teamsUpdateExpandCollapseMembers() {
+	var tml = document.querySelector("#TeamsWrapper").querySelectorAll(".teamsMemberList");
+	[].forEach.call(tml, function (lst) {
+		try {
+			if (teamsExpandCollapseList.indexOf(lst.id) != -1) {
+				lst.style.opacity = "1";
+				lst.style.maxHeight = (40 * lst.childNodes.length) + "px";
+				lst.style.pointerEvents = "";
+				lst.parentNode.querySelector('.teamsExpandCollapseButton').innerHTML = 'expand_less';
+			}
+			else {
+				lst.style.opacity = "0";
+				lst.style.maxHeight = "0px";
+				lst.style.pointerEvents = "none";
+				lst.parentNode.querySelector('.teamsExpandCollapseButton').innerHTML = 'expand_more';
+			}
+		} catch (err) { }
+	});
+}
 function teamsGetMembersHtml(id) {
-	var html = '';
+	var html = ['', ''];
 	var membs = teams.getMembers(id);
+	var leads = teams.getData(id).leads || [];
 	for (var i = 0; i < membs.length; i++) {
 		var memId = membs[i];
 		var mem = users.getUser(memId);
-		html += `
-			<div style="width: 100%; background: ` + ((i % 2 == 0) ? '#efefef' : '#ffffff') + `; height: 40px; position: relative;" class="mdc-ripple-surface" data-mdc-auto-init="MDCRipple" onclick="` + (ProfileTabAPI.getLink(memId)) + `">
-				<img style="border-radius: 50%; width: 35px; margin: 2.5px 5px 0 2.5px;" src="` + (mem.avatar) + `">
-				<div style="position: absolute; left: 42px; top: 8.5px;">
+		var menuId = 'teamsMenu' + guid();
+		var memITL = leads.indexOf(memId) != -1;
+		html[(memITL ? 1 : 0)] += `
+			<div onmouseover="this.querySelector('.teamsMemberOptions').style.opacity = 1;" onmouseleave="this.querySelector('.teamsMemberOptions').style.opacity = 0;" onclick="if (!event.target.classList.contains('teamsMemberOptions')) { ` + (ProfileTabAPI.getLink(memId)) + ` }" style="width: 100%; background: ` + ((i % 2 == 0) ? '#efefef' : '#ffffff') + `; height: 40px; position: relative;" class="mdc-ripple-surface" data-mdc-auto-init="MDCRipple">
+				<img style="border-radius: 50%; width: 35px; margin: 2.5px 5px 0 2.5px;" src="` + (mem.avatar) + `">`
+				+ (memITL ? '<span class="material-icons" style="transform: translate(-6px, 5px)">star</span>' : '') +
+				`<div style="position: absolute; left: ` + (memITL ? 60 : 42) + `px; top: 8.5px; right: 0;">
 					<span style="font-size: 120%; font-weight: 600;">` + (mem.username || "Username") + `</span>
-					<span style="font-size: 90%; margin-left: 2px;">` + (mem.name || (mem.username || "Name")) + `</span>
-				</div>
+					<span style="font-size: 90%; margin-left: 2px;">` + (mem.name || (mem.username || "Name")) + `</span>` +
+					(users.getCurrentClearance() > 1 ?
+					`<i onclick="toggleMenu('#` + menuId + `', true)" style="position: absolute; opacity: 0; transition: opacity 0.4s cubic-bezier(.2, 0, .2, 1); right: 0; top: -7px; width: 40px; height: 40px;" class="mdc-icon-toggle teamsMemberOptions" data-mdc-auto-init="MDCIconToggle"><i class="material-icons teamsMemberOptions">more_vert</i></i>`
+					: ``)
+				+ `</div>
 			</div>
+			<ul id="` + menuId + `" class="dropdown-menu-c dropdown-menu be-connections" style="padding: 0;" data-menu-offset="-10 -20">
+				<li class="mdc-elevation--z10">
+					<ul class="mdc-list">
+						<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="teamsChangeTeamLeadStatus('` + id + `', '` + memId + `', ` + !memITL + `)">
+							<span class="noselect mdc-list-item__graphic material-icons">` + (memITL ? 'star_border' : 'star') + `</span>
+							<span class="noselect mdc-list-item__text">` + (memITL ? 'Remove From Team Lead' : 'Make Team Lead') + `</span>
+						</li>
+						<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="teamsRemoveUser('` + id + `', '` + memId + `')">
+							<span class="noselect mdc-list-item__graphic material-icons" style="color: red">remove</span>
+							<span class="noselect mdc-list-item__text" style="color: red">Remove From Team</span>
+						</li>
+					</ul>
+				</li>
+			</ul>
 		`;
 	}
-	return html;
+	return html[1] + html[0];
 }
 //  ----------------------------------------    -------------------------------------------------\\

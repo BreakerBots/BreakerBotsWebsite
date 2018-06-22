@@ -55,6 +55,13 @@ var teams = new class teams {
 		} catch (err) { return undefined; }
 	}
 
+	getName(teamId) {
+		try {
+			return this.getData(teamId).name;
+		}
+		catch (err) { return; }
+	}
+
 	getTeams(member) {
 		try {
 			var ret = [];

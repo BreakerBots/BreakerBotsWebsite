@@ -73,7 +73,7 @@ const users = {
 		return allUsers[Uid].username;
 	} catch (err) { return; } },
 	getUid: function (Username) { try {
-		return Object.keys(allUsers).find(key => allUsers[key].username === Username);
+		return Object.keys(allUsers).find(key => allUsers[key].username == Username);
 	} catch (err) { return; } },
 	getAvatar: function (uid) { try {
 		return allUsers[uid].avatar;
@@ -91,7 +91,7 @@ const users = {
 		return firebase.auth().currentUser.displayName;
 	} catch (err) { return; } },
 	getCurrentClearance: function () { try {
-		return Number(allUsers[firebase.auth().currentUser.uid].clearance);
+		return Number(allUsers[firebase.auth().currentUser.uid].clearance) || 0;
 	} catch (err) { return 0; } },
 	isUsername: function (Username) { try {
 		return Object.keys(allUsers).find(key => allUsers[key].username === Username) != undefined;

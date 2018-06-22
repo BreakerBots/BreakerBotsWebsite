@@ -313,7 +313,7 @@ function TodoGetTaskHtml(tgt, tgtN, transi) {
 				<div class="demo-card__primary" style="width: 70%">
 					<h2 class="demo-card__title mdc-typography--headline6">` + (tgt.title) + `</h2>
 				</div>
-				<div class="demo-card__secondary mdc-typography--body2" style="width: 85%; font-size: .95rem; font-weight: 500; transform: translate(7px, -10px);">` + (tgt.status == 1 || tgt.status == 2 ? tgt.people : tgt.targets.join(", ")) + `</div>
+				<div class="demo-card__secondary mdc-typography--body2" style="width: 85%; font-size: .95rem; font-weight: 500; transform: translate(7px, -10px);">` + AutocompleteUidsToUsers(tgt.status == 1 || tgt.status == 2 ? tgt.people : tgt.targets).join(', ') + `</div>
 				<div class="demo-card__secondary mdc-typography--body2" style="width: 85%">` + tgt.desc + `</div>
 				<div class="demo-card__secondary mdc-typography--body2" style="width: 85%; background: rgba(252, 173, 37, 0.3);">` + MSN(tgt.reason) + `</div>
 				<i class="noselect material-icons mdc-icon-toggle" onclick="TodoCSTask('` + tgtN + `')" aria-label-delay="0.15s" aria-label="Change Status" data-mdc-auto-init="MDCIconToggle" style="position: absolute; right: 8px; top: 8px;"> <img style="transform: translate(-5px, -5.5px)" src="` + TodoGetTaskStatus(Number(tgt.status)) + `"/> </i>
@@ -389,9 +389,9 @@ TodoAddFab.element.addEventListener('click', function () {
 			cancelButton: "Cancel",
 			contents:
 				mainSnips.textField("TodoAdd_Title", "Title", "The Title of the Task", null, null, true) +
+				mainSnips.textArea("TodoAdd_Desc", "Description", "A Desc Of the Task") +
 				mainSnips.textFieldUsersAutoComplete("TodoAdd_Target", "People", "People able or have to complete this task") +
-				mainSnips.checkbox("TodoAdd_Notify", "Notify Users?") +
-				mainSnips.textArea("TodoAdd_Desc", "Description", "A Desc Of the Task")
+				mainSnips.checkbox("TodoAdd_Notify", "Notify Users?")
 		});
 		ShiftingDialog.open();
 	}
@@ -452,6 +452,8 @@ ShiftingDialog.addSubmitListener("TodoAddTask", function (content) {
 				return;
 			}
 		}
+
+		targets = AutocompleteUsersToUids(targets);
 
 		if (notifyUsers) {
 			for (var i = 0; i < targets.length; i++) {
@@ -658,9 +660,9 @@ function TodoEditTask(item, parent) {
 		cancelButton: "Cancel",
 		contents:
 			mainSnips.textField("TodoAdd_Title", "Title", "The Title of the Task", null, null, true, itemData.title) +
-			mainSnips.textFieldUsersAutoComplete("TodoAdd_Target", "People", "People able or have to complete this task", null, itemData.targets.join(" ")) +
-			mainSnips.checkbox("TodoAdd_Notify", "Notify New Users?") +
-			mainSnips.textArea("TodoAdd_Desc", "Description", "A Desc Of the Task", null, itemData.desc.replace(/<br>/g, '\n'))
+			mainSnips.textArea("TodoAdd_Desc", "Description", "A Desc Of the Task", null, itemData.desc.replace(/<br>/g, '\n')) +
+			mainSnips.textFieldUsersAutoComplete("TodoAdd_Target", "People", "People able or have to complete this task", null, AutocompleteUidsToUsers(itemData.targets).join(" ")) +
+			mainSnips.checkbox("TodoAdd_Notify", "Notify New Users?")
 	});
 	ShiftingDialog.open();
 }
@@ -681,6 +683,8 @@ ShiftingDialog.addSubmitListener("TodoEditTask", function (content) {
 				return;
 			}
 		}
+
+		targets = AutocompleteUsersToUids(targets);
 
 		var ctgN = TodoTasks_Editing[1] ? TodoTasks_Editing[1] : todoView.indexOf('\\') != -1 ? todoView.substring(todoView.lastIndexOf('\\') + 1) : todoView;
 		var ctg = findObjectByKey(todoSnapshot.docs, "id", ctgN).data();
@@ -724,7 +728,7 @@ function TodoCSTask(item, parent) { //  CS (Change Status)
 				'<img class="noselect" src="../assets/icons/todoD.png"/> <span style="font-size: 120%;">Junked</span> <span style="font-size: 100%;"> (Move To Trash)</span>'
 			], `TodoCSSetRadioAppearance()`) +
 			mainSnips.textField("TodoCS_Reason", "Reason", "The Reason in which the task is being blocked or trashed.", null, "display: none;", null, MSN(itemData.reason, "", "", "")) +
-			mainSnips.textFieldUsersAutoComplete("TodoCS_People", "People", "People Working on The Task", "display: none;", MSN(itemData.people, "", "", ""))
+			mainSnips.textFieldUsersAutoComplete("TodoCS_People", "People", "People Working on The Task", "display: none;", AutocompleteUidsToUsers(itemData.people || []).join(' '))
 	});
 	ShiftingDialog.open();
 	setTimeout(function () {
@@ -759,6 +763,8 @@ ShiftingDialog.addSubmitListener("TodoCSTask", function (content) {
 				return;
 			}
 		}
+
+		people = AutocompleteUsersToUids(people);
 
 		ctg.tasks[TodoTasks_CS[0]].status = Number(status);
 		ctg.tasks[TodoTasks_CS[0]].reason = reason;
@@ -987,5 +993,29 @@ function TodoInitSearch() {
 			});
 		}, 10);
 	} catch (err) { }
+}
+//  ----------------------------------------    -------------------------------------------------\\
+
+
+
+
+//  ----------------------------------------  History  -------------------------------------------------\\
+function AddToHistory(operation, from, to, targetType, targetId) {
+	firebase.app().firestore().collection("Todo").doc("History").get().then(function (doc) {
+		var data = doc.data();
+		data.a.push({
+			changer: users.getCurrentUid(),
+			operation: operation,
+			from: from,
+			to: to,
+			target: {
+				type: targetType,
+				id: targetId
+			}
+		});
+		firebase.app().firestore().collection("Todo").doc("History").set(data).then(function () {
+
+		});
+	});
 }
 //  ----------------------------------------    -------------------------------------------------\\
