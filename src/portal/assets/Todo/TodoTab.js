@@ -237,15 +237,15 @@ function TodoGetFTGHtml(fotg, fotgN, fotgP, transi) {
 							`<li class="mdc-list-item" data - mdc - auto - init="MDCRipple" onclick = "TodoRecoverFTG('` + fotgN + `')" >
 								<span class="noselect mdc-list-item__graphic material-icons" style="color: green">restore_from_trash</span>
 								<span class="noselect mdc-list-item__text" style="color: green">Recover</span>
-							</li >
-							<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="TodoConfirmDeleteFTG('` + fotgN + `')">
+							</li >` +
+							(users.getCurrentClearance() > 1 ? `<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="TodoConfirmDeleteFTG('` + fotgN + `')">
 								<span class="noselect mdc-list-item__graphic material-icons" style="color: red">delete_forever</span>
 								<span class="noselect mdc-list-item__text" style="color: red">Delete Forever</span>
-							</li>` :
+							</li>` : ``) :
 							`<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="TodoTrashFTG('` + fotgN + `')">
 								<span class="noselect mdc-list-item__graphic material-icons" style="color: red">delete</span>
 								<span class="noselect mdc-list-item__text" style="color: red">Trash</span>
-							</li>` ) +
+							</li>`) +
 						`</ul>
 					</li>
 				</ul>
@@ -286,15 +286,15 @@ function TodoGetFTGHtml(fotg, fotgN, fotgP, transi) {
 							`<li class="mdc-list-item" data - mdc - auto - init="MDCRipple" onclick = "TodoRecoverFTG('` + fotgN + `')" >
 								<span class="noselect mdc-list-item__graphic material-icons" style="color: green">restore_from_trash</span>
 								<span class="noselect mdc-list-item__text" style="color: green">Recover</span>
-							</li >
-							<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="TodoConfirmDeleteFTG('` + fotgN + `')">
+							</li >` +
+							(users.getCurrentClearance() > 1 ? `<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="TodoConfirmDeleteFTG('` + fotgN + `')">
 								<span class="noselect mdc-list-item__graphic material-icons" style="color: red">delete_forever</span>
 								<span class="noselect mdc-list-item__text" style="color: red">Delete Forever</span>
-							</li>` :
+							</li>` : ``) :
 							`<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="TodoTrashFTG('` + fotgN + `')">
 								<span class="noselect mdc-list-item__graphic material-icons" style="color: red">delete</span>
 								<span class="noselect mdc-list-item__text" style="color: red">Trash</span>
-							</li>` ) +
+							</li>`) +
 						`</ul>
 					</li>
 				</ul>
@@ -487,33 +487,52 @@ ShiftingDialog.addSubmitListener("TodoAddTask", function (content) {
 //FTG
 var TodoFTG_Deleting = "";
 function TodoConfirmDeleteFTG(item) {
-	TodoFTG_Deleting = item;
-	var itemData = findObjectByKey(todoSnapshot.docs, "id", item).data();
-	ShiftingDialog.set({
-		id: "TodoDeleteFTG",
-		title: "Delete Item",
-		submitButton: "Yes",
-		cancelButton: "No",
-		contents: 
-			mainSnips.icon(null, "delete", "font-size: 160px; color: red;") +
-			`<div style="width: 100%"></div>` +
-			`<h1 style="text-align: center;"> Are you sure you want to delete the ` + (itemData.tasks == undefined ? "folder " : "task-group ") + (itemData.title == "" ? "that is unnamed" : itemData.title) + `?</h1>`
-		, centerButtons: true
-	});
-	ShiftingDialog.open();
+	if (users.getCurrentClearance() > 1) {
+		TodoFTG_Deleting = item;
+		var itemData = findObjectByKey(todoSnapshot.docs, "id", item).data();
+		ShiftingDialog.set({
+			id: "TodoDeleteFTG",
+			title: "Delete Item",
+			submitButton: "Yes",
+			cancelButton: "No",
+			contents:
+				mainSnips.icon(null, "delete", "font-size: 160px; color: red;") +
+				`<div style="width: 100%"></div>` +
+				`<h1 style="text-align: center;"> Are you sure you want to delete the ` + (itemData.tasks == undefined ? "folder " : "task-group ") + (itemData.title == "" ? "that is unnamed" : itemData.title) + `? <br>This Action Cannot Be Undone</h1>`
+			, centerButtons: true
+		});
+		ShiftingDialog.open();
+	} else alert("You Need Be A Higher Clearance");
 }
 ShiftingDialog.addSubmitListener("TodoDeleteFTG", function (content) {
 	try {
 		var tocJson = findObjectByKey(todoSnapshot.docs, "id", "TableOfContents").data();
-		firebase.app().firestore().collection("Todo").doc(TodoFTG_Deleting).delete()
+
+		//Get All Docs To Delete
+		var childDocs = stringUnNull(getHashParam('todoView'));
+		if (childDocs != "") childDocs += '\\\\';
+		childDocs = refByString(tocJson, childDocs + TodoFTG_Deleting);
+		childDocs = GetAllNestedKeys(childDocs); childDocs.push(TodoFTG_Deleting);
+
+		//Start The Batch
+		var batch = firebase.app().firestore().batch();
+
+		//Delete It From The Table Of Contents
+		tocJson = deleteDataFromJsonByDotnot(tocJson, stringUnNull(getHashParam('todoView')), TodoFTG_Deleting);
+		batch.set(firebase.app().firestore().collection("Todo").doc("TableOfContents"), tocJson);
+
+		childDocs.forEach(function (doc) {
+			batch.delete(firebase.app().firestore().collection("Todo").doc(doc));
+		});
+
+		batch.commit()
 			.then(function () {
-				tocJson = deleteDataFromJsonByDotnot(tocJson, stringUnNull(getHashParam('todoView')), TodoFTG_Deleting);
-				firebase.app().firestore().collection("Todo").doc("TableOfContents").set(tocJson)
-					.then(function () {
-						ShiftingDialog.close();
-					});
+				ShiftingDialog.close();
+			}).catch(function (err) {
+				ShiftingDialog.close();
+				alert('An Error Has Occured, Please Report If You Can <br>', err);
 			});
-	} catch (err) { }
+	} catch (err) { console.log(203, err); }
 });
 //Tasks
 var TodoTask_Deleting = ["", null];

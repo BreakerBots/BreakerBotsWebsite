@@ -154,7 +154,9 @@ function b84eef34da92d0db411e42dea26c16f5bd1b3aa2bbe7ab24f288964f8a7497d6(a, b) 
 		firebase.auth().currentUser.updatePassword(a).then(function () {
 			location.reload();
 		}).catch(function (error) {
-			console.log(error);
+			if (error.code == 'auth/requires-recent-login') {
+				DSI89();
+			}
 		});
 	}
 }
@@ -162,7 +164,50 @@ function f494414f4727bd3e133e5aa895426e8c928e5dff22533a89642e3e9a14a032c9(a) {
 	firebase.auth().currentUser.updateEmail(a).then(function () {
 		location.reload();	
 	}).catch(function (error) {
-		console.log(error);
+		if (error.code == 'auth/requires-recent-login') {
+			DSI89();
+		}
 	});
+}
+
+function DSI89() {
+	ShiftingDialog.set({
+		id: "EditProfileConfirmPassword",
+		contents: `
+			<div class="card card-border-color card-border-color-primary mdc-elevation--z10" style="min-height: 300px; height: calc(15vw + 10px); transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1); width: 25vw; min-width: 300px;">
+				<div class="card-header" style="margin-bottom: 0;">
+					<img src="../assets/img/logosheet.png" alt="logo" style="width: 35%; margin-left: 32.5%;" class="logo-img">
+					<span class="splash-description">Please Confirm Your Password.</span>
+				</div>
+				<div class="card-body">
+					<form>
+						<div class="form-group">
+							<div class="SHP">
+								<input id="AVRAPass" style="border: none; display: inline; width: 80%;" type="password" required placeholder="Password" autocomplete="off" class="form-control">
+								<div style="position: absolute; right: 0; float: right; top: 10px; transform: scale(1); transition: all 0.15s cubic-bezier(.2, 0, .2, 1);">
+									<i style="display: inline; font-size: 27px;" class="material-icons mdc-icon-toggle" role="button" data-mdc-auto-init="MDCIconToggle" onclick="SHP(this.parentNode.parentNode.querySelector('input'));">visibility_off</i>
+								</div>
+							</div>
+						</div>
+						<div class="form-group login-submit">
+							<button onclick="firebase.auth().currentUser.reauthenticateWithCredential(firebase.auth.EmailAuthProvider.credential( firebase.auth().currentUser.email, document.querySelector('#AVRAPass').value )).then(function () {  ShiftingDialog.close(); }).catch(function (err) {  document.querySelector('#AVRAPass').setCustomValidity('Wrong Password'); document.querySelector('#AVRAPass').reportValidity(); });" type="submit" style="width: 90%; display: block; margin: auto;" data-mdc-auto-init="MDCRipple" class="mdc-button mdc-button--raised mdc-ripple-upgraded">Confirm</button>
+						</div>
+					</form>
+				</div>
+				<div style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: -5; background-color: rgba(0,0,0,0.5); opacity: 0; transition: all 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);" id="mainLoader">
+					<div style="transform: scale(2); position: absolute; left: 50%; top: 30%;">
+						<svg width="50px" height="50px" class="material-loader">
+							<circle cx="25" cy="25" r="20" class="material-loader__circle" />
+						</svg>
+					</div>
+				</div>
+			</div>
+		`,
+		dontCloseOnExternalClick: true,
+		dontCloseOnEsc: true,
+		forceFullscreen: true,
+		hideFooter: true,
+		hideHeader: true
+	}); ShiftingDialog.open();
 }
 //  ----------------------------------------    ----------------------------------------  \\
