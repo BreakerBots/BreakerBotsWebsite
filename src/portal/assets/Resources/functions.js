@@ -107,7 +107,7 @@ function stringUnNull(str) {
  */
 function refByString(theObject, path, separator) {
 	try {
-		separator = separator || '/';
+		separator = separator || '\\';
 
 		return path.
 			replace('[', separator).replace(']', '').
@@ -145,7 +145,7 @@ function pushDataToJsonByDotnot(obj, path, key, value) {
 }
 function dotnot(obj, is, value) {
 	if (typeof is == 'string')
-		return dotnot(obj, is.split('/'), value);
+		return dotnot(obj, is.split('\\'), value);
 	else if (is.length == 1 && value !== undefined)
 		return obj[is[0]] = value;
 	else if (is.length == 0)
@@ -304,4 +304,32 @@ Number.prototype.addOrdinal = function () {
 	var s = ["th", "st", "nd", "rd"],
 		v = this % 100;
 	return this + (s[(v - 20) % 10] || s[v] || s[0]);
+}
+
+var SHP_Timeout; 
+function SHP(b) {
+	var a = event.srcElement;
+	clearTimeout(SHP_Timeout);
+	b.type = "visibility_off" != a.innerHTML ? "password" : "text";
+	a.parentNode.style.transform = "scale(0.4)";
+	SHP_Timeout = setTimeout(function () {
+		a.innerHTML = "visibility_off" == a.innerHTML ? "visibility" : "visibility_off";
+		a.parentNode.style.transform = "scale(1)"
+	}, 150)
+}
+
+function is_touch_device() {
+	var prefixes = ' -webkit- -moz- -o- -ms- '.split(' ');
+	var mq = function (query) {
+		return window.matchMedia(query).matches;
+	}
+
+	if (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
+		return true;
+	}
+
+	// include the 'heartz' as a way to have a non matching MQ to help terminate the join
+	// https://git.io/vznFH
+	var query = ['(', prefixes.join('touch-enabled),('), 'heartz', ')'].join('');
+	return mq(query);
 }

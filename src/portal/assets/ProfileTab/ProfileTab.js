@@ -11,7 +11,7 @@ function ProfileTabInit() {
 			authLoadedFullWait(function () { // Wait for AuthAPI
 				TeamsAPIWait(function () { // TeamsAPI 
 					//Reroute
-					var vid = (getHashParam("profile") == "this") ? users.getCurrentUid() : getHashParam("profile");
+					var vid = (stringUnNull(getHashParam("profile")) == "this" || stringUnNull(getHashParam("profile")) == "") ? users.getCurrentUid() : getHashParam("profile");
 					ProfileTabViewing = vid;
 					var isSelf = (vid == users.getCurrentUid());
 					var userdata = users.getUser(vid);
@@ -87,7 +87,7 @@ function ProfileTabExit() {
 var ProfileTabAPI = new class ProfileTabAPI {
 	getLink(uid) {
 		try {
-			return `setHashParam('profile', '` + uid + `'); setHashParam('tab', 'Profile');`;
+			return `setHashParam('tab', 'Profile', 'profile', '` + uid + `');`;
 		} catch (err) { return; }
 	}
 }
@@ -142,6 +142,22 @@ function SetProfileVarible(id, to, hidePar, useTooltip) {
 
 //  ----------------------------------------  Change Avatar  ----------------------------------------  \\
 var ProfileTabChangeAvatarHandler;
-function ProfileChangeAvatar(pid) {try { if (users.getCurrentUid() == pid) { var rlId = "PCAUE--" + guid(); ShiftingDialog.set("ProfileTabChangeAvatar", "Change Avatar", "Submit", "Cancel", '<div style="width: 100%; height: 100%;" id="' + rlId + '"></div>', !1, !0); ShiftingDialog.open(); ShiftingDialog.enableSubmitButton(!1); ProfileTabChangeAvatarHandler = new AvatarEditor(document.querySelector("#" + rlId), function () { "ProfileTabChangeAvatar" == ShiftingDialog.currentId && ShiftingDialog.enableSubmitButton(!0) }) } } catch (a) { };}
+function ProfileChangeAvatar(pid) {
+	try {
+		if (users.getCurrentUid() == pid) {
+			var rlId = "PCAUE--" + guid();
+			ShiftingDialog.set({
+				id: "ProfileTabChangeAvatar",
+				title: "Change Avatar",
+				submitButton: "Submit",
+				cancelButton: "Cancel",
+				contents: '<div style="width: 100%; height: 100%;" id="' + rlId + '"></div>',
+				centerButtons: !1,
+				dontCloseOnExternalClick: !0
+			});
+			ShiftingDialog.open(); ShiftingDialog.enableSubmitButton(!1); ProfileTabChangeAvatarHandler = new AvatarEditor(document.querySelector("#" + rlId), function () { "ProfileTabChangeAvatar" == ShiftingDialog.currentId && ShiftingDialog.enableSubmitButton(!0) })
+		}
+	} catch (a) { };
+}
 ShiftingDialog.addSubmitListener("ProfileTabChangeAvatar", function () {try{if(users.getCurrentUid()==ProfileTabViewing)var rt=ProfileTabChangeAvatarHandler.get(function(c){fetch(c).then(function(b){return b.blob()}).then(function(b){firebase.storage().ref("Avatars/"+users.getCurrentUid()).put(b).on("state_changed",function(a){},function(a){},function(){ShiftingDialog.close();HardRefreshHeaderAvatar();getAvatarUrl(users.getCurrentUid(),function(a){a&&ProfileTabViewing==users.getCurrentUid()&&(document.querySelector(".ProfileTabJI-Avatar").src=a,allUsers[users.getCurrentUid]=a)})})})});rt||(ShiftingDialog.throwFormError("Please Select An Image"),ShiftingDialog.enableSubmitButton(!0))}catch(c){};});
 //  ----------------------------------------    ----------------------------------------  \\

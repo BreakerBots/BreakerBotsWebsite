@@ -14,8 +14,10 @@ var ShiftingDialog = new class ShiftingDialog {
 		var sdc = document.querySelector('#SD-Container');
 		document.querySelector("#SD-Form").removeAttribute('novalidate');
 		if (sdc.dataset.sdContainerState != "opening" && sdc.dataset.sdContainerState != "open") {
-			this.scrollWasHidden = document.querySelector("#page-scroll").style.overflowY == "hidden";
-			document.querySelector("#page-scroll").style.overflowY = "hidden";
+			if (document.querySelector("#page-scroll")) {
+				this.scrollWasHidden = document.querySelector("#page-scroll").style.overflowY == "hidden";
+				document.querySelector("#page-scroll").style.overflowY = "hidden";
+			}
 			sdc.dataset.sdContainerState = "opening";
 			setTimeout(function () {
 				if (sdc.dataset.sdContainerState == "opening")
@@ -28,7 +30,7 @@ var ShiftingDialog = new class ShiftingDialog {
 		var sdc = document.querySelector('#SD-Container');
 		document.querySelector("#SD-Form").setAttribute('novalidate', '');
 		if (sdc.dataset.sdContainerState != "closed" && sdc.dataset.sdContainerState != "closed") {
-			if (!this.scrollWasHidden) document.querySelector("#page-scroll").style.overflowY = "auto";
+			if (!this.scrollWasHidden && document.querySelector("#page-scroll")) document.querySelector("#page-scroll").style.overflowY = "auto";
 			sdc.dataset.sdContainerState = "closing";
 			setTimeout(function () {
 				if (sdc.dataset.sdContainerState == "closing")
@@ -42,41 +44,66 @@ var ShiftingDialog = new class ShiftingDialog {
 	}
 	/**
 	 * Sets the data inside the Shifiting Dialog
-	 * @param {String} title The Title of the dialog
-	 * @param {any} submitButton The text inside the submit button, entering null or undefined with have no submit button (Default "Submit")
-	 * @param {any} closeButton The text inside the cancel button, entering null or undefined with have no cancel button (Default "Cancel")
-	 * @param {any} contents A chunk of html representing the contents that should be inside the dialog. Ids on elements would be advised for grabbing submit data
-	 * @param {any} centerButtons If the Submit and Cancel button should be centered (Default False)
-	 * @param {any} closeOnExternalClick If the dialog should close on a click outside of the dialog (Default False)
+	 * Input a Object with any of the values:
+		 * 0 {String}   "id" -  The Id to set the ShiftingDialog. To Later Reference in Listeners
+		 * 1 {String}   "title" -  The Title of the dialog
+		 * 2 {string}   "contents" -  A chunk of html representing the contents that should be inside the dialog. Ids on elements would be advised for grabbing submit data
+		 * 3 {String}   "submitButton" -  The text inside the submit button, entering null or undefined with have no submit button (Default "Submit")
+		 * 4 {String}   "cancelButton" -  The text inside the cancel button, entering null or undefined with have no cancel button (Default "Cancel")
+		 * 5 {Boolean}  "centerButtons" -  If the Submit and Cancel button should be centered
+		 * 6 {Boolean}  "dontCloseOnExternalClick" -  If the dialog should close on a click outside of the dialog
+		 * 7 {Boolean}  "dontCloseOnEsc" -  If the Dialog Is Closeable by Esc
+		 * 8 {Boolean}  "forceFullscreen" -  Force the Dialog To Be Fullscreen
+		 * 9 {Boolean}  "hideFooter" -  If the footer should be hidden
+		 * 10 {Boolean} "hideHeader" -  If the header should be hidden
 	 */
-	set(id, title, submitButton, cancelButton, contents, centerButtons, dontCloseOnExternalClick) {
-		//Set the title
-		document.querySelector('#SD-HeaderTitle').innerHTML = title ? title : "";
-		this.currentId = id;
+	set(inp) {
+		// 0: "id"
+		this.currentId = inp.id;
 
-		//Set the submit button
-		document.querySelector('#SD-FooterSubmit').innerHTML = submitButton ? submitButton : "Submit";
-		document.querySelector('#SD-FooterSubmit').style.display = submitButton ? "block" : "none";
+		// 1: "title"
+		document.querySelector('#SD-HeaderTitle').innerHTML = inp.title ? inp.title : "";
+
+		// 2: "contents"
+		document.querySelector("#SD-Wrapper").innerHTML = inp.contents ? inp.contents : "";
+
+		// 3: "submitButton"
+		document.querySelector('#SD-FooterSubmit').innerHTML = inp.submitButton ? inp.submitButton : "Submit";
+		document.querySelector('#SD-FooterSubmit').style.display = inp.submitButton ? "block" : "none";
 		document.querySelector("#SD-FooterSubmit").disabled = false;
 
-		//Set the cancel button
-		document.querySelector('#SD-FooterCancel').innerHTML = cancelButton ? cancelButton : "Cancel";
-		document.querySelector('#SD-FooterCancel').style.display = cancelButton ? "block" : "none";
+		// 4: "cancelButton"
+		document.querySelector('#SD-FooterCancel').innerHTML = inp.cancelButton ? inp.cancelButton : "Cancel";
+		document.querySelector('#SD-FooterCancel').style.display = inp.cancelButton ? "block" : "none";
 
-		//Center and Swap Buttons
-		document.querySelector("#SD-Footer").style.justifyContent = centerButtons ? "center" : "flex-end";
+		// 5: "centerButtons"
+		document.querySelector("#SD-Footer").style.justifyContent = inp.centerButtons ? "center" : "flex-end";
 
-		//The the contents
-		document.querySelector("#SD-Wrapper").innerHTML = contents ? contents : "";
+		// 6: "dontCloseOnExternalClick"
+		this.closeOnExternalClick = inp.dontCloseOnExternalClick ? false : true;
 
-		//Close On External Click
-		this.closeOnExternalClick = dontCloseOnExternalClick ? false : true;
+		// 7: "dontCloseOnEsc"
+		this.closeOnEsc = inp.dontCloseOnEsc ? false : true;
 
-		//Initialize the components
-		window.mdc.autoInit(document.querySelector("#SD-Wrapper"));
-		dateTimePickerAutoInit($("#SD-Wrapper"));
-		AutocompleteAutoInit();
-		AutocompleteUsersAutoInit();
+		// 8: "forceFullscreen"
+		this.forceFullscreen = inp.forceFullscreen ? true : false;
+		ShiftingDialogCheckShift();
+
+		// 9: "hideFooter"
+		document.querySelector('#SD-FooterWrapper').style.display = inp.hideFooter ? "none" : "block";
+
+		// 10: "hideHeader"
+		document.querySelector('#SD-Header').style.display = inp.hideHeader ? "none" : "block";
+
+		// AutoInit on contents
+		setTimeout(function () {
+			window.mdc.autoInit(document.querySelector("#SD-Wrapper"));
+			try {
+				if (dateTimePickerAutoInit) dateTimePickerAutoInit($("#SD-Wrapper"));
+				if (AutocompleteAutoInit) AutocompleteAutoInit();
+				if (AutocompleteUsersAutoInit) AutocompleteUsersAutoInit();
+			} catch (err) { }
+		}, 1);
 	}
 	addSubmitListener(title, callback) {
 		SD_Listeners.push({ title: title, callback: callback });
@@ -129,7 +156,7 @@ document.querySelector("#SD-Container").addEventListener('click', function () {
 //Close the dialog on [Escape] pressed.
 window.onkeyup = function (e) {
 	if (e.key == "Escape" && ShiftingDialog.isOpen()) {
-		ShiftingDialog.close();
+		if (ShiftingDialog.closeOnEsc) ShiftingDialog.close();
 	}
 }
 
@@ -149,7 +176,7 @@ function ShiftingDialogCheckShift() {
 	}
 	else {
 		//Default (Desktop)
-		document.querySelector("#SD-Main").dataset.sdMainState = "default";
+		document.querySelector("#SD-Main").dataset.sdMainState = ShiftingDialog.forceFullscreen ? "fullscreen" : "default";
 	}
 
 	//Some extra footer stuff

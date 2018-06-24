@@ -95,7 +95,13 @@ function ViewAllNotifications() {
 				</div>
 				`;
 		}
-		ShiftingDialog.set("ViewAllNotifications", "View All Notifications", "Okay", null, html, true, true);
+		ShiftingDialog.set({
+			id: "ViewAllNotifications",
+			title: "View All Notifications",
+			submitButton: "Okay",
+			contents: html,
+			centerButtons: true
+		});
 		ShiftingDialog.open();
 	} catch (err) {  }
 }

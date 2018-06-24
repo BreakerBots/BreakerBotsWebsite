@@ -23,9 +23,10 @@
 	<script defer src="/__/firebase/init.js"></script>
 
 	<!--MDC-->
-	<link rel="stylesheet" href="../assets/mdc/material.css">
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="../assets/mdc/material.css" rel="stylesheet">
+	<link href="../assets/mdc/icons.css" rel="stylesheet">
 
+	<link rel="stylesheet" href="assets/Resources/SHP.css">
 	<link rel="stylesheet" href="assets/RippleTransitions/ripple.css">
 	<link rel="stylesheet" href="assets/Header/header.css">
 
@@ -152,7 +153,12 @@
 											<input style="transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);" id="email" type="text" placeholder="Username or Email" autocomplete="off" class="form-control" required="">
 										</div>
 										<div class="form-group">
-											<input style="transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);" id="password" type="password" placeholder="Password" class="form-control" required="">
+											<div class="SHP">
+												<input id="password" value="" style="border: none; display: inline; width: 80%;" type="password" required placeholder="Password" autocomplete="off" class="form-control">
+												<div style="position: absolute; right: 0; float: right; top: 10px; transform: scale(1); transition: all 0.15s cubic-bezier(.2, 0, .2, 1);">
+													<i style="display: inline; font-size: 27px;" class="material-icons mdc-icon-toggle" role="button" data-mdc-auto-init="MDCIconToggle" onclick="SHP(this.parentNode.parentNode.querySelector('input'));">visibility_off</i>
+												</div>
+											</div>
 										</div>
 										<div class="form-group row login-tools">
 											<div class="col-6 login-remember">
@@ -205,22 +211,36 @@
 										</div>
 										<div class="form-group row signup-password">
 											<div class="col-6" id="SUPC">
-												<input style="transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);" type="password" placeholder="Password" id="passwordSU" required class="form-control" minlength="6">
+												<div class="SHP">
+													<input id="passwordSU" value="" minlength="6" style="border: none; display: inline; width: 80%;" type="password" required placeholder="Password" autocomplete="off" class="form-control">
+													<div style="position: absolute; right: 0; float: right; top: 10px; transform: scale(1); transition: all 0.15s cubic-bezier(.2, 0, .2, 1);">
+														<i style="display: inline; font-size: 27px;" class="material-icons mdc-icon-toggle" role="button" data-mdc-auto-init="MDCIconToggle" onclick="SHP(this.parentNode.parentNode.querySelector('input'));">visibility_off</i>
+													</div>
+												</div>
 												<div class="patooltip-container">
 													<span class="patooltip">Don't Worry Your Password Is Hashed (Encypted) Through Google and (Nearly) Impossible To Access</span>
 												</div>
 											</div>
 											<div class="col-6">
-												<input style="transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);" type="password" placeholder="Confirm Password" id="confirm_password" required class="form-control">
+												<div class="SHP">
+													<input id="confirm_password" value="" style="border: none; display: inline; width: 80%;" type="password" required placeholder="Repeat Password" autocomplete="off" class="form-control">
+													<div style="position: absolute; right: 0; float: right; top: 10px; transform: scale(1); transition: all 0.15s cubic-bezier(.2, 0, .2, 1);">
+														<i style="display: inline; font-size: 27px;" class="material-icons mdc-icon-toggle" role="button" data-mdc-auto-init="MDCIconToggle" onclick="SHP(this.parentNode.parentNode.querySelector('input'));">visibility_off</i>
+													</div>
+												</div>
 											</div>
-										</div>
-										<div class="form-group">
-											<input style="transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);" type="text" name="key" id="key" required="" placeholder="Key" autocomplete="on" class="form-control">
 										</div>
 										<div class="form-group pt-2">
 											<button id="submitbutton" type="submit" style="width: 90%; display: block; margin: auto;" data-mdc-auto-init="MDCRipple" class="mdc-button mdc-button--raised mdc-ripple-upgraded">Sign Up</button>
 										</div>
 									</form>
+								</div>
+								<div style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: -5; background-color: rgba(0,0,0,0.5); opacity: 0; transition: all 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);" id="signUpLoader">
+									<div style="transform: scale(2); position: absolute; left: 50%; top: 30%;">
+										<svg width="50px" height="50px" class="material-loader">
+											<circle cx="25" cy="25" r="20" class="material-loader__circle" />
+										</svg>
+									</div>
 								</div>
 							</div>
 
@@ -351,7 +371,16 @@
 			firebase.auth().onAuthStateChanged(function (user) {
 				if (user) {
 					closePage();
-					setTimeout(function () { window.open('main.html#jsi', '_self', false); }, 700);
+					var isVer = false;
+					var isVerST = new Date();
+
+					firebase.app().firestore().collection("Clearance").doc(user.uid).get().then(function (doc) {
+						console.log(doc);
+						isVer = doc.exists;
+						setTimeout(function () {
+							window.open(isVer ? 'main.html#jsi' : 'unverified.html', '_self', false);
+						}, (700 - (new Date().getTime() - isVerST.getTime())).clamp(1, 700));
+					});
 				} else {
 
 				}
@@ -390,7 +419,7 @@
 
 		//Signup
 		var sud;
-		var SignUpTab = new RegisteredTab("SignUp", 570, function () { }, function () {
+		var SignUpTab = new RegisteredTab("SignUp", 490, function () { }, function () {
 			sud = document.querySelector('#SignUp');
 
 			//Confirm Password Validation
@@ -414,13 +443,12 @@
 			});
 
 
-			var key = sud.querySelector("#key"); String.prototype.dtrt = function () { var hash = 0, i, chr; if (this.length === 0) return hash; for (i = 0; i < this.length; i++) { chr = this.charCodeAt(i); hash = ((hash << 5) - hash) + chr; hash |= 0; } return hash; };
-			key.addEventListener("input", function (event) { if ((key.value).dtrt() != Math.round((15701995.4032 / 1391.0) * 123347.0)) { key.setCustomValidity("Incorrect Key, Ask someone on the team to make an account"); } else { key.setCustomValidity(""); } });
-
 			var emailInUse = "";
 			var userInUse = "";
 			function processSUForm(e) {
 				if (e.preventDefault) e.preventDefault();
+
+				setLoader(true);
 
 				//Get the form values
 				var password = sud.querySelector("#passwordSU").value;
@@ -432,6 +460,7 @@
 					.get()
 					.then(function (querySnapshot) {
 						if (querySnapshot.size > 0) {
+							setLoader(false);
 							userInUse = username;
 							sud.querySelector("#username").setCustomValidity("This username is in use!");
 							sud.querySelector("#username").reportValidity();
@@ -451,7 +480,6 @@
 									firebase.app().firestore().collection("users").doc(user.uid).set({
 										username: username,
 										email: email,
-										clearance: 0,
 										github: "",
 										slack: "",
 										grade: "",
@@ -463,7 +491,10 @@
 										devices: []
 									})
 										.then(function () {
-											window.open('main.html', '_self', false);
+											setTimeout(function () {
+												closePage();
+												setTimeout(function () { window.open('unverified.html', '_self', false); }, 700);
+											}, 1000);
 										});
 								}).catch(function (error) {
 									dontReroute = false;
@@ -476,12 +507,14 @@
 										emailInUse = email;
 										sud.querySelector("#emailSU").setCustomValidity("This email is in use!");
 										sud.querySelector("#emailSU").reportValidity();
+										setLoader(false);
 									}
 
 									if (errorMessage == "The email address is badly formatted.") {
 										emailInUse = email;
 										sud.querySelector("#emailSU").setCustomValidity("This is not an email!");
 										sud.querySelector("#emailSU").reportValidity();
+										setLoader(false);
 									}
 								});
 						}
@@ -503,7 +536,8 @@
 
 					firebase.auth().onAuthStateChanged(function (user) {
 						if (user && !dontReroute) {
-							window.open('main.html', '_self', false);
+							closePage();
+							setTimeout(function () { window.open('unverified.html', '_self', false); }, 700);
 						} else {
 
 						}
@@ -512,6 +546,19 @@
 					console.log(e);
 				}
 			});
+
+			function setLoader(state) {
+				sud.querySelector('#signUpLoader').style.opacity = state ? 1 : 0;
+				sud.querySelector('#signUpLoader').style.zIndex = state ? 10 : -5;
+			}
+
+			function closePage() {
+				var ripple = document.querySelector("#CloseRipple");
+				var submitPos = realPosition(sud.querySelector("#submitbutton"));
+				ripple.style.left = (submitPos.left + (sud.querySelector("#submitbutton").offsetWidth / 2)) + "px";
+				ripple.style.top = (submitPos.top + (sud.querySelector("#submitbutton").offsetHeight / 2)) + "px";
+				document.querySelector("#CloseRippleWrap").classList.add("goripple");
+			}
 
 			var form = sud.querySelector("#SigninForm");
 			if (form.attachEvent) {

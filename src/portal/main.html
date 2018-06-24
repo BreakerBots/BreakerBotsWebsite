@@ -7,7 +7,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<link rel="shortcut icon" href="../assets/img/iconT.png">
-	<title>Breakerbots - Dashboard</title>
+	<title>Breakersite</title>
 	<meta name="theme-color" content="#d60000" />
 
 	<!--Other-->
@@ -54,6 +54,7 @@
 	<link rel="stylesheet" href="assets/Resources/Menus.css" type="text/css" />
 	<link rel="stylesheet" href="assets/Resources/Tooltips.css" type="text/css" />
 	<link rel="stylesheet" href="assets/Resources/Scroll.css" type="text/css" />
+	<link rel="stylesheet" href="assets/Resources/SHP.css">
 
 	<!-- Side Nav Drawer -->
 	<link rel="stylesheet" href="assets/SideNav/SideNav.css" type="text/css" />
@@ -67,6 +68,8 @@
 	<link rel="stylesheet" href="assets/ProfileTab/AvatarEditor.css" type="text/css" />
 	<link rel="stylesheet" href="assets/ProfileTab/Edit/EditAccount.css" type="text/css" />
 
+	<!--Admin View -->
+	<link rel="stylesheet" href="assets/AdminView/AV.css" type="text/css" />
 </head>
 <body style="background-color: #EEEEEE; overflow-y: hidden;">
 	<header class="mdc-top-app-bar mdc-top-app-bar--fixed" style="z-index: 10; transform: translateY(-100%);">
@@ -75,8 +78,8 @@
 				<button id="OpenDrawer" style="transition: all 0.2s cubic-bezier(.2, 0, .2, 1);" class="noselect material-icons mdc-top-app-bar__navigation-icon mdc-ripple-upgraded--unbounded mdc-ripple-upgraded">menu</button>
 				<button id="HeaderBackArrow" style="transition: all 0.2s cubic-bezier(.2, 0, .2, 1); display: none; opacity: 0; transform: scale(0);" data-mdc-auto-init="MDCIconToggle" onclick="window.history.back();" class="noselect material-icons mdc-top-app-bar__navigation-icon mdc-ripple-upgraded--unbounded mdc-ripple-upgraded">arrow_back</button>
 				<img src="../assets/img/iconT.png" class="mdc-top-app-bar__navigation-icon" style="width: 64px; height: auto; padding-top: 8px; padding-bottom: 8px; margin-bottom: 0; margin-left: 10px;" />
-				<span class="mdc-top-app-bar__title" data-delete-overflow-min="660" style="font-size: 2em; font-weight: 400; font-family: Roboto !important;">
-					&nbsp; Breakersite - Dashboard
+				<span class="mdc-top-app-bar__title noselect" data-delete-overflow-min="660" style="font-size: 2em; font-weight: 400; font-family: Roboto !important;">
+					&nbsp; Breakersite
 				</span>
 			</section>
 			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
@@ -84,7 +87,67 @@
 				<button onclick="" style="display: none; opacity: 0; transform: scale(0); transition: all 0.2s cubic-bezier(.2, 0, .2, 1);" id="headerSearchBoxOpen" class="noselect material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded">search</button>
 
 				<!--Admin Console-->
-				<button class="noselect material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" aria-label="Admin Console">group</button>
+				<div id="AdminViewEnter">
+
+				</div>
+				<div role="menu" class="dropdown-menu-c dropdown-menu mdc-elevation--z10 noselect" id="AdminConsoleMenu" style="width: 300px; padding: 0; border: 0; position: absolute;">
+					<ul class="mdc-list demo-list mdc-list--two-line mdc-list--avatar-list">
+						<li onclick="toggleMenu('#AdminConsoleMenu'); setHashParam('tab', 'AV-TLS')" class="mdc-list-item mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">
+							<span class="mdc-list-item__graphic material-icons" aria-hidden="true" style="font-size: 30px;">assignment</span>
+							<span class="mdc-list-item__text" style="font-size: 16px;">
+								Todo List
+								<span class="mdc-list-item__secondary-text" style="font-size: 13px;">
+									Revert From A Version in History, ...
+								</span>
+							</span>
+						</li>
+						<li onclick="toggleMenu('#AdminConsoleMenu'); setHashParam('tab', 'AV-IMS')" class="mdc-list-item mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">
+							<span class="mdc-list-item__graphic material-icons" aria-hidden="true" style="font-size: 30px;">build</span>
+							<span class="mdc-list-item__text" style="font-size: 16px;">
+								Item Management System
+								<span class="mdc-list-item__secondary-text" style="font-size: 13px;">
+									Add a new Part, Approve Part Requests, 
+								</span>
+							</span>
+						</li>
+						<li onclick="toggleMenu('#AdminConsoleMenu'); setHashParam('tab', 'AV-SS')" class="mdc-list-item mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">
+							<span class="mdc-list-item__graphic material-icons" aria-hidden="true" style="font-size: 30px;">person</span>
+							<span class="mdc-list-item__text" style="font-size: 16px;">
+								Sign In/Sign Out
+								<span class="mdc-list-item__secondary-text" style="font-size: 13px;">
+									View Hours Of Members or Sign Everyone Out
+								</span>
+							</span>
+						</li>
+						<li onclick="toggleMenu('#AdminConsoleMenu'); setHashParam('tab', 'AV-TMS')" class="mdc-list-item mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">
+							<span class="mdc-list-item__graphic material-icons" aria-hidden="true" style="font-size: 30px;">group</span>
+							<span class="mdc-list-item__text" style="font-size: 16px;">
+								Teams
+								<span class="mdc-list-item__secondary-text" style="font-size: 13px;">
+									Make A User A Team Lead, or Add Them To Team
+								</span>
+							</span>
+						</li>
+						<li onclick="toggleMenu('#AdminConsoleMenu'); setHashParam('tab', 'AV-AU')" class="mdc-list-item mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">
+							<span class="mdc-list-item__graphic material-icons" aria-hidden="true" style="font-size: 30px;">person_add</span>
+							<span class="mdc-list-item__text" style="font-size: 16px;">
+								Approve Users
+								<span class="mdc-list-item__secondary-text" style="font-size: 13px;">
+									Approve A User
+								</span>
+							</span>
+						</li>
+						<li onclick="toggleMenu('#AdminConsoleMenu'); setHashParam('tab', 'AV-MU')" class="mdc-list-item mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">
+							<span class="mdc-list-item__graphic material-icons" aria-hidden="true" style="font-size: 30px;">lock</span>
+							<span class="mdc-list-item__text" style="font-size: 16px;">
+								Manage Users
+								<span class="mdc-list-item__secondary-text" style="font-size: 13px;">
+									Change a users Clearance
+								</span>
+							</span>
+						</li>
+					</ul>
+				</div>
 
 				<!--Apps-->
 				<button data-delete-overflow-min="400" onclick="toggleMenu('#appsMenu', true)" id="headerAppsOpen" class="noselect material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" aria-label="Apps">apps</button>
@@ -94,10 +157,10 @@
 							<div class="content">
 								<div class="row">
 									<div class="col mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">
-										<a style="border: none;" href="https://github.com/frc5104/" onclick="toggleMenu('#appsMenu', false)" class="connection-item"><img src="../assets/img/github.png" alt="Github"><span>GitHub</span></a>
+										<a style="border: none;" href="https://github.com/frc5104/" onclick="toggleMenu('#appsMenu', false)" class="connection-item"><img src="../assets/img/github.png" class="noselect" alt="Github"><span>GitHub</span></a>
 									</div>
 									<div class="col mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">
-										<a style="border: none;" href="https://breakerbots.slack.com/messages/C0HNZANTE/" onclick="toggleMenu('#appsMenu', false)" class="connection-item"><img src="../assets/img/slack.png" alt="Slack"><span>Slack</span></a>
+										<a style="border: none;" href="https://breakerbots.slack.com/messages/C0HNZANTE/" onclick="toggleMenu('#appsMenu', false)" class="connection-item"><img class="noselect" src="../assets/img/slack.png" alt="Slack"><span>Slack</span></a>
 									</div>
 								</div>
 							</div>
@@ -108,13 +171,13 @@
 				<!--Notifications-->
 				<button onclick="toggleMenu('#Notification-Menu', true);" id="headerNotificationsOpen" class="noselect material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" aria-label="Notifications">notifications</button>
 				<div class="dropdown-menu-c dropdown-menu mdc-elevation--z10" id="Notification-Menu">
-					<div class="Notification-Menu-Header">
+					<div class="Notification-Menu-Header noselect">
 						<p style="margin: 3px 0 0 0; font-size: 16px;">Notifications</p>
 					</div>
 					<div class="Notification-Menu-Content material-scrollbar">
-						
+
 					</div>
-					<div class="Notification-Menu-Footer mdc-ripple-surface" data-mdc-auto-init="MDCRipple" onclick="toggleMenu('#Notification-Menu', false); ViewAllNotifications();">
+					<div class="Notification-Menu-Footer mdc-ripple-surface noselect" data-mdc-auto-init="MDCRipple" onclick="toggleMenu('#Notification-Menu', false); ViewAllNotifications();">
 						<p style="width: 100%; text-align: center; margin-top: 5px; font-size: 14px;">See All</p>
 					</div>
 				</div>
@@ -141,7 +204,7 @@
 					</div>
 					<!--Footer-->
 					<div style="background-color: rgba(0 ,0, 0, 0.1); height: 50px; margin-top: 3%;">
-						<button onclick="toggleMenu('#profileMenu'); setHashParam('tab', 'Profile'); setHashParam('profile', 'this');" class="mdc-button mdc-button--raised mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" style="margin-top: 6px; margin-left: 6px; background-color: rgb(160, 160, 160);">My Account</button>
+						<button onclick="toggleMenu('#profileMenu'); setHashParam('tab', 'Profile', 'profile', 'this');" class="mdc-button mdc-button--raised mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" style="margin-top: 6px; margin-left: 6px; background-color: rgb(160, 160, 160);">My Account</button>
 						<button onclick="toggleMenu('#profileMenu'); firebase.auth().signOut();" class="mdc-button mdc-button--raised mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" style="float: right; margin-top: 6px; margin-right: 6px; background-color: rgb(214, 50, 50);">Signout</button>
 					</div>
 				</div>
@@ -156,97 +219,81 @@
 		</div>
 	</header>
 	<main>
-		<!--Left Nav Drawer (Collabsible and Permament)-->
-		<div id="MainNavDrawers">
-			<aside class="mdc-drawer mdc-drawer--temporary mdc-typography main-nav-drawer" style="z-index: 70;"></aside>
-			<div class="noselect permanent-drawer mdc-elevation--z10" style="overflow-y: scroll; transform: translateX(-320px); width: 320px; position: fixed; left: 0; z-index: 70; height: 100%; transition: transform 0.6s, top 0.6s; transition-timing-function: cubic-bezier(0.2, 0.0, 0.2, 1);">
-				<nav class="mdc-drawer__drawer">
-					<nav class="mdc-drawer__content mdc-list LeftNavList">
-						<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','General');">
-							<i class="material-icons mdc-list-item__graphic">image</i><span>General</span>
-						</a>
-						<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="toggleNavSubMenu('#PartsSubmenu')">
-							<i class="material-icons mdc-list-item__graphic mdi-wrench"></i><span>Parts</span>
-						</a>
-						<div class="side-nav__submenu-wrapper">
-							<ul class="side-nav__submenu" id="PartsSubmenu">
-								<li>
-									<a onclick="setHashParam('tab','PartsAll');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded">
-										<span>All</span>
-									</a>
-								</li>
-								<li>
-									<a onclick="setHashParam('tab','PartsOrdered');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded">
-										<span>Ordered</span>
-									</a>
-								</li>
-								<li>
-									<a onclick="setHashParam('tab','PartsArchived');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-upgraded">
-										<span>Archived</span>
-									</a>
-								</li>
-							</ul>
-						</div>
-						<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Todo');">
-							<i class="material-icons mdc-list-item__graphic">format_list_numbered </i><span>Todo</span>
-						</a>
-						<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Calendar');">
-							<i class="material-icons mdc-list-item__graphic">calendar_today</i><span>Calendar</span>
-						</a>
-						<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Github');">
-							<i class="material-icons mdi-github mdc-list-item__graphic"></i><span>Github</span>
-						</a>
-						<a class="mdc-list-item mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Teams');">
-							<i class="material-icons mdc-list-item__graphic">supervisor_account</i><span>Teams</span>
-						</a>
-					</nav>
-				</nav>
-			</div>
-		</div>
-
-		<!--Loader-->
-		<div style="position: relative">
-			<div id="MainLoader" role="progressbar" class="mdc-linear-progress mdc-linear-progress--indeterminate" style="opacity: 0; transition: opacity 0.5s ease 0s; transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1); position: absolute; left: 0; top: 0; z-index: 100;">
-				<div class="mdc-linear-progress__buffering-dots"></div>
-				<div class="mdc-linear-progress__buffer"></div>
-				<div class="mdc-linear-progress__bar mdc-linear-progress__primary-bar">
-					<span class="mdc-linear-progress__bar-inner"></span>
-				</div>
-				<div class="mdc-linear-progress__bar mdc-linear-progress__secondary-bar">
-					<span class="mdc-linear-progress__bar-inner"></span>
-				</div>
-			</div>
-		</div>
-
 		<!--Global Tooltip-->
 		<div class="bstooltip-container">
 			<span class="bstooltip">2 Not Started / 4 In Progress / 7 Done / 1 Blocked</span>
 		</div>
 
-		<div class="page-content" style="transition: margin-left 0.6s cubic-bezier(.2, 0, .2, 1); z-index: 7;">
+		<div class="page-content" style="transition: margin-left 0.6s cubic-bezier(.2, 0, .2, 1), width 0.6s; z-index: 7; position: fixed; width: 100%; height: 100%; overflow: visible;">
+
+			<!--Left Nav Drawer (Collabsible and Permament)-->
+			<div id="MainNavDrawers">
+				<aside class="mdc-drawer mdc-drawer--temporary mdc-typography main-nav-drawer" style="z-index: 70;"></aside>
+				<div class="noselect permanent-drawer mdc-elevation--z10" style="overflow-y: scroll; transform: translateX(-320px); width: 320px; position: fixed; left: 0; z-index: 70; height: 100%; transition: transform 0.6s, top 0.6s; transition-timing-function: cubic-bezier(0.2, 0.0, 0.2, 1);">
+					<nav class="mdc-drawer__drawer">
+						<nav class="mdc-drawer__content mdc-list LeftNavList">
+							<a class="sidenav-list-item mdc-ripple-surface mdc-ripple-surface--primary" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','General');">
+								<i class="material-icons mdc-list-item__graphic">image</i><span>General</span>
+							</a>
+							<a class="sidenav-list-item mdc-ripple-surface mdc-ripple-surface--primary" data-mdc-auto-init="MDCRipple" onclick="toggleNavSubMenu('#PartsSubmenu')">
+								<i class="material-icons mdc-list-item__graphic mdi-wrench"></i><span>Parts</span>
+							</a>
+							<div class="side-nav__submenu-wrapper">
+								<ul class="side-nav__submenu" id="PartsSubmenu">
+									<li>
+										<a onclick="setHashParam('tab','PartsAll');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-surface--primary">
+											<span>All</span>
+										</a>
+									</li>
+									<li>
+										<a onclick="setHashParam('tab','PartsOrdered');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-surface--primary">
+											<span>Ordered</span>
+										</a>
+									</li>
+									<li>
+										<a onclick="setHashParam('tab','PartsArchived');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-surface--primary">
+											<span>Archived</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+							<a class="sidenav-list-item mdc-ripple-surface mdc-ripple-surface--primary" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Todo');">
+								<i class="material-icons mdc-list-item__graphic">format_list_numbered </i><span>Todo</span>
+							</a>
+							<a class="sidenav-list-item mdc-ripple-surface mdc-ripple-surface--primary" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Calendar');">
+								<i class="material-icons mdc-list-item__graphic">calendar_today</i><span>Calendar</span>
+							</a>
+							<a class="sidenav-list-item mdc-ripple-surface mdc-ripple-surface--primary" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Github');">
+								<i class="material-icons mdi-github mdc-list-item__graphic"></i><span>Github</span>
+							</a>
+							<a class="sidenav-list-item mdc-ripple-surface mdc-ripple-surface--primary" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Teams');">
+								<i class="material-icons mdc-list-item__graphic">supervisor_account</i><span>Teams</span>
+							</a>
+						</nav>
+					</nav>
+				</div>
+			</div>
+
+			<!--Loader-->
+			<div style="position: relative">
+				<div id="MainLoader" role="progressbar" class="mdc-linear-progress mdc-linear-progress--indeterminate" style="opacity: 0; transition: opacity 0.5s ease 0s; transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1); position: absolute; left: 0; top: 0; z-index: 100;">
+					<div class="mdc-linear-progress__buffering-dots"></div>
+					<div class="mdc-linear-progress__buffer"></div>
+					<div class="mdc-linear-progress__bar mdc-linear-progress__primary-bar">
+						<span class="mdc-linear-progress__bar-inner"></span>
+					</div>
+					<div class="mdc-linear-progress__bar mdc-linear-progress__secondary-bar">
+						<span class="mdc-linear-progress__bar-inner"></span>
+					</div>
+				</div>
+			</div>
+
+			<!--Tab Viewer-->
 			<div class="" style="height: 100%;">
 				<div class="material-scrollbar" id="page-scroll" onscroll="function PageScrollShadow(sel, header) { if (sel.scrollTop > 5) header.classList.add('mdc-elevation--z10'); else header.classList.remove('mdc-elevation--z10'); } PageScrollShadow(this, document.querySelector('header'));" style="overflow-x: hidden; overflow-y: auto; position: relative; height: calc(100vh - 64px); ">
 					<!--Tabs-->
 					<div id="General" class="tab">
 						<h1>General</h1>
-						<div class="material-table material-table--card">
-							<div class="material-table--header" style="position: relative;">
-								<span class="material-table--title">Sign In / Sign Out Table (Temporary)</span>
-								<button onclick="SSSignAllOut()" style="position: absolute; top: 10px; right: 10px;" class="mdc-button mdc-button--raised" data-mdc-auto-init="MDCRipple">Sign All Out</button>
-							</div>
-							<table>
-								<thead>
-									<tr>
-										<th>Name</th>
-										<th>Status</th>
-										<th>Time</th>
-									</tr>
-								</thead>
-								<tbody id="SISOTable">
-									
-								</tbody>
-							</table>
-						</div>
 					</div>
 					<div id="PartsAll" class="tab">
 						<div class="row" id="PartsAllWrapper">
@@ -379,12 +426,16 @@
 							<hr />
 							<table class="ProfileTab-Info--Wrapper2">
 								<tr class="ProfileTab-Info--CPW">
-									<td class="ProfileTab-Info--CPW-I noselect material-icons"><img src="../assets/img/slack_logo.png" style="width: 20px; filter: grayscale(1); transform: translateY(-6px);"></td>
+									<td class="ProfileTab-Info--CPW-I noselect material-icons">
+										<img src="../assets/img/slack_logo.png" style="width: 20px; filter: grayscale(1); transform: translateY(-6px);">
+									</td>
 									<td class="ProfileTab-Info--CPW-T noselect" style="min-width: 70px;">Slack: </td>
 									<td class="ProfileTab-Info--CPW-V ProfileTabJI-Slack">--------</td>
 								</tr>
 								<tr class="ProfileTab-Info--CPW">
-									<td class="ProfileTab-Info--CPW-I noselect material-icons mdi"><img src="../assets/img/gh-icon.png" style="width: 20px; filter: invert(70%); transform: translateY(-6px);"></td>
+									<td class="ProfileTab-Info--CPW-I noselect material-icons mdi">
+										<img src="../assets/img/gh-icon.png" style="width: 20px; filter: invert(70%); transform: translateY(-6px);">
+									</td>
 									<td class="ProfileTab-Info--CPW-T noselect" style="min-width: 70px;">Github: </td>
 									<td class="ProfileTab-Info--CPW-V ProfileTabJI-Github">--------</td>
 								</tr>
@@ -421,9 +472,9 @@
 								</div>
 								<div class="mdc-tab-bar-scroller__scroll-frame">
 									<nav class="noselect mdc-tab-bar mdc-tab-bar-scroller__scroll-frame__tabs mdc-tab-bar-upgraded" style="transform: translateX(0px);">
-										<span onclick="setHashParam('EditAccountTab', 'EP')" class="mdc-tab mdc-tab--active mdc-ripple-upgraded">Edit Profile</span>
-										<span onclick="setHashParam('EditAccountTab', 'NS')" class="mdc-tab mdc-ripple-upgraded">Notification Settings</span>
-										<span onclick="setHashParam('EditAccountTab', 'CP')" class="mdc-tab mdc-ripple-upgraded">Change Password</span>
+										<span onclick="setHashParam('EditAccountTab', '0')" class="mdc-tab mdc-tab--active mdc-ripple-upgraded">Edit Profile</span>
+										<span onclick="setHashParam('EditAccountTab', '1')" class="mdc-tab mdc-ripple-upgraded">User Settings</span>
+										<span onclick="setHashParam('EditAccountTab', '2')" class="mdc-tab mdc-ripple-upgraded">Change Credentials</span>
 										<span class="mdc-tab-bar__indicator" style="transform: translateX(0px) scale(0.0714286, 1); visibility: visible;"></span>
 									</nav>
 								</div>
@@ -432,7 +483,7 @@
 								</div>
 							</div>
 							<div class="EditAccount-Viewer">
-								<div class="EditAccount-View EditAccount-View--Active EditAccount-View--EP">
+								<div class="EditAccount-View EditAccount-View--0">
 									<img id="EditAccountJS--Avatar" style="width: 60vw; height: 60vw; min-width: 150px; max-width: 320px; min-height: 150px; max-height: 320px; margin-top: 30px;" src="../assets/img/iconT.png" />
 									<div style="width: 100%; height: 10px"></div>
 									<div onclick="EditProfileChangeAvatar()" style="height: 40px; width: 60vw; min-width: 150px; max-width: 320px; display: flex; justify-content: center;" class="mdc-ripple-surface noselect mdc-elevation--z2" data-mdc-auto-init="MDCRipple">
@@ -454,11 +505,17 @@
 										<label>Role</label>
 										<input oninput="EditProfileCheckSubmit()" id="EditAccountJS--Role" type="text" class="EditAccountJS--Autofill form-control" placeholder="Your Role on the Team (Optional)" autocomplete="off">
 									</div>
-									<div class="form-group autocomplete" style="width: 90%; min-height: 65px; max-height: 73px;" data-autocomplete-auto-init data-autocomplete-showall>
+									<div onclick="setTimeout(function () { EditProfileCheckSubmit(); }, 10);" onkeydown="setTimeout(function () { EditProfileCheckSubmit(); }, 10);" class="form-group autocomplete" style="width: 90%; min-height: 65px; max-height: 73px;" data-autocomplete-auto-init data-autocomplete-showall>
 										<label for="EditAccountJS--Grade">Grade</label>
-										<input id="EditAccountJS--Grade" type="text" class="form-control" placeholder="Your Grade Level (Optional)" autocomplete="off">
+										<input id="EditAccountJS--Grade" type="text"  class="form-control EditAccountJS--Autofill" placeholder="Your Grade Level (Optional)" autocomplete="off">
 										<div class="autocomplete-items"></div>
-										<div class="autocomplete-options"><p>Eigth</p><p>Freshman</p><p>Sophomore</p><p>Junior</p><p>Senior</p></div>
+										<div class="autocomplete-options">
+											<p>Eigth</p>
+											<p>Freshman</p>
+											<p>Sophomore</p>
+											<p>Junior</p>
+											<p>Senior</p>
+										</div>
 									</div>
 									<div class="form-group" style="width: 90%; min-height: 65px; max-height: 65px;">
 										<label>Public Email</label>
@@ -480,11 +537,51 @@
 										<button onclick="EditProfileSubmitChanges()" id="EditAccountJS--Submit" style="float: right; transition: transform 0.4s cubic-bezier(.2, 0, .2, 1); transform: scale(0);" class="mdc-button mdc-button--raised" data-mdc-auto-init="MDCRipple">Submit</button>
 									</div>
 								</div>
-								<div class="EditAccount-View EditAccount-View--NS">
+								<div class="EditAccount-View EditAccount-View--1">
 
 								</div>
-								<div class="EditAccount-View EditAccount-View--CP">
-
+								<div class="EditAccount-View EditAccount-View--2">
+									<div style="width: 30%; min-width: 300px; height: calc(70% + 10px); display: flex; justify-content: center; align-content: center; flex-wrap: wrap;">
+										<div style="width: 100%; margin-top: 5px; display: flex; flex-wrap: wrap; align-content: center; justify-content: center;" class="noselect mdc-elevation--z2">
+											<span onclick="var rdtc = [document.querySelector('#EditAccountChangeCredentials-0'), document.querySelector('#EditAccountChangeCredentials-1')]; rdtc[0].style.maxHeight = rdtc[0].style.maxHeight == '0px' ? '251px' : '0px'; rdtc[1].style.maxHeight = rdtc[0].style.maxHeight != '0px' ? '0px' : rdtc[1].style.maxHeight;" style="text-align: center; padding-top: 6px; height: 40px; font-size: 20px; width: 100%;" class="mdc-ripple-surface" data-mdc-auto-init="MDCRipple">
+												Change Password
+											</span>
+											<form onsubmit="b84eef34da92d0db411e42dea26c16f5bd1b3aa2bbe7ab24f288964f8a7497d6(this.querySelectorAll('input')[0].value, this.querySelectorAll('input')[1].value); return false;" id="EditAccountChangeCredentials-0" style="border-top: 1px solid rgb(200, 200, 200); width: 100%; display: flex; flex-wrap: wrap; justify-content: center; max-height: 1200px; overflow: hidden; transition: max-height 0.6s cubic-bezier(.2, 0, .2, 1);">
+												<div class="form-group" style="margin-top: 20px; width: 90%; min-height: 65px; max-height: 65px;">
+													<label>New Password</label>
+													<div class="SHP">
+														<input pattern=".{6,}" oninvalid="setCustomValidity('Your Need At Least 6 Characters')" onchange="try{setCustomValidity('')}catch(e){}" style="border: none; display: inline; width: 80%;" type="password" required placeholder="A New Password" autocomplete="off" class="form-control">
+														<div style="position: absolute; right: 0; float: right; top: 10px; transform: scale(1); transition: all 0.15s cubic-bezier(.2, 0, .2, 1);">
+															<i style="display: inline; font-size: 27px;" class="material-icons mdc-icon-toggle" role="button" data-mdc-auto-init="MDCIconToggle" onclick="SHP(this.parentNode.parentNode.querySelector('input'));">visibility_off</i>
+														</div>
+													</div>
+												</div>
+												<div class="form-group" style="width: 90%; min-height: 65px; max-height: 65px;">
+													<label>Repeat Password</label>
+													<div class="SHP">
+														<input oninput="if (this.parentNode.parentNode.parentNode.querySelectorAll('input')[0].value != this.value) this.setCustomValidity('Passwords do not match!'); else this.setCustomValidity('')" style="border: none; display: inline; width: 80%;" type="password" required placeholder="Repeat Your New Password" autocomplete="off" class="form-control">
+														<div style="position: absolute; right: 0; float: right; top: 10px; transform: scale(1); transition: all 0.15s cubic-bezier(.2, 0, .2, 1);">
+															<i style="display: inline; font-size: 27px;" class="material-icons mdc-icon-toggle" role="button" data-mdc-auto-init="MDCIconToggle" onclick="SHP(this.parentNode.parentNode.querySelector('input'));">visibility_off</i>
+														</div>
+													</div>
+												</div>
+												<button type="submit" style="margin-top: 10px; width: 80%; margin-bottom: 15px;" class="mdc-button mdc-button--raised" data-mdc-auto-init="MDCRipple">Submit</button>
+											</form>
+										</div>
+										<div style="width: 100%; margin-top: 10px; display: flex; flex-wrap: wrap; align-content: center; justify-content: center;" class="noselect mdc-elevation--z2">
+											<span onclick="var rdtc = [document.querySelector('#EditAccountChangeCredentials-1'), document.querySelector('#EditAccountChangeCredentials-0')]; rdtc[0].style.maxHeight = rdtc[0].style.maxHeight == '0px' ? '161px' : '0px'; rdtc[1].style.maxHeight = rdtc[0].style.maxHeight != '0px' ? '0px' : rdtc[1].style.maxHeight;" style="text-align: center; padding-top: 6px; height: 40px; font-size: 20px; width: 100%;" class="mdc-ripple-surface" data-mdc-auto-init="MDCRipple">
+												Change Email
+											</span>
+											<form onsubmit="f494414f4727bd3e133e5aa895426e8c928e5dff22533a89642e3e9a14a032c9(this.querySelectorAll('input')[0].value); return false;" id="EditAccountChangeCredentials-1" style="border-top: 1px solid rgb(200, 200, 200); width: 100%; display: flex; flex-wrap: wrap; justify-content: center; max-height: 0px; overflow: hidden; transition: max-height 0.6s cubic-bezier(.2, 0, .2, 1);">
+												<div style="margin-top: 20px"></div>
+												<div class="form-group" style="margin-top: 15px; width: 90%; min-height: 65px; max-height: 65px;">
+													<label>New Email</label>
+													<input type="email" class="form-control" placeholder="A New Email" autocomplete="off" required>
+												</div>
+												<button type="submit" style="margin-top: 10px; width: 80%; margin-bottom: 15px;" class="mdc-button mdc-button--raised" data-mdc-auto-init="MDCRipple">Submit</button>
+											</form>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -499,441 +596,43 @@
 							</span>
 						</button>
 					</div>
-				</div>
-			</div><!--End Of Content-->
-		</div><!--End Of Wrapper-->
-		<!--Parts All Dialogues-->
-		<div>
-			<!--Create Folder Dialogue-->
-			<aside id="create-folder-dialog"
-				   class="mdc-dialog"
-				   role="alertdialog"
-				   aria-labelledby="my-mdc-dialog-label"
-				   aria-describedby="my-mdc-dialog-description">
-				<div class="mdc-dialog__surface">
-					<header class="mdc-dialog__header">
-						<h2 id="create-folder-mdc-dialog-label" class="mdc-dialog__header__title">
-							Create A New Project / Folder
-						</h2>
-					</header>
-					<form id="CreateFolderForm">
-						<section id="create-folder-mdc-dialog-description" class="mdc-dialog__body">
-							<input id="CreateFolderInput" type="text" class="form-control" placeholder="Enter A Name" required="">
-						</section>
-						<footer class="mdc-dialog__footer">
-							<button type="submit" class="btn btn-space btn-primary">Create Folder</button>
-							<button type="button" id="CreateFolderCancel" class="btn btn-space btn-secondary">Cancel</button>
-						</footer>
-					</form>
-				</div>
-				<div class="mdc-dialog__backdrop"></div>
-			</aside>
-			<!--Edit Folder Dialogue-->
-			<aside id="edit-folder-dialog"
-				   class="mdc-dialog"
-				   role="alertdialog"
-				   aria-labelledby="my-mdc-dialog-label"
-				   aria-describedby="my-mdc-dialog-description">
-				<div class="mdc-dialog__surface">
-					<header class="mdc-dialog__header">
-						<h2 id="edit-folder-mdc-dialog-label" class="mdc-dialog__header__title">
-							Edit Project / Folder
-						</h2>
-					</header>
-					<form id="EditFolderForm">
-						<section id="edit-folder-mdc-dialog-description" class="mdc-dialog__body">
-							<input id="EditFolderInput" type="text" class="form-control" placeholder="Enter A Name" required="">
-						</section>
-						<footer class="mdc-dialog__footer">
-							<button type="submit" class="btn btn-space btn-primary">Submit</button>
-							<button type="button" id="EditFolderCancel" class="btn btn-space btn-secondary">Cancel</button>
-						</footer>
-					</form>
-				</div>
-				<div class="mdc-dialog__backdrop"></div>
-			</aside>
-			<!--Delete Folder Dialogue-->
-			<aside id="delete-folder-dialog"
-				   class="mdc-dialog"
-				   role="alertdialog"
-				   aria-labelledby="my-mdc-dialog-label"
-				   aria-describedby="my-mdc-dialog-description">
-				<div class="mdc-dialog__surface">
-					<form id="DeleteFolderForm">
-						<div class="modal-body">
-							<div class="text-center">
-								<div class="text-success">
-									<span class="modal-main-icon mdi mdi-close" style="color: red;"></span>
-								</div>
-								<h3 id="DeleteFolderText">Are You Sure You Want To Delete This Project/Folder?</h3>
-								<p>Archiving This Project Would Be Recomended</p>
-								<div class="mt-8">
-									<button type="button" id="DeleteFolderCancel" class="btn btn-space btn-secondary">Cancel</button>
-									<button type="submit" class="btn btn-space btn-danger">Proceed</button>
-								</div>
+					<div id="AdminViewTabs">
+						<div id="AV-AU" class="tab">
+							<div class="breaker-layout" id="AV-AU-Wrapper">
+
+							</div>
+							<div id="AV-AU-Empty" style="display: none; flex-wrap: wrap; justify-content: center;">
+								<h1>No Users To Approve</h1>
+								<div style="width: 100%; height: 1px"></div>
+								<h4>Once User Have Created An Account They Will Appear Here To Be Approved</h4>
 							</div>
 						</div>
-					</form>
-				</div>
-				<div class="mdc-dialog__backdrop"></div>
-			</aside>
-			<!--Archive Folder Dialogue-->
-			<aside id="archive-folder-dialog"
-				   class="mdc-dialog"
-				   role="alertdialog"
-				   aria-labelledby="my-mdc-dialog-label"
-				   aria-describedby="my-mdc-dialog-description">
-				<div class="mdc-dialog__surface">
-					<form id="ArchiveFolderForm">
-						<div class="modal-body">
-							<div class="text-center">
-								<div class="text-success">
-									<span class="modal-main-icon mdi mdi-archive" style="color: red;"></span>
-								</div>
-								<h3 id="ArchiveFolderText">Are You Sure You Want To Archive This Project/Folder?</h3>
-								<p>This will basically mark it as finished.</p>
-								<div class="mt-8">
-									<button type="button" id="ArchiveFolderCancel" class="btn btn-space btn-secondary">Cancel</button>
-									<button type="submit" class="btn btn-space btn-danger">Proceed</button>
-								</div>
+						<div id="AV-SS" class="tab">
+							<div id="AV-SS-Wrapper">
+
 							</div>
 						</div>
-					</form>
-				</div>
-				<div class="mdc-dialog__backdrop"></div>
-			</aside>
-			<!--History Folderr Dialogue-->
-			<aside id="history-folder-dialog"
-				   class="mdc-dialog"
-				   role="alertdialog"
-				   aria-labelledby="my-mdc-dialog-label"
-				   aria-describedby="my-mdc-dialog-description">
-				<div class="mdc-dialog__surface">
-					<div>
-						<div class="card card-table mdc-dialog__body--scrollable" style="max-height: 60vh;">
-							<div class="card-header">
-								<div class="title" id="FolderHistoryTitle">History</div>
-							</div>
-							<div class="card-body table-responsive">
-								<table class="table table-striped table-hover" style="max-width: 100%; overflow-x: hidden;">
-									<thead>
-										<tr>
-											<th style="width: 20%">User</th>
-											<th>Change</th>
-											<th style="width: 20%">Time</th>
-										</tr>
-									</thead>
-									<tbody id="HistoryFolderContentWrapper">
-										<tr>
-											<td>Dweb 1</td>
-											<td>Added ....</td>
-											<td>Aug 16, 2016</td>
-										</tr>
-									</tbody>
-								</table>
+						<div id="AV-IMS" class="tab">
+
+						</div>
+						<div id="AV-TLS" class="tab">
+
+						</div>
+						<div id="AV-TMS" class="tab">
+
+						</div>
+						<div id="AV-MU" class="tab">
+							<div id="AV-MU-Wrapper" class="breaker-layout">
+								
 							</div>
 						</div>
 					</div>
-					<button id="HistoryFolderCancel" class="btn btn-space btn-secondary">Close</button>
 				</div>
-				<div class="mdc-dialog__backdrop"></div>
-			</aside>
-			<!--Create Part Dialogue-->
-			<aside id="create-part-dialog"
-				   class="mdc-dialog"
-				   role="alertdialog"
-				   aria-labelledby="my-mdc-dialog-label"
-				   aria-describedby="my-mdc-dialog-description">
-				<div class="mdc-dialog__surface">
-					<header class="mdc-dialog__header">
-						<h2 id="create-folder-mdc-dialog-label" class="mdc-dialog__header__title">
-							Add A Part
-						</h2>
-					</header>
-					<form id="CreatePartForm" class="mdc-dialog__body mdc-dialog__body--scrollable" style="max-height: 60vh;">
-						<section id="create-folder-mdc-dialog-description">
-							<br />
-							<div class="form-group autocomplete" style="width: 100%;">
-								<label for="CreatePartInput">Name</label>
-								<input id="CreatePartInput" type="text" class="form-control" placeholder="Enter A Name" required="" autocomplete="off">
-							</div>
+			</div>
+			<!--End Of Tab Viewer-->
 
-							<div class="form-group">
-								<label for="CreatePartInputD">Description</label>
-								<input id="CreatePartInputD" type="text" class="form-control" placeholder="What is this item going to be for?" autocomplete="off">
-							</div>
-
-							<div class="form-group">
-								<label for="CreatePartInputPN">Part Number</label>
-								<input id="CreatePartInputPN" type="text" class="form-control" placeholder="The Part Number For The Item (If Applicable)" autocomplete="off">
-							</div>
-
-							<div class="form-group">
-								<label for="CreatePartInputQ">Quantity</label>
-								<input id="CreatePartInputQ" type="number" class="form-control" placeholder="Quantity" required="" autocomplete="off" min="1" value="1">
-							</div>
-
-							<div class="form-group">
-								<label for="CreatePartInputUnit">Unit</label>
-								<input id="CreatePartInputUnit" type="text" class="form-control" placeholder="The Unit Of Issue For The Quantity (Ex. Feet, Inch, Bag of 2)" autocomplete="off">
-							</div>
-
-							<div class="form-group">
-								<label for="CreatePartInputP">Price Per Item</label>
-								<div class="input-group mb-3">
-									<span class="input-group-prepend"><span class="input-group-text">$</span></span>
-									<input id="CreatePartInputP" type="number" class="form-control" placeholder="Price Per Unit" required="" autocomplete="off" min="1">
-								</div>
-							</div>
-
-							<div class="form-group">
-								<label for="CreatePartInputUrl">Url</label>
-								<input id="CreatePartInputUrl" type="text" class="form-control" placeholder="Url" autocomplete="off">
-							</div>
-
-							<div class="form-group">
-								<label for="CreatePartInputU">Urgency / Priority</label>
-								<select id="CreatePartInputU" class="form-control">
-									<option value="Low" selected="">Low - We Need This A Soon As We Can Get It</option>
-									<option value="Medium">Medium - We Need This Soon</option>
-									<option value="High">High - We Need This Now</option>
-								</select>
-							</div>
-						</section>
-						<footer class="mdc-dialog__footer">
-							<button type="submit" class="btn btn-space btn-primary">Add Part</button>
-							<button type="button" id="CreatePartCancel" class="btn btn-space btn-secondary">Cancel</button>
-						</footer>
-					</form>
-				</div>
-				<div class="mdc-dialog__backdrop"></div>
-			</aside>
-			<!--Edit Part Dialogue-->
-			<aside id="edit-part-dialog"
-				   class="mdc-dialog"
-				   role="alertdialog"
-				   aria-labelledby="my-mdc-dialog-label"
-				   aria-describedby="my-mdc-dialog-description">
-				<div class="mdc-dialog__surface">
-					<header class="mdc-dialog__header">
-						<h2 id="edit-folder-mdc-dialog-label" class="mdc-dialog__header__title">
-							Edit Part
-						</h2>
-					</header>
-					<form id="EditPartForm" class="mdc-dialog__body mdc-dialog__body--scrollable" style="max-height: 60vh;">
-						<section id="edit-folder-mdc-dialog-description">
-							<br />
-							<div class="form-group">
-								<label for="EditPartInput">Name</label>
-								<input id="EditPartInput" type="text" class="form-control" placeholder="Enter A Name" required="" autocomplete="off">
-							</div>
-
-							<div class="form-group">
-								<label for="EditPartInputD">Description</label>
-								<input id="EditPartInputD" type="text" class="form-control" placeholder="What is this item going to be for?" autocomplete="off">
-							</div>
-
-							<div class="form-group">
-								<label for="EditPartInputPN">Part Number</label>
-								<input id="EditPartInputPN" type="text" class="form-control" placeholder="The Part Number For The Item (If Applicable)" autocomplete="off">
-							</div>
-
-							<div class="form-group">
-								<label for="EditPartInputQ">Quantity</label>
-								<input id="EditPartInputQ" type="number" class="form-control" placeholder="Quantity" required="" autocomplete="off" min="1" value="1">
-							</div>
-
-							<div class="form-group">
-								<label for="EditPartInputUnit">Unit</label>
-								<input id="EditPartInputUnit" type="text" class="form-control" placeholder="The Unit Of Issue For The Quantity (Ex. Feet, Inch, Bag of 2)" autocomplete="off">
-							</div>
-
-							<div class="form-group">
-								<label for="EditPartInputP">Price Per Item</label>
-								<div class="input-group mb-3">
-									<span class="input-group-prepend"><span class="input-group-text">$</span></span>
-									<input id="EditPartInputP" type="number" class="form-control" placeholder="Price Per Item" required="" autocomplete="off" min="1">
-								</div>
-							</div>
-
-							<div class="form-group">
-								<label for="EditPartInputUrl">Url</label>
-								<input id="EditPartInputUrl" type="text" class="form-control" placeholder="Url" autocomplete="off">
-							</div>
-
-							<div class="form-group">
-								<label for="EditPartInputU">Urgency / Priority</label>
-								<select id="EditPartInputU" class="form-control">
-									<option value="Low" selected="">Low - We Need This A Soon As We Can Get It</option>
-									<option value="Medium">Medium - We Need This Soon</option>
-									<option value="High">High - We Need This Now</option>
-								</select>
-							</div>
-						</section>
-						<footer class="mdc-dialog__footer">
-							<button type="submit" class="btn btn-space btn-primary">Submit</button>
-							<button type="button" id="EditPartCancel" class="btn btn-space btn-secondary">Cancel</button>
-						</footer>
-					</form>
-				</div>
-				<div class="mdc-dialog__backdrop"></div>
-			</aside>
-			<!--Delete Part Dialogue-->
-			<aside id="delete-part-dialog"
-				   class="mdc-dialog"
-				   role="alertdialog"
-				   aria-labelledby="my-mdc-dialog-label"
-				   aria-describedby="my-mdc-dialog-description">
-				<div class="mdc-dialog__surface">
-					<form id="DeletePartForm">
-						<div class="modal-body">
-							<div class="text-center">
-								<div class="text-success">
-									<span class="modal-main-icon mdi mdi-close" style="color: red;"></span>
-								</div>
-								<h3 id="DeletePartText">Are You Sure You Want To Remove This Part?</h3>
-								<p></p>
-								<div class="mt-8">
-									<button type="button" id="DeletePartCancel" class="btn btn-space btn-secondary">Cancel</button>
-									<button type="submit" class="btn btn-space btn-danger">Proceed</button>
-								</div>
-							</div>
-						</div>
-					</form>
-				</div>
-				<div class="mdc-dialog__backdrop"></div>
-			</aside>
-			<!--Change Part Status Dialogue-->
-			<aside id="part-status-dialog"
-				   class="mdc-dialog"
-				   role="alertdialog"
-				   aria-labelledby="my-mdc-dialog-label"
-				   aria-describedby="my-mdc-dialog-description">
-				<div class="mdc-dialog__surface">
-					<header class="mdc-dialog__header">
-						<h2 class="mdc-dialog__header__title">
-							Change Part Status
-						</h2>
-					</header>
-					<form id="PartStatusForm">
-						<section class="mdc-dialog__body">
-							<div class="form-group">
-								<label for="PartStatusInput">Status</label>
-								<select id="PartStatusInput" class="form-control">
-									<option value="Not Ready" selected="">Not Ready To Be Ordered</option>
-									<option value="Ready">Ready To Be Ordered</option>
-									<option value="Ordered">This Item Has Been Ordered</option>
-									<option value="Arrived">This Item Has Arrived</option>
-								</select>
-							</div>
-							<div class="form-group">
-								<label for="PartStatusOrderDate">Order Date (Month/Day/Year)</label>
-								<input type="text" id="PartStatusOrderDate" value="" placeholder="The Order Date (If Applicable)" class="form-control datetimepicker">
-							</div>
-							<div class="form-group">
-								<label for="PartStatusArriveDate">Arrive Date (Month/Day/Year)</label>
-								<input type="text" id="PartStatusArriveDate" value="" placeholder="The Date Of Arrival (If Applicable)" class="form-control datetimepicker">
-							</div>
-						</section>
-						<footer class="mdc-dialog__footer">
-							<button type="submit" class="btn btn-space btn-primary">Submit</button>
-							<button type="button" id="PartStatusCancel" class="btn btn-space btn-secondary">Cancel</button>
-						</footer>
-					</form>
-				</div>
-				<div class="mdc-dialog__backdrop"></div>
-			</aside>
 		</div>
 
-		<!--Parts Archive Dialogues-->
-		<div>
-			<!--Archive Delete Dialogue-->
-			<aside id="archivedelete-folder-dialog"
-				   class="mdc-dialog"
-				   role="alertdialog"
-				   aria-labelledby="my-mdc-dialog-label"
-				   aria-describedby="my-mdc-dialog-description">
-				<div class="mdc-dialog__surface">
-					<form id="ArchivedeleteFolderForm">
-						<div class="modal-body">
-							<div class="text-center">
-								<div class="text-success">
-									<span class="modal-main-icon mdi mdi-close" style="color: red;"></span>
-								</div>
-								<h3 id="ArchivedeleteFolderText">Are You Sure You Want To Delete This Project/Folder?</h3>
-								<p></p>
-								<div class="mt-8">
-									<button type="button" id="ArchivedeleteFolderCancel" class="btn btn-space btn-secondary">Cancel</button>
-									<button type="submit" class="btn btn-space btn-danger">Proceed</button>
-								</div>
-							</div>
-						</div>
-					</form>
-				</div>
-				<div class="mdc-dialog__backdrop"></div>
-			</aside>
-			<!--Unarchive Folder Dialogue-->
-			<aside id="unarchive-folder-dialog"
-				   class="mdc-dialog"
-				   role="alertdialog"
-				   aria-labelledby="my-mdc-dialog-label"
-				   aria-describedby="my-mdc-dialog-description">
-				<div class="mdc-dialog__surface">
-					<form id="UnarchiveFolderForm">
-						<div class="modal-body">
-							<div class="text-center">
-								<div class="text-success">
-									<span class="modal-main-icon mdi mdi-upload" style="color: red;"></span>
-								</div>
-								<h3 id="UnarchiveFolderText">Are You Sure You Want To Unarchive This Project/Folder?</h3>
-								<p>This will bring the project back into use.</p>
-								<div class="mt-8">
-									<button type="button" id="UnarchiveFolderCancel" class="btn btn-space btn-secondary">Cancel</button>
-									<button type="submit" class="btn btn-space btn-danger">Proceed</button>
-								</div>
-							</div>
-						</div>
-					</form>
-				</div>
-				<div class="mdc-dialog__backdrop"></div>
-			</aside>
-			<!--Archive History Dialogue-->
-			<aside id="archivehistory-folder-dialog"
-				   class="mdc-dialog"
-				   role="alertdialog"
-				   aria-labelledby="my-mdc-dialog-label"
-				   aria-describedby="my-mdc-dialog-description">
-				<div class="mdc-dialog__surface">
-					<div>
-						<div class="card card-table">
-							<div class="card-header">
-								<div class="title" id="FolderArchiveHistoryTitle">ArchiveHistory</div>
-							</div>
-							<div class="card-body table-responsive">
-								<table class="table table-striped table-hover" style="max-width: 100%; overflow-x: hidden;">
-									<thead>
-										<tr>
-											<th>User</th>
-											<th>Change</th>
-											<th>Time</th>
-										</tr>
-									</thead>
-									<tbody id="ArchiveHistoryFolderContentWrapper">
-										<tr>
-											<td>Dweb 1</td>
-											<td>Added ....</td>
-											<td>Aug 16, 2016</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-					<button id="ArchiveHistoryFolderCancel" class="btn btn-space btn-secondary">Close</button>
-				</div>
-				<div class="mdc-dialog__backdrop"></div>
-			</aside>
-		</div>
 
 		<!--Shifting Dialog-->
 		<div>
@@ -983,11 +682,21 @@
 			</div>
 		</div>
 
-
+		<!--Snackbar-->
+		<div>
+			<div id="MainSnackbar" style="z-index: 100000" data-mdc-auto-init="MDCSnackbar" class="mdc-snackbar" aria-atomic="true" aria-live="assertive" aria-hidden="true">
+				<div class="mdc-snackbar__text"></div>
+				<div class="mdc-snackbar__action-wrapper">
+					<button type="button" class="mdc-snackbar__action-button"></button>
+				</div>
+			</div>
+		</div>
 
 		<!--Imports-->
 		<script src="../assets/mdc/material.js"></script>
+		<script type="text/javascript">window.mdc.autoInit();</script>
 		<script src="../assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
+		<script src="../assets/lib/jquery/inputmask.js" type="text/javascript"></script>
 		<script src="../assets/lib/datetimepicker/js/bootstrap-datetimepicker.js" type="text/javascript"></script>
 		<script src='../assets/lib/fullcalendar/lib/moment.min.js'></script>
 		<script src="../assets/lib/fullcalendar/lib/jquery-ui.min.js"></script>
@@ -1020,6 +729,8 @@
 		<script src="assets/Autocomplete/PMSAutocomplete.js"></script>
 		<script src="assets/Resources/Menus.js"></script>
 		<script src="assets/Resources/Tooltips.js"></script>
+		<script src="assets/Resources/IdleHandler.js"></script>
+		<script src="assets/Resources/Snackbar.js"></script>
 
 		<!--Header-->
 		<script src="assets/Header/header.js"></script>
@@ -1035,6 +746,17 @@
 		<script src="assets/Github/GHAPI.js"></script>
 		<script src="assets/Github/GHUI.js"></script>
 
+		<!--Admin View-->
+		<script src="assets/AdminView/AV-General.js"></script>
+		<div id="AdminViewScripts">
+			<script src="assets/AdminView/AV-AU.js"></script>
+			<script src="assets/AdminView/AV-IMS.js"></script>
+			<script src="assets/AdminView/AV-SS.js"></script>
+			<script src="assets/AdminView/AV-TLS.js"></script>
+			<script src="assets/AdminView/AV-TMS.js"></script>
+			<script src="assets/AdminView/AV-MU.js"></script>
+		</div>
+
 		<!--Profile Tab-->
 		<script src="assets/ProfileTab/ProfileTab.js"></script>
 		<script src="assets/ProfileTab/AvatarEditor.js"></script>
@@ -1049,7 +771,7 @@
 		<script src="assets/Notifications/IHNotifications.js"></script>
 		<script src="assets/Notifications/NotificationAPI.js"></script>
 
-		<!--Parts Tabs-->
+		<!--Parts Tabs
 		<script src="assets/Parts/FolderHistory.js"></script>
 		<script src="assets/Parts/CreatePart.js"></script>
 		<script src="assets/Parts/EditPart.js"></script>
@@ -1065,6 +787,7 @@
 		<script src="assets/Parts/Archive/ArchiveDelete.js"></script>
 		<script src="assets/Parts/Ordered/OrderedParts.js"></script>
 		<script src="assets/Parts/StatusPart.js"></script>
+		-->
 
 		<!--Todo Tab-->
 		<script src="assets/Todo/TodoTab.js"></script>
@@ -1072,27 +795,6 @@
 
 		<!--General Tab-->
 		<script src="assets/General/GeneralTab.js"></script>
-
-
-		<!--Main Script-->
-		<script type="text/javascript">
-			window.mdc.autoInit();
-
-			function slack(message) {
-				$.ajax({
-					"async": true,
-					"crossDomain": true,
-					"dataType": "json",
-					"url": "https://hooks.slack.com/services/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",
-					"method": "POST",
-					"data": '{ "text": "' + message + '" }',
-					"headers": {
-						"accept": "application/json",
-					}
-				});
-				return;
-			}
-		</script>
 	</main>
 </body>
 </html>

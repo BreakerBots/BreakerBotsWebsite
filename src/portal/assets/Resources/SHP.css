@@ -1,0 +1,14 @@
+﻿/* SHP.css (Show Hide Password) ... JS is the SHP function in functions.js*/
+
+.SHP {
+	border: 1px solid #bdc0c7;
+	position: relative;
+	background: white;
+}
+
+	.SHP:focus-within {
+		border: 1px solid #d50000;
+	}
+	.SHP:active {
+		border: 1px solid #d50000;
+	}

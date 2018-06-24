@@ -63,11 +63,18 @@ function updateHash() {
 
 /**
  * Sets a variable param to the url hash (the json after '#')
- * @param {String} param
- * @param {any} value
+ * Set varibles by pluging in "param, value, param, value, param, value..."
  */
-function setHashParam(param, value) {
-	hashData[param] = value;
+function setHashParam() {
+	try {
+		for (var i = 0, p, v; i < arguments.length; i += 2) {
+			try {
+				p = arguments[i]; v = arguments[i + 1];
+				if (p && v)
+					hashData[p] = v;
+			} catch (err) { }
+	}
+	} catch (err) { }
 	updateHash();
 }
 

@@ -9,27 +9,40 @@ function DrawHeaderData() {
 	if (localStorage.username) document.querySelector('#profileMenu-Name').innerHTML = localStorage.username;
 	if (localStorage.userrole) document.querySelector('#profileMenu-Role').innerHTML = localStorage.userrole;
 
-	//Wait until AllUser is loaded
-	authLoadedFullWait(function () {
-		function SAAFR() {
-			//Prevent undefined error throwing
-			if (users.getCurrentUid() != undefined && (users.getCurrentUid() != undefined ? (users.getAvatar(users.getCurrentUid()) != undefined) : false)) {
-				//Set the avatar to the recieved download url
-				document.querySelector('#AvatarPicture').src = users.getAvatar(users.getCurrentUid());
-				document.querySelector('#profileMenu-Avatar').src = users.getAvatar(users.getCurrentUid());
-				document.querySelector('#profileMenu-Name').innerHTML = users.getCurrentUser().username;
-				document.querySelector('#profileMenu-Role').innerHTML = users.getCurrentUser().role;
+	window.addEventListener('DOMContentLoaded', function () {
+		function FillInData() {
+			if (firebase.auth().currentUser) {
+				firebase.app().firestore().collection("users").doc(firebase.auth().currentUser.uid).get().then(function (user) {
+					//Fill in data
+					document.querySelector('#profileMenu-Name').innerHTML = user.data().username;
+					document.querySelector('#profileMenu-Role').innerHTML = user.data().role || "Member";
 
-				//Cache the downloaded image for quick load
-				localStorage.avatar = users.getAvatar(users.getCurrentUid());
-				localStorage.username = users.getCurrentUser().username;
-				localStorage.userrole = users.getCurrentUser().role;
-			} else {
-				//Restart this in a second if there is an error
-				setTimeout(SAAFR, 1000);
+					//Cache data for a quick load next time
+					localStorage.username = user.data().username;
+					localStorage.userrole = user.data().role || "Member";
+				});
+				var gauA = false;
+				getAvatarUrl(firebase.auth().currentUser.uid, function (img) {
+					if (!gauA) {
+						gauA = true;
+						//Set the avatar to the recieved download url
+						document.querySelector('#AvatarPicture').src = img;
+						document.querySelector('#profileMenu-Avatar').src = img;
+
+						//Cache the downloaded image for quick load next time
+						localStorage.avatar = img;
+					}
+				});
 			}
-		} SAAFR();
+			else
+				setTimeout(FillInData, 500);
+		} FillInData();
 	});
+
+	/*
+		
+		
+	 */
 } DrawHeaderData();
 
 function HardRefreshHeaderAvatar() {

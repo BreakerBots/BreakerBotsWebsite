@@ -214,3 +214,23 @@ function AutocompleteUsersFix(arr) {
 	});
 	return rarr;
 }
+
+function AutocompleteUsersToUids(usernames) {
+	for (var i = 0; i < usernames.length; i++) {
+		switch (usernames[i].charAt(0)) {
+			case '#': if (usernames[i] != "Everyone") { var tm = (teams.getId(usernames[i].substring(1))); if (tm) usernames[i] = '#' + tm; } break;
+			default: usernames[i] = users.getUid(usernames[i]) || usernames[i]; break;
+		}
+	}
+	return usernames;
+}
+
+function AutocompleteUidsToUsers(uids) {
+	for (var i = 0; i < uids.length; i++) {
+		switch (uids[i].charAt(0)) {
+			case '#': var tm = (teams.getName(uids[i].substring(1))); if (tm) uids[i] = '#' + tm; break;
+			default: uids[i] = users.getUsername(uids[i]) || uids[i]; break;
+		}
+	}
+	return uids;
+}

@@ -2,6 +2,7 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp();
 
+// Notifications
 exports.sendNotification = functions.firestore
 	.document('Notifications/{userId}').onWrite((change, context) => {
 		var NotificationArray = change.after.data().Notifications;

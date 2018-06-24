@@ -32,7 +32,9 @@ function PeteSwitcher(pageContent, pdrawer, tdrawerEl, openDrawerButton, topAppB
 		}
 		pdrawer_adjustpagecontent();
 		tdrawerEl.style.marginTop = topAppBarElement.clientHeight + "px"; //Adjust the height of the temp drawer relative to the header
-		document.querySelector("main").style.paddingTop = topAppBarElement.clientHeight + "px"; //Adjust the page-content relative too the header
+		//Adjust the page-content relative too the header
+		document.querySelector(".page-content").style.top = topAppBarElement.getBoundingClientRect().height + "px";
+		document.querySelector(".page-content").style.height = "calc(100vh - " + topAppBarElement.getBoundingClientRect().height + "px)";
 	}
 	openDrawerButton.addEventListener('click', toggleDrawer);
 	PeteSwitcher.toggle = toggleDrawer;
@@ -53,6 +55,18 @@ function PeteSwitcher(pageContent, pdrawer, tdrawerEl, openDrawerButton, topAppB
 	PeteSwitcher.closeTempDrawer = function () {
 		tdrawer.open = false;
 	}
+	PeteSwitcher.instantClosePermDrawer = function () {
+		if (CPeteState == -1) {
+			document.querySelector('.permanent-drawer').classList.add("transition--instant");
+			document.querySelector('.permanent-drawer').style.transform = "translateX(-320px)";
+			setTimeout(function () { document.querySelector('.permanent-drawer').classList.remove("transition--instant"); }, 10);
+		}
+	}
+	PeteSwitcher.openPermDrawer = function () {
+		if (CPeteState == -1) {
+			openPDrawer(true);
+		}
+	}
 	window.addEventListener('hashchange', function () {
 		tdrawer.open = false;
 	});
@@ -61,6 +75,7 @@ function PeteSwitcher(pageContent, pdrawer, tdrawerEl, openDrawerButton, topAppB
 	setTimeout(pdrawer_adjustpagecontent, 1000);
 	function pdrawer_adjustpagecontent() {
 		pageContent.style.marginLeft = (CPeteState == -1 ? (320 + Number(pdrawer.style.transform.substring(11).slice(0, -3))) : 0) + "px";
+		pageContent.style.width = "calc(100% - " + (CPeteState == -1 ? (320 + Number(pdrawer.style.transform.substring(11).slice(0, -3))) : 0) + "px)";
 	}
 }
 

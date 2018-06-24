@@ -3,8 +3,9 @@ var EditAccountTab = new RegisteredTab("EditAccount", EditProfileFirstInit, Edit
 
 
 //  ----------------------------------------  Init  ----------------------------------------  \\
+var EditProfileTabBar;
 function EditProfileFirstInit() {
-	new mdc.tabs.MDCTabBarScroller(document.querySelector('.EditAccount-Tabs'));
+	EditProfileTabBar = new mdc.tabs.MDCTabBarScroller(document.querySelector('.EditAccount-Tabs'));
 }
 function EditProfileInit() {
 	authLoadedFullWait(function () {
@@ -12,7 +13,6 @@ function EditProfileInit() {
 		headerUseBackArrow(true, `setHashParam('profile', '` + users.getCurrentUid() + `'); setHashParam('tab', 'Profile');`);
 		showMainLoader(false);
 		document.querySelector('#page-scroll').scrollTop = 0; document.querySelector('#page-scroll').style.overflowY = 'hidden';
-		EditProfileDraw();
 		EditProfileChangeTab();
 	});
 }
@@ -30,7 +30,20 @@ function EditProfileChangeTab() {
 	});
 
 	//Show the new One
-	document.querySelector('.EditAccount-View--' + (getHashParam('EditAccountTab') || "EP")).classList.add('EditAccount-View--Active');
+	var tab = 0;
+	try {
+		document.querySelector('.EditAccount-View--' + (getHashParam('EditAccountTab') || "0")).classList.add('EditAccount-View--Active');
+		EditProfileTabBar.tabBar.setActiveTabIndex_(Number(getHashParam('EditAccountTab') || "0"));
+		tab = Number(getHashParam('EditAccountTab') || "0");
+	} catch (err) {
+		setHashParam('EditAccountTab', 0);
+		tab = 0;
+	}
+	switch (tab) {
+		case 0: EditProfileDraw(); break;
+		case 1: break;
+		case 2: break;
+	};
 }
 //  ----------------------------------------    ----------------------------------------  \\
 
@@ -39,28 +52,35 @@ function EditProfileChangeTab() {
 
 //  ----------------------------------------  Fill In Values  ----------------------------------------  \\
 function EditProfileDraw() {
-	//Do Some Magic
-	var data = users.getCurrentUser();
-	[].forEach.call(document.querySelectorAll('.EditAccountJS--Autofill'), function (item) {
+	try {
+		//Do Some Magic
+		var data = users.getCurrentUser();
+		[].forEach.call(document.querySelectorAll('.EditAccountJS--Autofill'), function (item) {
+			try {
+				if (item.tagName == "INPUT") item.value = data[item.id.replace('EditAccountJS--', '').toLowerCase()];
+				else item.innerHTML = data[item.id.replace('EditAccountJS--', '').toLowerCase()];
+			} catch (err) { }
+		});
+		resizeTextarea(document.querySelector('#EditAccountJS--Desc'));
+		document.querySelector('#EditAccountJS--Avatar').src = data.avatar || '../assets/img/iconT.png';
 		try {
-			if (item.tagName == "INPUT") item.value = data[item.id.replace('EditAccountJS--', '').toLowerCase()];
-			else item.innerHTML = data[item.id.replace('EditAccountJS--', '').toLowerCase()];
-		} catch (err) { } });
-	resizeTextarea(document.querySelector('#EditAccountJS--Desc'));
-	document.querySelector('#EditAccountJS--Avatar').src = data.avatar || '../assets/img/iconT.png';
-}
-
-function EditProfileCheckSubmit() {
-	var data = users.getCurrentUser();
-	var hc = false;
-	[].forEach.call(document.querySelectorAll('.EditAccountJS--Autofill'), function (item) {
-		try {
-			if (!hc) {
-				hc = !(item.value == data[item.id.replace('EditAccountJS--', '').toLowerCase()]);
-			}
+			$('#EditAccountJS--Phone').inputmask({ 'mask': '(999) 999-9999' });
 		} catch (err) { }
-	});
-	document.querySelector('#EditAccountJS--Submit').style.transform = "scale(" + (hc ? 1 : 0) + ")";
+	} catch (err) {  }
+}
+function EditProfileCheckSubmit() {
+	try {
+		var data = users.getCurrentUser();
+		var hc = false;
+		[].forEach.call(document.querySelectorAll('.EditAccountJS--Autofill'), function (item) {
+			try {
+				if (!hc) {
+					hc = !(item.value == data[item.id.replace('EditAccountJS--', '').toLowerCase()]);
+				}
+			} catch (err) { }
+		});
+		document.querySelector('#EditAccountJS--Submit').style.transform = "scale(" + (hc ? 1 : 0) + ")";
+	} catch (err) { }
 }
 //  ----------------------------------------    ----------------------------------------  \\
 
@@ -73,7 +93,7 @@ function EditProfileSubmitChanges() {
 	delete data.avatar;
 	[].forEach.call(document.querySelectorAll('.EditAccountJS--Autofill'), function (item) {
 		try {
-			data[item.id.replace('EditAccountJS--', '').toLowerCase()] = item.value || "";
+			data[item.id.replace('EditAccountJS--', '').toLowerCase()] = item.value == "undefined" ? "" : item.value || "";
 		} catch (err) { }
 	});
 	firebase.app().firestore().collection("users").doc(users.getCurrentUid()).set(data, { merge: true }).then(function () {
@@ -86,17 +106,19 @@ function EditProfileSubmitChanges() {
 
 
 //  ----------------------------------------  Change Avatar  ----------------------------------------  \\
-function EditProfileChangeAvatar() {
-	
-}
-
 var EditProfileChangeAvatarHandler;
 function EditProfileChangeAvatar() {
 	try {
 		var rlId = "HCAUE--" + guid();
-		ShiftingDialog.set("EditProfileChangeAvatar", "Change Avatar", "Submit", "Cancel",
-			'<div style="width: 100%; height: 100%;" id="' + rlId + '"></div>'
-		);
+		ShiftingDialog.set({
+			id: "EditProfileChangeAvatar",
+			title: "Change Avatar",
+			submitButton: "Submit",
+			cancelButton: "Cancel",
+			contents: '<div style="width: 100%; height: 100%;" id="' + rlId + '"></div>',
+			centerButtons: !1,
+			dontCloseOnExternalClick: !0
+		});
 		ShiftingDialog.open();
 		ShiftingDialog.enableSubmitButton(!1);
 		EditProfileChangeAvatarHandler = new AvatarEditor(document.querySelector("#" + rlId), function () {
@@ -114,9 +136,33 @@ ShiftingDialog.addSubmitListener("EditProfileChangeAvatar", function () {
 					function (a) { }, function (a) { },
 					function () {
 						ShiftingDialog.close();
-						location.reload();
+						getAvatarUrl(users.getCurrentUid(), function (img) {
+							document.querySelector('#EditAccountJS--Avatar').src = img;
+						});
 					})
 			})
 		}); rt || (ShiftingDialog.throwFormError("Please Select An Image"), ShiftingDialog.enableSubmitButton(!0))
 	} catch (c) { };
 });
+//  ----------------------------------------    ----------------------------------------  \\
+
+
+
+//  ----------------------------------------    ----------------------------------------  \\
+function b84eef34da92d0db411e42dea26c16f5bd1b3aa2bbe7ab24f288964f8a7497d6(a, b) {
+	if (a == b) {
+		firebase.auth().currentUser.updatePassword(a).then(function () {
+			location.reload();
+		}).catch(function (error) {
+			console.log(error);
+		});
+	}
+}
+function f494414f4727bd3e133e5aa895426e8c928e5dff22533a89642e3e9a14a032c9(a) {
+	firebase.auth().currentUser.updateEmail(a).then(function () {
+		location.reload();	
+	}).catch(function (error) {
+		console.log(error);
+	});
+}
+//  ----------------------------------------    ----------------------------------------  \\
