@@ -1,5 +1,13 @@
 // Tooltips.js
 
+/*
+	Just Add:  
+		aria-label="I Dunno"   (Text)
+	Options:
+		aria-label-delay="10s"    (Time)
+		aria-label-z-index="1000"    (Z-Index -- Number)
+ */
+
 setInterval(updateTooltips, 2000);
 window.addEventListener('resize', updateTooltips);
 var tooltipList = [];

@@ -49,12 +49,13 @@
 	<link rel="stylesheet" href="assets/Header/header.css" type="text/css" />
 
 	<!-- Other Resources -->
-	<link rel="stylesheet" href="assets/Resources/Fabs.css" type="text/css" />
-	<link rel="stylesheet" href="assets/Resources/BreakerLayout.css" type="text/css" />
-	<link rel="stylesheet" href="assets/Resources/Menus.css" type="text/css" />
-	<link rel="stylesheet" href="assets/Resources/Tooltips.css" type="text/css" />
-	<link rel="stylesheet" href="assets/Resources/Scroll.css" type="text/css" />
-	<link rel="stylesheet" href="assets/Resources/SHP.css">
+	<link rel="stylesheet" href="assets/Resources/Fabs/Fabs.css" type="text/css" />
+	<link rel="stylesheet" href="assets/Resources/BreakerLayout/BreakerLayout.css" type="text/css" />
+	<link rel="stylesheet" href="assets/Resources/Menus/Menus.css" type="text/css" />
+	<link rel="stylesheet" href="assets/Resources/Tooltips/Tooltips.css" type="text/css" />
+	<link rel="stylesheet" href="assets/Resources/Scroll/Scroll.css" type="text/css" />
+	<link rel="stylesheet" href="assets/Resources/SHP/SHP.css">
+	<link rel="stylesheet" href="assets/Resources/RichTextEditor/RichTextEditor.css">
 
 	<!-- Side Nav Drawer -->
 	<link rel="stylesheet" href="assets/SideNav/SideNav.css" type="text/css" />
@@ -221,7 +222,12 @@
 	<main>
 		<!--Global Tooltip-->
 		<div class="bstooltip-container">
-			<span class="bstooltip">2 Not Started / 4 In Progress / 7 Done / 1 Blocked</span>
+			<span class="bstooltip"></span>
+		</div>
+
+		<!--Global Menu-->
+		<div id="BreakerMenu" class="breaker-menu mdc-elevation--z10">
+			
 		</div>
 
 		<div class="page-content" style="transition: margin-left 0.6s cubic-bezier(.2, 0, .2, 1), width 0.6s; z-index: 7; position: fixed; width: 100%; height: 100%; overflow: visible;">
@@ -293,7 +299,8 @@
 				<div class="material-scrollbar" id="page-scroll" onscroll="function PageScrollShadow(sel, header) { if (sel.scrollTop > 5) header.classList.add('mdc-elevation--z10'); else header.classList.remove('mdc-elevation--z10'); } PageScrollShadow(this, document.querySelector('header'));" style="overflow-x: hidden; overflow-y: auto; position: relative; height: calc(100vh - 64px); ">
 					<!--Tabs-->
 					<div id="General" class="tab">
-						<h1>General</h1>
+						<h1 class="mdc-ripple-surface" data-mdc-auto-init="MDCRipple">General</h1>
+						<i onclick="menu.toggle(sfd8g7, null)" style="float: right;" id="sfd8g7" class="material-icons mdc-icon-toggle" data-mdc-auto-init="MDCIconToggle">close</i>
 					</div>
 					<div id="PartsAll" class="tab">
 						<div class="row" id="PartsAllWrapper">
@@ -507,7 +514,7 @@
 									</div>
 									<div onclick="setTimeout(function () { EditProfileCheckSubmit(); }, 10);" onkeydown="setTimeout(function () { EditProfileCheckSubmit(); }, 10);" class="form-group autocomplete" style="width: 90%; min-height: 65px; max-height: 73px;" data-autocomplete-auto-init data-autocomplete-showall>
 										<label for="EditAccountJS--Grade">Grade</label>
-										<input id="EditAccountJS--Grade" type="text"  class="form-control EditAccountJS--Autofill" placeholder="Your Grade Level (Optional)" autocomplete="off">
+										<input id="EditAccountJS--Grade" type="text" class="form-control EditAccountJS--Autofill" placeholder="Your Grade Level (Optional)" autocomplete="off">
 										<div class="autocomplete-items"></div>
 										<div class="autocomplete-options">
 											<p>Eigth</p>
@@ -623,7 +630,7 @@
 						</div>
 						<div id="AV-MU" class="tab">
 							<div id="AV-MU-Wrapper" class="breaker-layout">
-								
+
 							</div>
 						</div>
 					</div>
@@ -722,15 +729,16 @@
 		<script src="assets/ShiftingDialog/Snipits.js"></script>
 
 		<!-- Other Resources -->
-		<script src="assets/Resources/FabHandler.js"></script>
+		<script src="assets/Resources/Fabs/FabHandler.js"></script>
 		<script src="assets/Autocomplete/Autocomplete.js"></script>
 		<script src="assets/Autocomplete/AutocompleteUsers.js"></script>
-		<script src="assets/Resources/ExpandingTextArea.js"></script>
+		<script src="assets/Resources/ExpandingTextArea/ExpandingTextArea.js"></script>
 		<script src="assets/Autocomplete/PMSAutocomplete.js"></script>
-		<script src="assets/Resources/Menus.js"></script>
-		<script src="assets/Resources/Tooltips.js"></script>
-		<script src="assets/Resources/IdleHandler.js"></script>
-		<script src="assets/Resources/Snackbar.js"></script>
+		<script src="assets/Resources/Menus/Menus.js"></script>
+		<script src="assets/Resources/Tooltips/Tooltips.js"></script>
+		<script src="assets/Resources/IdleHandler/IdleHandler.js"></script>
+		<script src="assets/Resources/Snackbar/Snackbar.js"></script>
+		<script src="assets/Resources/RichTextEditor/RichTextEditor.js"></script>
 
 		<!--Header-->
 		<script src="assets/Header/header.js"></script>
@@ -772,23 +780,22 @@
 		<script src="assets/Notifications/NotificationAPI.js"></script>
 
 		<!--Parts Tabs
-		<script src="assets/Parts/FolderHistory.js"></script>
-		<script src="assets/Parts/CreatePart.js"></script>
-		<script src="assets/Parts/EditPart.js"></script>
-		<script src="assets/Parts/DeletePart.js"></script>
-		<script src="assets/Parts/CreateFolder.js"></script>
-		<script src="assets/Parts/EditFolder.js"></script>
-		<script src="assets/Parts/DeleteFolder.js"></script>
-		<script src="assets/Parts/ArchiveFolder.js"></script>
-		<script src="assets/Parts/UI.js"></script>
-		<script src="assets/Parts/Archive/ArchiveTab.js"></script>
-		<script src="assets/Parts/Archive/UnarchiveFolder.js"></script>
-		<script src="assets/Parts/Archive/ArchiveHistory.js"></script>
-		<script src="assets/Parts/Archive/ArchiveDelete.js"></script>
-		<script src="assets/Parts/Ordered/OrderedParts.js"></script>
-		<script src="assets/Parts/StatusPart.js"></script>
-		-->
-
+	<script src="assets/Parts/FolderHistory.js"></script>
+	<script src="assets/Parts/CreatePart.js"></script>
+	<script src="assets/Parts/EditPart.js"></script>
+	<script src="assets/Parts/DeletePart.js"></script>
+	<script src="assets/Parts/CreateFolder.js"></script>
+	<script src="assets/Parts/EditFolder.js"></script>
+	<script src="assets/Parts/DeleteFolder.js"></script>
+	<script src="assets/Parts/ArchiveFolder.js"></script>
+	<script src="assets/Parts/UI.js"></script>
+	<script src="assets/Parts/Archive/ArchiveTab.js"></script>
+	<script src="assets/Parts/Archive/UnarchiveFolder.js"></script>
+	<script src="assets/Parts/Archive/ArchiveHistory.js"></script>
+	<script src="assets/Parts/Archive/ArchiveDelete.js"></script>
+	<script src="assets/Parts/Ordered/OrderedParts.js"></script>
+	<script src="assets/Parts/StatusPart.js"></script>
+	-->
 		<!--Todo Tab-->
 		<script src="assets/Todo/TodoTab.js"></script>
 		<script src="assets/Todo/todoStepper.js"></script>
