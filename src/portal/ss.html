@@ -239,8 +239,6 @@
 				a = tm1[a][0];
 				var b = findObjectByKey(ds33.docs, "id", a).data();
 				b.history.push(new Date());
-				alert(a);
-				alert(b);
 				firebase.app().firestore().collection("SS").doc(a).set(b)
 					.then(function () {
 						document.querySelector("#in5104").value = "";

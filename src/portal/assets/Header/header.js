@@ -55,6 +55,7 @@ function headerUseBackArrow(state, link) {
 				}, 10);
 			}, 200);
 		}
+		deleteOverflow();
 	} catch (err) {  }
 }
 //------------------------------------  ------------------------------------\\
@@ -91,6 +92,7 @@ function headerUseSearch(state) {
 		document.querySelector("#headerNotificationsOpen").style.display = "block";
 		document.querySelector('.headerSearchBox').classList.remove('headerSearchBox--open');
 	}
+	deleteOverflow();
 }
 //Open and close the search box
 try {

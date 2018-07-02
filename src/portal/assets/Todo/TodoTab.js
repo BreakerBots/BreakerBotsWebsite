@@ -373,6 +373,7 @@ TodoAddFab.element.addEventListener('click', function () {
 			title: "Add Folder or Task-Group",
 			submitButton: "Submit",
 			cancelButton: "Cancel",
+			dontCloseOnExternalClick: true,
 			contents:
 				mainSnips.dropDown("TodoAdd_Type", "Type", "", "TodoAddFTGDropdownUpdate()", ["Folder", "Folder - Contains Other Folders and Task-Groups", true], ["Task-Group", "Task-Group - Contains Tasks", false], ["Item-View", "Item-View - Contains Anything Matching It's Filter", false]) +
 				mainSnips.textField("TodoAdd_Title", "Title", "The Title of the Item", null, null, true) +
@@ -388,6 +389,7 @@ TodoAddFab.element.addEventListener('click', function () {
 			title: "Add a new Task",
 			submitButton: "Submit",
 			cancelButton: "Cancel",
+			dontCloseOnExternalClick: true,
 			contents:
 				mainSnips.textField("TodoAdd_Title", "Title", "The Title of the Task", null, null, true) +
 				mainSnips.richText("TodoAdd_Desc", "Description") +
@@ -493,7 +495,7 @@ ShiftingDialog.addSubmitListener("TodoAddTask", function (content) {
 		firebase.app().firestore().collection("Todo").doc(ctgN).set(ctg)
 			.then(function () {
 				var newData = ctg.tasks[AIDs];
-				delete newData.desc;
+				newData.desc.replace(/<img.*>/, 'IMAGE');
 				TodoAddToHistory(
 					"add",
 					null,
@@ -673,6 +675,7 @@ function TodoEditFTG(item) {
 		title: "Edit the " + MSNC(itemData.tasks, "Task-Group ", "Folder ") + itemData.title,
 		submitButton: "Submit",
 		cancelButton: "Cancel",
+		dontCloseOnExternalClick: true,
 		contents:
 			mainSnips.dropDown("TodoEdit_Type", "Type", "", "TodoEditFTGDropdownUpdate()", ["Folder", "Folder - Contains Other Folders and Task-Groups", !itemData.tasks && !itemData.filter], ["Task-Group", "Task-Group - Contains Tasks", itemData.tasks && !itemData.filter], ["Item-View", "Item-View - Contains Anything Matching It's Filter", !itemData.tasks && itemData.filter]) +
 			mainSnips.textField("TodoEdit_Title", "Title", "The Title of the Item", null, null, true, itemData.title) +
@@ -740,6 +743,7 @@ function TodoEditTask(item, parent) {
 		title: "Edit " + itemData.title,
 		submitButton: "Submit",
 		cancelButton: "Cancel",
+		dontCloseOnExternalClick: true,
 		contents:
 			mainSnips.textField("TodoAdd_Title", "Title", "The Title of the Task", null, null, true, itemData.title) +
 			mainSnips.richText("TodoAdd_Desc", "Description") +
@@ -796,8 +800,8 @@ ShiftingDialog.addSubmitListener("TodoEditTask", function (content) {
 
 		firebase.app().firestore().collection("Todo").doc(ctgN).set(ctg)
 			.then(function () {
-				delete lastData.desc;
-				delete newData.desc;
+				lastData.desc.replace(/<img.*>/, 'IMAGE');
+				newData.desc.replace(/<img.*>/, 'IMAGE');
 				TodoAddToHistory(
 					"edit",
 					lastData || null,

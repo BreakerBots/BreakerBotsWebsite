@@ -71,6 +71,9 @@
 
 	<!--Admin View -->
 	<link rel="stylesheet" href="assets/AdminView/AV.css" type="text/css" />
+
+	<!-- Manuals Tab -->
+	<link rel="stylesheet" href="assets/Manuals/Manuals.css" type="text/css" />
 </head>
 <body style="background-color: #EEEEEE; overflow-y: hidden;">
 	<header class="mdc-top-app-bar mdc-top-app-bar--fixed" style="z-index: 10; transform: translateY(-100%);">
@@ -639,13 +642,13 @@
 						</div>
 					</div>
 					<div id="Manuals" class="tab" style="margin: 0">
-						<div style="background: #c00000; width: 100%; left: 0; top: 0; color: rgb(230, 230, 230);">
-							<div style="display: flex; flex-wrap: nowrap; overflow-x: auto; flex-shrink: 0;" id="manualStepperWrapper">
+						<div id="ManualStepperContent" style="overflow-y: hidden; overflow-x: auto; background: #c00000; width: 100%; left: 0; top: 0; color: rgb(230, 230, 230); transition: max-height 0.4s cubic-bezier(.2, 0, .2, 1); max-height: 45px;">
+							<div style="display: flex; flex-wrap: nowrap; overflow-x: auto; flex-shrink: 0;" id="ManualStepperWrapper">
 
 							</div>
 							<div style="width: 100%; height: 5px;"></div>
 						</div>
-						<div id="ManualWrapper" style="margin: 0px 15px 0px 15px; width: calc(100% - 30px); transform: translateY(-20px);">
+						<div id="ManualsWrapper" style="width: calc(100% - 30px); height: 100%;">
 
 						</div>
 						<button id="Manual-Add-Fab" class="mdc-fab demo-fixed-fab mdc-ripple-upgraded mdc-fab--exited">
