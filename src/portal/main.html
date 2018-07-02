@@ -185,10 +185,10 @@
 
 
 				<!--Avatar-->
-				<button id="AvatarButton" style="clear: both; position: relative;" onclick="toggleMenu('#profileMenu', false); currentMenuAnchors['#profileMenu'] = this; updateMenuAnchors();" class="noselect mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded">
+				<button id="AvatarButton" style="clear: both; position: relative;" onclick="menu.toggle(document.querySelector('#profileMenu').innerHTML, this, 'width: 300px;'); currentMenuAnchors['#profileMenu'] = this; updateMenuAnchors();" class="noselect mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded">
 					<img id="AvatarPicture" src="../assets/img/iconT.png" style="width: 100%; border-radius: 50%; transform: scale(1.6);" />
 				</button>
-				<div role="menu" class="dropdown-menu-c dropdown-menu mdc-elevation--z10" id="profileMenu" style="width: 300px; padding: 0; border: 0; position: absolute;">
+				<div id="profileMenu" style="display: none;">
 					<!--Header-->
 					<div>
 						<div style="width: 85px; height: 85px; position: absolute; margin: 7px 0 0 7px;">
@@ -205,8 +205,8 @@
 					</div>
 					<!--Footer-->
 					<div style="background-color: rgba(0 ,0, 0, 0.1); height: 50px; margin-top: 3%;">
-						<button onclick="toggleMenu('#profileMenu'); setHashParam('tab', 'Profile', 'profile', 'this');" class="mdc-button mdc-button--raised mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" style="margin-top: 6px; margin-left: 6px; background-color: rgb(160, 160, 160);">My Account</button>
-						<button onclick="toggleMenu('#profileMenu'); firebase.auth().signOut();" class="mdc-button mdc-button--raised mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" style="float: right; margin-top: 6px; margin-right: 6px; background-color: rgb(214, 50, 50);">Signout</button>
+						<button onclick="menu.close(); setHashParam('tab', 'Profile', 'profile', 'this');" class="mdc-button mdc-button--raised mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" style="margin-top: 6px; margin-left: 6px; background-color: rgb(160, 160, 160);">My Account</button>
+						<button onclick="menu.close(); firebase.auth().signOut();" class="mdc-button mdc-button--raised mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple" style="float: right; margin-top: 6px; margin-right: 6px; background-color: rgb(214, 50, 50);">Signout</button>
 					</div>
 				</div>
 			</section>
@@ -227,7 +227,10 @@
 
 		<!--Global Menu-->
 		<div id="BreakerMenu" class="breaker-menu mdc-elevation--z10">
-			
+
+		</div>
+		<div id="BreakerMenuSecondary" class="breaker-menu breaker-menuSecondary--open mdc-elevation--z10">
+
 		</div>
 
 		<div class="page-content" style="transition: margin-left 0.6s cubic-bezier(.2, 0, .2, 1), width 0.6s; z-index: 7; position: fixed; width: 100%; height: 100%; overflow: visible;">
@@ -247,17 +250,17 @@
 							<div class="side-nav__submenu-wrapper">
 								<ul class="side-nav__submenu" id="PartsSubmenu">
 									<li>
-										<a onclick="setHashParam('tab','PartsAll');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-surface--primary">
+										<a onclick="" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-surface--primary">
 											<span>All</span>
 										</a>
 									</li>
 									<li>
-										<a onclick="setHashParam('tab','PartsOrdered');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-surface--primary">
+										<a onclick="" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-surface--primary">
 											<span>Ordered</span>
 										</a>
 									</li>
 									<li>
-										<a onclick="setHashParam('tab','PartsArchived');" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-surface--primary">
+										<a onclick="" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-surface--primary">
 											<span>Archived</span>
 										</a>
 									</li>
@@ -269,8 +272,8 @@
 							<a class="sidenav-list-item mdc-ripple-surface mdc-ripple-surface--primary" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Calendar');">
 								<i class="material-icons mdc-list-item__graphic">calendar_today</i><span>Calendar</span>
 							</a>
-							<a class="sidenav-list-item mdc-ripple-surface mdc-ripple-surface--primary" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Github');">
-								<i class="material-icons mdi-github mdc-list-item__graphic"></i><span>Github</span>
+							<a class="sidenav-list-item mdc-ripple-surface mdc-ripple-surface--primary" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Manuals');">
+								<i class="material-icons mdc-list-item__graphic">library_books</i><span>Manuals</span>
 							</a>
 							<a class="sidenav-list-item mdc-ripple-surface mdc-ripple-surface--primary" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Teams');">
 								<i class="material-icons mdc-list-item__graphic">supervisor_account</i><span>Teams</span>
@@ -300,7 +303,8 @@
 					<!--Tabs-->
 					<div id="General" class="tab">
 						<h1 class="mdc-ripple-surface" data-mdc-auto-init="MDCRipple">General</h1>
-						<i onclick="menu.toggle(sfd8g7, null)" style="float: right;" id="sfd8g7" class="material-icons mdc-icon-toggle" data-mdc-auto-init="MDCIconToggle">close</i>
+						<i onclick="menu.toggle(sfd8g7, null)" style="" class="material-icons mdc-icon-toggle" data-mdc-auto-init="MDCIconToggle">close</i>
+						<i onclick="menu.toggle(sfd8g7 + 'hi', null)" class="material-icons mdc-icon-toggle" data-mdc-auto-init="MDCIconToggle">close</i>
 					</div>
 					<div id="PartsAll" class="tab">
 						<div class="row" id="PartsAllWrapper">
@@ -634,6 +638,9 @@
 							</div>
 						</div>
 					</div>
+					<div id="Manuals" class="tab">
+
+					</div>
 				</div>
 			</div>
 			<!--End Of Tab Viewer-->
@@ -750,10 +757,6 @@
 		<!--Calendar Tab-->
 		<script src="assets/Calendar/CalendarTab.js"></script>
 
-		<!--Github API and Tab-->
-		<script src="assets/Github/GHAPI.js"></script>
-		<script src="assets/Github/GHUI.js"></script>
-
 		<!--Admin View-->
 		<script src="assets/AdminView/AV-General.js"></script>
 		<div id="AdminViewScripts">
@@ -780,28 +783,31 @@
 		<script src="assets/Notifications/NotificationAPI.js"></script>
 
 		<!--Parts Tabs
-	<script src="assets/Parts/FolderHistory.js"></script>
-	<script src="assets/Parts/CreatePart.js"></script>
-	<script src="assets/Parts/EditPart.js"></script>
-	<script src="assets/Parts/DeletePart.js"></script>
-	<script src="assets/Parts/CreateFolder.js"></script>
-	<script src="assets/Parts/EditFolder.js"></script>
-	<script src="assets/Parts/DeleteFolder.js"></script>
-	<script src="assets/Parts/ArchiveFolder.js"></script>
-	<script src="assets/Parts/UI.js"></script>
-	<script src="assets/Parts/Archive/ArchiveTab.js"></script>
-	<script src="assets/Parts/Archive/UnarchiveFolder.js"></script>
-	<script src="assets/Parts/Archive/ArchiveHistory.js"></script>
-	<script src="assets/Parts/Archive/ArchiveDelete.js"></script>
-	<script src="assets/Parts/Ordered/OrderedParts.js"></script>
-	<script src="assets/Parts/StatusPart.js"></script>
-	-->
+		<script src="assets/Parts/FolderHistory.js"></script>
+		<script src="assets/Parts/CreatePart.js"></script>
+		<script src="assets/Parts/EditPart.js"></script>
+		<script src="assets/Parts/DeletePart.js"></script>
+		<script src="assets/Parts/CreateFolder.js"></script>
+		<script src="assets/Parts/EditFolder.js"></script>
+		<script src="assets/Parts/DeleteFolder.js"></script>
+		<script src="assets/Parts/ArchiveFolder.js"></script>
+		<script src="assets/Parts/UI.js"></script>
+		<script src="assets/Parts/Archive/ArchiveTab.js"></script>
+		<script src="assets/Parts/Archive/UnarchiveFolder.js"></script>
+		<script src="assets/Parts/Archive/ArchiveHistory.js"></script>
+		<script src="assets/Parts/Archive/ArchiveDelete.js"></script>
+		<script src="assets/Parts/Ordered/OrderedParts.js"></script>
+		<script src="assets/Parts/StatusPart.js"></script>
+		-->
 		<!--Todo Tab-->
 		<script src="assets/Todo/TodoTab.js"></script>
 		<script src="assets/Todo/todoStepper.js"></script>
 
 		<!--General Tab-->
 		<script src="assets/General/GeneralTab.js"></script>
+
+		<!--Manuals Tab-->
+		<script src="assets/Manuals/Manuals.js"></script>
 	</main>
 </body>
 </html>

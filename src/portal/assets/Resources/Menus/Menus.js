@@ -25,6 +25,20 @@ var menu = new class Menu {
 	constructor() {
 		window.addEventListener('resize', this.anchor);
 		setInterval(this.anchor, 5000);
+		document.addEventListener('click', function () {
+			try {
+				if (!menu.ignoreClick) {
+					var a = menu.element.getBoundingClientRect();
+					var x = event.clientX;
+					var y = event.clientY;
+
+					if (!(x >= a.left && x <= (a.left + a.width) && y > a.top && y < (a.top + a.height))) {
+						menu.closeSecondary();
+					}
+				}
+				menu.ignoreClick = false;
+			} catch (err) { }
+		});
 	}
 
 	/**
@@ -35,23 +49,21 @@ var menu = new class Menu {
 	 */
 	open(html, anchorElement, style) {
 		try {
-			anchorElement = anchorElement || event.srcElement;
+			menu.ignoreClick = true;
+			if (event) anchorElement = anchorElement || event.srcElement;
 			if (!menu.isOpen) {
 				menu.element.innerHTML = html;
 				menu.anchorElement = anchorElement;
 				menu.element.style.cssText = style;
 				menu.element.classList.add('breaker-menu--open');
 				menu.anchor();
+				window.mdc.autoInit(menu.element);
 			}
 			else {
-				menu.close();
+				menu.closeSecondary();
 				setTimeout(function () {
-					menu.element.innerHTML = html;
-					menu.anchorElement = anchorElement;
-					menu.element.style.cssText = style;
-					menu.element.classList.add('breaker-menu--open');
-					menu.anchor();
-				}, menu.closetime);
+					menu.open(html, anchorElement, style);
+				}, menu.transitionTime / 2.3);
 			}
 		} catch (err) { console.error('Caught', err); return false; }
 	}
@@ -63,12 +75,23 @@ var menu = new class Menu {
 	 * @param {String} style (Optional) Any Extra CSS Properties You Want On The Menu
 	 */
 	toggle(html, anchorElement, style) {
-		if (menu.isOpen) {
-			menu.close();
-		}
-		else {
-			menu.open(html, anchorElement, style);
-		}
+		try {
+			if (event) anchorElement = anchorElement || event.srcElement;
+			if (menu.isOpen) {
+				if (menu.anchorElement == anchorElement) {
+					menu.close();
+				}
+				else {
+					menu.closeSecondary();
+					setTimeout(function () {
+						menu.open(html, anchorElement, style);
+					}, menu.transitionTime / 2.3);
+				}
+			}
+			else {
+				menu.open(html, anchorElement, style);
+			}
+		} catch (err) { }
 	}
 
 	/**
@@ -85,39 +108,66 @@ var menu = new class Menu {
 					menu.element.innerHTML = "";
 					menu.anchor();
 				}
-			}, menu.closetime);
+			}, menu.transitionTime);
 		} catch (err) { return false; }
 	}
 
+	closeSecondary() {
+		try {
+			//Instantly Move In Secondary
+			menu.elementSecondary.style.cssText = menu.element.style.cssText;
+			menu.elementSecondary.innerHTML = menu.element.innerHTML;
+			menu.elementSecondary.classList.remove('breaker-menuSecondary--open');
+
+			//Clear Primary Menu and Move Away
+			menu.element.style.left = "-100vw";
+			menu.element.style.top = "-100vh";
+			menu.element.innerHTML = "";
+			menu.element.classList.remove('breaker-menu--open');
+			menu.anchorElement = undefined;
+
+			setTimeout(function () {
+				menu.elementSecondary.style.left = "-100vw";
+				menu.elementSecondary.style.top = "-100vh";
+				menu.elementSecondary.innerHTML = "";
+				menu.elementSecondary.classList.add('breaker-menuSecondary--open');
+			}, menu.transitionTime);
+		} catch (err) { }
+	}
+
 	anchor() {
-		if (menu.anchorElement) {
-			var a = menu.anchorElement.getBoundingClientRect();
-			var mw = menu.element.scrollWidth;
+		try {
+			if (menu.anchorElement) {
+				var a = menu.anchorElement.getBoundingClientRect();
+				var mw = menu.element.scrollWidth;
 
-			var sw = window.innerWidth;
+				var sw = window.innerWidth;
 
-			var tx = (a.left);
-			var ty = (a.top + a.height);
+				var tx = (a.left);
+				var ty = (a.top + a.height);
 
-			//Check Overflow Right
-			if (tx + mw > sw) {
-				//Check If Can Flip
-				if (tx - mw > 0) {
-					//Flip
-					tx = tx - mw + a.width;
+				//Check Overflow Right
+				if (tx + mw > sw) {
+					//Check If Can Flip
+					if (tx - mw > 0) {
+						//Flip
+						tx = tx - mw + a.width;
+					}
+					else {
+						//Adjust Overflow Right
+						tx -= ((tx + mw) - sw).min(0);
+					}
 				}
-				else {
-					//Adjust Overflow Right
-					tx -= ((tx + mw) - sw).min(0);
-				}
+				//Adjust Overflow Left
+				tx.min(0);
+
+				var to = (((a.left - tx) + (a.left + a.width - tx)) / 2) / (mw);
+
+				menu.element.style.left = tx + "px";
+				menu.element.style.top = ty + "px";
+				menu.element.style.transformOrigin = (to * 100) + "% 0";
 			}
-			//Adjust Overflow Left
-			tx.min(0);
-
-			menu.element.style.left = tx + "px";
-			menu.element.style.top = ty + "px";
-			menu.element.style.transformOrigin = "50% 0";
-		}
+		} catch (err) { }
 	}
 
 	get isOpen() {
@@ -132,12 +182,16 @@ var menu = new class Menu {
 		} catch (err) { return; }
 	}
 
-	get closetime() {
-		return 800;
+	get elementSecondary() {
+		try {
+			return document.querySelector('#BreakerMenuSecondary');
+		} catch (err) { return; }
 	}
 
-	get opentime() {
-		return 800;
+	get transitionTime() {
+		try {
+			return 400;
+		} catch (err) { }
 	}
 }
 

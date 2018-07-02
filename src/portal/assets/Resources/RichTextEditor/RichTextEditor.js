@@ -80,29 +80,29 @@ class BreakerRichText {
 							+ (options.textColor || options.fillColor ? (`
 							<div class="BreakerRichText-ToolbarSection">` + 
 								( options.textColor ?
-								`<div onclick="toggleMenu(this.parentNode.querySelector('.BreakerRichText-TextColorMenu'), true)" aria-label="Text Color" aria-label-z-index="1000" aria-label-delay="0.2s" class="BreakerRichText-Tool mdc-ripple-surface" data-mdc-auto-init="MDCRipple"><i class="material-icons">
+								`<div onclick="menu.toggle(this.parentNode.querySelector('.BreakerRichText-TextColorMenu').innerHTML, this)" aria-label="Text Color" aria-label-z-index="1000" aria-label-delay="0.2s" class="BreakerRichText-Tool mdc-ripple-surface" data-mdc-auto-init="MDCRipple"><i class="material-icons">
 										format_color_text
 									</i>
 									<div class="BreakerRichText-TextColor" style="width: 25px; height: 4px; position: absolute; left: 9px; top: 29px;"></div>
 								</div>
 								<div class="BreakerRichText-TextColorMenu dropdown-menu-c dropdown-menu" data-menu-offset="-9 7">
 									<div onmousedown="event.preventDefault(); if (event.srcElement.classList.contains('BreakerRichText-TextColorMenu-Color')) { document.execCommand('styleWithCSS', false, true);
-										document.execCommand('foreColor', false, event.srcElement.style.backgroundColor); toggleMenu(this.parentNode, false); }	" class="BreakerRichText--ColorAutofill"></div>
+										document.execCommand('foreColor', false, event.srcElement.style.backgroundColor); menu.close(); }	" class="BreakerRichText--ColorAutofill"></div>
 								</div>` : ``) + 
 								(options.fillColor ?
-								`<div onclick="toggleMenu(this.parentNode.querySelector('.BreakerRichText-TextFillMenu'), true)" aria-label="Fill Color" aria-label-z-index="1000" aria-label-delay="0.2s" class="BreakerRichText-Tool mdc-ripple-surface" data-mdc-auto-init="MDCRipple"><i class="material-icons">
+								`<div onclick="menu.toggle(this.parentNode.querySelector('.BreakerRichText-TextFillMenu').innerHTML, this)" aria-label="Fill Color" aria-label-z-index="1000" aria-label-delay="0.2s" class="BreakerRichText-Tool mdc-ripple-surface" data-mdc-auto-init="MDCRipple"><i class="material-icons">
 										format_color_fill
 									</i>
 									<div class="BreakerRichText-FillColor" style="width: 25px; height: 4px; position: absolute; left: 9px; top: 29px;"></div>
 								</div>
 								<div class="BreakerRichText-TextFillMenu dropdown-menu-c dropdown-menu" data-menu-offset="-9 7">
 									<div onmousedown="event.preventDefault(); if (event.srcElement.classList.contains('BreakerRichText-TextColorMenu-Color')) { document.execCommand('styleWithCSS', false, true);
-										document.execCommand('backColor', false, event.srcElement.style.backgroundColor); toggleMenu(this.parentNode, false); }	" class="BreakerRichText--ColorAutofill"></div>
+										document.execCommand('backColor', false, event.srcElement.style.backgroundColor); menu.close(); }	" class="BreakerRichText--ColorAutofill"></div>
 								</div>` : ``) + `
 							</div>`) : ``) +
 							(options.textSize ? 
 							`<div class="BreakerRichText-ToolbarSection">
-								<div onclick="toggleMenu(this.parentNode.querySelector('.BreakerRichText-FontSizeMenu'), true)" aria-label="Text Size" aria-label-z-index="1000" aria-label-delay="0.2s" class="BreakerRichText-Tool mdc-ripple-surface" data-mdc-auto-init="MDCRipple"><span class="BreakerRichText-FontSizeDisplay">
+								<div onclick="menu.toggle(this.parentNode.querySelector('.BreakerRichText-FontSizeMenu').innerHTML, this.parentNode)" aria-label="Text Size" aria-label-z-index="1000" aria-label-delay="0.2s" class="BreakerRichText-Tool mdc-ripple-surface" data-mdc-auto-init="MDCRipple"><span class="BreakerRichText-FontSizeDisplay">
 									11px
 								</span></div>
 								<div class="BreakerRichText-FontSizeMenu dropdown-menu-c dropdown-menu" style="width: 80px; min-width: 80px;" data-menu-offset="-9 7">
@@ -110,8 +110,7 @@ class BreakerRichText {
 										event.preventDefault(); 
 										if (event.srcElement.dataset.fontSizeVal) { 
 											document.execCommand('fontSize', false, event.srcElement.dataset.fontSizeVal || 3); 
-											var men = this.parentNode;
-											setTimeout(function () { toggleMenu(men, false); }, 150);
+											setTimeout(function () { menu.close(); }, 150);
 										}	">
 										<ul class="mdc-list BreakerRichText-FontSizeMenu-List">
 										  <li data-mdc-auto-init="MDCRipple" class="mdc-list-item" data-font-size-val="1">8px</li>
@@ -128,15 +127,15 @@ class BreakerRichText {
 							(options.image || options.link ? (`
 							<div class="BreakerRichText-ToolbarSection">` + 
 								( options.link ?
-								`<div onclick="toggleMenu(this.parentNode.querySelector('.BreakerRichText-InsertLinkMenu'), true)" aria-label="Insert Link" aria-label-z-index="1000" aria-label-delay="0.2s" class="BreakerRichText-Tool mdc-ripple-surface" data-mdc-auto-init="MDCRipple"><i class="material-icons">
+								`<div onclick="menu.toggle(this.parentNode.querySelector('.BreakerRichText-InsertLinkMenu').innerHTML, this.parentNode, 'width: 300px')" aria-label="Insert Link" aria-label-z-index="1000" aria-label-delay="0.2s" class="BreakerRichText-Tool mdc-ripple-surface" data-mdc-auto-init="MDCRipple"><i class="material-icons">
 									insert_link
 								</i></div>
-								<div class="BreakerRichText-InsertLinkMenu dropdown-menu-c dropdown-menu" style="width: 300px;" data-menu-offset="-9 7">
+								<div class="BreakerRichText-InsertLinkMenu" style="display: none">
 									<div class="form-group" style="width: 90%; min-height: 50px; max-height: 50px; margin: 10px 0 10px 15px;">
 										<input onmousedown="linkSel = saveSelection();" type="url" value="" class="form-control" placeholder="https://www.example.com" autocomplete="off">
 									</div>
-									<button onmousedown="restoreSelection(linkSel); var sel = this;if (sel.parentNode.querySelector('input').validity.valid)setTimeout(function () { document.execCommand('createLink', false, sel.parentNode.querySelector('input').value || ''); toggleMenu(sel.parentNode, false); }, 10);" style="float: right; margin-right: 15px;" class="mdc-button mdc-button--raised" data-mdc-auto-init="MDCRipple">Add</button>
-									<button onclick="toggleMenu(this.parentNode, false)" style="float: right; margin-right: 5px;" class="mdc-button" data-mdc-auto-init="MDCRipple">Cancel</button>
+									<button onmousedown="restoreSelection(linkSel); var sel = this; if (sel.parentNode.querySelector('input').validity.valid) setTimeout(function () { document.execCommand('createLink', false, sel.parentNode.querySelector('input').value || ''); menu.close(); }, 10);" style="float: right; margin-right: 15px;" class="mdc-button mdc-button--raised" data-mdc-auto-init="MDCRipple">Add</button>
+									<button onclick="menu.close()" style="float: right; margin-right: 5px; margin-bottom: 10px;" class="mdc-button" data-mdc-auto-init="MDCRipple">Cancel</button>
 								</div>` : ``) +
 								( options.image ? 
 								`<div onclick="this.querySelector('input').click();" aria-label="Insert Media" aria-label-z-index="1000" aria-label-delay="0.2s" class="BreakerRichText-Tool mdc-ripple-surface" data-mdc-auto-init="MDCRipple"><i class="material-icons">
@@ -151,7 +150,7 @@ class BreakerRichText {
 											var reader = new FileReader();
 											reader.readAsDataURL(resizedImage);
 											reader.onload = function () {
-												document.execCommand('insertHTML', false, \`<img src='\` + reader.result + \`' class='BreakerRichText-Image' style='width: 300px' > \`);
+												document.execCommand('insertHTML', false, \`<img src='\` + reader.result + \`' class='BreakerRichText-Image' style='width: 100%; max-width: 300px; border-radius: 3px; margin: 2px;' > \`);
 											};
 										}).catch(function (err) {
 											console.error(err);
@@ -670,7 +669,7 @@ function isCharacterKeyPress(evt) {
 	return false;
 }
 
-/*
+/* Tester
 ShiftingDialog.set({
 	id: "TAG",
 	title: "Add Task",
@@ -678,15 +677,5 @@ ShiftingDialog.set({
 	dontCloseOnExternalClick: true,
 	forceFullscreen: true
 }); ShiftingDialog.open();
-var uyt = new BreakerRichText(document.querySelector('#TAGS78'), 'hi i dunno',
-	{
-		textColor: false,
-		fillColor: false,
-		textSize: false,
-		link: true,
-		image: true,
-		align: true,
-		lists: true
-	}
-);
+var uyt = new BreakerRichText(document.querySelector('#TAGS78'), 'hi i dunno');
 */

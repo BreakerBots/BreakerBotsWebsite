@@ -30,6 +30,15 @@ var mainSnips = new class materialSnip {
 		`;
 	}
 
+	richText(id, label, style) {
+		return `
+			<div class="form-group" style="width: 90%; min-height: 65px;">
+				<label>` + MSN(label) + `</label>
+				<div style="` + MSN(style) + `" ` + MSN_ID(id) + `></div>
+			</div>
+		`;
+	}
+
 	textFieldAutoComplete(id, label, placeholder, options, style, showAll) {
 		return `
 			<div class="form-group autocomplete" style="width: 90%; min-height: 65px; max-height: ` + MSNC(stringEV(label), "73", "65") + `px;` + MSN(style) + `" data-autocomplete-auto-init ` + MSNC(showAll, "data-autocomplete-showall", "") + ` >

@@ -43,7 +43,7 @@
 	border-left: 1px solid rgb(230, 230, 230);
 	border-right: 1px solid rgb(230, 230, 230);
 	min-height: calc(100% - 45px);
-	padding: 1.5% 2.5% 0 2.5%;
+	padding: 1.5% 2.5% 1.5% 2.5%;
 }
 
 .BreakerRichText-Tool {
@@ -106,12 +106,7 @@
 	font-weight: 600;
 }
 
-.BreakerRichText-Image {
-	resize: both;
-	width: 300px;
-}
-
-.BreakerRichText-Image {
+.BreakerRichText-Editor .BreakerRichText-Image {
 	resize: both;
 	border: 1px dashed black;
 }

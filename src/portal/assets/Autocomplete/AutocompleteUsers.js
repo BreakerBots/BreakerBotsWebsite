@@ -234,3 +234,18 @@ function AutocompleteUidsToUsers(uids) {
 	}
 	return uids;
 }
+
+function AutocompleteUidsToUsersProfileLinks(uids) {
+	for (var i = 0; i < uids.length; i++) {
+		switch (uids[i].charAt(0)) {
+			case '#':
+				var tm = (teams.getName(uids[i].substring(1)));
+				if (tm) uids[i] = '#' + tm;
+				break;
+			default:
+				uids[i] = '<a style="cursor: pointer;" onclick="' + ProfileTabAPI.getLink(uids[i]) + '">' + (users.getUsername(uids[i]) || uids[i]) + '</a>';
+				break;
+		}
+	}
+	return uids;
+}
