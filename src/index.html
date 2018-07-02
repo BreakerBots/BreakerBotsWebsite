@@ -61,6 +61,58 @@
 			/* Non-prefixed version, currently
                                   supported by Chrome and Opera */
 		}
+
+		.slideshow-container {
+			max-width: 1000px;
+			max-height: 1000px;
+			position: relative;
+			margin: auto;
+		}
+
+		.mySlides {
+			display: none;
+		}
+
+		.prev,
+		.next {
+			cursor: pointer;
+			position: absolute;
+			top: 50%;
+			width: auto;
+			margin-top: -22px;
+			padding: 16px;
+			color: white;
+			font-weight: bold;
+			font-size: 18px;
+			transition: 0.6s ease;
+			border-radius: 0 3px 3px 0;
+		}
+
+		.next {
+			right: 0;
+			border-radius: 3px 0 0 3px;
+		}
+
+		.prev:hover,
+		.next:hover {
+			background-color: rgba(0, 0, 0, 0.8);
+		}
+
+		.dot {
+			cursor: pointer;
+			height: 15px;
+			width: 15px;
+			margin: 0 2px;
+			background-color: #bbb;
+			border-radius: 50%;
+			display: inline-block;
+			transition: background-color 0.6s ease;
+		}
+
+		.active,
+		.dot:hover {
+			background-color: #717171;
+		}
 	</style>
 </head>
 
@@ -96,10 +148,10 @@
 					<li class="nav-item">
 						<a class="nav-link js-scroll-trigger" href="#contact">Support</a>
 					</li>
+					<!--
 					<li class="nav-item">
 						<a class="nav-link js-scroll-trigger" href='Blog.html'>Blog</a>
 					</li>
-                    <!--
 					<li class="nav-item">
 						<a class="nav-link js-scroll-trigger" href="CentralCoastRegional.html">Central Coast Regional</a>
 					</li>
@@ -136,8 +188,74 @@
 		<div class="container-fluid">
 			<div class="wow fadeIn text-center">
 				<h1>Program Description</h1>
+					
+				<img src="assets/img/teampics/regional.jpg" style="width: 45%; margin: 0% 5% 3% 5%;">
+					<!--
+				<div class="slideshow-container">
+					<div class="mySlides">
+						<img src="assets/img/teampics/regional.jpg" style="width: 45%; margin: 0% 5% 3% 5%;">
+					</div>
+					<div class="mySlides">
+						<img src="assets/img/teampics/climbing.jpg" style="width: 45%; margin: 0% 5% 3% 5%;">
+					</div>
+					<div class="mySlides">
+						<img src="assets/img/teampics/archer.jpg" style="width: 45%; margin: 0% 5% 3% 5%;">
+					</div>
+					<div class="mySlides">
+						<img src="assets/img/teampics/eric.jpg" style="width: 45%; margin: 0% 5% 3% 5%;">
+					</div>
+					<div class="mySlides">
+						<img src="assets/img/teampics/michaelahouston.jpg" style="width: 45%; margin: 0% 5% 3% 5%;">
+					</div>
+					<div class="mySlides">
+						<img src="assets/img/teampics/field.jpg" style="width: 45%; margin: 0% 5% 3% 5%;">
+					</div>
+					<div class="mySlides">
+						<img src="assets/img/teampics/houstonalliance.jpg" style="width: 45%; margin: 0% 5% 3% 5%;">
+					</div>
+					<div class="mySlides">
+						<img src="assets/img/teampics/henryliam.jpg" style="width: 45%; margin: 0% 5% 3% 5%;">
+					</div>
+					<div class="mySlides">
+						<img src="assets/img/teampics/houstonspectators.jpg" style="width: 45%; margin: 0% 5% 3% 5%;">
+					</div>
+					<div class="mySlides">
+						<img src="assets/img/teampics/zeus.jpg" style="width: 45%; margin: 0% 5% 3% 5%;">
+					</div>
+					<div class="mySlides">
+						<img src="assets/img/teampics/seth.jpg" style="width: 45%; margin: 0% 5% 3% 5%;">
+					</div>
+					<div class="mySlides">
+						<img src="assets/img/teampics/maderaspectators.jpg" style="width: 45%; margin: 0% 5% 3% 5%;">
+					</div>
+					<div class="mySlides">
+						<img src="assets/img/teampics/houstondriveteam.jpg" style="width: 45%; margin: 0% 5% 3% 5%;">
+					</div>
+					<div class="mySlides">
+						<img src="assets/img/teampics/michaelamadera.jpg" style="width: 45%; margin: 0% 5% 3% 5%;">
+					</div>
+					<div class="mySlides">
+						<img src="assets/img/teampics/henry.jpg" style="width: 45%; margin: 0% 5% 3% 5%;">
+					</div>
+					<div class="mySlides">
+						<img src="assets/img/teampics/maderadriveteam.jpg" style="width: 45%; margin: 0% 5% 3% 5%;">
+					</div>
+					<div class="mySlides">
+						<img src="assets/img/teampics/henryandgavin.jpg" style="width: 45%; margin: 0% 5% 3% 5%;">
+					</div>
+					-->
+					<!--
+					<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+					<a class="next" onclick="plusSlides(1)">&#10095;</a>
+					<div style="text-align:center">
+						<span class="dot" onclick="currentSlide(1)"></span>
+						<span class="dot" onclick="currentSlide(2)"></span>
+						<span class="dot" onclick="currentSlide(3)"></span>
+					</div>
+				-->
+				</div>
 			</div>
-			<p style="margin: 0px 50px 0px 50px;">
+			<p style="margin: 0px 5%">
 				The BreakerBots is a FIRST Robotics Competition (FRC) team from Pacific Grove, California. Coach Roby Hyde started the BreakerBots
 				in 2014 with the goal of providing a welcoming space for students who shared an interest in STEM. Our team now has about
 				25 active students, with approximately 40% of them women. Students participate in more than just science; business, project
@@ -157,13 +275,15 @@
 			<div class="row">
 				<div class="col-md-10 mx-auto">
 					<span class="quote">
-                        <b><u>The BreakerBots Mission</u></b>
+						<b>
+							<u>The BreakerBots Mission</u>
+						</b>
 					</span>
-                    <br>
-                    <span class="quote" style="font-size: 35px">
+					<br>
+					<span class="quote" style="font-size: 35px">
 						<i>To inspire students in STEM-related fields, foster teamwork, and provide a welcoming space for all who share our desire
-                            to pursue excellence.</i>
-                    </span>
+							to pursue excellence.</i>
+					</span>
 				</div>
 			</div>
 		</div>
@@ -177,7 +297,9 @@
 						<font size="5">
 							<i>
 								<img src="assets/img/frc_logo.png" width="350" align="left" style="margin: 0px 50px 0px 0px" />For Inspiration and Recognition of Science and Technology (FIRST) is a non-profit organization founded by Dean Kamen
-								in 1989 with the goal of inspiring young people to pursue an education in STEM-related fields. Through competition, cooperation, and gracious professionalism, FIRST reaches students throughout the United States and the world. You can find more information
+								in 1989 with the goal of inspiring young people to pursue an education in STEM-related fields. Through competition,
+								cooperation, and gracious professionalism, FIRST reaches students throughout the United States and the world. You
+								can find more information
 								<a href="https://www.firstinspires.org/">here.</a>
 							</i>
 						</font>
@@ -298,6 +420,7 @@
 									<br>
 									<br>
 									<a href="http://www.cedarstreettimes.com/wp-content/uploads/2018/04/41318-web.pdf#page=10">BreakerBots: The Journey to Houston via Fresno</a>
+									<img src="assets/img/teampics/maderateam.jpg" style="margin: 2%; width: 75%">
 								</p>
 							</div>
 						</div>
@@ -314,7 +437,13 @@
 				<h2>Upcoming Events</h2>
 				<hr class="colored">
 				<p>
-					<b>Upcoming Events: </b>
+					<b>Summer Meetings: </b>
+					<br> BreakerBots CNC Academy -
+					<i>Mondays @5:30pm</i>
+					<br> Robotics General Meeting -
+					<i>Wednesdays @4:30pm</i>
+					<br> Robotics General Meeting -
+					<i>Saturdays @12:00pm</i>
 				</p>
 				<p class="mb-0">
 					<a href="https://calendar.google.com/calendar/embed?src=suiphcuq71fqpntbc2rojdun2g@group.calendar.google.com&ctz=America/Los_Angeles&pli=1">Click to See Calendar</a>
@@ -425,7 +554,7 @@
 							</a>
 						</li>
 						<li class="list-inline-item">
-							<a href="https://github.com/frc5104" target="_blank">
+							<a href="https://github.com/breakerbots" target="_blank">
 								<img src="assets/img/media/github.png" class="sc" style="width: 45px;" />
 							</a>
 						</li>
@@ -475,6 +604,21 @@
 			ripple.style.top = event.srcElement.offsetTop + event.srcElement.offsetHeight + "px";
 			document.querySelector("#CloseRippleWrap").classList.add('goripple');
 			setTimeout(function () { window.open('portal/enter.html', '_self', false); }, 700);
+		}
+
+		var slideIndex = 0;
+		showSlides();
+
+		function showSlides() {
+			var i;
+			var slides = document.getElementsByClassName("mySlides");
+			for (i = 0; i < slides.length; i++) {
+				slides[i].style.display = "none";
+			}
+			slideIndex++;
+			if (slideIndex > slides.length) { slideIndex = 1 }
+			slides[slideIndex - 1].style.display = "block";
+			setTimeout(showSlides, 5000); // Change image every 2 seconds
 		}
 	</script>
 </body>
