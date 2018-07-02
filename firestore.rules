@@ -10,7 +10,10 @@ service cloud.firestore {
 	}
 
 	function UserClearance() {
-		return Number(get(/databases/$(database)/documents/Clearance/$(request.auth.uid)).a || get(/databases/$(database)/documents/Clearance/$(request.auth.uid)).data.a) || 0;
+		return Number(
+			get(/Clearance/$(request.auth.uid)).a || 
+			get(/Clearance/$(request.auth.uid)).data.a) 
+		|| 0;
 	}
 
 	match /Notifications/{notification} {
@@ -33,8 +36,7 @@ service cloud.firestore {
 
 	match /Todo/{ftg} {
 		allow read: if UserVerified();
-		allow update: if UserVerified();
-		allow delete: if UserVerified();
+		allow write: if UserVerified();
 	}
 
 	match /users/{user} {
@@ -45,8 +47,8 @@ service cloud.firestore {
 
 	match /Clearance/{user} {
 		allow read: if UserSignedIn();
-		allow create: if Number(get(/databases/$(database)/documents/Clearance/$(request.auth.uid)).a || get(/databases/$(database)/documents/Clearance/$(request.auth.uid)).data.a) > 1;
-		allow update: if Number(get(/databases/$(database)/documents/Clearance/$(request.auth.uid)).a || get(/databases/$(database)/documents/Clearance/$(request.auth.uid)).data.a) > 1;
+		allow create: if UserVerified();
+		allow update: if UserVerified();
 		allow delete: if false;
 	}
 

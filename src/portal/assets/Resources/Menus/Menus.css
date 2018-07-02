@@ -1,0 +1,39 @@
+﻿/* Menus.css */
+
+/*For All Menus*/
+.dropdown-menu-c {
+	display: block !important;
+	transform: scale(0);
+	transition: transform 0.3s;
+	transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.showMenu {
+	transform: scale(1);
+}
+
+.transition--instant {
+	transition: none !important;
+}
+
+
+.breaker-menu {
+	display: block;
+	background: white;
+	position: fixed;
+	transform: scale(0);
+	transition: transform 0.4s cubic-bezier(.2, 0, .2, 1), top 0s ease;
+	pointer-events: visible;
+	z-index: 10000;
+}
+
+.breaker-menu--open {
+	transform: scale(1);
+}
+
+.breaker-menuSecondary--open {
+	transform: scale(1);
+	pointer-events: visible;
+	z-index: 10000;
+	transition: none;
+}

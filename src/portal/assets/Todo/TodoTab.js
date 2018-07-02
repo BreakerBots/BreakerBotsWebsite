@@ -313,7 +313,7 @@ function TodoGetTaskHtml(tgt, tgtN, transi) {
 				<div class="demo-card__primary" style="width: 70%">
 					<h2 class="demo-card__title mdc-typography--headline6">` + (tgt.title) + `</h2>
 				</div>
-				<div class="demo-card__secondary mdc-typography--body2" style="width: 85%; font-size: .95rem; font-weight: 500; transform: translate(7px, -10px);">` + AutocompleteUidsToUsers(tgt.status == 1 || tgt.status == 2 ? tgt.people : tgt.targets).join(', ') + `</div>
+				<div class="demo-card__secondary mdc-typography--body2" style="width: 85%; font-size: .95rem; font-weight: 500; transform: translate(7px, -10px);">` + AutocompleteUidsToUsersProfileLinks(tgt.status == 1 || tgt.status == 2 ? tgt.people : tgt.targets).join(', ') + `</div>
 				<div class="demo-card__secondary mdc-typography--body2" style="width: 85%">` + tgt.desc + `</div>
 				<div class="demo-card__secondary mdc-typography--body2" style="width: 85%; background: rgba(252, 173, 37, 0.3);">` + MSN(tgt.reason) + `</div>
 				<i class="noselect material-icons mdc-icon-toggle" onclick="TodoCSTask('` + tgtN + `')" aria-label-delay="0.15s" aria-label="Change Status" data-mdc-auto-init="MDCIconToggle" style="position: absolute; right: 8px; top: 8px;"> <img style="transform: translate(-5px, -5.5px)" src="` + TodoGetTaskStatus(Number(tgt.status)) + `"/> </i>
@@ -364,6 +364,7 @@ function TodoGetTaskHtml(tgt, tgtN, transi) {
 
 //  ----------------------------------------  Add  -------------------------------------------------\\
 var TodoAddFab = new FabHandler(document.querySelector('#Todo-Add-Fab'));
+var TodoAddRichText;
 TodoAddFab.element.addEventListener('click', function () {
 	// Folder and Task-Groups (FTG)
 	if (!todoViewingTaskGroup) {
@@ -389,9 +390,18 @@ TodoAddFab.element.addEventListener('click', function () {
 			cancelButton: "Cancel",
 			contents:
 				mainSnips.textField("TodoAdd_Title", "Title", "The Title of the Task", null, null, true) +
-				mainSnips.textArea("TodoAdd_Desc", "Description", "A Desc Of the Task") +
+				mainSnips.richText("TodoAdd_Desc", "Description") +
 				mainSnips.textFieldUsersAutoComplete("TodoAdd_Target", "People", "People able or have to complete this task") +
 				mainSnips.checkbox("TodoAdd_Notify", "Notify Users?")
+		});
+		TodoAddRichText = new BreakerRichText(document.querySelector('#TodoAdd_Desc'), "", {
+			textColor: false,
+			fillColor: false,
+			textSize: false,
+			link: true,
+			image: true,
+			align: false,
+			lists: true
 		});
 		ShiftingDialog.open();
 	}
@@ -429,6 +439,13 @@ ShiftingDialog.addSubmitListener("TodoAddFTG", function (content) {
 
 				firebase.app().firestore().collection("Todo").doc("TableOfContents").set(tocJson)
 					.then(function () {
+						TodoAddToHistory(
+							"add",
+							null,
+							json,
+							"ftg",
+							doc.id
+						);
 						ShiftingDialog.close();
 					});
 			});
@@ -438,7 +455,7 @@ ShiftingDialog.addSubmitListener("TodoAddFTG", function (content) {
 ShiftingDialog.addSubmitListener("TodoAddTask", function (content) {
 	try {
 		var title = content.querySelector("#TodoAdd_Title").value || "";
-		var desc = content.querySelector("#TodoAdd_Desc").value.replace(/\n/g, '<br>') || "";
+		var desc = TodoAddRichText.content || "";
 		var targets = content.querySelector("#TodoAdd_Target").value.split(" ") || [];
 		var notifyUsers = document.querySelector("#TodoAdd_Notify").checked;
 
@@ -473,9 +490,28 @@ ShiftingDialog.addSubmitListener("TodoAddTask", function (content) {
 
 		ctg.tasks[AIDs] = { title: title, desc: desc, targets: targets, status: 0 };
 
-		firebase.app().firestore().collection("Todo").doc(ctgN).set(ctg).then(function () {
-			ShiftingDialog.close();
-		});
+		firebase.app().firestore().collection("Todo").doc(ctgN).set(ctg)
+			.then(function () {
+				var newData = ctg.tasks[AIDs];
+				delete newData.desc;
+				TodoAddToHistory(
+					"add",
+					null,
+					newData || null,
+					"task",
+					ctgN + "\\" + AIDs
+				);
+				ShiftingDialog.close();
+			})
+			.catch(function (a) {
+				if (a.toString().indexOf('bytes') != -1) {
+					alert('It Seems There Are Two Many Images In This Task-Group, \n Dont Worry, This is a bug in datebase that will be fixed soon.');
+				}
+				else {
+					alert("An Unknown Error Has Occured, \n This May Be Because of A Bad Internet Connection, or a Server Error.");
+				}
+				ShiftingDialog.enableSubmitButton();
+			});
 	} catch (err) { }
 });
 //  ----------------------------------------    -------------------------------------------------\\
@@ -511,7 +547,8 @@ ShiftingDialog.addSubmitListener("TodoDeleteFTG", function (content) {
 		//Get All Docs To Delete
 		var childDocs = stringUnNull(getHashParam('todoView'));
 		if (childDocs != "") childDocs += '\\\\';
-		childDocs = refByString(tocJson, childDocs + TodoFTG_Deleting);
+		var tdd = refByString(tocJson, childDocs + TodoFTG_Deleting);
+		childDocs = tdd;
 		childDocs = GetAllNestedKeys(childDocs); childDocs.push(TodoFTG_Deleting);
 
 		//Start The Batch
@@ -527,10 +564,18 @@ ShiftingDialog.addSubmitListener("TodoDeleteFTG", function (content) {
 
 		batch.commit()
 			.then(function () {
+				TodoAddToHistory(
+					"delete",
+					{ [TodoFTG_Deleting]: (tdd || null) },
+					null,
+					"ftg",
+					TodoFTG_Deleting
+				);
 				ShiftingDialog.close();
 			}).catch(function (err) {
 				ShiftingDialog.close();
-				alert('An Error Has Occured, Please Report If You Can <br>', err);
+				alert('An Error Has Occured');
+				console.error(err);
 			});
 	} catch (err) { console.log(203, err); }
 });
@@ -556,9 +601,18 @@ ShiftingDialog.addSubmitListener("TodoDeleteTask", function (content) {
 	try {
 		var ctgN = TodoTask_Deleting[1] ? TodoTask_Deleting[1] : (todoView.indexOf('\\') != -1 ? todoView.substring(todoView.lastIndexOf('\\') + 1) : todoView);
 		var ctg = findObjectByKey(todoSnapshot.docs, "id", ctgN).data();
+		var taskData = ctg.tasks[TodoTask_Deleting[0]];
 		delete ctg.tasks[TodoTask_Deleting[0]];
 		firebase.app().firestore().collection("Todo").doc(ctgN).set(ctg)
 			.then(function () {
+				delete taskData.desc;
+				TodoAddToHistory(
+					"delete",
+					taskData,
+					null,
+					"task",
+					ctgN + "\\" + TodoTask_Deleting[0]
+				);
 				ShiftingDialog.close();
 			});
 	} catch (err) { }
@@ -657,8 +711,16 @@ ShiftingDialog.addSubmitListener("TodoEditFTG", function (content) {
 				filter = TodoValidateFixFilter(filter)[0];
 				json.filter = filter;
 			}
+			var lastData = findObjectByKey(todoSnapshot.docs, "id", TodoFTG_Editing).data();
 			firebase.app().firestore().collection("Todo").doc(TodoFTG_Editing).set(json)
 				.then(function (doc) {
+					TodoAddToHistory(
+						"edit",
+						lastData || null,
+						json,
+						"ftg",
+						TodoFTG_Editing
+					);
 					ShiftingDialog.close();
 				});
 		}
@@ -669,6 +731,7 @@ ShiftingDialog.addSubmitListener("TodoEditFTG", function (content) {
 });
 //Tasks
 var TodoTasks_Editing = ["", null];
+var TodoEditRichText;
 function TodoEditTask(item, parent) {
 	TodoTasks_Editing = [item, parent];
 	var itemData = findObjectByKey(todoSnapshot.docs, "id", (parent ? parent : (todoView.indexOf('\\') != -1 ? todoView.substring(todoView.lastIndexOf('\\') + 1) : todoView))).data().tasks[item];
@@ -679,16 +742,25 @@ function TodoEditTask(item, parent) {
 		cancelButton: "Cancel",
 		contents:
 			mainSnips.textField("TodoAdd_Title", "Title", "The Title of the Task", null, null, true, itemData.title) +
-			mainSnips.textArea("TodoAdd_Desc", "Description", "A Desc Of the Task", null, itemData.desc.replace(/<br>/g, '\n')) +
+			mainSnips.richText("TodoAdd_Desc", "Description") +
 			mainSnips.textFieldUsersAutoComplete("TodoAdd_Target", "People", "People able or have to complete this task", null, AutocompleteUidsToUsers(itemData.targets).join(" ")) +
 			mainSnips.checkbox("TodoAdd_Notify", "Notify New Users?")
+	});
+	TodoEditRichText = new BreakerRichText(document.querySelector('#TodoAdd_Desc'), itemData.desc, {
+		textColor: false,
+		fillColor: false,
+		textSize: false,
+		link: true,
+		image: true,
+		align: false,
+		lists: true
 	});
 	ShiftingDialog.open();
 }
 ShiftingDialog.addSubmitListener("TodoEditTask", function (content) {
 	try { 
 		var title = content.querySelector("#TodoAdd_Title").value || "";
-		var desc = content.querySelector("#TodoAdd_Desc").value.replace(/\n/g, '<br>') || "";
+		var desc = TodoEditRichText.content || "";
 		var targets = content.querySelector("#TodoAdd_Target").value.split(" ") || [];
 		var notifyUsers = document.querySelector("#TodoAdd_Notify").checked;
 
@@ -716,11 +788,34 @@ ShiftingDialog.addSubmitListener("TodoEditTask", function (content) {
 			}
 		}
 
+		var lastData = ctg.tasks[TodoTasks_Editing[0]];
+
 		ctg.tasks[TodoTasks_Editing[0]] = { title: title, desc: desc, targets: targets, status: ctg.tasks[TodoTasks_Editing[0]].status || 0 };
 
-		firebase.app().firestore().collection("Todo").doc(ctgN).set(ctg).then(function () {
-			ShiftingDialog.close();
-		});
+		var newData = ctg.tasks[TodoTasks_Editing[0]];
+
+		firebase.app().firestore().collection("Todo").doc(ctgN).set(ctg)
+			.then(function () {
+				delete lastData.desc;
+				delete newData.desc;
+				TodoAddToHistory(
+					"edit",
+					lastData || null,
+					newData || null,
+					"task",
+					ctgN + "\\" + TodoTasks_Editing[0]
+				);
+				ShiftingDialog.close();
+			})
+			.catch (function (a) {
+				if (a.toString().indexOf('bytes') != -1) {
+					alert('It Seems There Are Two Many Images In This Task-Group, \n Dont Worry, This is a bug in datebase that will be fixed soon.');
+				}
+				else {
+					alert("An Unknown Error Has Occured, \n This May Be Because of A Bad Internet Connection, or a Server Error.");
+				}
+				ShiftingDialog.enableSubmitButton();
+			});
 	} catch (err) { }
 });
 //  ----------------------------------------    -------------------------------------------------\\
@@ -1019,22 +1114,40 @@ function TodoInitSearch() {
 
 
 //  ----------------------------------------  History  -------------------------------------------------\\
-function AddToHistory(operation, from, to, targetType, targetId) {
-	firebase.app().firestore().collection("Todo").doc("History").get().then(function (doc) {
-		var data = doc.data();
-		data.a.push({
-			changer: users.getCurrentUid(),
-			operation: operation,
-			from: from,
-			to: to,
-			target: {
-				type: targetType,
-				id: targetId
-			}
-		});
-		firebase.app().firestore().collection("Todo").doc("History").set(data).then(function () {
+/**
+ * Keep Everything in lowercase
+ * @param {any} operation "add", "delete", "edit"
+ * @param {any} from Before Change or null
+ * @param {any} to After Change
+ * @param {any} targetType "task", "ftg"
+ * @param {any} targetId UID of task or ftg
+ */
+function TodoAddToHistory(operation, from, to, targetType, targetId) {
+	try {
+		firebase.app().firestore().collection("Todo").doc("History").get()
+			.then(function (doc) {
+				var data = doc.data();
+				data.a.push({
+					changer: users.getCurrentUid(),
+					operation: operation,
+					from: from,
+					to: to,
+					target: {
+						type: targetType,
+						id: targetId
+					}
+				});
+				firebase.app().firestore().collection("Todo").doc("History").set(data)
+					.then(function () {
 
-		});
-	});
+					})
+					.catch(function () {
+
+					});
+			})
+			.catch(function () {
+
+			});
+	} catch (err) { }
 }
 //  ----------------------------------------    -------------------------------------------------\\

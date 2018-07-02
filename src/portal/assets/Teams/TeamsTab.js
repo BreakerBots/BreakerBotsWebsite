@@ -46,6 +46,7 @@ function teamsDraw(teamsDrawTransition) {
 			for (var i = 0; i < teamsSnapshot.docs.length; i++) {
 				var id = teamsSnapshot.docs[i].id;
 				var data = teamsSnapshot.docs[i].data();
+				var mId = 'teamsCardOptionsMenu--' + guid();
 				html += `
 				<div class="breaker-layout__panel">
 					<div class="mdc-card ` + (teamsDrawTransition ? 'todo-card' : '') + `">
@@ -57,12 +58,12 @@ function teamsDraw(teamsDrawTransition) {
 						</div>
 						<div class="mdc-card__action-icons" style="position: relative;">
 							<i data-mdc-auto-init="MDCIconToggle" onclick="teamsExpandCollapseMembers('` + id + `')" class="teamsExpandCollapseButton material-icons mdc-icon-toggle" role="button" style="color: rgb(80, 80, 80); position: absolute; left: 0; font-size: 200%;" aria-label="Show Members">expand_more</i>
-							<i data-mdc-auto-init="MDCIconToggle" onclick="toggleMenu(null, true)" class="mdc-icon-toggle material-icons" style="color: rgb(80, 80, 80);" role="button" aria-pressed="false">more_vert</i>
+							<i data-mdc-auto-init="MDCIconToggle" onclick="toggleMenu('#` + mId + `', true)" class="mdc-icon-toggle material-icons" style="color: rgb(80, 80, 80);" role="button" aria-pressed="false">more_vert</i>
 						</div>
 						<div class="teamsMemberList" id="teamsMemberList--` + id + `" style="overflow: hidden; opacity: 0; max-height: 0px; transition: opacity .8s, max-height 1s; transition-timing-function: cubic-bezier(.4, 0, .4, 1);">
 							` + MSN(teamsGetMembersHtml(id)) + `
 						</div>
-						<ul class="dropdown-menu-c dropdown-menu be-connections" style="padding: 0;" data-menu-offset="0 -27">
+						<ul id="` + mId + `" class="dropdown-menu-c dropdown-menu be-connections" style="padding: 0;" data-menu-offset="0 -27">
 							<li class="mdc-elevation--z10">
 								<ul class="mdc-list">
 									<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" aria-label-delay="0.2s" aria-label="` + (teams.memberInTeam(users.getCurrentUid(), id) ? 'Leave Team' : 'Join Team') + `" onclick="teamsJL('` + id + `', ` + teams.memberInTeam(users.getCurrentUid(), id) + `)">
