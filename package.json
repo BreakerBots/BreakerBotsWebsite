@@ -2,5 +2,9 @@
 	"name": "Breakersite",
 	"version": "1.0.0",
 	"description": "The main website for FRC team 5104, the Breakerbots",
-	"author": "Breakerbots"
+	"author": "Breakerbots",
+	"dependencies": {
+		"firebase": "^5.2.0",
+		"firebase-functions": "^1.1.0"
+	}
 }
