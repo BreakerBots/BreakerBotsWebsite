@@ -243,7 +243,9 @@ function AutocompleteUidsToUsersProfileLinks(uids) {
 				if (tm) uids[i] = '#' + tm;
 				break;
 			default:
-				uids[i] = '<a style="cursor: pointer;" onclick="' + ProfileTabAPI.getLink(uids[i]) + '">' + (users.getUsername(uids[i]) || uids[i]) + '</a>';
+				if (users.getUsername(uids[i]) && ProfileTabAPI.getLink(uids[i])) {
+					uids[i] = '<a style="cursor: pointer;" onclick="' + ProfileTabAPI.getLink(uids[i]) + '">' + users.getUsername(uids[i]) + '</a>';
+				}
 				break;
 		}
 	}

@@ -11,6 +11,8 @@ function ManualsFirstInit() {
 		.onSnapshot(function (snapshot) {
 			ManualsSnapshot = snapshot;
 
+			ManualsGetSearchData();
+
 			ManualsView = stringUnNull(getHashParam('manualsView'));
 			if ((getCurrentTab() == "Manuals") && (ManualsSnapshot)) {
 				ManualsTabDrawn = ManualsView;
@@ -25,6 +27,8 @@ function ManualsFirstInit() {
 			ManualsDrawTab(true);
 		}
 	});
+
+	ManualsInitSearch();
 } 
 
 function ManualsEveryInit() {
@@ -64,8 +68,29 @@ function ManualsDrawTab(transition) {
 		document.querySelector('#ManualsWrapper').style.margin = "20px 15px 0px 15px";
 		document.querySelector('#ManualsWrapper').style.width = "calc(100% - 30px)";
 
+		//Viewing Search
+		if (ManualsInSearch) {
+			document.querySelector('#ManualStepperContent').style.maxHeight = "45px";
+			headerUseSearch(true);
+			headerUseBackArrow(false);
+			ManualsFab.tabSwitch();
+
+			for (var i = 0; i < (ManualsSearchResults).length; i++) {
+				try {
+					var data = ManualsSearchResults[i];
+					var id = data.id;
+
+					if (!data.trashed) {
+						html += ManualsGetCardHTML(id, data, transition);
+					}
+				} catch (err) { console.error(err); }
+			}
+
+			html = `<div class="breaker-layout" style="width: 100%;">` + html + `</div>`;
+		}
+
 		// Viewing Manual
-		if (cv.info) {
+		else if (cv.info) {
 			document.querySelector('#ManualStepperContent').style.maxHeight = "0px";
 			document.querySelector('#ManualsWrapper').style.margin = "0px 0px 0px 0px";
 			document.querySelector('#ManualsWrapper').style.width = "100%";
@@ -76,6 +101,8 @@ function ManualsDrawTab(transition) {
 			PeteSwitcher.set(false);
 			html = `<div style="display: flex; align-items: center; justify-content: center; align-content: center;"><div class="Manuals-ViewManualPaper mdc-elevation--z5"><div style="padding: 15px; position: absolute; left: 0; top: 0; right: 0; bottom: 0">` + cv.info + `</div></div></div>`;
 		}
+
+		//Viewing Trash
 		else if (ManualsView == "Trash") {
 			try {
 				for (var i = 0; i < ManualsSnapshot.docs.length; i++) {
@@ -90,6 +117,7 @@ function ManualsDrawTab(transition) {
 				html = `<div class="breaker-layout" style="width: 100%;">` + html + `</div>`;
 			} catch (err) { console.error(err); }
 		}
+
 		// Viewing Folder or Home
 		else {
 			document.querySelector('#ManualStepperContent').style.maxHeight = "45px";
@@ -314,3 +342,57 @@ function ManualsTrashItem(id, restore) {
 	} catch (err) { console.error(err); }
 }
 //  ----------------------------------------    ----------------------------------------  \\
+
+
+
+
+//  ----------------------------------------  Searching  -------------------------------------------------\\
+//Get Search Data
+var ManualsSearchEngine;
+function ManualsGetSearchData() {
+	try {
+		var allData = [];
+		var data;
+		var td;
+		for (var i = 0; i < ManualsSnapshot.docs.length; i++) {
+			if (ManualsSnapshot.docs[i].id != "TableOfContents") {
+				data = ManualsSnapshot.docs[i].data();
+				data.id = ManualsSnapshot.docs[i].id;
+				allData.push(data);
+			}
+		}
+		ManualsSearchEngine = new Fuse(allData, {
+			shouldSort: true,
+			threshold: 0.6,
+			location: 0,
+			distance: 100,
+			maxPatternLength: 32,
+			minMatchCharLength: 1,
+			keys: [
+				"title",
+				"desc"
+			]
+		});
+	} catch (err) { }
+}
+//Access Search
+var ManualsInSearch = false;
+var ManualsSearchResults = {};
+function ManualsInitSearch() {
+	try {
+		setTimeout(function () {
+			addHeaderSearchInputListener('Manuals', function (inp) {
+				if (stringUnNull(inp) == "") {
+					ManualsInSearch = false;
+					ManualsSearchResults = {};
+				}
+				else {
+					ManualsInSearch = true;
+					ManualsSearchResults = ManualsSearchEngine.search(inp);
+				}
+				ManualsDrawTab(true);
+			});
+		}, 10);
+	} catch (err) { }
+}
+//  ----------------------------------------    -------------------------------------------------\\
