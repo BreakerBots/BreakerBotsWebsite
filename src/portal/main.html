@@ -638,8 +638,21 @@
 							</div>
 						</div>
 					</div>
-					<div id="Manuals" class="tab">
+					<div id="Manuals" class="tab" style="margin: 0">
+						<div style="background: #c00000; width: 100%; left: 0; top: 0; color: rgb(230, 230, 230);">
+							<div style="display: flex; flex-wrap: nowrap; overflow-x: auto; flex-shrink: 0;" id="manualStepperWrapper">
 
+							</div>
+							<div style="width: 100%; height: 5px;"></div>
+						</div>
+						<div id="ManualWrapper" style="margin: 0px 15px 0px 15px; width: calc(100% - 30px); transform: translateY(-20px);">
+
+						</div>
+						<button id="Manual-Add-Fab" class="mdc-fab demo-fixed-fab mdc-ripple-upgraded mdc-fab--exited">
+							<span class="mdc-fab__icon">
+								<i class="material-icons">add</i>
+							</span>
+						</button>
 					</div>
 				</div>
 			</div>
@@ -783,22 +796,22 @@
 		<script src="assets/Notifications/NotificationAPI.js"></script>
 
 		<!--Parts Tabs
-		<script src="assets/Parts/FolderHistory.js"></script>
-		<script src="assets/Parts/CreatePart.js"></script>
-		<script src="assets/Parts/EditPart.js"></script>
-		<script src="assets/Parts/DeletePart.js"></script>
-		<script src="assets/Parts/CreateFolder.js"></script>
-		<script src="assets/Parts/EditFolder.js"></script>
-		<script src="assets/Parts/DeleteFolder.js"></script>
-		<script src="assets/Parts/ArchiveFolder.js"></script>
-		<script src="assets/Parts/UI.js"></script>
-		<script src="assets/Parts/Archive/ArchiveTab.js"></script>
-		<script src="assets/Parts/Archive/UnarchiveFolder.js"></script>
-		<script src="assets/Parts/Archive/ArchiveHistory.js"></script>
-		<script src="assets/Parts/Archive/ArchiveDelete.js"></script>
-		<script src="assets/Parts/Ordered/OrderedParts.js"></script>
-		<script src="assets/Parts/StatusPart.js"></script>
-		-->
+	<script src="assets/Parts/FolderHistory.js"></script>
+	<script src="assets/Parts/CreatePart.js"></script>
+	<script src="assets/Parts/EditPart.js"></script>
+	<script src="assets/Parts/DeletePart.js"></script>
+	<script src="assets/Parts/CreateFolder.js"></script>
+	<script src="assets/Parts/EditFolder.js"></script>
+	<script src="assets/Parts/DeleteFolder.js"></script>
+	<script src="assets/Parts/ArchiveFolder.js"></script>
+	<script src="assets/Parts/UI.js"></script>
+	<script src="assets/Parts/Archive/ArchiveTab.js"></script>
+	<script src="assets/Parts/Archive/UnarchiveFolder.js"></script>
+	<script src="assets/Parts/Archive/ArchiveHistory.js"></script>
+	<script src="assets/Parts/Archive/ArchiveDelete.js"></script>
+	<script src="assets/Parts/Ordered/OrderedParts.js"></script>
+	<script src="assets/Parts/StatusPart.js"></script>
+	-->
 		<!--Todo Tab-->
 		<script src="assets/Todo/TodoTab.js"></script>
 		<script src="assets/Todo/todoStepper.js"></script>
@@ -808,6 +821,7 @@
 
 		<!--Manuals Tab-->
 		<script src="assets/Manuals/Manuals.js"></script>
+		<script src="assets/Manuals/ManualsStepper.js"></script>
 	</main>
 </body>
 </html>
