@@ -52,5 +52,9 @@ service cloud.firestore {
 		allow delete: if false;
 	}
 
+	match /Manuals/{fm} {
+		allow read: if UserVerified();
+		allow write: if UserVerified();
+	}
   }
 }

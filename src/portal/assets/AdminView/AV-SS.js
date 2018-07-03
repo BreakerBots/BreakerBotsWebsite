@@ -51,20 +51,44 @@ function AV_SS_FindTotalHours(a) {
 }
 
 function AV_SS_SignAllOut() {
-	var batch = firebase.app().firestore().batch();
-	if (SSSnap) {
-		for (var i = 0; i < SSSnap.docs.length; i++) {
-			var data = SSSnap.docs[i].data();
-			if (data.history.length % 2 != 0) {
-				data.history.push(new Date);
-				batch.set(firebase.app().firestore().collection("SS").doc(SSSnap.docs[i].id), data);
+	ShiftingDialog.set({
+		id: "SignAllUserOut",
+		title: "Sign All Users Out",
+		contents: (`
+		<div class="form-group" style="width: 90%; min-height: 65px; max-height: 75px; border-radius: 2px;">
+			<label>Sign Out At</label>
+			<input type="text" id="SignAllUserOutDateTime" value="" placeholder="A Date/Time To Sign Users Out" class="form-control datetimepicker">
+			<div class="autocomplete-items"></div>
+		</div>
+		`),
+		submitButton: 'Submit',
+		cancelButton: 'Cancel'
+	});
+	$('#SignAllUserOutDateTime').datetimepicker({
+		autoclose: true,
+		pick12HourFormat: false,
+		minView: 0
+	});
+	ShiftingDialog.open();
+}
+ShiftingDialog.addSubmitListener("SignAllUserOut", function (c) {
+	try {
+		var date = new Date(c.querySelector('#SignAllUserOutDateTime').value);
+		var batch = firebase.app().firestore().batch();
+		if (SSSnap) {
+			for (var i = 0; i < SSSnap.docs.length; i++) {
+				var data = SSSnap.docs[i].data();
+				if (data.history.length % 2 != 0) {
+					data.history.push(date);
+					batch.set(firebase.app().firestore().collection("SS").doc(SSSnap.docs[i].id), data);
+				}
 			}
 		}
-	}
-	batch.commit().then(function () {
-		alert("Data Written");
-	});
-}
+		batch.commit().then(function () {
+			ShiftingDialog.close();
+		});
+	} catch (err) { console.error('Caught', err); ShiftingDialog.throwFormError('Invalid Date', document.querySelector('#SignAllUserOutDateTime')) }
+});
 
 function AV_SS_AddTable(html) {
 	return `

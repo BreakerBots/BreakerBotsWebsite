@@ -1,0 +1,30 @@
+/* Manuals.css */
+
+.Manuals-ViewManualPaper {
+	background: white;
+	width: 100%;
+	overflow: hidden;
+	position: relative;
+}
+
+/* Desktop */
+@media (min-width: 750px) {
+	.Manuals-ViewManualPaper {
+		margin: 10px;
+		margin-bottom: 20px;
+		margin-top: 20px;
+		min-height: calc(100vh - 64px);
+		width: calc(100vh - 100px) !important;
+	}
+}
+
+/* Mobile */
+@media (max-width: 750px) {
+	.Manuals-ViewManualPaper {
+		width: 100%;
+		height: 100%;
+		margin-bottom: 20px;
+		min-height: calc(100vh - 64px);
+	}
+}
+

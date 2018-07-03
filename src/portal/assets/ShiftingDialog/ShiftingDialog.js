@@ -99,7 +99,7 @@ var ShiftingDialog = new class ShiftingDialog {
 		setTimeout(function () {
 			window.mdc.autoInit(document.querySelector("#SD-Wrapper"));
 			try {
-				if (dateTimePickerAutoInit) dateTimePickerAutoInit($("#SD-Wrapper"));
+				//if (dateTimePickerAutoInit) dateTimePickerAutoInit($("#SD-Wrapper"));
 				if (AutocompleteAutoInit) AutocompleteAutoInit();
 				if (AutocompleteUsersAutoInit) AutocompleteUsersAutoInit();
 			} catch (err) { }
@@ -193,6 +193,7 @@ function SD_HeaderShadow() {
 		document.querySelector("#SD-Header").classList.remove("mdc-elevation--z10");
 }
 
+/*
 function dateTimePickerAutoInit(wrapper) {
 	var inits = wrapper.find(".datetimepicker");
 	inits.datetimepicker({
@@ -200,4 +201,4 @@ function dateTimePickerAutoInit(wrapper) {
 		autoclose: true,
 		minView: 2
 	});
-}
+}*/

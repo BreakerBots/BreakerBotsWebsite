@@ -30,6 +30,9 @@ var mainSnips = new class materialSnip {
 		`;
 	}
 
+	/**
+	 * Make Sure To Init the Element with --> "new BreakerRichText(ELEMENT, VALUE, OPTIONS)"
+	 */
 	richText(id, label, style) {
 		return `
 			<div class="form-group" style="width: 90%; min-height: 65px;">

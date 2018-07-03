@@ -83,7 +83,7 @@ class BreakerRichText {
 								`<div onclick="menu.toggle(this.parentNode.querySelector('.BreakerRichText-TextColorMenu').innerHTML, this)" aria-label="Text Color" aria-label-z-index="1000" aria-label-delay="0.2s" class="BreakerRichText-Tool mdc-ripple-surface" data-mdc-auto-init="MDCRipple"><i class="material-icons">
 										format_color_text
 									</i>
-									<div class="BreakerRichText-TextColor" style="width: 25px; height: 4px; position: absolute; left: 9px; top: 29px;"></div>
+									<div class="BreakerRichText-TextColor" style="width: 26px; height: 4px; position: absolute; left: 8px; top: 29px;"></div>
 								</div>
 								<div class="BreakerRichText-TextColorMenu dropdown-menu-c dropdown-menu" data-menu-offset="-9 7">
 									<div onmousedown="event.preventDefault(); if (event.srcElement.classList.contains('BreakerRichText-TextColorMenu-Color')) { document.execCommand('styleWithCSS', false, true);
@@ -93,7 +93,7 @@ class BreakerRichText {
 								`<div onclick="menu.toggle(this.parentNode.querySelector('.BreakerRichText-TextFillMenu').innerHTML, this)" aria-label="Fill Color" aria-label-z-index="1000" aria-label-delay="0.2s" class="BreakerRichText-Tool mdc-ripple-surface" data-mdc-auto-init="MDCRipple"><i class="material-icons">
 										format_color_fill
 									</i>
-									<div class="BreakerRichText-FillColor" style="width: 25px; height: 4px; position: absolute; left: 9px; top: 29px;"></div>
+									<div class="BreakerRichText-FillColor" style="width: 26px; height: 4px; position: absolute; left: 8px; top: 29px;"></div>
 								</div>
 								<div class="BreakerRichText-TextFillMenu dropdown-menu-c dropdown-menu" data-menu-offset="-9 7">
 									<div onmousedown="event.preventDefault(); if (event.srcElement.classList.contains('BreakerRichText-TextColorMenu-Color')) { document.execCommand('styleWithCSS', false, true);
