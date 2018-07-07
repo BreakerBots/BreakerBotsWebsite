@@ -51,6 +51,7 @@ var menu = new class Menu {
 		try {
 			menu.ignoreClick = true;
 			if (event) anchorElement = anchorElement || event.srcElement;
+			if (typeof html == "object") html = html.innerHTML || html;
 			if (!menu.isOpen) {
 				menu.element.innerHTML = html;
 				menu.anchorElement = anchorElement;

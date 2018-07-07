@@ -49,7 +49,6 @@ function todoTabExit() {
 //  ----------------------------------------  Draw Todo Tab  -------------------------------------------------\\
 function drawTodoTab(todoDrawTransition) {
 	var html = '';
-	var htmlB = '<div>';
 	todoDrawTransition = todoDrawTransition || false;
 
 	//Find the dir to show
@@ -84,9 +83,8 @@ function drawTodoTab(todoDrawTransition) {
 					var tgtN = Object.keys(tg.tasks)[i];
 					var tgt = tg.tasks[tgtN];
 					var toDraw = TodoGetTaskHtml(tgt, tgtN, todoDrawTransition);
-					htmlB += toDraw[1];
-					if (tgt.status == 4) htmlTrash += toDraw[0];
-					else html += toDraw[0];
+					if (tgt.status == 4) htmlTrash += toDraw;
+					else html += toDraw;
 				} catch (err) { }
 			}
 			html += htmlTrash;
@@ -115,9 +113,8 @@ function drawTodoTab(todoDrawTransition) {
 					if (name.substring(0, 5) == 'task-') {
 						name = name.substr(5);
 						var toDraw = TodoGetTaskHtml(data, name, todoDrawTransition);
-						htmlB += toDraw[1];
-						if (data.status == 4) htmlTrash += toDraw[0];
-						else html += toDraw[0];
+						if (data.status == 4) htmlTrash += toDraw;
+						else html += toDraw;
 					}
 					//If Folder Or Task Group
 					else {
@@ -161,9 +158,8 @@ function drawTodoTab(todoDrawTransition) {
 				if (name.substring(0, 5) == 'task-') {
 					name = name.substr(5);
 					var toDraw = TodoGetTaskHtml(data, name, todoDrawTransition);
-					htmlB += toDraw[1];
-					if (data.status == 4) htmlTrash += toDraw[0];
-					else html += toDraw[0];
+					if (data.status == 4) htmlTrash += toDraw;
+					else html += toDraw;
 				}
 				//If Folder Or Task Group
 				else {
@@ -187,8 +183,7 @@ function drawTodoTab(todoDrawTransition) {
 		html = `<div class="breaker-layout" style="width: 100%;">` + html + `</div>`;
 		document.querySelector("html").style.overflowY = "auto";
 	}
-	htmlB += '</div>';
-	document.querySelector("#TodoWrapper").innerHTML = htmlB + html;
+	document.querySelector("#TodoWrapper").innerHTML = html;
 	window.mdc.autoInit(document.querySelector("#TodoWrapper"));
 	return true;
 }
@@ -224,31 +219,29 @@ function TodoGetFTGHtml(fotg, fotgN, fotgP, transi) {
 					<div style="height: 100%; width: ` + (fotgP.B / (fotgP.T + fotgP.IP + fotgP.D + fotgP.B) * 100) + `%; background-color: rgba(255,0,0, 1);"></div>
 				</div>` : ``) +
 				`<div class="mdc-card__action-icons">
-					<i data-mdc-auto-init="MDCIconToggle" onclick="toggleMenu(null, true)" class="mdc-icon-toggle material-icons" style="color: rgb(80, 80, 80);" role="button" aria-pressed="false">more_vert</i>
+					<i data-mdc-auto-init="MDCIconToggle" onclick="menu.toggle(this.parentNode.parentNode.querySelector('.TodoCardDropdownMenu').innerHTML, this, 'width: 150px;')" class="mdc-icon-toggle material-icons" style="color: rgb(80, 80, 80);" role="button" aria-pressed="false">more_vert</i>
 				</div>
-				<ul class="dropdown-menu-c dropdown-menu be-connections" style="padding: 0;" data-menu-offset="0 -27">
-					<li class="mdc-elevation--z10">
-						<ul class="mdc-list">
-							<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="TodoEditFTG('` + fotgN + `')">
-								<span class="noselect mdc-list-item__graphic material-icons">edit</span>
-								<span class="noselect mdc-list-item__text">Edit</span>
-							</li>` +
-							(fotg.trash ?
-							`<li class="mdc-list-item" data - mdc - auto - init="MDCRipple" onclick = "TodoRecoverFTG('` + fotgN + `')" >
-								<span class="noselect mdc-list-item__graphic material-icons" style="color: green">restore_from_trash</span>
-								<span class="noselect mdc-list-item__text" style="color: green">Recover</span>
-							</li >` +
-							(users.getCurrentClearance() > 1 ? `<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="TodoConfirmDeleteFTG('` + fotgN + `')">
-								<span class="noselect mdc-list-item__graphic material-icons" style="color: red">delete_forever</span>
-								<span class="noselect mdc-list-item__text" style="color: red">Delete Forever</span>
-							</li>` : ``) :
-							`<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="TodoTrashFTG('` + fotgN + `')">
-								<span class="noselect mdc-list-item__graphic material-icons" style="color: red">delete</span>
-								<span class="noselect mdc-list-item__text" style="color: red">Trash</span>
-							</li>`) +
-						`</ul>
-					</li>
-				</ul>
+				<div style="display: none" class="TodoCardDropdownMenu">
+					<ul class="mdc-list">
+						<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="TodoEditFTG('` + fotgN + `'); menu.close();">
+							<span class="noselect mdc-list-item__graphic material-icons">edit</span>
+							<span class="noselect mdc-list-item__text">Edit</span>
+						</li>` +
+						(fotg.trash ?
+						`<li class="mdc-list-item" data - mdc - auto - init="MDCRipple" onclick = "TodoRecoverFTG('` + fotgN + `'); menu.close();" >
+							<span class="noselect mdc-list-item__graphic material-icons" style="color: green">restore_from_trash</span>
+							<span class="noselect mdc-list-item__text" style="color: green">Recover</span>
+						</li >` +
+						(users.getCurrentClearance() > 1 ? `<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="TodoConfirmDeleteFTG('` + fotgN + `'); menu.close();">
+							<span class="noselect mdc-list-item__graphic material-icons" style="color: red">delete_forever</span>
+							<span class="noselect mdc-list-item__text" style="color: red">Delete Forever</span>
+						</li>` : ``) :
+						`<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="TodoTrashFTG('` + fotgN + `'); menu.close();">
+							<span class="noselect mdc-list-item__graphic material-icons" style="color: red">delete</span>
+							<span class="noselect mdc-list-item__text" style="color: red">Trash</span>
+						</li>`) +
+					`</ul>
+				</div>
 			</div>
 		</div>
 		`);}
@@ -272,32 +265,30 @@ function TodoGetFTGHtml(fotg, fotgN, fotgP, transi) {
 				</div>
 			</td>
 			<td style="min-width: 60px; max-width: 60px; float: right; z-index: 300; overflow: visible; text-overflow: visible; display: block;">
-				<i data-mdc-auto-init="MDCIconToggle" onclick="toggleMenu('` + ('#ddm_' + fotgN) + `', true)" class="mdc-icon-toggle material-icons" style="color: rgb(80, 80, 80);" role="button" aria-pressed="false">more_vert</i>
+				<i data-mdc-auto-init="MDCIconToggle" onclick="menu.toggle(this.parentNode.parentNode.querySelector('.TodoCardDropdownMenu').innerHTML, this, 'width: 150px;')" class="mdc-icon-toggle material-icons" style="color: rgb(80, 80, 80);" role="button" aria-pressed="false">more_vert</i>
 			</td>
 			<td style="width: 0px; padding: 0px; margin: 0px; border: 0px; height: 0px;">
-				<ul class="dropdown-menu-c dropdown-menu be-connections" style="padding: 0;" id="` + ('ddm_' + fotgN) + `" data-menu-offset="-10 -53">
-					<li class="mdc-elevation--z10">
-						<ul class="mdc-list">
-							<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="TodoEditFTG('` + fotgN + `')">
-								<span class="noselect mdc-list-item__graphic material-icons">edit</span>
-								<span class="noselect mdc-list-item__text">Edit</span>
-							</li>` +
-							(fotg.trash ?
-							`<li class="mdc-list-item" data - mdc - auto - init="MDCRipple" onclick = "TodoRecoverFTG('` + fotgN + `')" >
-								<span class="noselect mdc-list-item__graphic material-icons" style="color: green">restore_from_trash</span>
-								<span class="noselect mdc-list-item__text" style="color: green">Recover</span>
-							</li >` +
-							(users.getCurrentClearance() > 1 ? `<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="TodoConfirmDeleteFTG('` + fotgN + `')">
-								<span class="noselect mdc-list-item__graphic material-icons" style="color: red">delete_forever</span>
-								<span class="noselect mdc-list-item__text" style="color: red">Delete Forever</span>
-							</li>` : ``) :
-							`<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="TodoTrashFTG('` + fotgN + `')">
-								<span class="noselect mdc-list-item__graphic material-icons" style="color: red">delete</span>
-								<span class="noselect mdc-list-item__text" style="color: red">Trash</span>
-							</li>`) +
-						`</ul>
-					</li>
-				</ul>
+				<div style="display: none" class="TodoCardDropdownMenu">
+					<ul class="mdc-list">
+						<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="TodoEditFTG('` + fotgN + `'); menu.close();">
+							<span class="noselect mdc-list-item__graphic material-icons">edit</span>
+							<span class="noselect mdc-list-item__text">Edit</span>
+						</li>` +
+						(fotg.trash ?
+						`<li class="mdc-list-item" data - mdc - auto - init="MDCRipple" onclick = "TodoRecoverFTG('` + fotgN + `'); menu.close();" >
+							<span class="noselect mdc-list-item__graphic material-icons" style="color: green">restore_from_trash</span>
+							<span class="noselect mdc-list-item__text" style="color: green">Recover</span>
+						</li >` +
+						(users.getCurrentClearance() > 1 ? `<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="TodoConfirmDeleteFTG('` + fotgN + `'); menu.close();">
+							<span class="noselect mdc-list-item__graphic material-icons" style="color: red">delete_forever</span>
+							<span class="noselect mdc-list-item__text" style="color: red">Delete Forever</span>
+						</li>` : ``) :
+						`<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="TodoTrashFTG('` + fotgN + `'); menu.close();">
+							<span class="noselect mdc-list-item__graphic material-icons" style="color: red">delete</span>
+							<span class="noselect mdc-list-item__text" style="color: red">Trash</span>
+						</li>`) +
+					`</ul>
+				</div>
 			</td>
 		</tr>
 		`);
@@ -306,7 +297,7 @@ function TodoGetFTGHtml(fotg, fotgN, fotgP, transi) {
 //Tasks
 function TodoGetTaskHtml(tgt, tgtN, transi) {
 	//The Card
-	var r1 =  `
+	return  `
 	<div class="breaker-layout__panel">
 		<div class="mdc-card ` + (transi ? 'todo-card' : '') + `" style="min-height: 65px; position: relative; background-color: rgba(` + (tgt.status == 4 ? '190, 190, 190' : '255, 255, 255') + `, 1)">
 			<div style="margin-left: 20px; min-height: 65px;">
@@ -319,42 +310,36 @@ function TodoGetTaskHtml(tgt, tgtN, transi) {
 				<i class="noselect material-icons mdc-icon-toggle" onclick="TodoCSTask('` + tgtN + `')" aria-label-delay="0.15s" aria-label="Change Status" data-mdc-auto-init="MDCIconToggle" style="position: absolute; right: 8px; top: 8px;"> <img style="transform: translate(-5px, -5.5px)" src="` + TodoGetTaskStatus(Number(tgt.status)) + `"/> </i>
 			</div>
 			<div class="mdc-card__action-icons">
-				<i data-mdc-auto-init="MDCIconToggle" onclick="toggleMenu('#ddm-` + tgtN + `', true)" class="mdc-icon-toggle material-icons" style="color: rgb(80, 80, 80);" role="button" aria-pressed="false">more_vert</i>
+				<i data-mdc-auto-init="MDCIconToggle" onclick="menu.toggle(this.parentNode.parentNode.querySelector('.TodoTaskDropdownMenu').innerHTML, this, 'width: 180px;')" class="mdc-icon-toggle material-icons" style="color: rgb(80, 80, 80);" role="button" aria-pressed="false">more_vert</i>
+			</div>
+			<div style="display: none" class="TodoTaskDropdownMenu">
+				<ul class="mdc-list">
+					<li class="mdc-list-item mdc-ripple-surface" data-mdc-auto-init="MDCRipple" onclick="TodoEditTask('` + tgtN + `'` + MSN(tgt.parent, ", '", "'", "") + `); menu.close();">
+						<span class="noselect mdc-list-item__graphic material-icons">edit</span>
+						<span class="noselect mdc-list-item__text">Edit</span>
+					</li>
+					<li class="mdc-list-item mdc-ripple-surface" data-mdc-auto-init="MDCRipple" onclick="TodoCSTask('` + tgtN + `'` + MSN(tgt.parent, ", '", "'", "") + `); menu.close();">
+						<span class="noselect mdc-list-item__graphic material-icons">assignment_turned_in</span>
+						<span class="noselect mdc-list-item__text">Change Status</span>
+					</li>` +
+					(tgt.status == 4 ?
+					`<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="TodoRecoverTask('` + tgtN + `'` + MSN(tgt.parent, ", '", "'", "") + `); menu.close();">
+						<span class="noselect mdc-list-item__graphic material-icons" style="color: green">restore_from_trash</span>
+						<span class="noselect mdc-list-item__text" style="color: green">Recover</span>
+					</li >
+					<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="TodoConfirmDeleteTask('` + tgtN + `'` + MSN(tgt.parent, ", '", "'", "") + `); menu.close();">
+						<span class="noselect mdc-list-item__graphic material-icons" style="color: red">delete_forever</span>
+						<span class="noselect mdc-list-item__text" style="color: red">Delete Forever</span>
+					</li>` :
+					`<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="TodoTrashTask('` + tgtN + `'` + MSN(tgt.parent, ", '", "'", "") + `); menu.close();">
+						<span class="noselect mdc-list-item__graphic material-icons" style="color: red">delete</span>
+						<span class="noselect mdc-list-item__text" style="color: red">Trash</span>
+					</li>` ) +
+				`</ul>
 			</div>
 		</div>
 	</div>
 	`;
-	//The Dropdown Menu
-	var r2 = `
-	<ul class="dropdown-menu-c dropdown-menu be-connections" style="padding: 0;" id="ddm-` + tgtN + `" data-menu-offset="0 -27">
-		<li class="mdc-elevation--z10">
-			<ul class="mdc-list">
-				<li class="mdc-list-item mdc-ripple-surface" data-mdc-auto-init="MDCRipple" onclick="TodoEditTask('` + tgtN + `'` + MSN(tgt.parent, ", '", "'", "") + `)">
-					<span class="noselect mdc-list-item__graphic material-icons">edit</span>
-					<span class="noselect mdc-list-item__text">Edit</span>
-				</li>
-				<li class="mdc-list-item mdc-ripple-surface" data-mdc-auto-init="MDCRipple" onclick="TodoCSTask('` + tgtN + `'` + MSN(tgt.parent, ", '", "'", "") + `)">
-					<span class="noselect mdc-list-item__graphic material-icons">assignment_turned_in</span>
-					<span class="noselect mdc-list-item__text">Change Status</span>
-				</li>` +
-				(tgt.status == 4 ?
-				`<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="TodoRecoverTask('` + tgtN + `'` + MSN(tgt.parent, ", '", "'", "") + `)">
-					<span class="noselect mdc-list-item__graphic material-icons" style="color: green">restore_from_trash</span>
-					<span class="noselect mdc-list-item__text" style="color: green">Recover</span>
-				</li >
-				<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="TodoConfirmDeleteTask('` + tgtN + `'` + MSN(tgt.parent, ", '", "'", "") + `)">
-					<span class="noselect mdc-list-item__graphic material-icons" style="color: red">delete_forever</span>
-					<span class="noselect mdc-list-item__text" style="color: red">Delete Forever</span>
-				</li>` :
-				`<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="TodoTrashTask('` + tgtN + `'` + MSN(tgt.parent, ", '", "'", "") + `)">
-					<span class="noselect mdc-list-item__graphic material-icons" style="color: red">delete</span>
-					<span class="noselect mdc-list-item__text" style="color: red">Trash</span>
-				</li>` ) +
-			`</ul>
-		</li>
-	</ul>
-	`;
-	return [r1, r2];
 }
 //  ----------------------------------------    -------------------------------------------------\\
 

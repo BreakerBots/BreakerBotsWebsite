@@ -74,6 +74,9 @@
 
 	<!-- Manuals Tab -->
 	<link rel="stylesheet" href="assets/Manuals/Manuals.css" type="text/css" />
+
+	<!-- Calendar Tab -->
+	<link rel="stylesheet" href="assets/Calendar/Calendar.css" type="text/css" />
 </head>
 <body style="background-color: #EEEEEE; overflow-y: hidden;">
 	<header class="mdc-top-app-bar mdc-top-app-bar--fixed" style="z-index: 10; transform: translateY(-100%);">
@@ -384,8 +387,8 @@
 							</span>
 						</button>
 					</div>
-					<div id="Calendar" class="tab">
-						<div id="calendar"></div>
+					<div id="Calendar" class="tab" style="margin: 0;">
+
 					</div>
 					<div id="Github" class="tab">
 						<div class="row" id="GithubRows">
@@ -728,10 +731,6 @@
 		<script src="../assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
 		<script src="../assets/lib/jquery/inputmask.js" type="text/javascript"></script>
 		<script src="../assets/lib/datetimepicker/js/bootstrap-datetimepicker.js" type="text/javascript"></script>
-		<script src='../assets/lib/fullcalendar/lib/moment.min.js'></script>
-		<script src="../assets/lib/fullcalendar/lib/jquery-ui.min.js"></script>
-		<script src='../assets/lib/fullcalendar/fullcalendar.js'></script>
-		<script src='../assets/lib/fullcalendar/gcal.min.js'></script>
 		<script src='../assets/lib/croppie/croppie.js'></script>
 		<script src='../assets/lib/Fuse/fuse.js'></script>
 
@@ -761,6 +760,7 @@
 		<script src="assets/Resources/Tooltips/Tooltips.js"></script>
 		<script src="assets/Resources/IdleHandler/IdleHandler.js"></script>
 		<script src="assets/Resources/Snackbar/Snackbar.js"></script>
+		<script src="assets/Resources/Touch/Swipe.js"></script>
 		<script src="assets/Resources/RichTextEditor/RichTextEditor.js"></script>
 
 		<!--Header-->
@@ -771,7 +771,13 @@
 		<script src="assets/SideNav/PeTeSwitcher.js"></script>
 
 		<!--Calendar Tab-->
-		<script src="assets/Calendar/CalendarTab.js"></script>
+		<div>
+			<script src="assets/Calendar/Calendar.js"></script>
+			<script async defer src="https://apis.google.com/js/api.js"
+					onload="this.onload = function () { };
+			HandleGoogleAPILoad();"
+					onreadystatechange="if (this.readyState === 'complete') this.onload()"></script>
+		</div>
 
 		<!--Admin View-->
 		<script src="assets/AdminView/AV-General.js"></script>
@@ -798,23 +804,6 @@
 		<script src="assets/Notifications/IHNotifications.js"></script>
 		<script src="assets/Notifications/NotificationAPI.js"></script>
 
-		<!--Parts Tabs
-	<script src="assets/Parts/FolderHistory.js"></script>
-	<script src="assets/Parts/CreatePart.js"></script>
-	<script src="assets/Parts/EditPart.js"></script>
-	<script src="assets/Parts/DeletePart.js"></script>
-	<script src="assets/Parts/CreateFolder.js"></script>
-	<script src="assets/Parts/EditFolder.js"></script>
-	<script src="assets/Parts/DeleteFolder.js"></script>
-	<script src="assets/Parts/ArchiveFolder.js"></script>
-	<script src="assets/Parts/UI.js"></script>
-	<script src="assets/Parts/Archive/ArchiveTab.js"></script>
-	<script src="assets/Parts/Archive/UnarchiveFolder.js"></script>
-	<script src="assets/Parts/Archive/ArchiveHistory.js"></script>
-	<script src="assets/Parts/Archive/ArchiveDelete.js"></script>
-	<script src="assets/Parts/Ordered/OrderedParts.js"></script>
-	<script src="assets/Parts/StatusPart.js"></script>
-	-->
 		<!--Todo Tab-->
 		<script src="assets/Todo/TodoTab.js"></script>
 		<script src="assets/Todo/todoStepper.js"></script>

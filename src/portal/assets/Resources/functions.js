@@ -259,7 +259,7 @@ function getRelativeParentOffset(el) {
 	return ret;
 }
 
-//Clamping, Min, Maxing
+//Clamping, Min, Maxing and Overflowing
 Number.prototype.min = function (val) {
 	return this < val ? val : this;
 };
@@ -268,6 +268,18 @@ Number.prototype.max = function (val) {
 };
 Number.prototype.clamp = function (min, max) {
 	return this > max ? max : (this < min ? min : this);
+};
+/**
+ * Kinda Sketchy...
+ */
+Number.prototype.overflow = function (min, max) {
+	if (this < min) {
+		return max + (this - 1 + min + max) % (Math.abs(max) + Math.abs(min) + (min == 0 ? 1 : 0));
+	}
+	else if (this > max) {
+		return min + (this + (Math.abs(max) + Math.abs(min) - max)) % (Math.abs(max) + Math.abs(min) + 1);
+	}
+	return Number(this);
 };
 
 //For Removing The Elements
@@ -421,4 +433,10 @@ function GetAllNestedKeys(obj) {
 		}
 	}
 	return getKeysClosure(obj);
+}
+
+Date.prototype.addDays = function (days) {
+	var date = new Date(this.valueOf());
+	date.setDate(date.getDate() + days);
+	return date;
 }

@@ -4,11 +4,13 @@
 
 
 //------------------------------------ Title Overflow ------------------------------------\\
-deleteOverflow(); window.addEventListener('resize', deleteOverflow);
+deleteOverflow();
+window.addEventListener('resize', deleteOverflow);
+setTimeout(1000, deleteOverflow);
 function deleteOverflow() {
 	[].forEach.call(document.querySelectorAll('[data-delete-overflow-min]'), function (m) {
 		var w = m.dataset.deleteOverflowMin ? m.dataset.deleteOverflowMin : 660;
-		m.style.display = (window.innerWidth < w) ? "none" : "block";
+		m.style.display = (window.innerWidth < w) ? "none" : "";
 	});
 }
 //------------------------------------  ------------------------------------\\
