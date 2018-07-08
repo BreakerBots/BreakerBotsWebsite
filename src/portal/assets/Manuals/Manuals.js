@@ -86,7 +86,7 @@ function ManualsDrawTab(transition) {
 				} catch (err) { console.error(err); }
 			}
 
-			html = `<div class="breaker-layout" style="width: 100%;">` + html + `</div>`;
+			html = `<div class="breaker-layout" style="width: 100%;">` + html + `</div>` + '<br>'.repeat(10);
 		}
 
 		// Viewing Manual
@@ -114,7 +114,7 @@ function ManualsDrawTab(transition) {
 					}
 				}
 
-				html = `<div class="breaker-layout" style="width: 100%;">` + html + `</div>`;
+				html = `<div class="breaker-layout" style="width: 100%;">` + html + `</div>` + '<br>'.repeat(10);
 			} catch (err) { console.error(err); }
 		}
 
@@ -139,7 +139,7 @@ function ManualsDrawTab(transition) {
 
 			if (ManualsView == "") html += ManualsGetCardHTML('Trash', { title: "Trash", desc: "" }, transition);
 
-			html = `<div class="breaker-layout" style="width: 100%;">` + html + `</div>`;
+			html = `<div class="breaker-layout" style="width: 100%;">` + html + `</div>` + '<br>'.repeat(10);
 		}
 
 		document.querySelector("html").style.overflowY = "auto";
@@ -152,12 +152,12 @@ function ManualsGetCardHTML(id, data, transition, trashed) {
 	return `
 	<div class="breaker-layout__panel">
 		<div class="mdc-card ` + (transition ? "todo-card" : "") + `" style="min-height: 90px; background-color: rgba(255, 255, 255, 1)">
-			<div class="mdc-ripple-surface mdc-ripple-upgraded bl1" style="display: flex; min-height: 65px; align-items: center;" data-mdc-auto-init="MDCRipple" onclick="setHashParam('manualsView', '` + (id != "Trash" ? (ManualsView.split('\\').join("\\\\") + (ManualsView == "" ? "" : "\\\\") + id) : "Trash") + `');">
+			<div class="mdc-ripple-surface mdc-ripple-upgraded bl1" style="cursor: pointer; display: flex; min-height: 65px; align-items: center;" data-mdc-auto-init="MDCRipple" onclick="setHashParam('manualsView', '` + (id != "Trash" ? (ManualsView.split('\\').join("\\\\") + (ManualsView == "" ? "" : "\\\\") + id) : "Trash") + `');">
 				<div style="margin-left: 20px; width: 100%;">
 					<div class="demo-card__primary" style="width: 70%">
-						<h2 class="demo-card__title mdc-typography--headline6">` + data.title + `</h2>
+						<h2 class="demo-card__title mdc-typography--headline6" style="overflow-wrap: break-word;">` + data.title + `</h2>
 					</div>
-					<div class="mdc-typography--body2" style="width: 70%;">` + data.desc + `</div>
+					<div class="mdc-typography--body2" style="width: 70%; overflow-wrap: break-word;">` + data.desc + `</div>
 					<i class="noselect material-icons" style="font-size: 300%; position: absolute; right: 13px; top: 6px;"><img src="../assets/icons/` + (id == "Trash" ? "trash" : (data.info ? "manual" : "folder")) + `.png" style="width: 45px; filter: opacity(75%)"></i>
 				</div>
 			</div><div class="mdc-card__action-icons">` + ( id != "Trash" ? `

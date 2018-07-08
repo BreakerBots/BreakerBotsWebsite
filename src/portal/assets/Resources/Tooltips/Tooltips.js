@@ -72,10 +72,11 @@ function checkTooltip() {
 				}
 			}
 			var ELB = el.getBoundingClientRect();
+			var TBR = document.querySelector(".bstooltip").scrollWidth;
 			var elWi = document.querySelector(".bstooltip").innerHTML.length * 3.78 + 18;
 			var outsideWindowAdjust = (window.innerWidth - (((ELB.left + (ELB.width / 2)) + elWi))).max(0);
-			document.querySelector(".bstooltip-container").style.left = ((ELB.left + (ELB.width / 2)) + outsideWindowAdjust) + "px";
-			document.querySelector(".bstooltip-container").style.top = (ELB.top + ELB.height) + "px";
+			document.querySelector(".bstooltip-container").style.left = ((ELB.left + (ELB.width / 2)) + outsideWindowAdjust).min(TBR / 2) + "px";
+			document.querySelector(".bstooltip-container").style.top = (ELB.top + ELB.height).min(TBR / 2) + "px";
 		} else {
 			if (VisibleTooltip) {
 				VisibleTooltip = null;

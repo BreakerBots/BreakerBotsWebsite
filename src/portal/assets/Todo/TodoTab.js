@@ -180,7 +180,7 @@ function drawTodoTab(todoDrawTransition) {
 	}
 	//Or The Card Layout
 	else {
-		html = `<div class="breaker-layout" style="width: 100%;">` + html + `</div>`;
+		html = `<div class="breaker-layout" style="width: 100%;">` + html + `</div>` + '<br>'.repeat(10);
 		document.querySelector("html").style.overflowY = "auto";
 	}
 	document.querySelector("#TodoWrapper").innerHTML = html;
@@ -201,12 +201,12 @@ function TodoGetFTGHtml(fotg, fotgN, fotgP, transi) {
 		return (`
 		<div class="breaker-layout__panel">
 			<div class="mdc-card ` + (transi ? 'todo-card' : '') + `" id="` + fotgN + `" style="min-height: 65px; background-color: rgba(` + (fotg.trash ? '190, 190, 190, 1' : '255, 255, 255, 1') +  `)">
-				<div class="mdc-ripple-surface mdc-ripple-upgraded bl1" style="display: flex; min-height: 65px; align-items: center;" data-mdc-auto-init="MDCRipple" onclick="setHashParam('todoView', '` + (todoView.split('\\').join("\\\\") + (todoView == "" ? "" : "\\\\") + fotgN) + `');">
+				<div class="mdc-ripple-surface mdc-ripple-upgraded bl1" style="cursor: pointer; display: flex; min-height: 65px; align-items: center;" data-mdc-auto-init="MDCRipple" onclick="setHashParam('todoView', '` + (todoView.split('\\').join("\\\\") + (todoView == "" ? "" : "\\\\") + fotgN) + `');">
 					<div style="margin-left: 20px; width: 100%;">
 						<div class="demo-card__primary" style="width: 70%">
-							<h2 class="demo-card__title mdc-typography--headline6">` + (fotg.title == "" ? "&nbsp;" : fotg.title) + `</h2>
+							<h2 class="demo-card__title mdc-typography--headline6" style="overflow-wrap: break-word;">` + (fotg.title == "" ? "&nbsp;" : fotg.title) + `</h2>
 						</div>
-						<div class="mdc-typography--body2" style="width: 70%;">` + (fotg.desc) + `</div>
+						<div class="mdc-typography--body2" style="width: 70%; overflow-wrap: break-word;">` + (fotg.desc) + `</div>
 						<i class="noselect material-icons" style="font-size: 300%; position: absolute; right: 20px; top: 20px;"> ` + ((fotg.tasks == undefined) ? (fotg.filter ? ('<img style="width: 45px; transform: translateY(-12px); filter: opacity(70%);" src="../assets/icons/todoItemView.png">') : "folder") : "assignment") + ` </i>
 					</div>
 				</div>` +
@@ -302,11 +302,11 @@ function TodoGetTaskHtml(tgt, tgtN, transi) {
 		<div class="mdc-card ` + (transi ? 'todo-card' : '') + `" style="min-height: 65px; position: relative; background-color: rgba(` + (tgt.status == 4 ? '190, 190, 190' : '255, 255, 255') + `, 1)">
 			<div style="margin-left: 20px; min-height: 65px;">
 				<div class="demo-card__primary" style="width: 70%">
-					<h2 class="demo-card__title mdc-typography--headline6">` + (tgt.title) + `</h2>
+					<h2 class="demo-card__title mdc-typography--headline6" style="overflow-wrap: break-word;">` + (tgt.title) + `</h2>
 				</div>
-				<div class="demo-card__secondary mdc-typography--body2" style="width: 85%; font-size: .95rem; font-weight: 500; transform: translate(7px, -10px);">` + AutocompleteUidsToUsersProfileLinks((tgt.status == 1 || tgt.status == 2) ? tgt.people : tgt.targets).join(', ') + `</div>
-				<div class="demo-card__secondary mdc-typography--body2" style="width: 85%">` + tgt.desc + `</div>
-				<div class="demo-card__secondary mdc-typography--body2" style="width: 85%; background: rgba(252, 173, 37, 0.3);">` + MSN(tgt.reason) + `</div>
+				<div class="demo-card__secondary mdc-typography--body2" style="overflow-wrap: break-word; width: 85%; font-size: .95rem; font-weight: 500; transform: translate(7px, -10px);">` + AutocompleteUidsToUsersProfileLinks((tgt.status == 1 || tgt.status == 2) ? tgt.people : tgt.targets).join(', ') + `</div>
+				<div class="demo-card__secondary mdc-typography--body2" style="overflow-wrap: break-word; width: 85%">` + tgt.desc + `</div>
+				<div class="demo-card__secondary mdc-typography--body2" style="overflow-wrap: break-word; width: 85%; background: rgba(252, 173, 37, 0.3);">` + MSN(tgt.reason) + `</div>
 				<i class="noselect material-icons mdc-icon-toggle" onclick="TodoCSTask('` + tgtN + `')" aria-label-delay="0.15s" aria-label="Change Status" data-mdc-auto-init="MDCIconToggle" style="position: absolute; right: 8px; top: 8px;"> <img style="transform: translate(-5px, -5.5px)" src="` + TodoGetTaskStatus(Number(tgt.status)) + `"/> </i>
 			</div>
 			<div class="mdc-card__action-icons">

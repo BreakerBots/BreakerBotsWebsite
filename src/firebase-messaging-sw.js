@@ -15,15 +15,17 @@ const messaging = firebase.messaging();
 
 messaging.setBackgroundMessageHandler(function (payload) {
 	console.log('[firebase-messaging-sw.js] Received background message ', payload);
-	// Customize notification here
-	var notificationTitle = 'Breakersite';
+
+	var notificationTitle = payload.notification.title;
 	var notificationOptions = {
-		body: 'A kid assigned a task to the programming team.',
-		icon: 'assets/img/iconT.png'
+		body: payload.notification.body,
+		icon: payload.notification.icon
 	};
 
-	return self.registration.showNotification(notificationTitle,
-		notificationOptions);
+	return self.registration.showNotification(
+		notificationTitle,
+		notificationOptions
+	);
 });
 
 

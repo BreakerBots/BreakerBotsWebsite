@@ -230,12 +230,13 @@ class BreakerCalendar {
 
 				for (var i = 1; i < 36; i++) {
 					var a = i.overflow(1, days);
-					var b = ((this.mv[0] + Math.floor(i / days)) % 12);
+					var b = ((this.mv[0] + Math.floor(i / (days + 1))) % 12);
+					var isT = (new Date().getMonth() == b && new Date().getDate() == a);
 					html += `
 						<div id="BCMW--` + b + `-` + a + `">
 							<div class="BreakerCalendar-MonthView--DNW">` + 
-								(i < 8 ? `<div class="BreakerCalendar-MonthView--Day">` + dayNames[i-1] + `</div>` : ``)
-								+ `<div class="BreakerCalendar-MonthView--Num">` + (a == 1 ? (monthNames[b].substring(0, 3) + ' ') : '') + a + `</div>
+								(i < 8 ? `<div class="BreakerCalendar-MonthView--Day` + (isT ? " Today" : "") + `">` + dayNames[i-1] + `</div>` : ``)
+								+ `<div class="BreakerCalendar-MonthView--Num` + (isT ? " Today" : "") + `">` + (a == 1 ? (monthNames[b].substring(0, 3) + ' ') : '') + a + `</div>
 							</div>
 						</div>
 					`;
@@ -268,9 +269,7 @@ class BreakerCalendar {
 										try {
 											var day = new Date(dates[0].valueOf());
 											day.setDate(day.getDate() + a);
-											var dayEl = [day.getMonth(), day.getDate()];
-											dayEl = '#BCMW--' + day[0] + '-' + day[1];
-											dayEl = sel.elements.viewbox.querySelector(day);
+											var dayEl = sel.elements.viewbox.querySelector(('#BCMW--' + day.getMonth() + '-' + day.getDate()));
 
 											dayEl.innerHTML += `
 										<div onclick="menu.toggle(this.querySelector('div'), this, 'width: 300px')" class="BreakerCalendar-MonthView--Event mdc-ripple-surface" data-mdc-auto-init="MDCRipple">` +
@@ -282,29 +281,42 @@ class BreakerCalendar {
 													<table>
 														<tbody>
 															<tr>
-																<td><strong>3pm</strong></td>
+																<td><strong>` + formatTime(dates[0]) + `</strong></td>
 																<td><strong>-</strong></td>
-																<td><strong>5pm</strong></td>
-															</tr>
-															<tr>
+																<td><strong>` + formatTime(dates[1]) + `</strong></td>
+															</tr>`
+															+ (days > 1 ? `<tr>
 																<td>` + monthNames[dates[0].getMonth()].substring(0, 3) + ' ' + dates[0].getDate() + `</td>
 																<td></td>
 																<td>` + monthNames[dates[1].getMonth()].substring(0, 3) + ' ' + dates[1].getDate() + `</td>
-															</tr>
-														</table>
+															</tr>` : ``) + 
+														`</table>
 													</tbody>
 													</div>
 												</div>
 										</div>
 										`;
-										} catch (err) { }
+										} catch (err) { console.error(err); }
 									}
 								}
 							} catch (err) { console.error(err); }
 						}
 					}
 					function formatTime(date) {
-						
+						var hour = date.getHours();
+						var min = date.getMinutes();
+						var meridium = (Math.floor(hour / 12) < 1) ? 'am' : 'pm';
+						var hour12 = hour % 12;
+						if (hour12 == 0) hour12 = 12;
+
+						if (min > 0) {
+							min = min.toString();
+							if (min.length < 2) min += "0";
+							return hour12 + ":" + min + meridium;
+						}
+						else {
+							return hour12 + meridium;
+						}
 					}
 					window.mdc.autoInit(sel.elements.viewbox.querySelector('.BreakerCalendarTab--MONTH'));
 					});

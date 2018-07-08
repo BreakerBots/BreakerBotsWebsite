@@ -282,6 +282,18 @@
 	font-size: 1.7vh;
 }
 
+.BreakerCalendar-MonthView--Day.Today {
+	font-weight: 450;
+	font-size: 1.9vh;
+	color: #4285f4;
+}
+
+.BreakerCalendar-MonthView--Num.Today {
+	font-weight: 500;
+	font-size: 1.9vh;
+	color: #4285f4;
+}
+
 .BreakerCalendar-MonthView--Event {
 	background-color: rgb(200, 200, 200);
 	border-radius: 5px;

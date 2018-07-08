@@ -11,7 +11,6 @@
 	<meta name="theme-color" content="#d60000" />
 
 	<!--Other-->
-	<link rel="stylesheet" href="../assets/lib/material-design-icons/css/material-design-iconic-font.min.css" />
 	<link rel="stylesheet" href="../assets/lib/material/ml.css" />
 	<link rel="stylesheet" href="../assets/lib/datetimepicker/css/bootstrap-datetimepicker.min.css">
 	<link rel="stylesheet" href="../assets/lib/fullcalendar/fullcalendar.min.css" />
@@ -30,8 +29,6 @@
 	<link href="../assets/mdc/material.css" rel="stylesheet">
 	<link href="../assets/mdc/icons.css" rel="stylesheet">
 	<link href="../assets/mdc/material-tables.css" rel="stylesheet">
-
-
 
 	<!-- Tabs -->
 	<link rel="stylesheet" href="assets/Tabs/tabs.css" type="text/css" />
@@ -56,6 +53,7 @@
 	<link rel="stylesheet" href="assets/Resources/Scroll/Scroll.css" type="text/css" />
 	<link rel="stylesheet" href="assets/Resources/SHP/SHP.css">
 	<link rel="stylesheet" href="assets/Resources/RichTextEditor/RichTextEditor.css">
+	<link rel="stylesheet" href="assets/Resources/Slider/Slider.css">
 
 	<!-- Side Nav Drawer -->
 	<link rel="stylesheet" href="assets/SideNav/SideNav.css" type="text/css" />
@@ -77,6 +75,9 @@
 
 	<!-- Calendar Tab -->
 	<link rel="stylesheet" href="assets/Calendar/Calendar.css" type="text/css" />
+
+	<!--Parts Tabs-->
+	<link rel="stylesheet" href="assets/Parts/Parts.css" type="text/css" />
 </head>
 <body style="background-color: #EEEEEE; overflow-y: hidden;">
 	<header class="mdc-top-app-bar mdc-top-app-bar--fixed" style="z-index: 10; transform: translateY(-100%);">
@@ -251,23 +252,18 @@
 								<i class="material-icons mdc-list-item__graphic">image</i><span>General</span>
 							</a>
 							<a class="sidenav-list-item mdc-ripple-surface mdc-ripple-surface--primary" data-mdc-auto-init="MDCRipple" onclick="toggleNavSubMenu('#PartsSubmenu')">
-								<i class="material-icons mdc-list-item__graphic mdi-wrench"></i><span>Parts</span>
+								<i class="material-icons mdc-list-item__graphic">build</i><span>Parts</span>
 							</a>
 							<div class="side-nav__submenu-wrapper">
 								<ul class="side-nav__submenu" id="PartsSubmenu">
 									<li>
-										<a onclick="" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-surface--primary">
+										<a onclick="setHashParam('tab', 'Parts')" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-surface--primary">
 											<span>All</span>
 										</a>
 									</li>
 									<li>
-										<a onclick="" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-surface--primary">
+										<a onclick="setHashParam('tab', 'Parts-Ordered')" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-surface--primary">
 											<span>Ordered</span>
-										</a>
-									</li>
-									<li>
-										<a onclick="" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-surface--primary">
-											<span>Archived</span>
 										</a>
 									</li>
 								</ul>
@@ -312,58 +308,30 @@
 						<i onclick="menu.toggle(sfd8g7, null)" style="" class="material-icons mdc-icon-toggle" data-mdc-auto-init="MDCIconToggle">close</i>
 						<i onclick="menu.toggle(sfd8g7 + 'hi', null)" class="material-icons mdc-icon-toggle" data-mdc-auto-init="MDCIconToggle">close</i>
 					</div>
-					<div id="PartsAll" class="tab">
-						<div class="row" id="PartsAllWrapper">
-							<!--Parts Wrapper Start-->
-							<div class="col-lg-6">
+					<div id="Parts" class="tab" style="margin: 0">
+						<div style="background: #c00000; width: 100%; left: 0; top: 0; color: rgb(230, 230, 230);">
+							<div style="display: flex; flex-wrap: nowrap; overflow-x: auto; flex-shrink: 0;" id="partsStepperWrapper">
 
 							</div>
-							<!--Parts Wrapper End-->
+							<div style="width: 100%; height: 5px;"></div>
+							<div onclick="partsViewCard = true; drawPartsTab();" aria-label="Card View" style="float: right; transform: translate(0, -42px); width: 50px; border-radius: 10px;" class="mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">
+								<i style="font-size: 28px; font-weight: 100; transform: translate(-5px, -1px);" class="noselect stepperH material-icons">view_module</i>
+							</div>
+							<div onclick="partsViewCard = false; drawPartsTab();" aria-label="List View" style="float: right; transform: translate(0, -42px); width: 50px; border-radius: 10px;" class="mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">
+								<i style="font-size: 28px; font-weight: 100; transform: translate(-5px, -1px);" class="noselect stepperH material-icons">view_list</i>
+							</div>
 						</div>
-						<button id="AddFolderFab" class="mdc-fab demo-fixed-fab mdc-ripple-upgraded mdc-fab--exited">
+						<div id="PartsWrapper" style="width: 100%; height: 100%;">
+
+						</div>
+						<button id="Parts-Add-Fab" class="mdc-fab demo-fixed-fab mdc-ripple-upgraded mdc-fab--exited">
 							<span class="mdc-fab__icon">
 								<i class="material-icons">add</i>
 							</span>
 						</button>
 					</div>
-					<div id="PartsOrdered" class="tab">
-						<div class="row">
-							<!--Parts Wrapper Start-->
-							<div style="width: 100%;">
-								<div class="card card-table">
-									<div class="card-body">
-										<div class="table-responsive">
-											<table class="table table-striped">
-												<thead>
-													<tr>
-														<th>Item</th>
-														<th>Desc</th>
-														<th>Priority</th>
-														<th>Part Number</th>
-														<th class="number">Quantity</th>
-														<th>Unit</th>
-														<th class="number">Unit Price</th>
-														<th class="number">Total Price</th>
-														<th>Status</th>
-														<th>Folder</th>
-													</tr>
-												</thead>
-												<tbody id="PartsOrderedWrapper"></tbody>
-											</table>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div id="PartsArchived" class="tab">
-						<div class="row" id="PartsArchiveWrapper">
-							<!--Parts Wrapper Start-->
-							<div class="col-lg-6">
+					<div id="Parts-Ordered" class="tab">
 
-							</div>
-							<!--Parts Wrapper End-->
-						</div>
 					</div>
 					<div id="Todo" class="tab" style="margin: 0;">
 						<div style="background: #c00000; width: 100%; left: 0; top: 0; color: rgb(230, 230, 230);">
@@ -607,6 +575,7 @@
 						<div id="TeamsWrapper" class="breaker-layout">
 							<!--Autofilled-->
 						</div>
+						<br><br><br><br><br><br><br><br><br><br>
 						<button id="AddTeamFab" class="mdc-fab demo-fixed-fab mdc-ripple-upgraded mdc-fab--exited">
 							<span class="mdc-fab__icon">
 								<i class="material-icons">add</i>
@@ -814,6 +783,11 @@
 		<!--Manuals Tab-->
 		<script src="assets/Manuals/Manuals.js"></script>
 		<script src="assets/Manuals/ManualsStepper.js"></script>
+
+		<!--Parts Tabs-->
+		<script src="assets/Parts/PartsAllStepper.js"></script>
+		<script src="assets/Parts/PartsAll.js"></script>
+		<script src="assets/Parts/PartsOrdered.js"></script>
 	</main>
 </body>
 </html>

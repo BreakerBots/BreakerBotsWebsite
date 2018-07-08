@@ -42,11 +42,15 @@ var mainSnips = new class materialSnip {
 		`;
 	}
 
-	textFieldAutoComplete(id, label, placeholder, options, style, showAll) {
+	/**
+	 * @param {Array[String]} options An Array Of HTML Strings so [HTML, HTML, HTML, HTML]
+	 * @param {any} showAll If It Should Show all Autocomplete Items When No Text is Typed
+	 */
+	textFieldAutoComplete(id, label, placeholder, options, style, showAll, value) {
 		return `
 			<div class="form-group autocomplete" style="width: 90%; min-height: 65px; max-height: ` + MSNC(stringEV(label), "73", "65") + `px;` + MSN(style) + `" data-autocomplete-auto-init ` + MSNC(showAll, "data-autocomplete-showall", "") + ` >
 				<label ` + MSN(id, ` for="`, `" `, ``) + `>` + MSN(label) + `</label>
-				<input ` + MSN_ID(id) + ` type="text" class="form-control" placeholder="` + MSN(placeholder) + `" autocomplete="off">
+				<input ` + MSN_ID(id) + ` type="text" class="form-control" value="` + MSN(value) + `" placeholder="` + MSN(placeholder) + `" autocomplete="off">
 				<div class="autocomplete-items"></div>
 				<div class="autocomplete-options">` +
 					Autocomplete_ArrayToOptions(options)
