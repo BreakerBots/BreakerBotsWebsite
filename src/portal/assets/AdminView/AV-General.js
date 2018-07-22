@@ -63,7 +63,8 @@ function AVSC() {
 		function a() {
 			if (firebase.auth().currentUser) {
 				if (new Date().getTime() - new Date(Date.parse(firebase.auth().currentUser.metadata.lastSignInTime)).getTime() > (40 * 60 * 1000)) {
-					DisplaySignin();
+					if (getHashParam('tab').indexOf("AV") != -1)
+						DisplaySignin();
 				}
 			}
 			else
@@ -73,27 +74,10 @@ function AVSC() {
 	AVSC.TabEnterCheck = TabEnterCheck;
 
 	setInterval(function () {
-		if (IdleTimer > (10 * 60 * 1000)) {
-			if (getHashParam('tab').indexOf("AV") != -1 && !((ShiftingDialog.currentId == "AdminViewSignin" || ShiftingDialog.currentId == "AVStillThere") && ShiftingDialog.isOpen())) {
-				ShiftingDialog.set({
-					id: "AVStillThere",
-					centerButtons: true,
-					submitButton: "Yes",
-					title: "Still There?",
-					contents:
-						mainSnips.icon(null, "delete", "font-size: 160px; color: red;") +
-						`<div style="width: 100%"></div>
-						<h1 style="text-align: center;">Are You Still There?</h1>`
-				});
-				ShiftingDialog.open();
-			}
-			if ((IdleTimer > (10 * 60 * 1000) + 10000) && ShiftingDialog.currentId == "AVStillThere" && ShiftingDialog.isOpen()) {
+		if (firebase.auth().currentUser && (getHashParam('tab').indexOf("AV") != -1)) {
+			if (new Date().getTime() - new Date(Date.parse(firebase.auth().currentUser.metadata.lastSignInTime)).getTime() > (40 * 60 * 1000)) {
 				DisplaySignin();
 			}
-		}
-		else if (ShiftingDialog.currentId == "AVStillThere" && ShiftingDialog.isOpen()) {
-			//console.log('c st');
-			ShiftingDialog.close();
 		}
 	}, 1000);
 

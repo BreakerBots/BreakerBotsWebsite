@@ -92,7 +92,7 @@ ShiftingDialog.addSubmitListener("SignAllUserOut", function (c) {
 
 function AV_SS_AddTable(html) {
 	return `
-	<div class="material-table">
+	<div class="material-table" style="height: 100%">
 		<div class="material-table--header" style="position: relative;">
 			<span class="material-table--title">Member's Hours</span>
 			<i onclick="AV_SS_SignAllOut()" aria-label="Sign All User Out" aria-label-delay="0.2s" style="position: absolute; top: 4px; right: 4px;" class="mdc-icon-toggle" data-mdc-auto-init="MDCIconToggle"><i style="font-size: 120%; transform: translate(1px, 1px);" class="material-icons">exit_to_app</i></i>

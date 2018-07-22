@@ -20,9 +20,16 @@ function partsTabFirstInit() {
 			getPartsTabSearchData();
 
 			partsView = stringUnNull(getHashParam('partsView'));
-			if ((getCurrentTab() == "Parts") && (partsSnapshot)) {
-				partsDrawn = partsView;
-				drawPartsTab(false);
+			if (partsSnapshot) {
+				if (getCurrentTab() == "Parts") {
+					partsDrawn = partsView;
+					drawPartsTab(false);
+				}
+				else if(getCurrentTab() == "Parts-Parts") {
+					PartsPartsDrawUnits();
+					PartsPartsDrawManu();
+					PartsPartsDrawParts();
+				}
 			}
 		});
 
@@ -340,11 +347,12 @@ PartsAddFab.element.addEventListener('click', function () {
 			submitButton: "Submit",
 			cancelButton: "Cancel",
 			dontCloseOnExternalClick: true,
+			dontCloseOnEsc: true,
 			contents:
 				mainSnips.textField("PartsAdd_Title", "Title", "The Title of the Item", null, null, true) +
 				mainSnips.richText("PartsAdd_Desc", "Description") +
-				mainSnips.textFieldAutoComplete("PartsAdd_Part", "Part", "The Part", pn, '', true) +
-				mainSnips.textField("PartsAdd_Quan", "Quantity", "The Quantity of the Part", "number", null, true, 1) +
+				mainSnips.textFieldAutoComplete("PartsAdd_Part", "Part", "The Part", pn, '', true, '', 'PartsAddItemInput') +
+				mainSnips.textField("PartsAdd_Quan", "Quantity", "The Quantity of the Part", "number", null, true, 1, null) +
 				mainSnips.dropDown("PartsAdd_Priority", "Priority", "", "", ["1", "Low - There is Little Rush In Ordering This Item (Recommended)", true], ["2", "Medium - This Item is Needed Very Soon", false], ["3", "High - The Robot is Dependent On This Item", false]) +
 				mainSnips.dropDown("PartsAdd_Status", "Status", "", "", ["0", "Not Ready (Still Being Decided)", false], ["1", "Ready (Ready To Be Ordered)", true])
 		});
@@ -360,6 +368,17 @@ PartsAddFab.element.addEventListener('click', function () {
 		ShiftingDialog.open();
 	}
 });
+function PartsAddItemInput() {
+	try {
+		var el = document.querySelector('#PartsAdd_Part');
+		console.log(el);
+		var u = '';
+		try {
+			u = PartsGetPartData(PartsGetPartByName(el.value)).unit;
+		} catch (err) { console.error(err); }
+		document.querySelector('#PartsAdd_Quan').parentNode.querySelector('label').innerHTML = `Quantity` + ((u == "" || !u) ? ('') : (' ( ' + u + ' )'))
+	} catch (err) { console.error(err) }
+}
 // Folder and Item-Groups (FIG)
 ShiftingDialog.addSubmitListener("PartsAddFIG", function (content) {
 	try {
@@ -406,7 +425,7 @@ ShiftingDialog.addSubmitListener("PartsAddItem", function (c) {
 			//Needs ShiftingDialog Subdialog
 			confirm("This Part Isn't Registered In The Database, Would You Like To Register It?");
 
-			PartsCreateNewPart((gd("Part").value || ""), true);
+			PartsCreateNewPart((gd("Part").value || ""));
 		}
 		else {
 
@@ -670,10 +689,11 @@ function PartsEditItem(item, parent) {
 		submitButton: "Submit",
 		cancelButton: "Cancel",
 		dontCloseOnExternalClick: true,
+		dontCloseOnEsc: true,
 		contents:
 			mainSnips.textField("PartsEdit_Title", "Title", "The Title of the Item", null, null, true, itemData.title) +
 			mainSnips.richText("PartsEdit_Desc", "Description") +
-			mainSnips.textFieldAutoComplete("PartsEdit_Part", "Part", "The Part", pn, '', true, part) +
+			mainSnips.textFieldAutoComplete("PartsEdit_Part", "Part", "The Part", pn, '', true, part, "PartsEditItemInput") +
 			mainSnips.textField("PartsEdit_Quan", "Quantity", "The Quantity of the Part", "number", null, true, (itemData.quantity || "")) +
 			mainSnips.dropDown("PartsEdit_Priority", "Priority", "", "", ["1", "Low - There is Little Rush In Ordering This Item (Recommended)", (itemData.priority == 1)], ["2", "Medium - This Item is Needed Very Soon", (itemData.priority == 2)], ["3", "High - The Robot is Dependent On This Item", (itemData.priority == 3)])
 	});
@@ -687,6 +707,18 @@ function PartsEditItem(item, parent) {
 		lists: false
 	});
 	ShiftingDialog.open();
+	PartsEditItemInput();
+}
+function PartsEditItemInput() {
+	try {
+		var el = document.querySelector('#PartsEdit_Part');
+		console.log(el);
+		var u = '';
+		try {
+			u = PartsGetPartData(PartsGetPartByName(el.value)).unit;
+		} catch (err) { console.error(err); }
+		document.querySelector('#PartsEdit_Quan').parentNode.querySelector('label').innerHTML = `Quantity` + ((u == "" || !u) ? ('') : (' ( ' + u + ' )'))
+	} catch (err) { console.error(err) }
 }
 ShiftingDialog.addSubmitListener("PartsEditItem", function (c) {
 	try {
@@ -705,7 +737,7 @@ ShiftingDialog.addSubmitListener("PartsEditItem", function (c) {
 			//Needs ShiftingDialog Subdialog
 			confirm("This Part Isn't Registered In The Database, Would You Like To Register It?");
 
-			PartsCreateNewPart((gd("Part").value || ""), true);
+			PartsCreateNewPart((gd("Part").value || ""));
 		}
 		else {
 			var ctgN = PartsItems_Editing[1] ? PartsItems_Editing[1] : partsView.indexOf('\\') != -1 ? partsView.substring(partsView.lastIndexOf('\\') + 1) : partsView;
@@ -798,7 +830,10 @@ ShiftingDialog.addSubmitListener("PartsCSItem", function (content) {
 
 
 //  ----------------------------------------  Create Part  ----------------------------------------  \\
-function PartsCreateNewPart(name, restoreHTML) {
+function PartsCreateNewPart(name) {
+	var d = findObjectByKey(partsSnapshot.docs, "id", "MAN_UN").data();
+	var MANU = d.MANU;
+	var UNITS = d.UNITS;
 	ShiftingDialog.set({
 		id: "PartsCreatePart",
 		title: "Create Part",
@@ -808,11 +843,11 @@ function PartsCreateNewPart(name, restoreHTML) {
 		contents:
 			mainSnips.textField("CreatePart_Name", "Name", "A Short Name of The Part", null, null, true, (name || "")) +
 			mainSnips.textField("CreatePart_Url", "Url", "A Url to the Part", "url", null, false) +
-			mainSnips.textFieldAutoComplete("CreatePart_Vendor", "Vendor", "The Vendor of the Part", ["Ace Hardware", "Actobotics", "Amazon", "Andymark", "Automation Direct", "Banebots", "Bimba", "Cooper Industries", "Craftable", "DeWalt", "DigiKey", "Festo", "FRP Shop", "Gladiator", "Global Industrial", "Grainger", "Harbor Freight", "Home Depot", "Igus", "Kuaui Labs", "Local", "Mac Tools", "McMaster", "Misumi", "Motion Industry", "National Instruments", "Norgren", "OpenBuilds", "Proto Pasta", "Rexel USA", "Rockler", "ServoCity", "SMC Pneumatics", "Soft Tiles", "Sparkfun", "ToolSource", "Uline", "Vex Robotics", "Webstaurant Store", "West Coast", "80/20"], '', true, '') +
+			mainSnips.textFieldAutoComplete("CreatePart_Vendor", "Vendor", "The Vendor of the Part", MANU, '', true, '') +
 			mainSnips.textField("CreatePart_PartNumber", "Part Number", "The Part Number for the Part", null, null, false) +
-			mainSnips.textField("CreatePart_Image", "Image", "A Url To An Image (Optional)", "url", null, false) +
-			mainSnips.textFieldAutoComplete("CreatePart_Unit", "Unit", "The Unit for this item (Bags, Pounds, Each, Feet...)", ["Each", "Feet", "Bags", "Pounds", "Inches"], '', true) +
-			mainSnips.textField("CreatePart_Price", "Price", "The Price Per Unit of the Part", "number", null, true) +
+			mainSnips.textField("CreatePart_Image", "Image", "A Url To An Image (Right-Click on Image and Press 'Copy image address')", "url", null, false) +
+			mainSnips.textFieldAutoComplete("CreatePart_Unit", "Unit", "The Unit for this item (Bags, Pounds, Each, Feet...)", UNITS, '', true) +
+			mainSnips.textField("CreatePart_Price", "Price ($)", "The Price Per Unit of the Part", "number", null, true, "0.00") +
 			mainSnips.textField("CreatePart_Other", "Other", "Other Important Data About the Part", null, null, false)
 	});
 	ShiftingDialog.open();
