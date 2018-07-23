@@ -17,11 +17,15 @@ function EditProfileDraw() {
 						} catch (err) { }
 					});
 					resizeTextarea(document.querySelector('#EditAccountJS--Desc'));
-					document.querySelector('#EditAccountJS--Avatar').src = data.avatar || '../assets/img/iconT.png';
+					console.log(firebase.auth().currentUser.uid);
+					getAvatarUrl(firebase.auth().currentUser.uid, function (img) {
+						console.log(img);
+						document.querySelector('#EditAccountJS--Avatar').src = img || '../assets/img/iconT.png';
+					});
 					try {
 						$('#EditAccountJS--Phone').inputmask({ 'mask': '(999) 999-9999' });
-					} catch (err) { }
-				} catch (err) { }
+					} catch (err) {  }
+				} catch (err) { console.error(err); }
 			});
 		}
 		else
@@ -100,7 +104,7 @@ function getAvatarUrl(uid, func, rem) {
 	storageRef.getDownloadURL()
 		.catch(function (error) {
 			if (error.code == "storage/object-not-found") {
-				func("../assets/img/iconT.png", rem); return; //Default Avatar Fallback
+				func("../assets/img/iconT.png", rem || null); return; //Default Avatar Fallback
 			}
 		})
 		.then(function (url) {
