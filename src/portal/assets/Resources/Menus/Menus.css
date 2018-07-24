@@ -27,6 +27,10 @@
 	z-index: 10000;
 }
 
+	.breaker-menu > .mdc-list .mdc-list-item {
+		cursor: pointer !important;
+	}
+
 .breaker-menu--open {
 	transform: scale(1);
 }

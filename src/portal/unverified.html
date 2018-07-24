@@ -95,11 +95,11 @@
 					</div>
 					<div style="width: 100%; height: 1px;"></div>
 					<div style="font-size: 14px; text-align: center;">
-						Your Account is Being Verified By an Admin.
+						Your account is being verified by an admin.
 					</div>
 					<div style="width: 100%; height: 1px;"></div>
 					<div style="font-size: 14px; text-align: center;">
-						In The Mean Time, You can Edit You Account Details.
+						In the mean time, you can edit your account details.
 					</div>
 					<div style="width: 100%; height: 20px;"></div>
 					<button onclick="setTimeout(function () { window.location.hash = '#EditProfile'; }, 200);" class="coolbutton mdc-ripple-surface" data-mdc-auto-init="MDCRipple">
@@ -227,6 +227,7 @@
 	<script src="assets/Autocomplete/Autocomplete.js"></script>
 	<script src="assets/Resources/ExpandingTextArea.js"></script>
 	<script src="assets/ProfileTab/AvatarEditor.js"></script>
+	<script src="assets/Resources/ExpandingTextArea/ExpandingTextArea.js"></script>
 
 	<!---->
 	<script src="unverified/EditAccount.js"></script>
@@ -241,17 +242,26 @@
 			var lastTab = tabs.querySelector('.tab-active');
 			if (lastTab) lastTab.classList.remove('tab-active');
 			var newTab = (tabs.querySelector(window.location.hash == "" ? '#f8d26858e7064990b5d96f53cf380769f80f86ed8d0c465441d89ba4702a1cb4' : window.location.hash) || tabs.querySelector('#Home'));
-			newTab.classList.add('tab-active'); 
+			newTab.classList.add('tab-active');
 			document.querySelector('#HeaderBack').style.display = (newTab.id != "Home") ? "block" : "none";
 			document.querySelector('#HeaderSignout').style.display = (newTab.id == "Home") ? "block" : "none";
+			if (nowVerified)
+				window.open('main.html#jsi', '_self', false);
 		}
 
+		var nowVerified = false;
 		document.addEventListener("DOMContentLoaded", function () {
 			function a() {
 				if (firebase.auth().currentUser) {
 					firebase.app().firestore().collection("Clearance").doc(firebase.auth().currentUser.uid).onSnapshot(function (snap) {
 						if (snap.exists && snap.id == firebase.auth().currentUser.uid) {
-							window.open('main.html#jsi', '_self', false);
+							nowVerified = true;
+							if (tabs.querySelector('.tab-active').id == "Home") {
+								window.open('main.html#jsi', '_self', false);
+							}
+							else {
+								alert("Your account is now verified! Once you finish here and go back to the homepage you will be rerouted to the private face.");
+							}
 						}
 					});
 				}

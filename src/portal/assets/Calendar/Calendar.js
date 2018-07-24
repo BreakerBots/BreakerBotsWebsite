@@ -121,7 +121,7 @@ class BreakerCalendar {
 							}
 							sel.elements.viewbox.querySelector('.BreakerCalendarTab--SCHEDULE').innerHTML = html;
 							});
-						sel.elements.today.click();
+						sel.monthView = [new Date().getMonth(), new Date().getFullYear()];
 					}
 					else setTimeout(a, 1000);
 				} a();

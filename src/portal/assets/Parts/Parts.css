@@ -1,1 +1,31 @@
 ﻿/* Parts.css */
+.Parts-Parts-TabBar {
+	font-size: 140%;
+	padding: 0 10px 0 10px;
+	border-right: 1px solid #a00000;
+	text-align: center;
+	height: 40px;
+	flex: 0 0 auto;
+	cursor: pointer;
+}
+
+.Parts-Parts-Tab {
+	display: none;
+	height: 100%;
+	width: 100%;
+}
+.Parts-Parts-Tab--Active {
+	display: block;
+	animation: Parts-Parts-Tab--Open 1s cubic-bezier(.4, 0, .2, 1)
+}
+
+@keyframes Parts-Parts-Tab--Open {
+	from {
+		opacity: 0;
+		transform: translateY(10%)
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0)
+	}
+}

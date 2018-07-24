@@ -1,8 +1,9 @@
 /*Snipits.js
-	This class is a group of MDC snipits meant for an easy use of inputing html into the Shifiting Dialog
+	This class is a collection of HTML snipits meant for an easy use of inputing html into the Shifiting Dialog
+	These Snipits can also be used in a variety of other cases
 */
 
-var mainSnips = new class materialSnip {
+var mainSnips = new class mainSnips {
 	/**
 	 * A snippit for text a box
 	 * @param {any} id The id of the input element
@@ -11,11 +12,11 @@ var mainSnips = new class materialSnip {
 	 * @param {any} type The type of input element (default is text)
 	 * @param {any} style Added style for the container
 	 */
-	textField(id, label, placeholder, type, style, isRequired, value, tooltip) {
+	textField(id, label, placeholder, type, style, isRequired, value, tooltip, oninput) {
 		return `
 				<div class="form-group" style="width: 90%; min-height: 65px; max-height: ` + MSNC(stringEV(label), "73", "65") + `px;` + MSN(style) + `" ` + MSN(tooltip, ' aria-label="', '" aria-label-z-index="1001" aria-label-delay="0.1"') + `>
 					<label ` + MSN(id, ` for="`, `" `, ``) + `>` + MSN(label) + `</label>
-					<input ` + MSN_ID(id) + MSNC(isRequired, "required ", "") + ` type="` + MSN(type, ``, ``, `text`) + `" ` + MSN(value, 'value="', '"', '') + ` class="form-control" placeholder="` + MSN(placeholder) + `" autocomplete="off">
+					<input ` + MSN_ID(id) + MSNC(isRequired, "required ", "") + MSN(oninput, `oninput="`, `"`, ``) + ` type="` + MSN(type, ``, ``, `text`) + `" ` + MSN(value, 'value="', '"', '') + ` class="form-control" placeholder="` + MSN(placeholder) + `" autocomplete="off">
 				</div>
 				`;
 	}
@@ -46,11 +47,11 @@ var mainSnips = new class materialSnip {
 	 * @param {Array[String]} options An Array Of HTML Strings so [HTML, HTML, HTML, HTML]
 	 * @param {any} showAll If It Should Show all Autocomplete Items When No Text is Typed
 	 */
-	textFieldAutoComplete(id, label, placeholder, options, style, showAll, value) {
+	textFieldAutoComplete(id, label, placeholder, options, style, showAll, value, oninput) {
 		return `
 			<div class="form-group autocomplete" style="width: 90%; min-height: 65px; max-height: ` + MSNC(stringEV(label), "73", "65") + `px;` + MSN(style) + `" data-autocomplete-auto-init ` + MSNC(showAll, "data-autocomplete-showall", "") + ` >
 				<label ` + MSN(id, ` for="`, `" `, ``) + `>` + MSN(label) + `</label>
-				<input ` + MSN_ID(id) + ` type="text" class="form-control" value="` + MSN(value) + `" placeholder="` + MSN(placeholder) + `" autocomplete="off">
+				<input ` + MSN_ID(id) + MSN(oninput, ' data-autocomplete-input="', '"', '') + MSN(oninput, ' oninput="', '()"', '') + ` type="text" class="form-control" value="` + MSN(value) + `" placeholder="` + MSN(placeholder) + `" autocomplete="off">
 				<div class="autocomplete-items"></div>
 				<div class="autocomplete-options">` +
 					Autocomplete_ArrayToOptions(options)

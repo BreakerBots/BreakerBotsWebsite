@@ -180,7 +180,7 @@ function drawTodoTab(todoDrawTransition) {
 	}
 	//Or The Card Layout
 	else {
-		html = `<div class="breaker-layout" style="width: 100%;">` + html + `</div>` + '<br>'.repeat(10);
+		html = `<div class="breaker-layout" style="position: absolute; top: 60px; left: 10px; right: 15px; min-height: 100%;">` + html + `</div>` + '<br>'.repeat(10);
 		document.querySelector("html").style.overflowY = "auto";
 	}
 	document.querySelector("#TodoWrapper").innerHTML = html;
@@ -898,7 +898,7 @@ function TodoGetTaskStatus(status) {
 function getTodoTableStart(useTable, transi) {
 	if (useTable)
 		return `
-		<div class="material-table material-table--card ` + (transi ? 'todo-card' : '') + ` table-responsive" style="overscroll-behavior: none; width: 100%; overflow: scroll; position: fixed; height: calc(100vh - 135px); transform: translateY(20px)">
+		<div class="material-table ` + (transi ? 'todo-card' : '') + ` table-responsive" style="background: #fff; position: absolute;  min-height: 100%;">
 			<table class="striped" style="min-width: 700px;">
 				<thead>
 					<tr>
@@ -913,7 +913,7 @@ function getTodoTableStart(useTable, transi) {
 		`;
 	else
 		return `
-		<div class="material-table material-table--card todo-card table-responsive" style="overscroll-behavior: none; width: calc(100vw - 30px); overflow: scroll; position: fixed; height: calc(100vh - 135px); transform: translateY(20px)">
+			<div class="material-table ` + (transi ? 'todo-card' : '') + ` table-responsive" style="background: #fff; position: absolute;  min-height: 100%;">
 		`;
 }
 function getTodoTableEnd(useTable) {
