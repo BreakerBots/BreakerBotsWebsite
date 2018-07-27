@@ -61,5 +61,10 @@ service cloud.firestore {
 		allow read: if UserVerified();
 		allow write: if UserVerified();
 	}
+
+	match /Helper/{user} {
+		allow read: if UserVerified();
+		allow write: if UserVerified();
+	}
   }
 }

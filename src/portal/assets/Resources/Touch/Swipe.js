@@ -10,11 +10,11 @@ class Swipe {
 		this.element.addEventListener('touchstart', function () {
 			sel.xDown = event.touches[0].clientX;
 			sel.yDown = event.touches[0].clientY;
-		});
+		}, { passive: true });
 
 		this.element.addEventListener('touchmove', function () {
 			sel.handleTouchMove(event);
-		});
+		}, { passive: true });
 	}
 
 	set onLeft(callback) {
