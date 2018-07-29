@@ -373,15 +373,17 @@ ShiftingDialog.addSubmitListener("PartsCreateNewManu", function (c) {
 });
 function PartsPartsDeleteManu(a) {
 	if (users.getCurrentClearance() > 1) {
-		firebase.app().firestore().collection("Parts").doc("MAN_UN").get().then(function (doc) {
-			var data = doc.data();
-			data.MANU.remove(a);
+		var c = confirm('Are you sure you want to delete ' + a + '? \n This action cannot be undone.');
+		if (c)
+			firebase.app().firestore().collection("Parts").doc("MAN_UN").get().then(function (doc) {
+				var data = doc.data();
+				data.MANU.remove(a);
 
-			firebase.app().firestore().collection("Parts").doc("MAN_UN").set(data).then(function () {
-				ShiftingDialog.close();
-				PartsPartsDrawManu();
+				firebase.app().firestore().collection("Parts").doc("MAN_UN").set(data).then(function () {
+					ShiftingDialog.close();
+					PartsPartsDrawManu();
+				});
 			});
-		});
 	} else alert("You Need Be A Higher Clearance");
 }
 //  ----------------------------------------    ----------------------------------------  \\
@@ -443,15 +445,17 @@ ShiftingDialog.addSubmitListener("PartsCreateNewUnit", function (c) {
 });
 function PartsPartsDeleteUnit(a) {
 	if (users.getCurrentClearance() > 1) {
-		firebase.app().firestore().collection("Parts").doc("MAN_UN").get().then(function (doc) {
-			var data = doc.data();
-			data.UNITS.remove(a);
+		var c = confirm('Are you sure you want to delete ' + a + '? \n This action cannot be undone.');
+		if (c)
+			firebase.app().firestore().collection("Parts").doc("MAN_UN").get().then(function (doc) {
+				var data = doc.data();
+				data.UNITS.remove(a);
 
-			firebase.app().firestore().collection("Parts").doc("MAN_UN").set(data).then(function () {
-				ShiftingDialog.close();
-				PartsPartsDrawUnits();
+				firebase.app().firestore().collection("Parts").doc("MAN_UN").set(data).then(function () {
+					ShiftingDialog.close();
+					PartsPartsDrawUnits();
+				});
 			});
-		});
 	} else alert("You Need Be A Higher Clearance");
 }
 //  ----------------------------------------    ----------------------------------------  \\
