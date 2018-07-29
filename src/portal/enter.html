@@ -16,9 +16,6 @@
 	<!--Firebase-->
 	<script defer src="/__/firebase/4.12.1/firebase-app.js"></script>
 	<script defer src="/__/firebase/4.12.1/firebase-auth.js"></script>
-	<script defer src="/__/firebase/4.12.1/firebase-database.js"></script>
-	<script defer src="/__/firebase/4.12.1/firebase-messaging.js"></script>
-	<script defer src="/__/firebase/4.12.1/firebase-storage.js"></script>
 	<script defer src="/__/firebase/4.12.1/firebase-firestore.js"></script>
 	<script defer src="/__/firebase/init.js"></script>
 
@@ -183,7 +180,7 @@
 								</div>
 
 								<div class="splash-footer" style="position: absolute; top: 107%; left: 25%;">
-									<span>Don't have an account? <a style="color: #d50000;" href="#SignUp">Sign Up</a></span>
+									<span>Don't have an account? <a style="color: #d50000;" href="#ConfirmStudent">Sign Up</a></span>
 								</div>
 								<div style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: -5; background-color: rgba(0,0,0,0.5); opacity: 0; transition: all 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);" id="mainLoader">
 									<div style="transform: scale(2); position: absolute; left: 50%; top: 30%;">
@@ -240,6 +237,20 @@
 										<svg width="50px" height="50px" class="material-loader">
 											<circle cx="25" cy="25" r="20" class="material-loader__circle" />
 										</svg>
+									</div>
+								</div>
+							</div>
+
+							<div id="ConfirmStudent" class="tab">
+								<div class="card-header" style="margin-bottom: 0;">
+									<img src="../assets/img/logosheet.png" alt="logo" style="width: 35%;" class="logo-img">
+									<span class="splash-description"></span>
+								</div>
+								<div class="card-body">
+									<div style="font-size: 24px; width: 100%; text-align: center; margin: 0 0 40px 0;">Are You A Member of 5104?</div>
+									<div style="width: 100%;">
+										<button onclick="window.open('../index.html', '_self', false);" style="width: 49%; display: inline-block; margin: auto;" data-mdc-auto-init="MDCRipple" class="mdc-button mdc-button--raised mdc-ripple-upgraded">No</button>
+										<button onclick="window.location.hash = '#SignUp'" style="width: 49%; float: right; display: inline-block; margin: auto;" data-mdc-auto-init="MDCRipple" class="mdc-button mdc-button--raised mdc-ripple-upgraded">Yes</button>
 									</div>
 								</div>
 							</div>
@@ -419,6 +430,7 @@
 
 		//Signup
 		var sud;
+		new RegisteredTab("ConfirmStudent", 300, null, null, null, function () { });
 		var SignUpTab = new RegisteredTab("SignUp", 490, function () { }, function () {
 			sud = document.querySelector('#SignUp');
 
