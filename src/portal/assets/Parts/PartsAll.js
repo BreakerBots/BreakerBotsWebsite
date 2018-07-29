@@ -198,7 +198,7 @@ function PartsGetFIGHtml(fotg, fotgN, fotgP, transi) {
 						</div>
 						<div class="mdc-typography--body2" style="width: 70%; overflow-wrap: break-word;">` + (fotg.desc) + `</div>
 						<i class="noselect material-icons" style="font-size: 300%; position: absolute; right: 20px; top: 20px;"> 
-							folder 
+							` + (fotg.items ? 'shopping_cart' : 'folder') + `
 						</i>
 					</div>
 				</div>` +
@@ -227,7 +227,7 @@ function PartsGetFIGHtml(fotg, fotgN, fotgP, transi) {
 		<tr style="` + (fotg.trash ? 'background-color: rgba(190, 190, 190, 1)' : '') + `">
 			<td style="min-width: 60px; max-width: 60px; float: left; overflow: visible; text-overflow: visible;">
 				<i data-mdc-auto-init="MDCIconToggle" onclick="setHashParam('partsView', '` + (partsView.split('\\').join("\\\\") + (partsView == "" ? "" : "\\\\") + fotgN) + `');" class="mdc-icon-toggle material-icons" style="color: rgb(80, 80, 80); font-size: 200%;" role="button" aria-pressed="false">
-					folder
+					` + (fotg.items ? 'shopping_cart' : 'folder') + `
 				</i>
 			</td>
 			<td style="min-width: 300px; width: 20%; padding-left: 30px;">` + (fotg.title == "" ? "&nbsp;" : fotg.title) + `</td>
