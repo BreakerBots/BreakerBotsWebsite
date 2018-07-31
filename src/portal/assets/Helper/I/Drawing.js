@@ -1,3 +1,0 @@
-// Helper Introduction -- Drawing.js
-
-

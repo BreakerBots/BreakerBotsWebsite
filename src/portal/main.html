@@ -26,6 +26,24 @@
 	<script defer src="/__/firebase/4.12.1/firebase-firestore.js"></script>
 	<script defer src="/__/firebase/init.js"></script>
 
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-123149592-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+
+		gtag('config', 'UA-123149592-1');
+	</script>
+
+	<!-- Google Tag Manager -->
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-PWKQBG7');</script>
+	<!-- End Google Tag Manager -->
+
 	<!--MDC-->
 	<link href="../assets/mdc/material.css" rel="stylesheet">
 	<link href="../assets/mdc/icons.css" rel="stylesheet">
@@ -79,8 +97,17 @@
 
 	<!--Parts Tabs-->
 	<link rel="stylesheet" href="assets/Parts/Parts.css" type="text/css" />
+
+	<!--Helper-->
+	<link rel="stylesheet" href="assets/Helper/I/HelperI.css" type="text/css" />
 </head>
 <body style="background-color: #EEEEEE; overflow-y: hidden;">
+	<!-- Google Tag Manager (noscript) -->
+	<noscript>
+		<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PWKQBG7"
+				height="0" width="0" style="display:none;visibility:hidden"></iframe>
+	</noscript>
+	<!-- End Google Tag Manager (noscript) -->
 	<header class="mdc-top-app-bar mdc-top-app-bar--fixed" style="z-index: 10; transform: translateY(-100%);">
 		<div class="mdc-top-app-bar__row">
 			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
@@ -116,7 +143,7 @@
 							<span class="mdc-list-item__text" style="font-size: 16px;">
 								Item Management System
 								<span class="mdc-list-item__secondary-text" style="font-size: 13px;">
-									Add a new Part, Approve Part Requests, 
+									Add a new Part, Approve Part Requests,
 								</span>
 							</span>
 						</li>
@@ -309,6 +336,7 @@
 				<div class="material-scrollbar" id="page-scroll" onscroll="function PageScrollShadow(sel, header) { if (sel.scrollTop > 5) header.classList.add('mdc-elevation--z10'); else header.classList.remove('mdc-elevation--z10'); } PageScrollShadow(this, document.querySelector('header'));" style="overflow-x: hidden; overflow-y: auto; position: relative; height: calc(100vh - 64px); ">
 					<!--Tabs-->
 					<div id="General" class="tab">
+
 					</div>
 					<div id="Parts" class="tab" style="margin: 0">
 						<div style="background: #c00000; width: 100%; left: 0; top: 0; color: rgb(230, 230, 230);">
@@ -716,16 +744,8 @@
 					<!--The Content Wrapper For The Dialog-->
 					<form id="SD-Form" onsubmit="event.preventDefault(); ShiftingDialogSubmit();" style="height: 100%;">
 						<div id="SD-Wrapper" class="material-scrollbar">
-							<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus, incidunt. Debitis, repudiandae dignissimos et quam velit autem mollitia tenetur, eligendi rerum repellendus, explicabo ad aperiam vel ipsam! Exercitationem, voluptates molestiae.</p>
-							<p>Iusto reiciendis mollitia ab commodi. Animi maiores nesciunt officia enim corrupti officiis consequuntur vel, consectetur eveniet ad dolorum reprehenderit similique qui deleniti ut sed explicabo id error at. Laudantium, excepturi!</p>
-							<p>Suscipit quam laboriosam animi quasi similique voluptatem molestiae voluptas sint itaque, labore eos, maiores harum qui totam libero amet nisi? Similique nihil veritatis aspernatur molestias accusantium, eius dolorum autem optio?</p>
-							<p>Cum eligendi consequuntur voluptas. Repellat nisi commodi numquam aliquam quasi tenetur obcaecati, animi cum eum. Facilis esse cupiditate fugiat, quod eveniet, inventore impedit nam ex tempore harum laudantium provident assumenda.</p>
-							<p>Ut iste aperiam excepturi rerum consectetur illo officiis quo sed sunt labore earum soluta tempore omnis a, enim maiores non? Facilis qui alias sunt veniam esse hic. Aut, ducimus aliquid!</p>
-							<p>Qui quaerat saepe sunt earum nihil porro, sint quibusdam, id eos vero asperiores dolorem iusto dolore illo, architecto fuga? Voluptates distinctio eligendi nihil provident accusantium. Maxime ullam ratione officia non.</p>
-							<p>Molestiae sapiente quae nulla. Voluptates quibusdam numquam earum vero deserunt in, cum tenetur accusamus ipsum minus veniam libero quasi fuga dolorem laudantium error quo et accusantium neque vitae aliquam tempore.</p>
-							<p>Optio asperiores quisquam odit eaque incidunt laboriosam repudiandae ex eum iure quia, id vero atque perspiciatis, officiis quaerat aut ut dolorem libero eos perferendis ducimus! Veritatis nam libero tempora maxime?</p>
-							<p>Sapiente reiciendis quis eveniet iure dicta perferendis quos consectetur, soluta sunt, labore ipsam inventore maiores laudantium recusandae deleniti autem animi consequatur, voluptatem sint. Dignissimos minima labore earum vitae ad non!</p>
-							<p>Cum ex totam dolore officiis maiores quidem necessitatibus consequatur molestias culpa, quas, aperiam tempora et! Dolorem, voluptates dignissimos? Voluptatem voluptatibus expedita, error ducimus distinctio necessitatibus laudantium officiis dolorum nam vitae?</p>
+							<h1 style="width: 100%; text-align: center;">Oops, Something Went Wrong!</h1>
+							<h4 style="width: 100%; text-align: center;">Error: V2lsbGlhbSAoTGlhbSkgQWxiZXJ0IFNub3cgSVY(Base64,Unicode8) Content Failed To Display</h4>
 						</div>
 						<div id="SD-FooterWrapper">
 							<div id="SD-Footer">
@@ -755,10 +775,26 @@
 			</div>
 		</div>
 
+		<!--Helper I-->
+		<div id="HelperI">
+			<div id="HelperI-Dim">
+
+			</div>
+			<div id="HelperI-EleW" style="left: 50px; top: 50px;">
+				<div id="HelperI-Ele">
+					<div id="HelperI-Content">
+						Here are the tabs, you easily switch tabs clicked on them.
+					</div>
+					<i id="HelperI-Next" class="material-icons mdc-icon-toggle" data-mdc-auto-init="MDCIconToggle" style="color: white !important; float: right;">
+						navigate_next
+					</i>
+				</div>
+			</div>
+		</div>
+
 		<!--                           -->
 		<!-- Resource Javascript Files -->
 		<!--                           -->
-
 		<!-- Imports -->
 		<script src="../assets/mdc/material.js"></script>
 		<script type="text/javascript">window.mdc.autoInit();</script>
@@ -796,6 +832,7 @@
 		<script src="assets/Resources/Snackbar/Snackbar.js"></script>
 		<script src="assets/Resources/Touch/Swipe.js"></script>
 		<script src="assets/Resources/RichTextEditor/RichTextEditor.js"></script>
+		<script src="assets/Resources/Scroll/Scroll.js"></script>
 
 		<!--Header-->
 		<script src="assets/Header/header.js"></script>
@@ -810,13 +847,11 @@
 		<script src="assets/Notifications/NotificationAPI.js"></script>
 
 		<!--Helper-->
-		<script src="assets/Helper/I/Account.js"></script>
-		<script src="assets/Helper/I/Drawing.js"></script>
+		<script src="assets/Helper/I/HelperI.js"></script>
 
 		<!--                      -->
 		<!-- Tab Javascript Files -->
 		<!--                      -->
-
 		<!--Calendar Tab-->
 		<div>
 			<script src="assets/Calendar/Calendar.js"></script>
