@@ -1167,7 +1167,7 @@ function TodoPHI_Main() {
 				break;
 			case 4:
 				Helper.drawing.display("Everywhere inside the Todo System this add button will be accessible, though its actions change depending on where you are. Inside folders you are creating folders and task-groups, while inside task-groups you are only creating tasks.",
-					['100vw - 72px', '100vh - 72px'], [0.5, 0.5], function () { Helper.API.setProgress("Todo", 0, 5); TodoPHI_Main(); });
+					['100vw - 92px', '100vh - 92px'], [1, 1], function () { Helper.API.setProgress("Todo", 0, 5); TodoPHI_Main(); });
 				break;
 			case 5:
 				Helper.drawing.display("If you ever want to edit or trash an item, you can always press the three stacked dots ⋮ at the bottom of it.",

@@ -146,5 +146,22 @@ function addHeaderSearchInputListener(tabName, callback) {
 
 
 //  ----------------------------------------  Change Avatar  ----------------------------------------  \\
-var HeaderChangeAvatarHandler;function HeaderChangeAvatar() {try {var rlId = "HCAUE--" + guid();ShiftingDialog.set({id:"HeaderChangeAvatar",title:"Change Avatar",submitButton:"Submit",cancelButton:"Cancel",contents:'<div style="width: 100%; height: 100%;" id="' + rlId + '"></div>',centerButtons: !1,dontCloseOnExternalClick: !0});ShiftingDialog.open(); ShiftingDialog.enableSubmitButton(!1); HeaderChangeAvatarHandler = new AvatarEditor(document.querySelector("#" + rlId), function () { "HeaderChangeAvatar" == ShiftingDialog.currentId && ShiftingDialog.enableSubmitButton(!0) })} catch (a) { };}ShiftingDialog.addSubmitListener("HeaderChangeAvatar", function () {try{var rt=HeaderChangeAvatarHandler.get(function(c){fetch(c).then(function(b){return b.blob()}).then(function(b){firebase.storage().ref("Avatars/"+users.getCurrentUid()).put(b).on("state_changed",function(a){},function(a){},function(){ShiftingDialog.close();HardRefreshHeaderAvatar();getAvatarUrl(users.getCurrentUid(),function(a){a&&ProfileTabViewing==users.getCurrentUid()&&(document.querySelector(".ProfileTabJI-Avatar").src=a,allUsers[users.getCurrentUid]=a)})})})});rt||(ShiftingDialog.throwFormError("Please Select An Image"),ShiftingDialog.enableSubmitButton(!0))}catch(c){};});
+var HeaderChangeAvatarHandler;
+function HeaderChangeAvatar() {
+	try {
+		var rlId = "HCAUE--" + guid();
+		ShiftingDialog.set({
+			id: "HeaderChangeAvatar",
+			title: "Change Avatar",
+			submitButton: "Submit",
+			cancelButton: "Cancel",
+			contents: '<div style="width: 95%; height: 100%;" id="' + rlId + '"></div>',
+			centerButtons: !1,
+			dontCloseOnExternalClick: !0
+		});
+		ShiftingDialog.open();
+		ShiftingDialog.enableSubmitButton(!1);
+		HeaderChangeAvatarHandler = new AvatarEditor(document.querySelector("#" + rlId), function () { "HeaderChangeAvatar" == ShiftingDialog.currentId && ShiftingDialog.enableSubmitButton(!0) })
+	} catch (a) { };
+} ShiftingDialog.addSubmitListener("HeaderChangeAvatar", function () { try { var rt = HeaderChangeAvatarHandler.get(function (c) { fetch(c).then(function (b) { return b.blob() }).then(function (b) { firebase.storage().ref("Avatars/" + users.getCurrentUid()).put(b).on("state_changed", function (a) { }, function (a) { }, function () { ShiftingDialog.close(); HardRefreshHeaderAvatar(); getAvatarUrl(users.getCurrentUid(), function (a) { a && ProfileTabViewing == users.getCurrentUid() && (document.querySelector(".ProfileTabJI-Avatar").src = a, allUsers[users.getCurrentUid] = a) }) }) }) }); rt || (ShiftingDialog.throwFormError("Please Select An Image"), ShiftingDialog.enableSubmitButton(!0)) } catch (c) { }; });
 //  ----------------------------------------    ----------------------------------------  \\

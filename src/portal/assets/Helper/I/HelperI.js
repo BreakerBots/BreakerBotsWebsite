@@ -25,8 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					Todo:    [0],
 					Item:    [0],
 					Manuals: [0],
-					Teams:   [0],
-					Profile: [0, 0]
+					Teams:   [0]
 				});
 			}
 			//Save Data

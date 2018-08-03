@@ -115,7 +115,7 @@ function EditProfileChangeAvatar() {
 			title: "Change Avatar",
 			submitButton: "Submit",
 			cancelButton: "Cancel",
-			contents: '<div style="width: 100%; height: 100%;" id="' + rlId + '"></div>',
+			contents: '<div style="width: 95%; height: 100%;" id="' + rlId + '"></div>',
 			centerButtons: !1,
 			dontCloseOnExternalClick: !0
 		});

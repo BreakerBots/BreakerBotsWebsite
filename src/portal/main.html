@@ -444,6 +444,9 @@
 						</div>
 						<div class="ProfileTab-User">
 							<span class="ProfileTab-Name ProfileTabJI-Name">---- ----</span>
+							<div class="ProfileTab-EditProfileButton" style="display: none;">
+								<button class="mdc-button mdc-button--outlined" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab', 'EditAccount')">Edit Profile</button>
+							</div>
 							<p class="ProfileTab-Role ProfileTabJI-Role">--------</p>
 							<p class="ProfileTab-Desc ProfileTabJI-Desc">------ ----- ---- -----</p>
 						</div>
@@ -508,11 +511,6 @@
 
 							</div>
 						</div>
-						<button onclick="setHashParam('tab', 'EditAccount')" id="ProfileTabSettingsFab" class="mdc-fab demo-fixed-fab mdc-ripple-upgraded mdc-fab--exited">
-							<span class="mdc-fab__icon">
-								<i class="material-icons">settings</i>
-							</span>
-						</button>
 					</div>
 					<div id="EditAccount" class="tab">
 						<div class="EditAccount-Card material-scrollbar">

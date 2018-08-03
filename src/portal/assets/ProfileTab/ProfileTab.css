@@ -92,6 +92,13 @@
 		margin: 20px 0 0 15px;
 		font-size: 110%;
 	}
+
+	.ProfileTab-EditProfileButton {
+		width: 100%;
+		display: flex;
+		justify-content: flex-start;
+		margin: 3px 0 7px 15px;
+	}
 }
 
 @media (max-width: 970px) {
@@ -119,6 +126,13 @@
 		display: block;
 		width: 100%;
 		text-align: center;
+	}
+
+	.ProfileTab-EditProfileButton {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		margin: 0 0 7px 0;
 	}
 }
 
