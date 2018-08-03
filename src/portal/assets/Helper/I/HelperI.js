@@ -22,11 +22,11 @@ document.addEventListener("DOMContentLoaded", function () {
 				*/
 				firebase.app().firestore().collection('Helper').doc(firebase.auth().currentUser.uid).set({
 					General: [0],
-					Todo:    [0, 0, 0, 0, 0, 0, 0, 0],
-					Item:    [0, 0, 0, 0, 0, 0, 0, 0],
-					Manuals: [0, 0, 0, 0, 0],
-					Teams:   [0, 0, 0, 0],
-					Profile: [0, 0, 0, 0]
+					Todo:    [0],
+					Item:    [0],
+					Manuals: [0],
+					Teams:   [0],
+					Profile: [0, 0]
 				});
 			}
 			//Save Data
@@ -131,12 +131,13 @@ var Helper = {
 				if (Array.isArray(anchorPoint)) {
 					setTimeout(function () {
 						var p = document.querySelector("#HelperI-EleW");
+						var pb = document.querySelector("#HelperI-Ele");
 						var pbw = 0;
 						var pbh = 0;
 						if (rAnchorPoint[0] != 0)
-							pbw -= p.scrollWidth / ((1 - rAnchorPoint[0]) * 2 + 1);
+							pbw -= pb.scrollWidth / ((1 - rAnchorPoint[0]) * 2 + 1);
 						if (rAnchorPoint[1] != 0)
-							pbh -= p.scrollHeight / ((1 - rAnchorPoint[1]) * 2 + 1);
+							pbh -= pb.scrollHeight / ((1 - rAnchorPoint[1]) * 2 + 1);
 						p.style.left = 'calc(' + anchorPoint[0] + ' + ' + pbw + 'px)';
 						p.style.top = 'calc(' + anchorPoint[1] + ' + ' + pbh + 'px)';
 					}, 10);

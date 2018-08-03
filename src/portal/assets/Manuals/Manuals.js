@@ -1,4 +1,4 @@
-// Manuals.js
+﻿// Manuals.js
 
 new RegisteredTab("Manuals", ManualsFirstInit, ManualsEveryInit, ManualsExitInit, true, "manualsView");
 
@@ -33,6 +33,7 @@ function ManualsFirstInit() {
 
 function ManualsEveryInit() {
 	showMainLoader(false);
+	ManualsPHI_Main();
 }
 
 function ManualsExitInit() {
@@ -396,3 +397,35 @@ function ManualsInitSearch() {
 	} catch (err) { }
 }
 //  ----------------------------------------    -------------------------------------------------\\
+
+
+
+
+
+//  ----------------------------------------  Helper Intr.  ----------------------------------------  \\
+function ManualsPHI_Main() {
+	Helper.API.wait(function () {
+		switch (Helper.API.getProgress("Manuals", 0)) {
+			case 0:
+				Helper.drawing.display("This is the Manuals System. The Manuals System is way a storing tutorials for other members of the team.",
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Manuals", 0, 1); ManualsPHI_Main(); });
+				break;
+			case 1:
+				Helper.drawing.display("Inside the Manuals System there are folders (for organization) and manuals (the tutorials). There is no forced organization so manuals and folders can be created basically anywhere.",
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Manuals", 0, 2); ManualsPHI_Main(); });
+				break;
+			case 2:
+				Helper.drawing.display("To navigate through the Manuals System, you can easily click on any folder or manual to open it. Once inside, you can press the back arrow next to the url or click the little home button under the header of this page.",
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Manuals", 0, 3); ManualsPHI_Main(); });
+				break;
+			case 3:
+				Helper.drawing.display("If you ever want to edit or trash an item, you can always press the three stacked dots ⋮ at the bottom of it.",
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Manuals", 0, 4); ManualsPHI_Main(); });
+				break;
+			default:
+				Helper.drawing.close();
+				break;
+		}
+	});
+}
+//  ----------------------------------------    ----------------------------------------  \\
