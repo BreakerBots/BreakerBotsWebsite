@@ -271,11 +271,13 @@ function PartsGetItemHtml(tgt, tgtN, transi) {
 				<div class="demo-card__secondary mdc-typography--body2" style="width: 85%; overflow: hidden; overflow-wrap: break-word;">` + tgt.desc + `</div>
 				<i class="noselect material-icons mdc-icon-toggle" onclick="PartsCSItem('` + tgtN + `')" aria-label-delay="0.15s" aria-label="Change Status" data-mdc-auto-init="MDCIconToggle" style="position: absolute; right: 8px; top: 8px;"> <img style="transform: translate(-5px, -5.5px)" src="` + PartsGetItemStatus(Number(tgt.status)) + `"/> </i>
 			</div>
-			<img src="` + pd.image + `" style="height: 40px; border-radius: 5px; position: absolute; left: 6px; bottom: 16px; background: white;">
+			<div style="height: 40px; width: 40px; overflow: hidden; border-radius: 5px; position: absolute; left: 6px; bottom: 16px; background: white;">
+				<img src="` + pd.image + `" style="width: 40px;">
+			</div>
 			<div style="position: absolute; left: ` + (stringUnNull(pd.image) == "" ? 12 : 52) + `px; bottom: 16px; height: 40px; right: 48px; oveflow: hidden;">
-				<div style="font-weight: 600; width: 100%; overflow: hidden;">` + pd.name + `</div>
-				<div style="width: 100%; overflow: hidden;">` + pd.vendor + `</div>
-				<div style="width: 100%; overflow: hidden;">` + tgt.quantity + ' ' + pd.unit + ' for $' + (Number(pd.price) * Number(tgt.quantity)) + `</div>
+				<div style="font-weight: 600; width: 100%; overflow: hidden; max-height: 18px; text-overflow: ellipsis; white-space: nowrap;"><a target="_blank" href="` + pd.url + `">` + pd.name + `</a></div>
+				<div style="width: 100%; overflow: hidden; max-height: 18px; text-overflow: ellipsis; white-space: nowrap;">` + pd.vendor + `</div>
+				<div style="width: 100%; overflow: hidden; max-height: 18px; text-overflow: ellipsis; white-space: nowrap;">` + tgt.quantity + ' ' + pd.unit + ' for $' + (Number(pd.price) * Number(tgt.quantity)) + `</div>
 			</div>
 			<div class="mdc-card__action-icons">
 				<i data-mdc-auto-init="MDCIconToggle" onclick="menu.toggle(this.parentNode.parentNode.querySelector('.PartsItemDropdownMenu').innerHTML, this, 'width: 180px;')" class="mdc-icon-toggle material-icons" style="color: rgb(80, 80, 80);" role="button" aria-pressed="false">more_vert</i>
@@ -848,7 +850,10 @@ function PartsCreateNewPart(name) {
 			mainSnips.textField("CreatePart_PartNumber", "Part Number", "The Part Number for the Part", null, null, false) +
 			mainSnips.textField("CreatePart_Image", "Image", "A Url To An Image (Right-Click on Image and Press 'Copy image address')", "url", null, false) +
 			mainSnips.textFieldAutoComplete("CreatePart_Unit", "Unit", "The Unit for this item (Bags, Pounds, Each, Feet...)", UNITS, '', true) +
-			mainSnips.textField("CreatePart_Price", "Price ($)", "The Price Per Unit of the Part", "number", null, true, "0.00") +
+			`<div class="form-group" style="width: 90%; min-height: 65px; max-height: 73px;" >
+				<label  for="CreatePart_Price" >Price ($)</label>
+				<input  id="CreatePart_Price" required  type="number" value="0.00" step="0.01" min="0" class="form-control" placeholder="The Price Per Unit of the Part" autocomplete="off">
+			</div>` +
 			mainSnips.textField("CreatePart_Other", "Other", "Other Important Data About the Part", null, null, false)
 	});
 	ShiftingDialog.open();
@@ -1172,11 +1177,11 @@ function PartsPHI_Main() {
 					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Item", 0, 1); PartsPHI_Main(); });
 				break;
 			case 1:
-				Helper.drawing.display("In the IMS there are three types of objects:  folders, item-groups, items and parts. Inside the home (here) or inside any other folder, only folders and item-groups can exist. While inside a item-group only items can exist.",
+				Helper.drawing.display("In the IMS there are four types of objects:  folders, item-groups, items and parts. Inside the home (here) or inside any other folder, only folders and item-groups can exist. While inside a item-group only items can exist.",
 					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Item", 0, 2); PartsPHI_Main(); });
 				break;
 			case 2:
-				Helper.drawing.display("A item is essentially something you want to buy, while folders and item-groups are just for organization. Every item in the IMS contains a name, desc, status, and reference to a part. Parts then contain many fields including vendor, url, name, image, etc.",
+				Helper.drawing.display("A item is something you want to buy, while folders and item-groups are just for organization. Every item in the IMS contains a name, desc, status, priority and reference to a part. Parts then contain many fields including vendor, url, name, image, etc.",
 					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Item", 0, 3); PartsPHI_Main(); });
 				break;
 			case 3:
@@ -1185,7 +1190,7 @@ function PartsPHI_Main() {
 				break;
 			case 4:
 				Helper.drawing.display("Everywhere inside the IMS this add button will be accessible, though its actions change depending on where you are. Inside folders you are creating folders and item-groups, while inside item-groups you are only creating items.",
-					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Item", 0, 5); PartsPHI_Main(); });
+					['100vw - 72px', '100vh - 72px'], [0.5, 0.5], function () { Helper.API.setProgress("Item", 0, 5); PartsPHI_Main(); });
 				break;
 			case 5:
 				Helper.drawing.display("If you ever want to edit or trash an item, you can always press the three stacked dots ⋮ at the bottom of it.",

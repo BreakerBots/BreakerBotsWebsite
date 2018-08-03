@@ -156,7 +156,7 @@ function PartsPartsDelete(item) {
 			contents:
 				mainSnips.icon(null, "delete", "font-size: 160px; color: red;") +
 				`<div style="width: 100%"></div>` +
-				`<h1 style="text-align: center;"> Are you sure you want to delete the ` + itemData.name + `?</h1>`
+				`<h1 style="text-align: center;"> Are you sure you want to delete the ` + itemData.name + `? <br> This action cannot be undone.</h1>`
 			, centerButtons: true
 		});
 		ShiftingDialog.open();

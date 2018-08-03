@@ -18,12 +18,12 @@ function GeneralPHI() {
 					['50vw', '30vh'], [0.5, 0.5], function () { Helper.API.setProgress("General", 0, 2); GeneralPHI(); });
 				break;
 			case 2:
-				Helper.drawing.display("Here is the toolbar were you can view notifications, apps, and your account. Also, some tabs may create a search bar here.",
+				Helper.drawing.display("Above this text is the toolbar were you can view notifications, apps, and your account. Also, some tabs may create a search bar here.",
 					['100vw', '64px'], [1, 0], function () { Helper.API.setProgress("General", 0, 3); GeneralPHI(); });
 				break;
 			case 3:
 				PeteSwitcher.set(true);
-				Helper.drawing.display("This is the menu. It is used the navigate the website (change tabs). You can open and close the menu by pressing the three lines in the top left of the screen.",
+				Helper.drawing.display("To the left of me is the menu. It is used the navigate the website (change tabs). You can open and close the menu by pressing the three lines in the top left of the screen.",
 					['17vw', '64px'], [0, 0], function () { Helper.API.setProgress("General", 0, 4); GeneralPHI(); });
 				break;
 			case 4:
