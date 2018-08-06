@@ -88,16 +88,18 @@
 			max-height: 300px;
 			position: relative;
 			margin: auto;
+			overflow: hidden;
 		}
 
 		.mySlides {
 			display: flex;
 		}
 
-			.mySlides img {
-				max-height: 100%;
-				max-width: 100%;
-			}
+		.mySlides img {
+			max-height: 100%;
+			max-width: 100%;
+			object-fit: cover;
+		}
 
 		.prev,
 		.next {
