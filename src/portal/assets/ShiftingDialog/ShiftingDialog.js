@@ -182,15 +182,17 @@ function ShiftingDialogCheckShift() {
 	//Some extra footer stuff
 }
 
-//Header Shadow
+//SD-Header Shadow
 document.querySelector("#SD-Wrapper").addEventListener('scroll', SD_HeaderShadow);
 document.querySelector("#SD-Wrapper").addEventListener('resize', SD_HeaderShadow);
 SD_HeaderShadow(); setInterval(SD_HeaderShadow, 2000);
 function SD_HeaderShadow() {
-	if (document.querySelector("#SD-Wrapper").scrollTop > 5)
+	if (document.querySelector("#SD-Wrapper").scrollTop > 5) {
 		document.querySelector("#SD-Header").classList.add("mdc-elevation--z10");
-	else
+	}
+	else {
 		document.querySelector("#SD-Header").classList.remove("mdc-elevation--z10");
+	}
 }
 
 /*

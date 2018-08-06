@@ -1,4 +1,4 @@
-//TodoTab.js
+﻿//TodoTab.js
 
 //  ----------------------------------------  Initialization  -------------------------------------------------\\
 var TodoTab = new RegisteredTab("Todo", null, todoTabInit, todoTabExit, false, "todoView");
@@ -10,6 +10,7 @@ var todoViewCard = true;
 function todoTabInit() {
 	TodoAddFab.tabSwitch();
 	setTimeout(function () { headerUseSearch(true); }, 10);
+	TodoPHI_Main();
 }
 
 window.addEventListener('DOMContentLoaded', todoTabFirstInit);
@@ -1140,3 +1141,42 @@ function TodoAddToHistory(operation, from, to, targetType, targetId) {
 	} catch (err) { }
 }
 //  ----------------------------------------    -------------------------------------------------\\
+
+
+
+
+//  ----------------------------------------  Helper Intr.  ----------------------------------------  \\
+function TodoPHI_Main() {
+	Helper.API.wait(function () {
+		switch (Helper.API.getProgress("Todo", 0)) {
+			case 0:
+				Helper.drawing.display("This is the Todo System, a system targeted at organizing tasks and projects (Trello replacement).",
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Todo", 0, 1); TodoPHI_Main(); });
+				break;
+			case 1:
+				Helper.drawing.display("Similar to the Item MS there are three types of objects:  folders, task-groups and tasks. Inside the home (here) or inside any other folder, only folders and task-groups can exist. While inside a task-group only tasks can exist.",
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Todo", 0, 2); TodoPHI_Main(); });
+				break;
+			case 2:
+				Helper.drawing.display("A task is a small task to do to complete a larger project. Large projects would be contained in task-groups and folders. At the home projects like the intake or chassis would stored.",
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Todo", 0, 3); TodoPHI_Main(); });
+				break;
+			case 3:
+				Helper.drawing.display("To navigate through the Todo System, you can easily click on any folder or task-group to go inside of it. Once inside, you can press the back arrow next to the url or click the little home button under the header of this page.",
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Todo", 0, 4); TodoPHI_Main(); });
+				break;
+			case 4:
+				Helper.drawing.display("Everywhere inside the Todo System this add button will be accessible, though its actions change depending on where you are. Inside folders you are creating folders and task-groups, while inside task-groups you are only creating tasks.",
+					['100vw - 92px', '100vh - 92px'], [1, 1], function () { Helper.API.setProgress("Todo", 0, 5); TodoPHI_Main(); });
+				break;
+			case 5:
+				Helper.drawing.display("If you ever want to edit or trash an item, you can always press the three stacked dots ⋮ at the bottom of it.",
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Todo", 0, 6); TodoPHI_Main(); });
+				break;
+			default:
+				Helper.drawing.close();
+				break;
+		}
+	});
+}
+//  ----------------------------------------    ----------------------------------------  \\

@@ -156,7 +156,7 @@ function PartsPartsDelete(item) {
 			contents:
 				mainSnips.icon(null, "delete", "font-size: 160px; color: red;") +
 				`<div style="width: 100%"></div>` +
-				`<h1 style="text-align: center;"> Are you sure you want to delete the ` + itemData.name + `?</h1>`
+				`<h1 style="text-align: center;"> Are you sure you want to delete the ` + itemData.name + `? <br> This action cannot be undone.</h1>`
 			, centerButtons: true
 		});
 		ShiftingDialog.open();
@@ -193,6 +193,7 @@ function PartsPartsEdit(item) {
 				mainSnips.textField("EditPart_Url", "Url", "A Url to the Part", "url", null, false, (itemData.url || "")) +
 				mainSnips.textFieldAutoComplete("EditPart_Vendor", "Vendor", "The Vendor of the Part", MANU, '', true, (itemData.vendor || "")) +
 				mainSnips.textField("EditPart_PartNumber", "Part Number", "The Part Number for the Part", null, null, false, (itemData.pn || "")) +
+				mainSnips.textField("EditPart_OD", "Ordering Data", "Any information on ordering the part", null, null, false, (itemData.od || "")) + 
 				mainSnips.textField("EditPart_Image", "Image", "A Url To An Image (Right-Click on Image and Press 'Copy image address')", "url", null, false, (itemData.image || "")) +
 				mainSnips.textFieldAutoComplete("EditPart_Unit", "Unit", "The Unit for this item (Bags, Pounds, Each, Feet...)", UNITS, '', true, (itemData.unit || "")) +
 				mainSnips.textField("EditPart_Price", "Price ($)", "The Price Per Unit of the Part", "number", null, true, (itemData.price || "")) +
@@ -215,6 +216,7 @@ ShiftingDialog.addSubmitListener("PartsEditPart", function (c) {
 		var price = gd("Price").value;
 		var other = gd("Other").value;
 		var image = gd("Image").value;
+		var od = gd("OD").value;
 
 		//Validation
 		if (vendor == "" && url == "") {
@@ -236,7 +238,8 @@ ShiftingDialog.addSubmitListener("PartsEditPart", function (c) {
 					unit: unit,
 					price: price,
 					other: other,
-					image: image
+					image: image,
+					od: od
 				}
 
 				firebase.app().firestore().collection("Parts").doc("Parts").set(data)
@@ -373,15 +376,17 @@ ShiftingDialog.addSubmitListener("PartsCreateNewManu", function (c) {
 });
 function PartsPartsDeleteManu(a) {
 	if (users.getCurrentClearance() > 1) {
-		firebase.app().firestore().collection("Parts").doc("MAN_UN").get().then(function (doc) {
-			var data = doc.data();
-			data.MANU.remove(a);
+		var c = confirm('Are you sure you want to delete ' + a + '? \n This action cannot be undone.');
+		if (c)
+			firebase.app().firestore().collection("Parts").doc("MAN_UN").get().then(function (doc) {
+				var data = doc.data();
+				data.MANU.remove(a);
 
-			firebase.app().firestore().collection("Parts").doc("MAN_UN").set(data).then(function () {
-				ShiftingDialog.close();
-				PartsPartsDrawManu();
+				firebase.app().firestore().collection("Parts").doc("MAN_UN").set(data).then(function () {
+					ShiftingDialog.close();
+					PartsPartsDrawManu();
+				});
 			});
-		});
 	} else alert("You Need Be A Higher Clearance");
 }
 //  ----------------------------------------    ----------------------------------------  \\
@@ -443,15 +448,17 @@ ShiftingDialog.addSubmitListener("PartsCreateNewUnit", function (c) {
 });
 function PartsPartsDeleteUnit(a) {
 	if (users.getCurrentClearance() > 1) {
-		firebase.app().firestore().collection("Parts").doc("MAN_UN").get().then(function (doc) {
-			var data = doc.data();
-			data.UNITS.remove(a);
+		var c = confirm('Are you sure you want to delete ' + a + '? \n This action cannot be undone.');
+		if (c)
+			firebase.app().firestore().collection("Parts").doc("MAN_UN").get().then(function (doc) {
+				var data = doc.data();
+				data.UNITS.remove(a);
 
-			firebase.app().firestore().collection("Parts").doc("MAN_UN").set(data).then(function () {
-				ShiftingDialog.close();
-				PartsPartsDrawUnits();
+				firebase.app().firestore().collection("Parts").doc("MAN_UN").set(data).then(function () {
+					ShiftingDialog.close();
+					PartsPartsDrawUnits();
+				});
 			});
-		});
 	} else alert("You Need Be A Higher Clearance");
 }
 //  ----------------------------------------    ----------------------------------------  \\

@@ -1,4 +1,4 @@
-// Parts All Tab
+﻿// Parts All Tab
 
 //  ----------------------------------------  Initialization  -------------------------------------------------\\
 var PartsTab = new RegisteredTab("Parts", null, partsTabInit, partsTabExit, false, "partsView");
@@ -10,6 +10,7 @@ var partsViewCard = true;
 function partsTabInit() {
 	PartsAddFab.tabSwitch();
 	setTimeout(function () { headerUseSearch(true); }, 10);
+	PartsPHI_Main();
 }
 
 window.addEventListener('DOMContentLoaded', partsTabFirstInit);
@@ -198,7 +199,7 @@ function PartsGetFIGHtml(fotg, fotgN, fotgP, transi) {
 						</div>
 						<div class="mdc-typography--body2" style="width: 70%; overflow-wrap: break-word;">` + (fotg.desc) + `</div>
 						<i class="noselect material-icons" style="font-size: 300%; position: absolute; right: 20px; top: 20px;"> 
-							folder 
+							` + (fotg.items ? 'shopping_cart' : 'folder') + `
 						</i>
 					</div>
 				</div>` +
@@ -227,7 +228,7 @@ function PartsGetFIGHtml(fotg, fotgN, fotgP, transi) {
 		<tr style="` + (fotg.trash ? 'background-color: rgba(190, 190, 190, 1)' : '') + `">
 			<td style="min-width: 60px; max-width: 60px; float: left; overflow: visible; text-overflow: visible;">
 				<i data-mdc-auto-init="MDCIconToggle" onclick="setHashParam('partsView', '` + (partsView.split('\\').join("\\\\") + (partsView == "" ? "" : "\\\\") + fotgN) + `');" class="mdc-icon-toggle material-icons" style="color: rgb(80, 80, 80); font-size: 200%;" role="button" aria-pressed="false">
-					folder
+					` + (fotg.items ? 'shopping_cart' : 'folder') + `
 				</i>
 			</td>
 			<td style="min-width: 300px; width: 20%; padding-left: 30px;">` + (fotg.title == "" ? "&nbsp;" : fotg.title) + `</td>
@@ -270,11 +271,13 @@ function PartsGetItemHtml(tgt, tgtN, transi) {
 				<div class="demo-card__secondary mdc-typography--body2" style="width: 85%; overflow: hidden; overflow-wrap: break-word;">` + tgt.desc + `</div>
 				<i class="noselect material-icons mdc-icon-toggle" onclick="PartsCSItem('` + tgtN + `')" aria-label-delay="0.15s" aria-label="Change Status" data-mdc-auto-init="MDCIconToggle" style="position: absolute; right: 8px; top: 8px;"> <img style="transform: translate(-5px, -5.5px)" src="` + PartsGetItemStatus(Number(tgt.status)) + `"/> </i>
 			</div>
-			<img src="` + pd.image + `" style="height: 40px; border-radius: 5px; position: absolute; left: 6px; bottom: 16px; background: white;">
+			<div style="height: 40px; width: 40px; overflow: hidden; border-radius: 5px; position: absolute; left: 6px; bottom: 16px; background: white;">
+				<img src="` + pd.image + `" style="width: 40px;">
+			</div>
 			<div style="position: absolute; left: ` + (stringUnNull(pd.image) == "" ? 12 : 52) + `px; bottom: 16px; height: 40px; right: 48px; oveflow: hidden;">
-				<div style="font-weight: 600; width: 100%; overflow: hidden;">` + pd.name + `</div>
-				<div style="width: 100%; overflow: hidden;">` + pd.vendor + `</div>
-				<div style="width: 100%; overflow: hidden;">` + tgt.quantity + ' ' + pd.unit + ' for $' + (Number(pd.price) * Number(tgt.quantity)) + `</div>
+				<div style="font-weight: 600; width: 100%; overflow: hidden; max-height: 18px; text-overflow: ellipsis; white-space: nowrap;"><a` + ((stringUnNull(pd.url) != "") ? ` target="_blank" href="` + pd.url + `"` : ``) + `>` + pd.name + `</a></div>
+				<div style="width: 100%; overflow: hidden; max-height: 18px; text-overflow: ellipsis; white-space: nowrap;">` + pd.vendor + `</div>
+				<div style="width: 100%; overflow: hidden; max-height: 18px; text-overflow: ellipsis; white-space: nowrap;">` + tgt.quantity + ' ' + pd.unit + ' for $' + (Number(pd.price) * Number(tgt.quantity)) + `</div>
 			</div>
 			<div class="mdc-card__action-icons">
 				<i data-mdc-auto-init="MDCIconToggle" onclick="menu.toggle(this.parentNode.parentNode.querySelector('.PartsItemDropdownMenu').innerHTML, this, 'width: 180px;')" class="mdc-icon-toggle material-icons" style="color: rgb(80, 80, 80);" role="button" aria-pressed="false">more_vert</i>
@@ -352,6 +355,7 @@ PartsAddFab.element.addEventListener('click', function () {
 				mainSnips.textField("PartsAdd_Title", "Title", "The Title of the Item", null, null, true) +
 				mainSnips.richText("PartsAdd_Desc", "Description") +
 				mainSnips.textFieldAutoComplete("PartsAdd_Part", "Part", "The Part", pn, '', true, '', 'PartsAddItemInput') +
+				mainSnips.textField("PartsAdd_OD", "Ordering Data", "Any Special Order Data for the Part") +
 				mainSnips.textField("PartsAdd_Quan", "Quantity", "The Quantity of the Part", "number", null, true, 1, null) +
 				mainSnips.dropDown("PartsAdd_Priority", "Priority", "", "", ["1", "Low - There is Little Rush In Ordering This Item (Recommended)", true], ["2", "Medium - This Item is Needed Very Soon", false], ["3", "High - The Robot is Dependent On This Item", false]) +
 				mainSnips.dropDown("PartsAdd_Status", "Status", "", "", ["0", "Not Ready (Still Being Decided)", false], ["1", "Ready (Ready To Be Ordered)", true])
@@ -417,6 +421,7 @@ ShiftingDialog.addSubmitListener("PartsAddItem", function (c) {
 		var status = Number(gd("Status").value || "1");
 		var quan = Number(gd("Quan").value);
 		var part = gd("Part").value || "";
+		var od = gd("OD").value || "";
 		part = PartsGetPartByName(part);
 
 		if (!part) {
@@ -444,7 +449,11 @@ ShiftingDialog.addSubmitListener("PartsAddItem", function (c) {
 				status: status,
 				priority: priority,
 				quantity: quan,
-				part: part
+				part: part,
+				od: od,
+				sd: {
+
+				}
 			};
 
 			firebase.app().firestore().collection("Parts").doc(ctgN).set(ctg)
@@ -468,6 +477,7 @@ ShiftingDialog.addSubmitListener("PartsAddItem", function (c) {
 	} catch (err) { console.error(err); }
 });
 //  ----------------------------------------    -------------------------------------------------\\
+
 
 
 
@@ -694,6 +704,7 @@ function PartsEditItem(item, parent) {
 			mainSnips.textField("PartsEdit_Title", "Title", "The Title of the Item", null, null, true, itemData.title) +
 			mainSnips.richText("PartsEdit_Desc", "Description") +
 			mainSnips.textFieldAutoComplete("PartsEdit_Part", "Part", "The Part", pn, '', true, part, "PartsEditItemInput") +
+			mainSnips.textField("PartsEdit_OD", "Ordering Data", "Any Special Order Data for the Part", null, null, null, itemData.od || "") +
 			mainSnips.textField("PartsEdit_Quan", "Quantity", "The Quantity of the Part", "number", null, true, (itemData.quantity || "")) +
 			mainSnips.dropDown("PartsEdit_Priority", "Priority", "", "", ["1", "Low - There is Little Rush In Ordering This Item (Recommended)", (itemData.priority == 1)], ["2", "Medium - This Item is Needed Very Soon", (itemData.priority == 2)], ["3", "High - The Robot is Dependent On This Item", (itemData.priority == 3)])
 	});
@@ -729,6 +740,7 @@ ShiftingDialog.addSubmitListener("PartsEditItem", function (c) {
 		var priority = Number(gd("Priority").value || "1");
 		var quan = Number(gd("Quan").value || "1");
 		var part = gd("Part").value || "";
+		var od = gd("OD").value || "";
 		part = PartsGetPartByName(part);
 
 		if (!part) {
@@ -751,7 +763,11 @@ ShiftingDialog.addSubmitListener("PartsEditItem", function (c) {
 				status: ctg.items[PartsItems_Editing[0]].status || 0,
 				priority: priority,
 				quantity: quan,
-				part: part
+				part: part,
+				od: od,
+				sd: {
+
+				}
 			};
 
 			var newData = ctg.items[PartsItems_Editing[0]];
@@ -790,12 +806,53 @@ function PartsCSItem(item, parent) { //  CS (Change Status)
 		submitButton: "Submit",
 		cancelButton: "Cancel",
 		contents:
-			mainSnips.radioButtons("PartsCS_State", [
-				'<img class="noselect" src=""/> <span style="font-size: 120%;">Not Ready</span> <span style="font-size: 100%;"> (Still Being Decided)</span>',
-				'<img class="noselect" src=""/> <span style="font-size: 120%;">Ready</span> <span style="font-size: 100%;"> (Ready To Be Ordered)</span>',
-				'<img class="noselect" src=""/> <span style="font-size: 120%;">Ordered</span> <span style="font-size: 100%;"> (Has Been Ordered)</span>',
-				'<img class="noselect" src=""/> <span style="font-size: 120%;">Arrived</span> <span style="font-size: 100%;"> (Verified Arrival)</span>'
-			], `PartsCSSetRadioAppearance()`)
+			`
+		<div class="radio-button-container" style="width: 90%; min-width: 250px;"  id="PartsCS_State"  >
+			<div class="mdc-form-field" style="margin: 0 0 0 3px;">
+				<div class="mdc-radio" data-mdc-auto-init="MDCRadio" id="PartsCS_State--rbv--0">
+					<input class="mdc-radio__native-control" type="radio" name="radios" checked onclick="PartsCSSetRadioAppearance()">
+					<div class="mdc-radio__background">
+						<div class="mdc-radio__outer-circle"></div>
+						<div class="mdc-radio__inner-circle"></div>
+					</div>
+				</div>
+				<label onclick="this.parentNode.querySelector('div').querySelector('input').click()"><img class="noselect" src=""/> <span style="font-size: 120%;">Not Ready</span> <span style="font-size: 100%;"> (Still Being Decided)</span></label>
+			</div><br />
+			
+			<div class="mdc-form-field" style="margin: 0 0 0 3px;">
+				<div class="mdc-radio" data-mdc-auto-init="MDCRadio" id="PartsCS_State--rbv--1">
+					<input class="mdc-radio__native-control" type="radio" name="radios" checked onclick="PartsCSSetRadioAppearance()">
+					<div class="mdc-radio__background">
+						<div class="mdc-radio__outer-circle"></div>
+						<div class="mdc-radio__inner-circle"></div>
+					</div>
+				</div>
+				<label onclick="this.parentNode.querySelector('div').querySelector('input').click()"><img class="noselect" src=""/> <span style="font-size: 120%;">Ready</span> <span style="font-size: 100%;"> (Ready To Be Ordered)</span></label>
+			</div><br />
+			
+			<div class="mdc-form-field" style="margin: 0 0 0 3px;">
+				<div class="mdc-radio mdc-radio--disabled" data-mdc-auto-init="MDCRadio" id="PartsCS_State--rbv--2">
+					<input class="mdc-radio__native-control" type="radio" name="radios" checked onclick="PartsCSSetRadioAppearance()" disabled>
+					<div class="mdc-radio__background">
+						<div class="mdc-radio__outer-circle"></div>
+						<div class="mdc-radio__inner-circle"></div>
+					</div>
+				</div>
+				<label onclick="this.parentNode.querySelector('div').querySelector('input').click()"><img class="noselect" src=""/> <span style="font-size: 120%;">Ordered</span> <span style="font-size: 100%;"> (Has Been Ordered)</span></label>
+			</div><br />
+			
+			<div class="mdc-form-field" style="margin: 0 0 0 3px;">
+				<div class="mdc-radio mdc-radio--disabled" data-mdc-auto-init="MDCRadio" id="PartsCS_State--rbv--3">
+					<input class="mdc-radio__native-control" type="radio" name="radios" checked onclick="PartsCSSetRadioAppearance()" disabled>
+					<div class="mdc-radio__background">
+						<div class="mdc-radio__outer-circle"></div>
+						<div class="mdc-radio__inner-circle"></div>
+					</div>
+				</div>
+				<label onclick="this.parentNode.querySelector('div').querySelector('input').click()"><img class="noselect" src=""/> <span style="font-size: 120%;">Arrived</span> <span style="font-size: 100%;"> (Verified Arrival)</span></label>
+			</div><br />
+		</div>
+			`
 	});
 	ShiftingDialog.open();
 	setTimeout(function () {
@@ -811,6 +868,11 @@ function PartsCSSetRadioAppearance(el) {
 }
 ShiftingDialog.addSubmitListener("PartsCSItem", function (content) {
 	try {
+		// 0: Not Ready
+		// 1: Ready
+		// 2: Ordered
+		// 3: Error
+		// 4: Arrived
 		var status = Number(getRadioButtonValue(content.querySelector("#PartsCS_State")));
 		if (status >= 3) status++;
 
@@ -845,9 +907,13 @@ function PartsCreateNewPart(name) {
 			mainSnips.textField("CreatePart_Url", "Url", "A Url to the Part", "url", null, false) +
 			mainSnips.textFieldAutoComplete("CreatePart_Vendor", "Vendor", "The Vendor of the Part", MANU, '', true, '') +
 			mainSnips.textField("CreatePart_PartNumber", "Part Number", "The Part Number for the Part", null, null, false) +
+			mainSnips.textField("CreatePart_OD", "Ordering Data", "Any information on ordering the part", null, null, false) + 
 			mainSnips.textField("CreatePart_Image", "Image", "A Url To An Image (Right-Click on Image and Press 'Copy image address')", "url", null, false) +
 			mainSnips.textFieldAutoComplete("CreatePart_Unit", "Unit", "The Unit for this item (Bags, Pounds, Each, Feet...)", UNITS, '', true) +
-			mainSnips.textField("CreatePart_Price", "Price ($)", "The Price Per Unit of the Part", "number", null, true, "0.00") +
+			`<div class="form-group" style="width: 90%; min-height: 65px; max-height: 73px;" >
+				<label  for="CreatePart_Price" >Price ($)</label>
+				<input  id="CreatePart_Price" required  type="number" value="0.00" step="0.01" min="0" class="form-control" placeholder="The Price Per Unit of the Part" autocomplete="off">
+			</div>` +
 			mainSnips.textField("CreatePart_Other", "Other", "Other Important Data About the Part", null, null, false)
 	});
 	ShiftingDialog.open();
@@ -865,6 +931,7 @@ ShiftingDialog.addSubmitListener("PartsCreatePart", function (c) {
 		var price = gd("Price").value;
 		var other = gd("Other").value;
 		var image = gd("Image").value;
+		var od = gd("OD").value;
 
 		//Validation
 		if (vendor == "" && url == "") {
@@ -894,7 +961,8 @@ ShiftingDialog.addSubmitListener("PartsCreatePart", function (c) {
 					unit: unit,
 					price: price,
 					other: other,
-					image: image
+					image: image,
+					od: od
 				}
 
 				firebase.app().firestore().collection("Parts").doc(d).set(data)
@@ -1158,3 +1226,53 @@ function PartsAddToHistory(operation, from, to, targetType, targetId) {
 	} catch (err) { console.log(err); }
 }
 //  ----------------------------------------    -------------------------------------------------\\
+
+
+
+
+//  ----------------------------------------  Helper Intr.  ----------------------------------------  \\
+function PartsPHI_Main() {
+	Helper.API.wait(function () {
+		switch (Helper.API.getProgress("Item", 0)) {
+			case 0:
+				Helper.drawing.display("This is the Item Management System (IMS). This System is for managing the ordering of items.",
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Item", 0, 1); PartsPHI_Main(); });
+				break;
+			case 1:
+				Helper.drawing.display("In the IMS there are four types of objects:  folders, item-groups, items and parts. Inside the home (here) or inside any other folder, only folders and item-groups can exist. While inside a item-group only items can exist.",
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Item", 0, 2); PartsPHI_Main(); });
+				break;
+			case 2:
+				Helper.drawing.display("A item is something you want to buy, while folders and item-groups are just for organization. Every item in the IMS contains a name, desc, status, priority and reference to a part. Parts then contain many fields including vendor, url, name, image, etc.",
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Item", 0, 3); PartsPHI_Main(); });
+				break;
+			case 3:
+				Helper.drawing.display("To navigate through the IMS, you can easily click on any folder or item-group to go inside of it. Once inside, you can press the back arrow next to the url or click the little home button under the header of this page. You are also on the “item” part of the IMS, meaning you are only managing items and not parts. Once this tutorial is finished, you can choose what you want to manage whenever you click the “Item MS” in the tab menu.",
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Item", 0, 4); PartsPHI_Main(); });
+				break;
+			case 4:
+				Helper.drawing.display("Everywhere inside the IMS this add button will be accessible, though its actions change depending on where you are. Inside folders you are creating folders and item-groups, while inside item-groups you are only creating items.",
+					['100vw - 92px', '100vh - 92px'], [1, 1], function () { Helper.API.setProgress("Item", 0, 5); PartsPHI_Main(); });
+				break;
+			case 5:
+				Helper.drawing.display("If you ever want to edit or trash an item, you can always press the three stacked dots ⋮ at the bottom of it.",
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Item", 0, 6); PartsPHI_Main(); });
+				break;
+			default:
+				Helper.drawing.close();
+				break;
+		}
+	});
+}
+
+function PartsShouldHaveTwoSections() {
+	Helper.API.wait(function () {
+		if (Helper.API.getProgress("Item", 0) > 3) {
+			toggleNavSubMenu('#PartsSubmenu');
+		}
+		else {
+			setHashParam('tab', 'Parts');
+		}
+	});
+}
+//  ----------------------------------------    ----------------------------------------  \\

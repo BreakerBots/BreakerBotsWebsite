@@ -44,6 +44,7 @@ document.addEventListener('resize', checkTooltip);
 function checkTooltip() {
 	if (CanShowTooltip) {
 		var el;
+		//Calculate Current Tooltip
 		for (var i = 0; i < tooltipList.length; i++) {
 			var ELB = tooltipList[i].getBoundingClientRect();
 			if (ELB.width > 0 && ELB.height > 0) {
@@ -51,6 +52,7 @@ function checkTooltip() {
 					el = tooltipList[i];
 			}
 		}
+		//Update Tooltip
 		if (el && (VisibleTooltip ? el == VisibleTooltip : true)) {
 			if ((VisibleTooltip ? el != VisibleTooltip : true)) {
 				VisibleTooltip = el;
@@ -61,7 +63,8 @@ function checkTooltip() {
 				document.querySelector(".bstooltip-container").style.zIndex = el.getAttribute('aria-label-z-index') || 500;
 			}
 			else {
-				if ((new Date().getTime() - VisibleTooltipStartTime.getTime()) > 3000) {
+				//Timeout
+				if ((new Date().getTime() - VisibleTooltipStartTime.getTime()) > (el.getAttribute('aria-label-timeout') || 3000)) {
 					CanShowTooltip = false;
 					document.querySelector('.bstooltip').style.transitionDelay = '0s';
 					document.querySelector(".bstooltip").classList.remove("bstooltip--active");
@@ -78,6 +81,7 @@ function checkTooltip() {
 			document.querySelector(".bstooltip-container").style.left = ((ELB.left + (ELB.width / 2)) + outsideWindowAdjust).min(TBR / 2) + "px";
 			document.querySelector(".bstooltip-container").style.top = (ELB.top + ELB.height).min(TBR / 2) + "px";
 		} else {
+			//Hide the tooltip
 			if (VisibleTooltip) {
 				VisibleTooltip = null;
 				CanShowTooltip = false;

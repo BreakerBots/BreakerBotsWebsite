@@ -1,4 +1,4 @@
-//TeamsTab.js
+﻿//TeamsTab.js
 
 var TeamsTab = new RegisteredTab("Teams", null, teamsInitEvery, teamsExit, true);
 
@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', function () {
 var TeamsAPIWaiters = [], TeamsAPIReady = -1; function TeamsAPIWait(a) { 1 == TeamsAPIReady ? a() : TeamsAPIWaiters.push(a) } function TeamsAPIWaitDone() { -1 == TeamsAPIReady && TeamsAPIWaiters.forEach(function (a) { a() }); TeamsAPIReady = 1 };
 
 function teamsInitEvery() {
+	TeamsPHI_Main();
+
 	showMainLoader(true);
 
 	teamsDraw(true);
@@ -172,7 +174,7 @@ function teamsDelete(team) {
 		contents:
 			mainSnips.icon(null, "delete", "font-size: 160px; color: red;") +
 			`<div style="width: 100%"></div>` +
-			`<h1 style="text-align: center;"> Are you sure you want to delete ` + teamData.name + `?</h1>`
+			`<h1 style="text-align: center;"> Are you sure you want to delete the ` + teamData.name + ` team?</h1>`
 		,centerButtons: true
 	});
 	ShiftingDialog.open();
@@ -315,3 +317,30 @@ function teamsGetMembersHtml(id) {
 	return html[1] + html[0];
 }
 //  ----------------------------------------    -------------------------------------------------\\
+
+
+
+
+//  ----------------------------------------  Helper Intr.  ----------------------------------------  \\
+function TeamsPHI_Main() {
+	Helper.API.wait(function () {
+		switch (Helper.API.getProgress("Teams", 0)) {
+			case 0:
+				Helper.drawing.display("This is the Team MS, a tool for organizing teams. Teams can be targeted in tasks through the Todo System.",
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Teams", 0, 1); TeamsPHI_Main(); });
+				break;
+			case 1:
+				Helper.drawing.display("To join a team you can press the three stacked dots ⋮ at the bottom of the team’s card. To see members of a team press the ^ button a the bottom of team’s card. Admins can then press the three stacked dots ⋮ next to a user’s name to remove them from a team or make them lead.",
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Teams", 0, 2); TeamsPHI_Main(); });
+				break;
+			case 2:
+				Helper.drawing.display("You can create a new team with the add button. To edit or trash an item, you can always press the three stacked dots ⋮ at the bottom of the team’s card.",
+					['100vw - 92px', '100vh - 92px'], [1, 1], function () { Helper.API.setProgress("Teams", 0, 3); TeamsPHI_Main(); });
+				break;
+			default:
+				Helper.drawing.close();
+				break;
+		}
+	});
+}
+//  ----------------------------------------    ----------------------------------------  \\

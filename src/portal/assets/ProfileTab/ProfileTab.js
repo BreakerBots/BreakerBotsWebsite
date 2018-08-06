@@ -31,12 +31,12 @@ function ProfileTabInit() {
 
 					var ProfileAvatarEditorButton = document.querySelector('.ProfileTabJI-AvatarEditor');
 					if (isSelf) {
-						ProfileTabSettingsFab.tabSwitch();
+						document.querySelector(".ProfileTab-EditProfileButton").style.display = "";
 						ProfileAvatarEditorButton.classList.add('ProfileTab-AvatarEditor--Editing');
 						ProfileAvatarEditorButton.setAttribute('onclick', `ProfileChangeAvatar('` + vid + `')`);
 					}
 					else {
-						ProfileTabSettingsFab.tabExit();
+						document.querySelector(".ProfileTab-EditProfileButton").style.display = "none";
 						ProfileAvatarEditorButton.classList.remove('ProfileTab-AvatarEditor--Editing');
 						ProfileAvatarEditorButton.setAttribute('onclick', ``);
 					}
@@ -73,9 +73,8 @@ function ProfileTabInit() {
 		}
 	} catch (err) { }
 }
-var ProfileTabSettingsFab = new FabHandler(document.querySelector('#ProfileTabSettingsFab'));
 function ProfileTabExit() {
-	ProfileTabSettingsFab.tabExit();
+	
 }
 //  ----------------------------------------    ----------------------------------------  \\
 
@@ -151,7 +150,7 @@ function ProfileChangeAvatar(pid) {
 				title: "Change Avatar",
 				submitButton: "Submit",
 				cancelButton: "Cancel",
-				contents: '<div style="width: 100%; height: 100%;" id="' + rlId + '"></div>',
+				contents: '<div style="width: 95%; height: 100%;" id="' + rlId + '"></div>',
 				centerButtons: !1,
 				dontCloseOnExternalClick: !0
 			});

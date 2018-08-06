@@ -4,7 +4,8 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="description" content="">
+	<meta name="description" content="The official website for FRC Robotics team 5104.">
+	<meta name="keywords" content="FRC,Robotics,5104,FRC5104,Breakerbots">
 	<meta name="author" content="">
 	<link rel="shortcut icon" href="../assets/img/iconT.png">
 	<title>Breakersite</title>
@@ -13,7 +14,6 @@
 	<!--Other-->
 	<link rel="stylesheet" href="../assets/lib/material/ml.css" />
 	<link rel="stylesheet" href="../assets/lib/datetimepicker/css/bootstrap-datetimepicker.min.css">
-	<link rel="stylesheet" href="../assets/lib/fullcalendar/fullcalendar.min.css" />
 	<link rel="stylesheet" href="../assets/lib/croppie/croppie.css" />
 
 	<!--Firebase-->
@@ -29,6 +29,7 @@
 	<link href="../assets/mdc/material.css" rel="stylesheet">
 	<link href="../assets/mdc/icons.css" rel="stylesheet">
 	<link href="../assets/mdc/material-tables.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
 	<!-- Tabs -->
 	<link rel="stylesheet" href="assets/Tabs/tabs.css" type="text/css" />
@@ -78,6 +79,9 @@
 
 	<!--Parts Tabs-->
 	<link rel="stylesheet" href="assets/Parts/Parts.css" type="text/css" />
+
+	<!--Helper-->
+	<link rel="stylesheet" href="assets/Helper/I/HelperI.css" type="text/css" />
 </head>
 <body style="background-color: #EEEEEE; overflow-y: hidden;">
 	<header class="mdc-top-app-bar mdc-top-app-bar--fixed" style="z-index: 10; transform: translateY(-100%);">
@@ -87,7 +91,7 @@
 				<button id="HeaderBackArrow" style="transition: all 0.2s cubic-bezier(.2, 0, .2, 1); display: none; opacity: 0; transform: scale(0);" data-mdc-auto-init="MDCIconToggle" onclick="window.history.back();" class="noselect material-icons mdc-top-app-bar__navigation-icon mdc-ripple-upgraded--unbounded mdc-ripple-upgraded">arrow_back</button>
 				<img src="../assets/img/iconT.png" class="mdc-top-app-bar__navigation-icon" style="width: 64px; height: auto; padding-top: 8px; padding-bottom: 8px; margin-bottom: 0; margin-left: 10px;" />
 				<span class="mdc-top-app-bar__title noselect" data-delete-overflow-min="660" style="font-size: 2em; font-weight: 400; font-family: Roboto !important;">
-					&nbsp; Breakersite
+					&nbsp; Breakersite <span style="font-weight: 800">Beta</span>
 				</span>
 			</section>
 			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
@@ -106,7 +110,7 @@
 							<span class="mdc-list-item__text" style="font-size: 16px;">
 								Todo List
 								<span class="mdc-list-item__secondary-text" style="font-size: 13px;">
-									Revert From A Version in History, ...
+									View History
 								</span>
 							</span>
 						</li>
@@ -115,7 +119,7 @@
 							<span class="mdc-list-item__text" style="font-size: 16px;">
 								Item Management System
 								<span class="mdc-list-item__secondary-text" style="font-size: 13px;">
-									Add a new Part, Approve Part Requests, 
+									View History
 								</span>
 							</span>
 						</li>
@@ -135,7 +139,7 @@
 							<span class="mdc-list-item__text" style="font-size: 16px;">
 								Teams
 								<span class="mdc-list-item__secondary-text" style="font-size: 13px;">
-									Make A User A Team Lead, or Add Them To Team
+									View History
 								</span>
 							</span>
 						</li>
@@ -169,10 +173,10 @@
 							<div class="content">
 								<div class="row">
 									<div class="col mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">
-										<a style="border: none;" href="https://github.com/frc5104/" onclick="toggleMenu('#appsMenu', false)" class="connection-item"><img src="../assets/img/github.png" class="noselect" alt="Github"><span>GitHub</span></a>
+										<a style="border: none;" target="_blank" href="https://github.com/Breakerbots/" onclick="toggleMenu('#appsMenu', false)" class="connection-item"><img src="../assets/img/github.png" class="noselect" alt="Github"><span>GitHub</span></a>
 									</div>
 									<div class="col mdc-ripple-surface mdc-ripple-upgraded" data-mdc-auto-init="MDCRipple">
-										<a style="border: none;" href="https://breakerbots.slack.com/messages/C0HNZANTE/" onclick="toggleMenu('#appsMenu', false)" class="connection-item"><img class="noselect" src="../assets/img/slack.png" alt="Slack"><span>Slack</span></a>
+										<a style="border: none;" target="_blank" href="https://breakerbots.slack.com/messages/C0HNZANTE/" onclick="toggleMenu('#appsMenu', false)" class="connection-item"><img class="noselect" src="../assets/img/slack.png" alt="Slack"><span>Slack</span></a>
 									</div>
 								</div>
 							</div>
@@ -255,7 +259,7 @@
 							<a class="sidenav-list-item mdc-ripple-surface mdc-ripple-surface--primary" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','General');">
 								<i class="material-icons mdc-list-item__graphic">image</i><span>General</span>
 							</a>
-							<a class="sidenav-list-item mdc-ripple-surface mdc-ripple-surface--primary" data-mdc-auto-init="MDCRipple" onclick="toggleNavSubMenu('#PartsSubmenu')">
+							<a class="sidenav-list-item mdc-ripple-surface mdc-ripple-surface--primary" data-mdc-auto-init="MDCRipple" onclick="PartsShouldHaveTwoSections()">
 								<i class="material-icons mdc-list-item__graphic">build</i><span>Item MS</span>
 							</a>
 							<div class="side-nav__submenu-wrapper">
@@ -269,6 +273,25 @@
 										<a onclick="setHashParam('tab', 'Parts-Parts')" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-surface--primary">
 											<span>Parts</span>
 										</a>
+									</li>
+									<li>
+										<a onclick="PartsOrderNavOpen()" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-surface--primary">
+											<span>Orders</span>
+										</a>
+										<div class="side-nav__submenu-wrapper">
+											<ul class="side-nav__submenu" id="OrdersSubmenu">
+												<li>
+													<a onclick="setHashParam('tab', 'Parts-OrderHistory')" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-surface--primary">
+														<span>Order History</span>
+													</a>
+												</li>
+												<li>
+													<a onclick="setHashParam('tab', 'Parts-Order')" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-surface--primary">
+														<span>Create An Order</span>
+													</a>
+												</li>
+											</ul>
+										</div>
 									</li>
 								</ul>
 							</div>
@@ -308,6 +331,7 @@
 				<div class="material-scrollbar" id="page-scroll" onscroll="function PageScrollShadow(sel, header) { if (sel.scrollTop > 5) header.classList.add('mdc-elevation--z10'); else header.classList.remove('mdc-elevation--z10'); } PageScrollShadow(this, document.querySelector('header'));" style="overflow-x: hidden; overflow-y: auto; position: relative; height: calc(100vh - 64px); ">
 					<!--Tabs-->
 					<div id="General" class="tab">
+
 					</div>
 					<div id="Parts" class="tab" style="margin: 0">
 						<div style="background: #c00000; width: 100%; left: 0; top: 0; color: rgb(230, 230, 230);">
@@ -393,6 +417,56 @@
 							</span>
 						</button>
 					</div>
+					<div id="Parts-Order" class="tab" style="margin: 0;">
+						<div id="Parts-OrderHeader" style="width: 100%; height: 0px; overflow: hidden; background: rgb(225, 225, 225); display: flex; justify-content: center; transition: height 1s cubic-bezier(.4, 0, .2, 1);">
+							<div id="Parts-OrderHeaderText" style="margin: 13px 20px 13px 0; font-size: 16px;">0 Selected</div>
+							<button onclick="PartsOrderCreateOrder()" style="margin: 6px 0;" class="mdc-button mdc-button--outlined" data-mdc-auto-init="MDCRipple">Order</button>
+						</div>
+						<div class="material-table" style="height: 100%;">
+							<table style="min-width: 800px !important;">
+								<thead>
+									<tr>
+										<th style="width: 40px;"></th>
+										<th style="min-width: 100px;">Item</th>
+										<th style="min-width: 100px;">Part</th>
+										<th style="min-width: 100px;">Vendor</th>
+										<th style="min-width: 100px;">Quantity</th>
+										<th style="min-width: 100px;">Priority</th>
+										<th style="min-width: 100px;">Item OD</th>
+										<th style="min-width: 100px;">Part OD</th>
+									</tr>
+								</thead>
+								<tbody id="Parts-OrderTBody">
+									
+								</tbody>
+							</table>
+							<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+						</div>
+					</div>
+					<div id="Parts-OrderHistory" class="tab" style="margin: 0;">
+						<div id="Parts-OrderHistoryHeader" style="width: 100%; height: 0px; overflow: hidden; background: rgb(225, 225, 225); display: flex; justify-content: center; transition: height 1s cubic-bezier(.4, 0, .2, 1);">
+							<div id="Parts-OrderHistoryHeaderText" style="margin: 13px 20px 13px 0; font-size: 16px;">0 Selected</div>
+							<button onclick="PartsOrderHistoryMarkArrived()" style="margin: 6px 0;" class="mdc-button mdc-button--outlined" data-mdc-auto-init="MDCRipple">Mark Arrived</button>
+						</div>
+						<div class="material-table" style="height: 100%;">
+							<table style="min-width: 800px;">
+								<thead>
+									<tr>
+										<th style="width: 40px;"></th>
+										<th>Item</th>
+										<th>Part</th>
+										<th>Order Data</th>
+										<th>Vendor</th>
+										<th>Quantity</th>
+										<th>Status</th>
+										<th>Priority</th>
+									</tr>
+								</thead>
+								<tbody id="Parts-OrderHistoryTBody"></tbody>
+							</table>
+							<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+						</div>
+					</div>
 					<div id="Todo" class="tab" style="margin: 0;">
 						<div style="background: #c00000; width: 100%; left: 0; top: 0; color: rgb(230, 230, 230);">
 							<div style="display: flex; flex-wrap: nowrap; overflow-x: auto; flex-shrink: 0;" id="todoStepperWrapper">
@@ -439,6 +513,9 @@
 						</div>
 						<div class="ProfileTab-User">
 							<span class="ProfileTab-Name ProfileTabJI-Name">---- ----</span>
+							<div class="ProfileTab-EditProfileButton" style="display: none;">
+								<button class="mdc-button mdc-button--outlined" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab', 'EditAccount')">Edit Profile</button>
+							</div>
 							<p class="ProfileTab-Role ProfileTabJI-Role">--------</p>
 							<p class="ProfileTab-Desc ProfileTabJI-Desc">------ ----- ---- -----</p>
 						</div>
@@ -503,11 +580,6 @@
 
 							</div>
 						</div>
-						<button onclick="setHashParam('tab', 'EditAccount')" id="ProfileTabSettingsFab" class="mdc-fab demo-fixed-fab mdc-ripple-upgraded mdc-fab--exited">
-							<span class="mdc-fab__icon">
-								<i class="material-icons">settings</i>
-							</span>
-						</button>
 					</div>
 					<div id="EditAccount" class="tab">
 						<div class="EditAccount-Card material-scrollbar">
@@ -715,16 +787,8 @@
 					<!--The Content Wrapper For The Dialog-->
 					<form id="SD-Form" onsubmit="event.preventDefault(); ShiftingDialogSubmit();" style="height: 100%;">
 						<div id="SD-Wrapper" class="material-scrollbar">
-							<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus, incidunt. Debitis, repudiandae dignissimos et quam velit autem mollitia tenetur, eligendi rerum repellendus, explicabo ad aperiam vel ipsam! Exercitationem, voluptates molestiae.</p>
-							<p>Iusto reiciendis mollitia ab commodi. Animi maiores nesciunt officia enim corrupti officiis consequuntur vel, consectetur eveniet ad dolorum reprehenderit similique qui deleniti ut sed explicabo id error at. Laudantium, excepturi!</p>
-							<p>Suscipit quam laboriosam animi quasi similique voluptatem molestiae voluptas sint itaque, labore eos, maiores harum qui totam libero amet nisi? Similique nihil veritatis aspernatur molestias accusantium, eius dolorum autem optio?</p>
-							<p>Cum eligendi consequuntur voluptas. Repellat nisi commodi numquam aliquam quasi tenetur obcaecati, animi cum eum. Facilis esse cupiditate fugiat, quod eveniet, inventore impedit nam ex tempore harum laudantium provident assumenda.</p>
-							<p>Ut iste aperiam excepturi rerum consectetur illo officiis quo sed sunt labore earum soluta tempore omnis a, enim maiores non? Facilis qui alias sunt veniam esse hic. Aut, ducimus aliquid!</p>
-							<p>Qui quaerat saepe sunt earum nihil porro, sint quibusdam, id eos vero asperiores dolorem iusto dolore illo, architecto fuga? Voluptates distinctio eligendi nihil provident accusantium. Maxime ullam ratione officia non.</p>
-							<p>Molestiae sapiente quae nulla. Voluptates quibusdam numquam earum vero deserunt in, cum tenetur accusamus ipsum minus veniam libero quasi fuga dolorem laudantium error quo et accusantium neque vitae aliquam tempore.</p>
-							<p>Optio asperiores quisquam odit eaque incidunt laboriosam repudiandae ex eum iure quia, id vero atque perspiciatis, officiis quaerat aut ut dolorem libero eos perferendis ducimus! Veritatis nam libero tempora maxime?</p>
-							<p>Sapiente reiciendis quis eveniet iure dicta perferendis quos consectetur, soluta sunt, labore ipsam inventore maiores laudantium recusandae deleniti autem animi consequatur, voluptatem sint. Dignissimos minima labore earum vitae ad non!</p>
-							<p>Cum ex totam dolore officiis maiores quidem necessitatibus consequatur molestias culpa, quas, aperiam tempora et! Dolorem, voluptates dignissimos? Voluptatem voluptatibus expedita, error ducimus distinctio necessitatibus laudantium officiis dolorum nam vitae?</p>
+							<h1 style="width: 100%; text-align: center;">Oops, Something Went Wrong!</h1>
+							<h4 style="width: 100%; text-align: center;">Error: V2lsbGlhbSAoTGlhbSkgQWxiZXJ0IFNub3cgSVY(Base64,Unicode8) Content Failed To Display</h4>
 						</div>
 						<div id="SD-FooterWrapper">
 							<div id="SD-Footer">
@@ -754,7 +818,27 @@
 			</div>
 		</div>
 
-		<!--Imports-->
+		<!--Helper I-->
+		<div id="HelperI">
+			<div id="HelperI-Dim">
+
+			</div>
+			<div id="HelperI-EleW" style="left: 50px; top: 50px;">
+				<div id="HelperI-Ele">
+					<div id="HelperI-Content">
+						Here are the tabs, you easily switch tabs clicked on them.
+					</div>
+					<i id="HelperI-Next" class="material-icons mdc-icon-toggle" data-mdc-auto-init="MDCIconToggle" style="color: white !important; float: right;">
+						navigate_next
+					</i>
+				</div>
+			</div>
+		</div>
+
+		<!--                           -->
+		<!-- Resource Javascript Files -->
+		<!--                           -->
+		<!-- Imports -->
 		<script src="../assets/mdc/material.js"></script>
 		<script type="text/javascript">window.mdc.autoInit();</script>
 		<script src="../assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
@@ -766,7 +850,7 @@
 		<!--General Functions-->
 		<script src="assets/Resources/functions.js"></script>
 
-		<!--Firebase Account Management-->
+		<!--Account Management-->
 		<script src="assets/Accounting/accountHandler.js"></script>
 		<script src="assets/Accounting/avatarInit.js"></script>
 
@@ -791,6 +875,7 @@
 		<script src="assets/Resources/Snackbar/Snackbar.js"></script>
 		<script src="assets/Resources/Touch/Swipe.js"></script>
 		<script src="assets/Resources/RichTextEditor/RichTextEditor.js"></script>
+		<script src="assets/Resources/Scroll/Scroll.js"></script>
 
 		<!--Header-->
 		<script src="assets/Header/header.js"></script>
@@ -799,6 +884,17 @@
 		<script src="assets/SideNav/SideNav.js"></script>
 		<script src="assets/SideNav/PeTeSwitcher.js"></script>
 
+		<!--Notification-->
+		<script src="assets/Notifications/SWNotifications.js"></script>
+		<script src="assets/Notifications/IHNotifications.js"></script>
+		<script src="assets/Notifications/NotificationAPI.js"></script>
+
+		<!--Helper-->
+		<script src="assets/Helper/I/HelperI.js"></script>
+
+		<!--                      -->
+		<!-- Tab Javascript Files -->
+		<!--                      -->
 		<!--Calendar Tab-->
 		<div>
 			<script src="assets/Calendar/Calendar.js"></script>
@@ -808,7 +904,7 @@
 					onreadystatechange="if (this.readyState === 'complete') this.onload()"></script>
 		</div>
 
-		<!--Admin View-->
+		<!-- Admin View Tabs -->
 		<script src="assets/AdminView/AV-General.js"></script>
 		<div id="AdminViewScripts">
 			<script src="assets/AdminView/AV-AU.js"></script>
@@ -828,11 +924,6 @@
 		<script src="assets/Teams/TeamsTab.js"></script>
 		<script src="assets/Teams/TeamsAPI.js"></script>
 
-		<!--Notification-->
-		<script src="assets/Notifications/SWNotifications.js"></script>
-		<script src="assets/Notifications/IHNotifications.js"></script>
-		<script src="assets/Notifications/NotificationAPI.js"></script>
-
 		<!--Todo Tab-->
 		<script src="assets/Todo/TodoTab.js"></script>
 		<script src="assets/Todo/todoStepper.js"></script>
@@ -848,6 +939,8 @@
 		<script src="assets/Parts/PartsAllStepper.js"></script>
 		<script src="assets/Parts/PartsAll.js"></script>
 		<script src="assets/Parts/PartsParts.js"></script>
+		<script src="assets/Parts/PartsOrder.js"></script>
+		<script src="assets/Parts/PartsOrderHistory.js"></script>
 	</main>
 </body>
 </html>

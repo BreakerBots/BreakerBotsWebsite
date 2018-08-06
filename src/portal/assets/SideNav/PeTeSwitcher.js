@@ -1,4 +1,5 @@
 //PeTeSwitcher.js
+// Well this is the oldest part of this website, so its really messy. sry
 
 const topAppBarElement = document.querySelector('.mdc-top-app-bar');
 const topAppBar = new mdc.topAppBar.MDCTopAppBar(topAppBarElement);
