@@ -193,6 +193,7 @@ function PartsPartsEdit(item) {
 				mainSnips.textField("EditPart_Url", "Url", "A Url to the Part", "url", null, false, (itemData.url || "")) +
 				mainSnips.textFieldAutoComplete("EditPart_Vendor", "Vendor", "The Vendor of the Part", MANU, '', true, (itemData.vendor || "")) +
 				mainSnips.textField("EditPart_PartNumber", "Part Number", "The Part Number for the Part", null, null, false, (itemData.pn || "")) +
+				mainSnips.textField("EditPart_OD", "Ordering Data", "Any information on ordering the part", null, null, false, (itemData.od || "")) + 
 				mainSnips.textField("EditPart_Image", "Image", "A Url To An Image (Right-Click on Image and Press 'Copy image address')", "url", null, false, (itemData.image || "")) +
 				mainSnips.textFieldAutoComplete("EditPart_Unit", "Unit", "The Unit for this item (Bags, Pounds, Each, Feet...)", UNITS, '', true, (itemData.unit || "")) +
 				mainSnips.textField("EditPart_Price", "Price ($)", "The Price Per Unit of the Part", "number", null, true, (itemData.price || "")) +
@@ -215,6 +216,7 @@ ShiftingDialog.addSubmitListener("PartsEditPart", function (c) {
 		var price = gd("Price").value;
 		var other = gd("Other").value;
 		var image = gd("Image").value;
+		var od = gd("OD").value;
 
 		//Validation
 		if (vendor == "" && url == "") {
@@ -236,7 +238,8 @@ ShiftingDialog.addSubmitListener("PartsEditPart", function (c) {
 					unit: unit,
 					price: price,
 					other: other,
-					image: image
+					image: image,
+					od: od
 				}
 
 				firebase.app().firestore().collection("Parts").doc("Parts").set(data)

@@ -275,7 +275,7 @@ function PartsGetItemHtml(tgt, tgtN, transi) {
 				<img src="` + pd.image + `" style="width: 40px;">
 			</div>
 			<div style="position: absolute; left: ` + (stringUnNull(pd.image) == "" ? 12 : 52) + `px; bottom: 16px; height: 40px; right: 48px; oveflow: hidden;">
-				<div style="font-weight: 600; width: 100%; overflow: hidden; max-height: 18px; text-overflow: ellipsis; white-space: nowrap;"><a target="_blank" href="` + pd.url + `">` + pd.name + `</a></div>
+				<div style="font-weight: 600; width: 100%; overflow: hidden; max-height: 18px; text-overflow: ellipsis; white-space: nowrap;"><a` + ((stringUnNull(pd.url) != "") ? ` target="_blank" href="` + pd.url + `"` : ``) + `>` + pd.name + `</a></div>
 				<div style="width: 100%; overflow: hidden; max-height: 18px; text-overflow: ellipsis; white-space: nowrap;">` + pd.vendor + `</div>
 				<div style="width: 100%; overflow: hidden; max-height: 18px; text-overflow: ellipsis; white-space: nowrap;">` + tgt.quantity + ' ' + pd.unit + ' for $' + (Number(pd.price) * Number(tgt.quantity)) + `</div>
 			</div>
@@ -355,6 +355,7 @@ PartsAddFab.element.addEventListener('click', function () {
 				mainSnips.textField("PartsAdd_Title", "Title", "The Title of the Item", null, null, true) +
 				mainSnips.richText("PartsAdd_Desc", "Description") +
 				mainSnips.textFieldAutoComplete("PartsAdd_Part", "Part", "The Part", pn, '', true, '', 'PartsAddItemInput') +
+				mainSnips.textField("PartsAdd_OD", "Ordering Data", "Any Special Order Data for the Part") +
 				mainSnips.textField("PartsAdd_Quan", "Quantity", "The Quantity of the Part", "number", null, true, 1, null) +
 				mainSnips.dropDown("PartsAdd_Priority", "Priority", "", "", ["1", "Low - There is Little Rush In Ordering This Item (Recommended)", true], ["2", "Medium - This Item is Needed Very Soon", false], ["3", "High - The Robot is Dependent On This Item", false]) +
 				mainSnips.dropDown("PartsAdd_Status", "Status", "", "", ["0", "Not Ready (Still Being Decided)", false], ["1", "Ready (Ready To Be Ordered)", true])
@@ -420,6 +421,7 @@ ShiftingDialog.addSubmitListener("PartsAddItem", function (c) {
 		var status = Number(gd("Status").value || "1");
 		var quan = Number(gd("Quan").value);
 		var part = gd("Part").value || "";
+		var od = gd("OD").value || "";
 		part = PartsGetPartByName(part);
 
 		if (!part) {
@@ -447,7 +449,11 @@ ShiftingDialog.addSubmitListener("PartsAddItem", function (c) {
 				status: status,
 				priority: priority,
 				quantity: quan,
-				part: part
+				part: part,
+				od: od,
+				sd: {
+
+				}
 			};
 
 			firebase.app().firestore().collection("Parts").doc(ctgN).set(ctg)
@@ -471,6 +477,7 @@ ShiftingDialog.addSubmitListener("PartsAddItem", function (c) {
 	} catch (err) { console.error(err); }
 });
 //  ----------------------------------------    -------------------------------------------------\\
+
 
 
 
@@ -697,6 +704,7 @@ function PartsEditItem(item, parent) {
 			mainSnips.textField("PartsEdit_Title", "Title", "The Title of the Item", null, null, true, itemData.title) +
 			mainSnips.richText("PartsEdit_Desc", "Description") +
 			mainSnips.textFieldAutoComplete("PartsEdit_Part", "Part", "The Part", pn, '', true, part, "PartsEditItemInput") +
+			mainSnips.textField("PartsEdit_OD", "Ordering Data", "Any Special Order Data for the Part", null, null, null, itemData.od || "") +
 			mainSnips.textField("PartsEdit_Quan", "Quantity", "The Quantity of the Part", "number", null, true, (itemData.quantity || "")) +
 			mainSnips.dropDown("PartsEdit_Priority", "Priority", "", "", ["1", "Low - There is Little Rush In Ordering This Item (Recommended)", (itemData.priority == 1)], ["2", "Medium - This Item is Needed Very Soon", (itemData.priority == 2)], ["3", "High - The Robot is Dependent On This Item", (itemData.priority == 3)])
 	});
@@ -732,6 +740,7 @@ ShiftingDialog.addSubmitListener("PartsEditItem", function (c) {
 		var priority = Number(gd("Priority").value || "1");
 		var quan = Number(gd("Quan").value || "1");
 		var part = gd("Part").value || "";
+		var od = gd("OD").value || "";
 		part = PartsGetPartByName(part);
 
 		if (!part) {
@@ -754,7 +763,11 @@ ShiftingDialog.addSubmitListener("PartsEditItem", function (c) {
 				status: ctg.items[PartsItems_Editing[0]].status || 0,
 				priority: priority,
 				quantity: quan,
-				part: part
+				part: part,
+				od: od,
+				sd: {
+
+				}
 			};
 
 			var newData = ctg.items[PartsItems_Editing[0]];
@@ -793,12 +806,53 @@ function PartsCSItem(item, parent) { //  CS (Change Status)
 		submitButton: "Submit",
 		cancelButton: "Cancel",
 		contents:
-			mainSnips.radioButtons("PartsCS_State", [
-				'<img class="noselect" src=""/> <span style="font-size: 120%;">Not Ready</span> <span style="font-size: 100%;"> (Still Being Decided)</span>',
-				'<img class="noselect" src=""/> <span style="font-size: 120%;">Ready</span> <span style="font-size: 100%;"> (Ready To Be Ordered)</span>',
-				'<img class="noselect" src=""/> <span style="font-size: 120%;">Ordered</span> <span style="font-size: 100%;"> (Has Been Ordered)</span>',
-				'<img class="noselect" src=""/> <span style="font-size: 120%;">Arrived</span> <span style="font-size: 100%;"> (Verified Arrival)</span>'
-			], `PartsCSSetRadioAppearance()`)
+			`
+		<div class="radio-button-container" style="width: 90%; min-width: 250px;"  id="PartsCS_State"  >
+			<div class="mdc-form-field" style="margin: 0 0 0 3px;">
+				<div class="mdc-radio" data-mdc-auto-init="MDCRadio" id="PartsCS_State--rbv--0">
+					<input class="mdc-radio__native-control" type="radio" name="radios" checked onclick="PartsCSSetRadioAppearance()">
+					<div class="mdc-radio__background">
+						<div class="mdc-radio__outer-circle"></div>
+						<div class="mdc-radio__inner-circle"></div>
+					</div>
+				</div>
+				<label onclick="this.parentNode.querySelector('div').querySelector('input').click()"><img class="noselect" src=""/> <span style="font-size: 120%;">Not Ready</span> <span style="font-size: 100%;"> (Still Being Decided)</span></label>
+			</div><br />
+			
+			<div class="mdc-form-field" style="margin: 0 0 0 3px;">
+				<div class="mdc-radio" data-mdc-auto-init="MDCRadio" id="PartsCS_State--rbv--1">
+					<input class="mdc-radio__native-control" type="radio" name="radios" checked onclick="PartsCSSetRadioAppearance()">
+					<div class="mdc-radio__background">
+						<div class="mdc-radio__outer-circle"></div>
+						<div class="mdc-radio__inner-circle"></div>
+					</div>
+				</div>
+				<label onclick="this.parentNode.querySelector('div').querySelector('input').click()"><img class="noselect" src=""/> <span style="font-size: 120%;">Ready</span> <span style="font-size: 100%;"> (Ready To Be Ordered)</span></label>
+			</div><br />
+			
+			<div class="mdc-form-field" style="margin: 0 0 0 3px;">
+				<div class="mdc-radio mdc-radio--disabled" data-mdc-auto-init="MDCRadio" id="PartsCS_State--rbv--2">
+					<input class="mdc-radio__native-control" type="radio" name="radios" checked onclick="PartsCSSetRadioAppearance()" disabled>
+					<div class="mdc-radio__background">
+						<div class="mdc-radio__outer-circle"></div>
+						<div class="mdc-radio__inner-circle"></div>
+					</div>
+				</div>
+				<label onclick="this.parentNode.querySelector('div').querySelector('input').click()"><img class="noselect" src=""/> <span style="font-size: 120%;">Ordered</span> <span style="font-size: 100%;"> (Has Been Ordered)</span></label>
+			</div><br />
+			
+			<div class="mdc-form-field" style="margin: 0 0 0 3px;">
+				<div class="mdc-radio mdc-radio--disabled" data-mdc-auto-init="MDCRadio" id="PartsCS_State--rbv--3">
+					<input class="mdc-radio__native-control" type="radio" name="radios" checked onclick="PartsCSSetRadioAppearance()" disabled>
+					<div class="mdc-radio__background">
+						<div class="mdc-radio__outer-circle"></div>
+						<div class="mdc-radio__inner-circle"></div>
+					</div>
+				</div>
+				<label onclick="this.parentNode.querySelector('div').querySelector('input').click()"><img class="noselect" src=""/> <span style="font-size: 120%;">Arrived</span> <span style="font-size: 100%;"> (Verified Arrival)</span></label>
+			</div><br />
+		</div>
+			`
 	});
 	ShiftingDialog.open();
 	setTimeout(function () {
@@ -814,6 +868,11 @@ function PartsCSSetRadioAppearance(el) {
 }
 ShiftingDialog.addSubmitListener("PartsCSItem", function (content) {
 	try {
+		// 0: Not Ready
+		// 1: Ready
+		// 2: Ordered
+		// 3: Error
+		// 4: Arrived
 		var status = Number(getRadioButtonValue(content.querySelector("#PartsCS_State")));
 		if (status >= 3) status++;
 
@@ -848,6 +907,7 @@ function PartsCreateNewPart(name) {
 			mainSnips.textField("CreatePart_Url", "Url", "A Url to the Part", "url", null, false) +
 			mainSnips.textFieldAutoComplete("CreatePart_Vendor", "Vendor", "The Vendor of the Part", MANU, '', true, '') +
 			mainSnips.textField("CreatePart_PartNumber", "Part Number", "The Part Number for the Part", null, null, false) +
+			mainSnips.textField("CreatePart_OD", "Ordering Data", "Any information on ordering the part", null, null, false) + 
 			mainSnips.textField("CreatePart_Image", "Image", "A Url To An Image (Right-Click on Image and Press 'Copy image address')", "url", null, false) +
 			mainSnips.textFieldAutoComplete("CreatePart_Unit", "Unit", "The Unit for this item (Bags, Pounds, Each, Feet...)", UNITS, '', true) +
 			`<div class="form-group" style="width: 90%; min-height: 65px; max-height: 73px;" >
@@ -871,6 +931,7 @@ ShiftingDialog.addSubmitListener("PartsCreatePart", function (c) {
 		var price = gd("Price").value;
 		var other = gd("Other").value;
 		var image = gd("Image").value;
+		var od = gd("OD").value;
 
 		//Validation
 		if (vendor == "" && url == "") {
@@ -900,7 +961,8 @@ ShiftingDialog.addSubmitListener("PartsCreatePart", function (c) {
 					unit: unit,
 					price: price,
 					other: other,
-					image: image
+					image: image,
+					od: od
 				}
 
 				firebase.app().firestore().collection("Parts").doc(d).set(data)

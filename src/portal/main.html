@@ -91,7 +91,7 @@
 				<button id="HeaderBackArrow" style="transition: all 0.2s cubic-bezier(.2, 0, .2, 1); display: none; opacity: 0; transform: scale(0);" data-mdc-auto-init="MDCIconToggle" onclick="window.history.back();" class="noselect material-icons mdc-top-app-bar__navigation-icon mdc-ripple-upgraded--unbounded mdc-ripple-upgraded">arrow_back</button>
 				<img src="../assets/img/iconT.png" class="mdc-top-app-bar__navigation-icon" style="width: 64px; height: auto; padding-top: 8px; padding-bottom: 8px; margin-bottom: 0; margin-left: 10px;" />
 				<span class="mdc-top-app-bar__title noselect" data-delete-overflow-min="660" style="font-size: 2em; font-weight: 400; font-family: Roboto !important;">
-					&nbsp; Breakersite
+					&nbsp; Breakersite <span style="font-weight: 800">Beta</span>
 				</span>
 			</section>
 			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
@@ -110,7 +110,7 @@
 							<span class="mdc-list-item__text" style="font-size: 16px;">
 								Todo List
 								<span class="mdc-list-item__secondary-text" style="font-size: 13px;">
-									Revert From A Version in History, ...
+									View History
 								</span>
 							</span>
 						</li>
@@ -119,7 +119,7 @@
 							<span class="mdc-list-item__text" style="font-size: 16px;">
 								Item Management System
 								<span class="mdc-list-item__secondary-text" style="font-size: 13px;">
-									Add a new Part, Approve Part Requests,
+									View History
 								</span>
 							</span>
 						</li>
@@ -139,7 +139,7 @@
 							<span class="mdc-list-item__text" style="font-size: 16px;">
 								Teams
 								<span class="mdc-list-item__secondary-text" style="font-size: 13px;">
-									Make A User A Team Lead, or Add Them To Team
+									View History
 								</span>
 							</span>
 						</li>
@@ -274,6 +274,25 @@
 											<span>Parts</span>
 										</a>
 									</li>
+									<li>
+										<a onclick="PartsOrderNavOpen()" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-surface--primary">
+											<span>Orders</span>
+										</a>
+										<div class="side-nav__submenu-wrapper">
+											<ul class="side-nav__submenu" id="OrdersSubmenu">
+												<li>
+													<a onclick="setHashParam('tab', 'Parts-OrderHistory')" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-surface--primary">
+														<span>Order History</span>
+													</a>
+												</li>
+												<li>
+													<a onclick="setHashParam('tab', 'Parts-Order')" data-mdc-auto-init="MDCRipple" class="side-nav__link mdc-ripple-surface mdc-ripple-surface--primary">
+														<span>Create An Order</span>
+													</a>
+												</li>
+											</ul>
+										</div>
+									</li>
 								</ul>
 							</div>
 							<a class="sidenav-list-item mdc-ripple-surface mdc-ripple-surface--primary" data-mdc-auto-init="MDCRipple" onclick="setHashParam('tab','Todo');">
@@ -397,6 +416,56 @@
 								<i class="material-icons">add</i>
 							</span>
 						</button>
+					</div>
+					<div id="Parts-Order" class="tab" style="margin: 0;">
+						<div id="Parts-OrderHeader" style="width: 100%; height: 0px; overflow: hidden; background: rgb(225, 225, 225); display: flex; justify-content: center; transition: height 1s cubic-bezier(.4, 0, .2, 1);">
+							<div id="Parts-OrderHeaderText" style="margin: 13px 20px 13px 0; font-size: 16px;">0 Selected</div>
+							<button onclick="PartsOrderCreateOrder()" style="margin: 6px 0;" class="mdc-button mdc-button--outlined" data-mdc-auto-init="MDCRipple">Order</button>
+						</div>
+						<div class="material-table" style="height: 100%;">
+							<table style="min-width: 800px !important;">
+								<thead>
+									<tr>
+										<th style="width: 40px;"></th>
+										<th style="min-width: 100px;">Item</th>
+										<th style="min-width: 100px;">Part</th>
+										<th style="min-width: 100px;">Vendor</th>
+										<th style="min-width: 100px;">Quantity</th>
+										<th style="min-width: 100px;">Priority</th>
+										<th style="min-width: 100px;">Item OD</th>
+										<th style="min-width: 100px;">Part OD</th>
+									</tr>
+								</thead>
+								<tbody id="Parts-OrderTBody">
+									
+								</tbody>
+							</table>
+							<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+						</div>
+					</div>
+					<div id="Parts-OrderHistory" class="tab" style="margin: 0;">
+						<div id="Parts-OrderHistoryHeader" style="width: 100%; height: 0px; overflow: hidden; background: rgb(225, 225, 225); display: flex; justify-content: center; transition: height 1s cubic-bezier(.4, 0, .2, 1);">
+							<div id="Parts-OrderHistoryHeaderText" style="margin: 13px 20px 13px 0; font-size: 16px;">0 Selected</div>
+							<button onclick="PartsOrderHistoryMarkArrived()" style="margin: 6px 0;" class="mdc-button mdc-button--outlined" data-mdc-auto-init="MDCRipple">Mark Arrived</button>
+						</div>
+						<div class="material-table" style="height: 100%;">
+							<table style="min-width: 800px;">
+								<thead>
+									<tr>
+										<th style="width: 40px;"></th>
+										<th>Item</th>
+										<th>Part</th>
+										<th>Order Data</th>
+										<th>Vendor</th>
+										<th>Quantity</th>
+										<th>Status</th>
+										<th>Priority</th>
+									</tr>
+								</thead>
+								<tbody id="Parts-OrderHistoryTBody"></tbody>
+							</table>
+							<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+						</div>
 					</div>
 					<div id="Todo" class="tab" style="margin: 0;">
 						<div style="background: #c00000; width: 100%; left: 0; top: 0; color: rgb(230, 230, 230);">
@@ -870,6 +939,8 @@
 		<script src="assets/Parts/PartsAllStepper.js"></script>
 		<script src="assets/Parts/PartsAll.js"></script>
 		<script src="assets/Parts/PartsParts.js"></script>
+		<script src="assets/Parts/PartsOrder.js"></script>
+		<script src="assets/Parts/PartsOrderHistory.js"></script>
 	</main>
 </body>
 </html>
