@@ -43,102 +43,6 @@
 			width: 100vw !important;
 			margin: 0 !important;
 		}
-
-		.sc:hover {
-			opacity: 1;
-		}
-
-		.sc {
-			opacity: .7;
-			transition: opacity .5s ease-out;
-			-moz-transition: opacity .5s ease-out;
-			-webkit-transition: opacity .5s ease-out;
-			-o-transition: opacity .5s ease-out;
-		}
-
-		.roboimg {
-			position: relative;
-			height: 450px;
-			overflow: hidden;
-		}
-
-			.roboimg img {
-				width: 100%;
-				height: 100%;
-				object-fit: cover;
-			}
-
-		.noselect {
-			-webkit-touch-callout: none;
-			/* iOS Safari */
-			-webkit-user-select: none;
-			/* Safari */
-			-khtml-user-select: none;
-			/* Konqueror HTML */
-			-moz-user-select: none;
-			/* Firefox */
-			-ms-user-select: none;
-			/* Internet Explorer/Edge */
-			user-select: none;
-			/* Non-prefixed version, currently
-								  supported by Chrome and Opera */
-		}
-
-		.slideshow-container {
-			max-height: 300px;
-			position: relative;
-			margin: auto;
-		}
-
-		.mySlides {
-			display: flex;
-		}
-
-			.mySlides img {
-				max-height: 100%;
-				max-width: 100%;
-			}
-
-		.prev,
-		.next {
-			cursor: pointer;
-			position: absolute;
-			top: 50%;
-			width: auto;
-			margin-top: -22px;
-			padding: 16px;
-			color: white;
-			font-weight: bold;
-			font-size: 18px;
-			transition: 0.6s ease;
-			border-radius: 0 3px 3px 0;
-		}
-
-		.next {
-			right: 0;
-			border-radius: 3px 0 0 3px;
-		}
-
-			.prev:hover,
-			.next:hover {
-				background-color: rgba(0, 0, 0, 0.8);
-			}
-
-		.dot {
-			cursor: pointer;
-			height: 15px;
-			width: 15px;
-			margin: 0 2px;
-			background-color: #bbb;
-			border-radius: 50%;
-			display: inline-block;
-			transition: background-color 0.6s ease;
-		}
-
-			.active,
-			.dot:hover {
-				background-color: #717171;
-			}
 	</style>
 </head>
 
@@ -146,7 +50,7 @@
 	<!-- Nav -->
 	<nav class="navbar navbar-expand-lg fixed-top" id="mainNav" style="transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);">
 		<div class="container">
-			<a class="navbar-brand js-scroll-trigger" href="#page-top">
+			<a class="navbar-brand js-scroll-trigger" href="/">
 				<img class="img-fluid" src="assets/img/logosheet.png" alt="" id="headerIcon">
 			</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
@@ -160,377 +64,89 @@
 						<a class="nav-link js-scroll-trigger" href="#about">About</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link js-scroll-trigger" href="#robots">Robots</a>
+						<a class="nav-link js-scroll-trigger" href="#skills">Skills</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link js-scroll-trigger" href="#recognition">Recognition</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link js-scroll-trigger" href="#calendar">Upcoming Events</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link js-scroll-trigger" href="#sponsors">Sponsors</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link js-scroll-trigger" href="#contact">Support</a>
-					</li>
-					<!--
-					<li class="nav-item">
-						<a class="nav-link js-scroll-trigger" href='Blog.html'>Blog</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link js-scroll-trigger" href="CentralCoastRegional.html">Central Coast Regional</a>
-					</li>
-					<li class="nav-item" style="cursor: grab !important;">
-						<a class="nav-link js-scroll-trigger" onclick="enterPortal()">Portal</a>
-					</li>
-					-->
 				</ul>
 			</div>
 		</div>
 	</nav>
 
 	<!-- Main -->
-	<header class="masthead" style="background-image: url('assets/img/maderaelectronics.jpg');">
+	<header class="masthead" style="background: rgb(225, 225, 225)">
 		<div class="container h-100">
 			<div class="row h-100">
 				<div class="col-12 my-auto text-center text-white">
 					<img class="masthead-img img-fluid mb-3" src="assets/img/foreverlogo.png" alt="">
-					<div class="masthead-title">BreakerBots</div>
+					<div class="masthead-title" style="color: rgb(33, 37, 41);">BreakerBots</div>
 					<hr class="colored">
-					<div class="masthead-subtitle">Team 5104</div>
+					<div class="masthead-subtitle" style="color: rgb(33, 37, 41);">Team 5104</div>
 				</div>
 			</div>
-		</div>
-		<div class="scroll-down">
-			<a class="btn js-scroll-trigger" href="#about">
-				<i class="fa fa-angle-down fa-fw"></i>
-			</a>
 		</div>
 	</header>
 
 	<!-- About Section -->
-	<section class="page-section" id="about" style="background-image: url('assets/img/geometricbg.png')">
+	<section class="page-section" id="about" style="background: rgb(225, 225, 225)">
 		<div class="container-fluid">
 			<div class="wow fadeIn text-center">
 				<h1>Program Description</h1>
-				<div class="slideshow-container">
-					<div class="mySlides">
-						<img src="assets/img/teampics/website1.jpg" style="height: 300px; margin: 0% 5% 3% 5%;">
-					</div>
-					<div class="mySlides">
-						<img src="assets/img/teampics/website2.jpg" style="height: 300px; margin: 0% 5% 3% 5%;">
-					</div>
-					<div class="mySlides">
-						<img src="assets/img/teampics/website3.jpg" style="height: 300px; margin: 0% 5% 3% 5%;">
-					</div>
-					<div class="mySlides">
-						<img src="assets/img/teampics/website4.jpg" style="height: 300px; margin: 0% 5% 3% 5%;">
-					</div>
-					<div class="mySlides">
-						<img src="assets/img/teampics/website5.jpg" style="height: 300px; margin: 0% 5% 3% 5%;">
-					</div>
-					<div class="mySlides">
-						<img src="assets/img/teampics/website8.jpg" style="height: 300px; margin: 0% 5% 3% 5%;">
-					</div>
-					<div class="mySlides">
-						<img src="assets/img/teampics/website9.jpg" style="height: 300px; margin: 0% 5% 3% 5%;">
-					</div>
-					<div class="mySlides">
-						<img src="assets/img/teampics/website10.jpg" style="height: 300px; margin: 0% 5% 3% 5%;">
-					</div>
-					<div class="mySlides">
-						<img src="assets/img/teampics/website11.jpg" style="height: 300px; margin: 0% 5% 3% 5%;">
-					</div>
-					<!--
-				<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-				<a class="next" onclick="plusSlides(1)">&#10095;</a>
-				<div style="text-align:center">
-					<span class="dot" onclick="currentSlide(1)"></span>
-					<span class="dot" onclick="currentSlide(2)"></span>
-					<span class="dot" onclick="currentSlide(3)"></span>
-				</div>
-			-->
-				</div>
 			</div>
 			<p style="margin: 0px 5%">
-				<br> We are Team 5104, a FIRST Robotics Competition (FRC) team from Pacific Grove, California known as the BreakerBots. Coach
-				Roby Hyde started our team in 2013 with the goal of providing a welcoming space for students who shared an interest in
-				STEM. Since then, our team has grown to about 6 mentors and 25 active students, with approximately 40% of them women.
-				Our focus has expanded beyond science as well; we now have students working on business, project management, communications,
-				art and team spirit.
 				<br>
-				<br> Although we meet year-round, our busiest time begins in January when we have just six weeks to design and build a robot
-				that can compete in a specifically designed robot game. We typically enter two regional competitions in the Silicon Valley
-				area each year, and we have qualified for the FIRST World Championships in Houston, Texas the past two years. This year,
-				we are looking forward to the reveal of our new challenge, based on the theme
-				<a href="https://youtu.be/pdGgp1NIvL0">Destination: Deep Space</a>, in FIRST’s unique “varsity sport for the mind.”
+				BreakerBots engineering is responsible for the construction of the robot.
+				This includes the design, choosing all the parts that we are going to buy, cutting anything that needs to be cut and assembling the parts into a working robot.
+				insert pic of engineering team
+
+				The team typically builds two robots during the build season - one for prototyping and one for competition.
+				The team tries to complete the prototype robot as soon as possible to give the drive and programming teams time to get familiar with the features of the robot.
 			</p>
-			<div class="dropdown">
-				<button style="width: 140px; margin: 20px 0 0 calc(50% - 70px);" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					See More
-				</button>
-				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-					<a class="dropdown-item" href="engineering.html">Engineering</a>
-				</div>
-			</div>
 		</div>
 	</section>
 
-	<section class="call-to-action" style="background-image: url('assets/img/teampics/website12.jpg')">
-		<div class="container wow fadeIn">
-			<div class="row">
-				<div class="col-md-10 mx-auto">
-					<span class="quote">
-						<b>
-							<u>The BreakerBots Mission</u>
-						</b>
-					</span>
-					<br>
-					<span class="quote" style="font-size: 35px">
-						<i>
-							To inspire students in STEM-related fields, foster teamwork, and provide a welcoming space for all who share our desire
-							to pursue excellence.
-						</i>
-					</span>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<section class="page-section services" style="background-image: url('assets/img/othergeometricbg.png')">
-		<div class="container wow fadeIn">
-			<div class="row">
-				<div class="col-md-10 mx-auto">
-					<p>
-						<font size="5">
-							<i>
-								<img src="assets/img/frc_logo.png" width="350" align="left" style="margin: 0px 50px 0px 0px" />For Inspiration and Recognition of Science and Technology (FIRST) is a non-profit organization founded by Dean Kamen
-								in 1989 with the goal of inspiring young people to pursue an education in STEM-related fields. Through competition,
-								cooperation, and gracious professionalism, FIRST reaches students throughout the United States and the world. You
-								can find more information
-								<a href="https://www.firstinspires.org/">here.</a>
-							</i>
-						</font>
-					</p>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<!-- Robots Section -->
-	<section class="page-section bg-light" id="robots" style="background-image: url('assets/img/geometricbg.png')">
-		<div class="container text-center wow fadeIn">
-			<h2>Robots</h2>
-			<p class="mb-0">Featuring our robots since 2014.</p>
-			<hr class="colored">
-			<div class="team-carousel owl-carousel owl-theme mt-5">
-				<!-- Athena -->
-				<div class="item">
-					<div class="overlay"></div>
-					<div class="roboimg">
-						<img class="img-fluid" src="assets/img/robots/Athena.jpg" alt="">
-						<div class="team-caption">
-							<h3>Athena</h3>
-							<hr class="colored">
-							<p>PowerUp - 2018</p>
-						</div>
-					</div>
-				</div>
-
-				<!-- Archer -->
-				<div class="item">
-					<div class="overlay"></div>
-					<div class="roboimg">
-						<img class="img-fluid" src="assets/img/robots/Archer.jpg" alt="">
-						<div class="team-caption">
-							<h3>Archer</h3>
-							<hr class="colored">
-							<p>Steamworks - 2017</p>
-						</div>
-					</div>
-				</div>
-
-				<!-- Madoc -->
-				<div class="item">
-					<div class="overlay"></div>
-					<div class="roboimg">
-						<img class="img-fluid" src="assets/img/robots/Madoc.jpg" alt="">
-						<div class="team-caption">
-							<h3>Madoc</h3>
-							<hr class="colored">
-							<p>Stronghold - 2016</p>
-						</div>
-					</div>
-				</div>
-
-				<!-- Klaus -->
-				<div class="item">
-					<div class="overlay"></div>
-					<div class="roboimg">
-						<img class="img-fluid" src="assets/img/robots/Klaus.jpg" alt="">
-						<div class="team-caption">
-							<h3>Klaus</h3>
-							<hr class="colored">
-							<p>Recycle Rush - 2015</p>
-						</div>
-					</div>
-				</div>
-
-				<!-- Felix -->
-				<div class="item">
-					<div class="overlay"></div>
-					<div class="roboimg">
-						<img class="img-fluid" src="assets/img/robots/Felix.jpg" alt="">
-						<div class="team-caption">
-							<h3>Felix</h3>
-							<hr class="colored">
-							<p>Aerial Assist - 2014</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<!-- Recognition -->
-	<section class="page-section services" id="recognition" style="background-image: url('assets/img/othergeometricbg.png')">
-		<div class="container">
-			<div class="text-center wow fadeIn">
-				<h2>Recognition</h2>
-				<hr class="colored">
-				<div class="row">
-					<div class="col-lg-6 wow fadeIn" data-wow-delay=".2s">
-						<div class="media">
-							<div class="media-body">
-								<h3 class="media-heading">Awards</h3>
-								<p>
-									2014 - Judge’s Award, Cal Games
-									<br>
-									<br> 2016 - Tournament Finalist, Cal Games
-									<br>
-									<br> 2017 - Tournament Finalist, Central Valley Regional
-									<br>
-									<br> 2017 - Alliance Captain, Houston World Championships
-									<br>
-									<br> 2017 - Winner, Chezy Champs
-									<br>
-									<br> 2017 - Tournament Finalist, Cal Games
-									<br>
-									<br> 2018 - Tournament Finalist, Central Valley Regional
-									<br>
-									<br> 2018 - Alliance Captain, Houston World Championships
-								</p>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-6 wow fadeIn" data-wow-delay=".4s">
-						<div class="media">
-							<div class="media-body">
-								<h3 class="media-heading">Press</h3>
-								<p>
-									<a href="http://www.cedarstreettimes.com/wp-content/uploads/2009/02/5-05-17.pdf">BreakerBots Solidify World Standing</a>
-									<br>
-									<br>
-									<a href="http://www.montereyherald.com/social-affairs/20170327/pacific-grove-robotics-heading-to-the-national-championship">Pacific Grove Robotics Heading to the National Championship</a>
-									<br>
-									<br>
-									<a href="https://pgnewsbreaker.com/3452/news/breakerbots-catch-a-break/">BreakerBots Catch a Break</a>
-									<br>
-									<br>
-									<a href="http://www.cedarstreettimes.com/wp-content/uploads/2018/04/41318-web.pdf#page=10">BreakerBots: The Journey to Houston via Fresno</a>
-									<img src="assets/img/teampics/website13.jpg" style="margin: 2%; width: 75%">
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<!-- Calendar -->
-	<section class="page-section services" id="calendar" style="background-image: url('assets/img/geometricbg.png')">
-		<div class="container">
-			<div class="text-center wow fadeIn">
-				<h2>Upcoming Events</h2>
-				<hr class="colored">
-				<p>
-					<b>Summer Meetings: </b>
-					<br> BreakerBots CNC Academy -
-					<i>Mondays @5:30pm</i>
-					<br> Robotics General Meeting -
-					<i>Wednesdays @4:30pm</i>
-					<br> Robotics General Meeting -
-					<i>Saturdays @12:00pm</i>
-				</p>
-				<p class="mb-0">
-					<a href="https://calendar.google.com/calendar/embed?src=suiphcuq71fqpntbc2rojdun2g@group.calendar.google.com&ctz=America/Los_Angeles&pli=1">Click to See Calendar</a>
-				</p>
-			</div>
-		</div>
-	</section>
-
-	<!-- Sponsors Section -->
-	<section class="page-section" id="sponsors" style="background-image: url('assets/img/othergeometricbg.png')">
+	<!-- Skills Section -->
+	<section class="page-section" id="skills" style="background: rgb(225, 225, 225)">
 		<div class="container-fluid">
 			<div class="wow fadeIn text-center">
-				<h1>Sponsors</h1>
-				<p class="mb-0"></p>
+				<h1>Skills</h1>
 			</div>
-			<hr class="colored">
-			<div class="row text-center">
-				<div class="col-lg-3 col-md-6" style="padding-top: 2%;">
-					<div class="wow fadeIn px-4 pb-4 pb-lg-0 h-100" data-wow-delay=".2s">
-						<a href="http://www.pgusd.org/">
-							<img src="assets/img/sponsors/pgusd.png" style="width: 50%" />
-						</a>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6" style="padding-top: 2%;">
-					<div class="wow fadeIn px-4 pb-4 pb-lg-0 h-100" data-wow-delay=".4s">
-						<a href="https://dodstem.us/">
-							<img src="assets/img/sponsors/ndep.jpg" style="width: 36%" />
-						</a>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6" style="padding-top: 2%;">
-					<div class="wow fadeIn px-4 pb-4 pb-lg-0 h-100" data-wow-delay=".4s">
-						<a href="https://www.hirevue.com/">
-							<img src="assets/img/sponsors/hirevue.png" style="width: 50%" />
-						</a>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6" style="padding-top: 2%;">
-					<div class="wow fadeIn px-4 pb-4 pb-lg-0 h-100" data-wow-delay=".6s">
-						<a href="http://www.fmctechnologies.com/en/SchillingRobotics.aspx">
-							<img src="assets/img/sponsors/schilling.png" style="width: 50%" />
-						</a>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6" style="padding-top: 2%;">
-					<div class="wow fadeIn px-4 pb-4 pb-lg-0 h-100" data-wow-delay=".6s">
-						<a href="https://www.crafthouston.org/">
-							<img src="assets/img/sponsors/hccc.png" style="width: 50%" />
-						</a>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6" style="padding-top: 2%;">
-					<div class="wow fadeIn px-4 h-100" data-wow-delay=".8s">
-						<h3>Brin Wojcicki Foundation</h3>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6" style="padding-top: 2%;">
-					<div class="wow fadeIn px-4 pb-4 pb-lg-0 h-100" data-wow-delay=".4s">
-						<h3>Karen and Rick Hargrove</h3>
-					</div>
-				</div>
+			<div style="margin: 0px 20%">
+				<br> 
+				<ul>
+					<li>
+						CAD/CAM
+						insert pic of cad on screen
+					</li>
+
+					<li>
+						CNC (Tormach 770, CNC router)
+						insert pic of Tormach
+					</li>
+
+					<li>
+						Metal cutting (horizontal and vertical bandsaws)
+						insert pic of horizontal bandsaw
+					</li>
+
+					<li>
+						Basic mechanical skills
+						insert pic of people drilling things
+						insert pic of completed robot
+					</li>
+
+					<li>
+						The engineering team is looking for out of the box thinkers and tinkerers. Many budding engineers come to the engineering team with few skills in metal work - not to worry, the team has taught everyone that’s asked how to build complex systems.
+					</li>
+
+					<li>
+						The team also spends a lot of time testing the systems - trying to anticipate dynamic loading (what happens when you run into a wall at full speed?), determining optimum gear ratios and the interaction of complex systems, all while keeping total weight in mind.
+					</li>
+				</ul>
 			</div>
 		</div>
 	</section>
 
 	<!-- Footer -->
-	<footer class="footer" style="background-image: url(assets/img/pgbackground.jpg)" id="contact">
+	<footer class="footer" style="background: rgb(200, 200, 200)" id="contact">
 		<div class="container text-center" style="color: white">
 			<div class="row">
 				<div class="col-md-4 footer-contact-details">
@@ -627,32 +243,8 @@
 		function mshtChecker() {
 			if (msht.offsetWidth != mshtLOW) {
 				mshtLOW = msht.offsetWidth;
-				msht.innerHTML = msht.offsetWidth < 480 ? ("BREAKER BOTS") : ("BREAKERBOTS");
+				msht.innerHTML = msht.offsetWidth < 480 ? ("BREAKER BOTS ENGINEERING") : ("BREAKERBOTS ENGINEERING");
 			}
-		}
-
-		function enterPortal() {
-			document.querySelector("#mainNav").style.opacity = 0;
-			var ripple = document.querySelector("#CloseRipple");
-			ripple.style.left = event.srcElement.offsetLeft + event.srcElement.offsetWidth + "px";
-			ripple.style.top = event.srcElement.offsetTop + event.srcElement.offsetHeight + "px";
-			document.querySelector("#CloseRippleWrap").classList.add('goripple');
-			setTimeout(function () { window.open('portal/enter.html', '_self', false); }, 700);
-		}
-
-		var slideIndex = 0;
-		showSlides();
-
-		function showSlides() {
-			var i;
-			var slides = document.getElementsByClassName("mySlides");
-			for (i = 0; i < slides.length; i++) {
-				slides[i].style.display = "none";
-			}
-			slideIndex++;
-			if (slideIndex > slides.length) { slideIndex = 1 }
-			slides[slideIndex - 1].style.display = "block";
-			setTimeout(showSlides, 5000); // Change image every 2 seconds
 		}
 	</script>
 </body>
