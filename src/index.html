@@ -141,6 +141,61 @@
 			.dot:hover {
 				background-color: #717171;
 			}
+
+		.ribbon {
+			position: fixed;
+			right: 30px;
+			top: 30px;
+			z-index: 10000;
+			overflow: hidden;
+			width: 75px;
+			height: 75px;
+			text-align: right;
+			transform: scale(2);
+		}
+
+			.ribbon span {
+				font-size: 10px;
+				font-weight: bold;
+				color: #FFF;
+				text-transform: uppercase;
+				text-align: center;
+				line-height: 20px;
+				transform: rotate(45deg);
+				-webkit-transform: rotate(45deg);
+				width: 100px;
+				display: block;
+				background: #79A70A;
+				background: linear-gradient(#C90202 0%, #A73800 100%);
+				box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+				position: absolute;
+				top: 19px;
+				right: -21px;
+			}
+
+				.ribbon span::before {
+					content: "";
+					position: absolute;
+					left: 0px;
+					top: 100%;
+					z-index: -1;
+					border-left: 3px solid #A73800;
+					border-right: 3px solid transparent;
+					border-bottom: 3px solid transparent;
+					border-top: 3px solid #A73800;
+				}
+
+				.ribbon span::after {
+					content: "";
+					position: absolute;
+					right: 0px;
+					top: 100%;
+					z-index: -1;
+					border-left: 3px solid transparent;
+					border-right: 3px solid #A73800;
+					border-bottom: 3px solid transparent;
+					border-top: 3px solid #A73800;
+				}
 	</style>
 </head>
 
@@ -191,6 +246,9 @@
 			</div>
 		</div>
 	</nav>
+
+	<!--Members Signup
+	<div class="ribbon"><span>Sign Up</span></div>-->
 
 	<!-- Main -->
 	<header class="masthead" style="background-image: url('assets/img/maderaelectronics.jpg');">
@@ -245,14 +303,14 @@
 						<img src="assets/img/teampics/website11.jpg" style="height: 300px; margin: 0% 5% 3% 5%;">
 					</div>
 					<!--
-				<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-				<a class="next" onclick="plusSlides(1)">&#10095;</a>
-				<div style="text-align:center">
-					<span class="dot" onclick="currentSlide(1)"></span>
-					<span class="dot" onclick="currentSlide(2)"></span>
-					<span class="dot" onclick="currentSlide(3)"></span>
-				</div>
-			-->
+						<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+						<a class="next" onclick="plusSlides(1)">&#10095;</a>
+						<div style="text-align:center">
+							<span class="dot" onclick="currentSlide(1)"></span>
+							<span class="dot" onclick="currentSlide(2)"></span>
+							<span class="dot" onclick="currentSlide(3)"></span>
+						</div>
+					-->
 				</div>
 			</div>
 			<p style="margin: 0px 5%">
