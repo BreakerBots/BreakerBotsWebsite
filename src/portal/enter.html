@@ -98,37 +98,6 @@
 			.tab.active {
 				display: block;
 			}
-
-		/*Sign In Password Assurance*/
-		.patooltip-container {
-			overflow: visible;
-			pointer-events: none;
-		}
-
-		.patooltip {
-			position: absolute;
-			padding: 1ch 1.5ch;
-			z-index: 25;
-			text-align: center;
-			background-color: rgba(40, 40, 40, 0.8);
-			color: #fff;
-			border-radius: .3ch;
-			font-family: Roboto;
-			min-width: 10em;
-			max-width: 40em;
-			font-size: 14px;
-			line-height: 1;
-			opacity: 0;
-			user-select: none;
-			transition: all 0.45s;
-			transform: translate(-50%, calc(10px + 10px));
-			left: 50%;
-		}
-
-		#SUPC:hover > .patooltip-container > .patooltip {
-			opacity: 1;
-			transform: translate(-50%, calc(10px + 0px));
-		}
 	</style>
 </head>
 <body class="be-splash-screen">
@@ -214,9 +183,6 @@
 													<div style="position: absolute; right: 0; float: right; top: 10px; transform: scale(1); transition: all 0.15s cubic-bezier(.2, 0, .2, 1);">
 														<i style="display: inline; font-size: 27px;" class="material-icons mdc-icon-toggle" role="button" data-mdc-auto-init="MDCIconToggle" onclick="SHP(this.parentNode.parentNode.querySelector('input'));">visibility_off</i>
 													</div>
-												</div>
-												<div class="patooltip-container">
-													<span class="patooltip">Don't Worry Your Password Is Hashed (Encypted) Through Google and (Nearly) Impossible To Access</span>
 												</div>
 											</div>
 											<div class="col-6">
