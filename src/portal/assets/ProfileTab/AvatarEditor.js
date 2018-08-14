@@ -76,7 +76,7 @@ class AvatarEditor {
 								`;
 					sel.el = sel.wrapper.querySelector('div');
 					setTimeout(function () {
-						sel.editor = new Croppie(sel.el.querySelector('img'), {
+						sel.editor = new Breakercrop(sel.el.querySelector('img'), {
 							viewport: {
 								width: 300,
 								height: 300

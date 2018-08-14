@@ -20,7 +20,7 @@ function AV_MU_Draw() {
 							<div style="position: relative; display: flex; min-height: 70px; align-items: center;">
 								<div style="margin-left: 20px; width: 100%; position: absolute; top: 10px;">
 									<div class="demo-card__primary" style="width: 70%">
-										<h2 class="demo-card__title mdc-typography--headline6" style="margin: 0;">` + (item.data().name || item.data().username) + `</h2>
+										<h2 class="demo-card__title mdc-typography--headline6" onclick="` + ProfileTabAPI.getLink(item.id) + `" style="margin: 0; font-weight: 1000; cursor: pointer">` + (item.data().name || item.data().username) + `</h2>
 										<h4 class="demo-card__title mdc-typography--headline10" style="margin-top: 0; margin-left: 5px;">` + item.data().role + `</h2>
 									</div>
 									<i class="noselect material-icons" style="font-size: 300%; position: absolute; right: 30px; top: -8px;"> <img src="` + (users.getUser(item.id).avatar || "../assets/img/iconT.png") + `" style="width: 45px; border-radius: 50%;"> </i>
