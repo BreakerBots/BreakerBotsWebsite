@@ -518,11 +518,9 @@
 				<h2>Upcoming Events</h2>
 				<hr class="colored">
 				<p>
-					<b>Summer Meetings: </b>
-					<br> BreakerBots CNC Academy -
-					<i>Mondays @5:30pm</i>
+					<b>Off-Season Meetings: </b>
 					<br> Robotics General Meeting -
-					<i>Wednesdays @4:30pm</i>
+					<i>Wednesdays @3:00pm</i>
 					<br> Robotics General Meeting -
 					<i>Saturdays @12:00pm</i>
 				</p>
@@ -704,17 +702,19 @@
 
 		var slideIndex = 0;
 		showSlides();
-
 		function showSlides() {
-			var i;
-			var slides = document.getElementsByClassName("mySlides");
-			for (i = 0; i < slides.length; i++) {
-				slides[i].style.display = "none";
+			var imgs = document.getElementsByClassName("mySlides");
+			for (var i = 0; i < imgs.length; i++) {
+				imgs[i].style.display = "none";
 			}
+
+			imgs[slideIndex].style.display = "block";
+			
 			slideIndex++;
-			if (slideIndex > slides.length) { slideIndex = 1 }
-			slides[slideIndex - 1].style.display = "block";
-			setTimeout(showSlides, 5000); // Change image every 2 seconds
+			if(slideIndex > imgs.length) {
+				slideIndex = 0;
+			}
+			setTimeout(showSlides, 5000);
 		}
 	</script>
 </body>

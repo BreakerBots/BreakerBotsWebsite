@@ -326,15 +326,15 @@ function TeamsPHI_Main() {
 	Helper.API.wait(function () {
 		switch (Helper.API.getProgress("Teams", 0)) {
 			case 0:
-				Helper.drawing.display("This is the Team MS, a tool for organizing teams. Teams can be targeted in tasks through the Todo System.",
+				Helper.drawing.display("This is the Team MS, a tool for organizing subteams. Teams can be targeted in tasks through the Todo System.",
 					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Teams", 0, 1); TeamsPHI_Main(); });
 				break;
 			case 1:
-				Helper.drawing.display("To join a team you can press the three stacked dots ⋮ at the bottom of the team’s card. To see members of a team press the ^ button a the bottom of team’s card. Admins can then press the three stacked dots ⋮ next to a user’s name to remove them from a team or make them lead.",
+				Helper.drawing.display("To join a team you can press the three stacked dots (⋮) at the bottom of the card. To see members of a team press the arrow button at the bottom of team’s card. Admins can press the three stacked dots (⋮) next to a user’s name to remove them or make them a lead.",
 					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Teams", 0, 2); TeamsPHI_Main(); });
 				break;
 			case 2:
-				Helper.drawing.display("You can create a new team with the add button. To edit or trash an item, you can always press the three stacked dots ⋮ at the bottom of the team’s card.",
+				Helper.drawing.display("You can create a new team with the add button. To edit or trash an item, you can press the three stacked dots (⋮) at the bottom of the card.",
 					['100vw - 92px', '100vh - 92px'], [1, 1], function () { Helper.API.setProgress("Teams", 0, 3); TeamsPHI_Main(); });
 				break;
 			default:

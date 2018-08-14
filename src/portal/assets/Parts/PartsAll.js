@@ -1235,28 +1235,32 @@ function PartsPHI_Main() {
 	Helper.API.wait(function () {
 		switch (Helper.API.getProgress("Item", 0)) {
 			case 0:
-				Helper.drawing.display("This is the Item Management System (IMS). This System is for managing the ordering of items.",
+				Helper.drawing.display("This is the Item Management System (IMS), for managing item orders.",
 					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Item", 0, 1); PartsPHI_Main(); });
 				break;
 			case 1:
-				Helper.drawing.display("In the IMS there are four types of objects:  folders, item-groups, items and parts. Inside the home (here) or inside any other folder, only folders and item-groups can exist. While inside a item-group only items can exist.",
+				Helper.drawing.display("In the IMS, there are folders, item-groups, items and parts. This home page and other folders contain only folders and item-groups. Tasks can only be added to task-groups.",
 					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Item", 0, 2); PartsPHI_Main(); });
 				break;
 			case 2:
-				Helper.drawing.display("A item is something you want to buy, while folders and item-groups are just for organization. Every item in the IMS contains a name, desc, status, priority and reference to a part. Parts then contain many fields including vendor, url, name, image, etc.",
+				Helper.drawing.display("An item is something you want to buy, while folders and item-groups are for organization. Every item in the IMS contains a name, description, status, priority, and reference to a part. Parts can then contain many fields including vendor, url, name, image, etc.",
 					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Item", 0, 3); PartsPHI_Main(); });
 				break;
 			case 3:
-				Helper.drawing.display("To navigate through the IMS, you can easily click on any folder or item-group to go inside of it. Once inside, you can press the back arrow next to the url or click the little home button under the header of this page. You are also on the “item” part of the IMS, meaning you are only managing items and not parts. Once this tutorial is finished, you can choose what you want to manage whenever you click the “Item MS” in the tab menu.",
+				Helper.drawing.display("Click on any folder or item-group to navigate inside it. You can press the back arrow next to the url or the home button under the header to return to this page.",
 					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Item", 0, 4); PartsPHI_Main(); });
 				break;
 			case 4:
-				Helper.drawing.display("Everywhere inside the IMS this add button will be accessible, though its actions change depending on where you are. Inside folders you are creating folders and item-groups, while inside item-groups you are only creating items.",
-					['100vw - 92px', '100vh - 92px'], [1, 1], function () { Helper.API.setProgress("Item", 0, 5); PartsPHI_Main(); });
+				Helper.drawing.display("You are currently in the “items” part of the IMS, where you can manage items. Once this tutorial is finished, you can choose to manage parts as well under “Item MS” in the tab menu.",
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Item", 0, 5); PartsPHI_Main(); });
 				break;
 			case 5:
-				Helper.drawing.display("If you ever want to edit or trash an item, you can always press the three stacked dots ⋮ at the bottom of it.",
-					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Item", 0, 6); PartsPHI_Main(); });
+				Helper.drawing.display("This add button is accessible throughout the IMS, though its actions change depending on where you are. Inside folders, you can create folders and item-groups, while inside item-groups, you can create items.",
+					['100vw - 92px', '100vh - 92px'], [1, 1], function () { Helper.API.setProgress("Item", 0, 6); PartsPHI_Main(); });
+				break;
+			case 6:
+				Helper.drawing.display("To edit or trash an item, you can press the three stacked dots (⋮) at the bottom of it.",
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Item", 0, 7); PartsPHI_Main(); });
 				break;
 			default:
 				Helper.drawing.close();
