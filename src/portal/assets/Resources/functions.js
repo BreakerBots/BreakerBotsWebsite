@@ -440,3 +440,4 @@ Date.prototype.addDays = function (days) {
 	date.setDate(date.getDate() + days);
 	return date;
 }
+

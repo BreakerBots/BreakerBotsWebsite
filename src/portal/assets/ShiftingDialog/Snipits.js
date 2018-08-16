@@ -43,6 +43,15 @@ var mainSnips = new class mainSnips {
 		`;
 	}
 
+	datetimepicker(id, label, placeholder, usetime, value) {
+		return `
+		<div class="form-group" style="width: 90%; min-height: 65px; max-height: 73px;">
+			<label>` + MSN(label) + `</label>
+			<input ` + MSN_ID(id) + ` onfocus="BreakerDate.open(this, ` + (usetime || false) + `)" ` + MSN(value, 'value="', '"', '') + ` type="text" class="form-control" placeholder="` + MSN(placeholder) + `" autocomplete="off">
+		</div>
+		`;
+	}
+
 	/**
 	 * @param {Array[String]} options An Array Of HTML Strings so [HTML, HTML, HTML, HTML]
 	 * @param {any} showAll If It Should Show all Autocomplete Items When No Text is Typed
@@ -82,16 +91,6 @@ var mainSnips = new class mainSnips {
 				<div class="autocomplete-items"></div>
 			</div>
 		`;
-	}
-
-	textFieldDate(id, label, placeholder, style) {
-		return `
-				<div class="form-group" style="width: 90%; min-height: 65px; max-height: ` + MSNC(stringEV(label), "73", "65") + `px;` + MSN(style) + `">
-					<label ` + MSN(id, ` for="`, `" `, ``) + `>` + MSN(label) + `</label>
-					<input type="text" ` + MSN_ID(id) + ` value="" placeholder="` + MSN(placeholder) + `" class="form-control datetimepicker">
-					<div class="autocomplete-items"></div>
-				</div>
-				`;
 	}
 
 	/**

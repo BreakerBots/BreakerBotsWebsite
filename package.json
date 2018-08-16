@@ -3,6 +3,7 @@
 	"version": "1.0.0",
 	"description": "The main website for FRC team 5104, the Breakerbots",
 	"author": "Breakerbots",
+	"repository": "Breakerbots/Breakersite",
 	"dependencies": {
 		"firebase": "^5.2.0",
 		"firebase-admin": "^5.12.1",

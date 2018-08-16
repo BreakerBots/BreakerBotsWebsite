@@ -16,12 +16,13 @@ function ProfileTabInit() {
 					var isSelf = (vid == users.getCurrentUid());
 					var userdata = users.getUser(vid);
 
-					if (vString(userdata.avatar)) document.querySelector(".ProfileTabJI-Avatar").src = userdata.avatar;
+					document.querySelector(".ProfileTabJI-Avatar").src = userdata.avatar || "../assets/img/iconT.png";
 					SetProfileVarible("Name", userdata.name);
 					SetProfileVarible("Role", userdata.role);
 					SetProfileVarible("Desc", userdata.desc);
 					SetProfileVarible("Username", userdata.username, true);
 					SetProfileVarible("Clearance", userdata.clearance, true);
+					SetProfileVarible("Time", GetUserHours(vid, true), true);
 					SetProfileVarible("Teams", (formatTeamArray(teams.getTeams(vid))), true, true);
 					SetProfileVarible("Grade", userdata.grade, true);
 					SetProfileVarible("Slack", userdata.slack, true);
@@ -125,11 +126,12 @@ function SetProfileVarible(id, to, hidePar, useTooltip) {
 			if (hidePar) document.querySelector(".ProfileTabJI-" + id).parentNode.style.display = "";
 			if (useTooltip) document.querySelector(".ProfileTabJI-" + id).setAttribute('aria-label', to);
 			else document.querySelector(".ProfileTabJI-" + id).removeAttribute('aria-label');
-			document.querySelector(".ProfileTabJI-" + id).innerHTML = to;
+			document.querySelector(".ProfileTabJI-" + id).innerHTML = to || "";
 		}
 		else {
 			if (hidePar) document.querySelector(".ProfileTabJI-" + id).parentNode.style.display = "none";
 			document.querySelector(".ProfileTabJI-" + id).removeAttribute('aria-label');
+			document.querySelector(".ProfileTabJI-" + id).innerHTML = "";
 		}
 		return true;
 	} catch (err) { return false; }

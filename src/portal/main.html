@@ -13,7 +13,6 @@
 
 	<!--Other-->
 	<link rel="stylesheet" href="../assets/lib/material/ml.css" />
-	<link rel="stylesheet" href="../assets/lib/datetimepicker/css/bootstrap-datetimepicker.min.css">
 
 	<!--Firebase-->
 	<script defer src="/__/firebase/4.12.1/firebase-app.js"></script>
@@ -63,6 +62,7 @@
 	<link rel="stylesheet" href="assets/Resources/SHP/SHP.css">
 	<link rel="stylesheet" href="assets/Resources/RichTextEditor/RichTextEditor.css">
 	<link rel="stylesheet" href="assets/Resources/Slider/Slider.css">
+	<link rel="stylesheet" href="assets/Resources/BreakerDate/BreakerDate.css">
 
 	<!-- Side Nav Drawer -->
 	<link rel="stylesheet" href="assets/SideNav/SideNav.css" type="text/css" />
@@ -243,18 +243,140 @@
 		</div>
 	</header>
 	<main>
-		<!--Global Tooltip-->
-		<div class="bstooltip-container">
-			<span class="bstooltip"></span>
-		</div>
+		<!--Page Overlay Elements-->
+		<div id="POE">
+			<!--Global Tooltip-->
+			<div class="bstooltip-container">
+				<span class="bstooltip"></span>
+			</div>
 
-		<!--Global Menu-->
-		<div id="BreakerMenu" class="breaker-menu mdc-elevation--z10">
+			<!--Global Menu-->
+			<div id="BreakerMenu" class="breaker-menu mdc-elevation--z10">
 
-		</div>
-		<div id="BreakerMenuSecondary" class="breaker-menu breaker-menuSecondary--open mdc-elevation--z10">
+			</div>
+			<div id="BreakerMenuSecondary" class="breaker-menu breaker-menuSecondary--open mdc-elevation--z10">
 
+			</div>
+
+			<!--BreakerDate-->
+			<div id="BreakerDate" class="breaker-date mdc-elevation--z10">
+				<div id="BreakerDateContent" style="width: 300px; height: 350px;">
+					<div id="BreakerDate--Month">
+						<div style="display: flex; justify-content: space-around; align-items: center; height: 60px">
+							<div id="BreakerDate--Month--Title" style="font-size: 16px;">
+
+							</div>
+							<div>
+								<i onclick="BreakerDate.date.setMonth((BreakerDate.date.getMonth() - 1)); BreakerDate.view(0);" class="mdc-icon-toggle material-icons" data-mdc-auto-init="MDCIconToggle">chevron_left</i>
+								<i onclick="BreakerDate.date.setMonth((BreakerDate.date.getMonth() + 1)); BreakerDate.view(0);" class="mdc-icon-toggle material-icons" data-mdc-auto-init="MDCIconToggle">chevron_right</i>
+							</div>
+						</div>
+						<table style="width: 100%; padding: 0 3% 0 3%;">
+							<thead style="color: rgba(0, 0, 0, 0.36); font-size: 13px; font-weight: 400; text-align: center;">
+								<tr style="border-bottom: 1px solid rgba(0, 0, 0, 0.36);">
+									<th>S</th>
+									<th>M</th>
+									<th>T</th>
+									<th>W</th>
+									<th>T</th>
+									<th>F</th>
+									<th>S</th>
+								</tr>
+							</thead>
+							<tbody id="BreakerDate--Month--Content"></tbody>
+						</table>
+					</div>
+					<div id="BreakerDate--Time">
+						<div style="display: flex; justify-content: center; margin: 10px 0 10px 0;">
+							<button id="BreakerDate--Time--AMPM" class="mdc-button" data-mdc-auto-init="MDCRipple" onclick="this.classList.toggle('BreakerDate--Time--PM')">PM</button>
+						</div>
+						<div style="display: flex; justify-content: space-around; height: 248px;">
+							<div>
+								<i onclick="var a = document.querySelector('#BreakerDate--Time--Hour'); a.innerHTML = (Number(a.innerHTML) + 1 + 13) % 13;" class="mdc-icon-toggle material-icons" data-mdc-auto-init="MDCIconToggle">keyboard_arrow_up</i>
+								<div id="BreakerDate--Time--Hour" style="text-align: center;">8</div>
+								<i onclick="var a = document.querySelector('#BreakerDate--Time--Hour'); a.innerHTML = (Number(a.innerHTML) - 1 + 13) % 13;" class="mdc-icon-toggle material-icons" data-mdc-auto-init="MDCIconToggle">keyboard_arrow_down</i>
+							</div>
+							<div>
+								<i onclick="var a = document.querySelector('#BreakerDate--Time--Min'); a.innerHTML = (Number(a.innerHTML) + 1 + 61) % 61;" class="mdc-icon-toggle material-icons" data-mdc-auto-init="MDCIconToggle">keyboard_arrow_up</i>
+								<div id="BreakerDate--Time--Min" style="text-align: center;">32</div>
+								<i onclick="var a = document.querySelector('#BreakerDate--Time--Min'); a.innerHTML = (Number(a.innerHTML) - 1 + 61) % 61;" class="mdc-icon-toggle material-icons" data-mdc-auto-init="MDCIconToggle">keyboard_arrow_down</i>
+							</div>
+						</div>
+						<div style="display: flex; justify-content: center; margin: 10px 0 10px 0;">
+							<button onclick="BreakerDate.submitTime(); BreakerDate.view(2);" class="mdc-button" data-mdc-auto-init="MDCRipple">Okay</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!--Shifting Dialog-->
+			<div>
+				<div id="SD-Container" data-sd-container-state="closed">
+					<div id="SD-Main" data-sd-main-state="default" class="mdc-elevation--z10">
+						<!--The Header-->
+						<div id="SD-Header" style="display: block;">
+							<div class="mdc-top-app-bar__row">
+								<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+									<button id="SD-HeaderClose" data-mdc-auto-init="MDCIconToggle" style="transition: all 0.2s cubic-bezier(.2, 0, .2, 1);" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-toggle mdc-ripple-upgraded">close</button>
+									<span id="SD-HeaderTitle" class="mdc-top-app-bar__title" style="font-size: 2em; font-weight: 400; font-family: Roboto !important;">
+										Example Title
+									</span>
+								</section>
+							</div>
+						</div>
+
+						<!--The Content Wrapper For The Dialog-->
+						<form id="SD-Form" onsubmit="event.preventDefault(); ShiftingDialogSubmit();" style="height: 100%;">
+							<div id="SD-Wrapper" class="material-scrollbar">
+								<h1 style="width: 100%; text-align: center;">Oops, Something Went Wrong!</h1>
+								<h4 style="width: 100%; text-align: center;">Error: V2lsbGlhbSAoTGlhbSkgQWxiZXJ0IFNub3cgSVY(Base64,Unicode8) Content Failed To Display</h4>
+							</div>
+							<div id="SD-FooterWrapper">
+								<div id="SD-Footer">
+									<button id="SD-FooterCancel" data-mdc-auto-init="MDCRipple" onclick="ShiftingDialog.close()" class="mdc-button mdc-ripple-upgraded">Cancel</button>
+									<button id="SD-FooterSubmit" data-mdc-auto-init="MDCRipple" type="submit" class="mdc-button mdc-ripple-upgraded">Submit</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<!--Notification Alert-->
+			<div>
+				<div id="Notification-Alert-Wrapper">
+
+				</div>
+			</div>
+
+			<!--Snackbar-->
+			<div>
+				<div id="MainSnackbar" style="z-index: 100000" data-mdc-auto-init="MDCSnackbar" class="mdc-snackbar" aria-atomic="true" aria-live="assertive" aria-hidden="true">
+					<div class="mdc-snackbar__text"></div>
+					<div class="mdc-snackbar__action-wrapper">
+						<button type="button" class="mdc-snackbar__action-button"></button>
+					</div>
+				</div>
+			</div>
+
+			<!--Helper I-->
+			<div id="HelperI">
+				<div id="HelperI-Dim">
+
+				</div>
+				<div id="HelperI-EleW" style="left: 50px; top: 50px;">
+					<div id="HelperI-Ele">
+						<div id="HelperI-Content">
+							Here are the tabs, you easily switch tabs clicked on them.
+						</div>
+						<i id="HelperI-Next" class="material-icons mdc-icon-toggle" data-mdc-auto-init="MDCIconToggle" style="color: white !important; float: right;">
+							navigate_next
+						</i>
+					</div>
+				</div>
+			</div>
 		</div>
+		
 
 		<div class="page-content" style="transition: margin-left 0.6s cubic-bezier(.2, 0, .2, 1), width 0.6s; z-index: 7; position: fixed; width: 100%; height: 100%; overflow: visible;">
 
@@ -540,7 +662,12 @@
 									<td class="ProfileTab-Info--CPW-V ProfileTabJI-Clearance">-</td>
 								</tr>
 								<tr class="ProfileTab-Info--CPW">
-									<td class="ProfileTab-Info--CPW-I noselect material-icons">people</td>
+									<td class="ProfileTab-Info--CPW-I noselect material-icons">timer</td>
+									<td class="ProfileTab-Info--CPW-T noselect">Time: </td>
+									<td class="ProfileTab-Info--CPW-V ProfileTabJI-Time">-</td>
+								</tr>
+								<tr class="ProfileTab-Info--CPW">
+									<td class="ProfileTab-Info--CPW-I noselect material-icons" style="transform: translate(3px, -3px)">people</td>
 									<td class="ProfileTab-Info--CPW-T noselect">Teams: </td>
 									<td class="ProfileTab-Info--CPW-V ProfileTabJI-Teams">---- -------- -------</td>
 								</tr>
@@ -731,8 +858,8 @@
 								<h4>Once User Have Created An Account They Will Appear Here To Be Approved</h4>
 							</div>
 						</div>
-						<div id="AV-SS" class="tab" style="margin: 0; height: 100%;">
-							<div id="AV-SS-Wrapper" style="height: 100%;">
+						<div id="AV-SS" class="tab" style="margin: 0; min-height: 100%; width: 100%;">
+							<div id="AV-SS-Wrapper" style="min-height: 100%; width: 100%;">
 
 							</div>
 						</div>
@@ -773,83 +900,15 @@
 
 		</div>
 
+		<!--                            -->
+		<!--      Javascript Files      -->
+		<!--                            -->
 
-		<!--Shifting Dialog-->
-		<div>
-			<div id="SD-Container" data-sd-container-state="closed">
-				<div id="SD-Main" data-sd-main-state="default" class="mdc-elevation--z10">
-					<!--The Header-->
-					<div id="SD-Header" style="display: block;">
-						<div class="mdc-top-app-bar__row">
-							<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-								<button id="SD-HeaderClose" data-mdc-auto-init="MDCIconToggle" style="transition: all 0.2s cubic-bezier(.2, 0, .2, 1);" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-toggle mdc-ripple-upgraded">close</button>
-								<span id="SD-HeaderTitle" class="mdc-top-app-bar__title" style="font-size: 2em; font-weight: 400; font-family: Roboto !important;">
-									Example Title
-								</span>
-							</section>
-						</div>
-					</div>
-
-					<!--The Content Wrapper For The Dialog-->
-					<form id="SD-Form" onsubmit="event.preventDefault(); ShiftingDialogSubmit();" style="height: 100%;">
-						<div id="SD-Wrapper" class="material-scrollbar">
-							<h1 style="width: 100%; text-align: center;">Oops, Something Went Wrong!</h1>
-							<h4 style="width: 100%; text-align: center;">Error: V2lsbGlhbSAoTGlhbSkgQWxiZXJ0IFNub3cgSVY(Base64,Unicode8) Content Failed To Display</h4>
-						</div>
-						<div id="SD-FooterWrapper">
-							<div id="SD-Footer">
-								<button id="SD-FooterCancel" data-mdc-auto-init="MDCRipple" onclick="ShiftingDialog.close()" class="mdc-button mdc-ripple-upgraded">Cancel</button>
-								<button id="SD-FooterSubmit" data-mdc-auto-init="MDCRipple" type="submit" class="mdc-button mdc-ripple-upgraded">Submit</button>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-
-		<!--Notification Alert-->
-		<div>
-			<div id="Notification-Alert-Wrapper">
-
-			</div>
-		</div>
-
-		<!--Snackbar-->
-		<div>
-			<div id="MainSnackbar" style="z-index: 100000" data-mdc-auto-init="MDCSnackbar" class="mdc-snackbar" aria-atomic="true" aria-live="assertive" aria-hidden="true">
-				<div class="mdc-snackbar__text"></div>
-				<div class="mdc-snackbar__action-wrapper">
-					<button type="button" class="mdc-snackbar__action-button"></button>
-				</div>
-			</div>
-		</div>
-
-		<!--Helper I-->
-		<div id="HelperI">
-			<div id="HelperI-Dim">
-
-			</div>
-			<div id="HelperI-EleW" style="left: 50px; top: 50px;">
-				<div id="HelperI-Ele">
-					<div id="HelperI-Content">
-						Here are the tabs, you easily switch tabs clicked on them.
-					</div>
-					<i id="HelperI-Next" class="material-icons mdc-icon-toggle" data-mdc-auto-init="MDCIconToggle" style="color: white !important; float: right;">
-						navigate_next
-					</i>
-				</div>
-			</div>
-		</div>
-
-		<!--                           -->
-		<!-- Resource Javascript Files -->
-		<!--                           -->
 		<!-- Imports -->
 		<script src="../assets/mdc/material.js"></script>
 		<script type="text/javascript">window.mdc.autoInit();</script>
 		<script src="../assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
 		<script src="../assets/lib/jquery/inputmask.js" type="text/javascript"></script>
-		<script src="../assets/lib/datetimepicker/js/bootstrap-datetimepicker.js" type="text/javascript"></script>
 		<script src='../assets/lib/Fuse/fuse.js'></script>
 
 		<!--General Functions-->
@@ -881,6 +940,7 @@
 		<script src="assets/Resources/Touch/Swipe.js"></script>
 		<script src="assets/Resources/RichTextEditor/RichTextEditor.js"></script>
 		<script src="assets/Resources/Scroll/Scroll.js"></script>
+		<script src="assets/Resources/BreakerDate/BreakerDate.js"></script>
 
 		<!--Header-->
 		<script src="assets/Header/header.js"></script>

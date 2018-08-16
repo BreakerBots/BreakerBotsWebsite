@@ -228,19 +228,34 @@
 		window.mdc.autoInit();
 		new RegisteredTab("SignIn", 330);
 		var ds33;
+		var us1;
 		document.addEventListener("DOMContentLoaded", function () {
-			firebase.app().firestore().collection("SS").onSnapshot(function (a) {
-				ds33 = a;
-				document.querySelector("#SignInOptions").innerHTML = hin45(a);
-				SIC23();
-			})
+			firebase.app().firestore().collection("users").get().then(function (a) {
+				us1 = a;
+				aus1sl();
+			});
 		});
+		function aus1sl() {
+			firebase.app().firestore().collection("SS").onSnapshot(function (a) {
+				try {
+					ds33 = a;
+					document.querySelector("#SignInOptions").innerHTML = hin45(a);
+					SIC23();
+				} catch (err) { console.error(err); }
+			});
+		}
 		var tm1 = {};
 		function hin45(a) {
 			for (var b = "", e = {}, g = 0; g < a.docs.length; g++) {
-				var h = a.docs[g].data();
-				b += "<p>" + h.name + "</p>";
-				e[h.name] = [a.docs[g].id, 0 != h.history.length % 2]
+				try {
+					var h = a.docs[g].data();
+					var rn = a.docs[g].id;
+					try {
+						rn = findObjectByKey(us1.docs, "id", rn).data();
+					} catch (err) { }
+					b += "<p>" + (h.name || rn.name) + "</p>";
+					e[(h.name || rn.name)] = [a.docs[g].id, 0 != h.history.length % 2]
+				} catch (err) { console.error(err); }
 			}
 			tm1 = e;
 			return b;
@@ -270,7 +285,11 @@
 		}
 		function SIC23() {
 			var a = document.querySelector("#in5104").value;
-			void 0 != tm1[a] ? (document.querySelector("#BS--SIB").style.transform = "scale(1)", document.querySelector("#BS--SIB").innerHTML = tm1[a][1] ? "Sign Out" : "Sign In") : document.querySelector("#BS--SIB").style.transform = "scale(0)"
+			void 0 !=
+				tm1[a] ?
+				(document.querySelector("#BS--SIB").style.transform = "scale(1)",
+					document.querySelector("#BS--SIB").innerHTML = tm1[a][1] ? "Sign Out" : "Sign In") :
+				document.querySelector("#BS--SIB").style.transform = "scale(0)"
 		}
 		new RegisteredTab("RegisterComputer", 350, null, null, null);
 		var RC_PsVs_Timeout;

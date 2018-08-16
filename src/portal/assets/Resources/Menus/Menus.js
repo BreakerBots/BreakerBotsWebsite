@@ -24,6 +24,7 @@
 var menu = new class Menu {
 	constructor() {
 		window.addEventListener('resize', this.anchor);
+		window.addEventListener("scroll", this.anchor);
 		setInterval(this.anchor, 5000);
 		document.addEventListener('click', function () {
 			try {

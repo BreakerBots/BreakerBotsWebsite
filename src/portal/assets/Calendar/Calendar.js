@@ -228,15 +228,37 @@ class BreakerCalendar {
 					<div class="BreakerCalendar-MonthView BreakerCalendar-MonthView--` + anim + `">
 				`;
 
+				var calViewMin;
+				var calViewMax;
+
 				for (var i = 1; i < 36; i++) {
-					var a = i.overflow(1, days);
+					//Last Month
+					var c = new Date((this.mv[0] + 1) + "/1/" + this.mv[1]).getDay();
+
+					//Day
+					var a = (i - c).overflow(1, days);
+
+					//Month
 					var b = ((this.mv[0] + Math.floor(i / (days + 1))) % 12);
+
+					//Last Month
+					if (c - i >= 0) {
+						a = (new Date(this.mv[1], this.mv[0], 0).getDate() - (c - i));
+						b -= 1;
+					}
+
+					if (i == 1)
+						calViewMin = new Date((b + 1) + "/" + a + "/" + this.mv[1]);
+					else if (i > 34)
+						calViewMax = new Date((b + 1) + "/" + a + "/" + this.mv[1]);
+
+					//Is Today
 					var isT = (new Date().getMonth() == b && new Date().getDate() == a);
 					html += `
 						<div id="BCMW--` + b + `-` + a + `">
 							<div class="BreakerCalendar-MonthView--DNW">` + 
 								(i < 8 ? `<div class="BreakerCalendar-MonthView--Day` + (isT ? " Today" : "") + `">` + dayNames[i-1] + `</div>` : ``)
-								+ `<div class="BreakerCalendar-MonthView--Num` + (isT ? " Today" : "") + `">` + (a == 1 ? (monthNames[b].substring(0, 3) + ' ') : '') + a + `</div>
+								+ `<div class="BreakerCalendar-MonthView--Num` + (isT ? " Today" : "") + `">` + ((a == 1 || i == 1) ? (monthNames[b].substring(0, 3) + ' ') : '') + a + `</div>
 							</div>
 						</div>
 					`;
@@ -244,10 +266,6 @@ class BreakerCalendar {
 
 				html += `</div>`;
 				this.elements.viewbox.querySelector('.BreakerCalendarTab--MONTH').innerHTML = html;
-
-				var calViewMin = new Date(monthNames[this.mv[0]] + ' ' + this.mv[1]);
-				var calViewMax = new Date(monthNames[this.mv[0]] + ' ' + this.mv[1]);
-				calViewMax.setDate(calViewMax.getDate() + 34);
 
 				gapi.client.calendar.events.list({
 					'calendarId': 'suiphcuq71fqpntbc2rojdun2g@group.calendar.google.com',
@@ -296,7 +314,7 @@ class BreakerCalendar {
 												</div>
 										</div>
 										`;
-										} catch (err) { console.error(err); }
+										} catch (err) { }
 									}
 								}
 							} catch (err) { console.error(err); }
