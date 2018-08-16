@@ -120,7 +120,7 @@ var BreakerDate = new class BreakerDateClass {
 				var sy = BreakerDate.sdate.getFullYear();
 				var m = BreakerDate.date.getMonth();
 				var y = BreakerDate.date.getFullYear();
-				var off = new Date((m + 1) + "/1/" + y).getDay() - 1;
+				var off = new Date((m + 1) + "/1/" + y).getDay() + 1;
 				var mds = new Date(y, (m + 1), 0).getDate();
 				var mn = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -150,9 +150,9 @@ var BreakerDate = new class BreakerDateClass {
 				var h = document.querySelector('#BreakerDate--Time--Hour');
 				var ap = document.querySelector('#BreakerDate--Time--AMPM');
 
-				m.innerHTML = BreakerDate.sdate.getMinutes();
-				h.innerHTML = BreakerDate.sdate.getHours() % 12;
-				if (BreakerDate.sdate.getHours() / 12 >= 1)
+				m.innerHTML = BreakerDate.sdate.getMinutes().overflow(0, 60).pad(2);
+				h.innerHTML = (BreakerDate.sdate.getHours()).overflow(1, 12);
+				if (BreakerDate.sdate.getHours() / 13 >= 1)
 					ap.classList.add('BreakerDate--Time--PM');
 				else
 					ap.classList.remove('BreakerDate--Time--PM');
@@ -190,9 +190,9 @@ var BreakerDate = new class BreakerDateClass {
 				return (date.getMonth() + 1) + '/' +
 					   date.getDate() + '/' +
 					   date.getFullYear() + ' ' +
-					   (date.getHours() % 12) + ":" +
-					   date.getMinutes() + " " +
-					   (date.getHours() / 12 >= 1 ? "PM" : "AM")
+					   date.getHours().overflow(1, 12) + ":" +
+					   date.getMinutes().overflow(0, 60).pad(2) + " " +
+					   (date.getHours() / 13 >= 1 ? "PM" : "AM")
 			}
 			else {
 				return ((date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear());

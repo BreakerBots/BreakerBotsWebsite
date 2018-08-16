@@ -14,7 +14,7 @@ material-table > table, material-table th, material-table td {
 		border-bottom: 1px solid #d0d0d0
 	}
 
-	.material-table > table.striped > tbody > tr:nth-child(odd) {
+	table.striped > tbody > tr:nth-child(odd) {
 		background-color: #f2f2f2
 	}
 

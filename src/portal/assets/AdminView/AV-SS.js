@@ -38,24 +38,47 @@ function AV_SS_Draw() {
 					//Add User
 					if (id != "Dummy") {
 						html += `
-						<tr>
+						<tr onmouseenter="this.querySelector('.b').style.opacity = 1" onmouseleave="this.querySelector('.b').style.opacity = 0">
 							<td>` + (data.name || users.getUser(id).name || "") + `</td>
 							<td>` + (data.history.length % 2 != 0 ? "In" : "Out") + `</td>
 							<td>` + Math.floor(min / 60) + "h " + Math.floor(min % 60) + "m" + `</td>\
-							<td>`
-							+ (data.name ? `<div onclick="AV_SS_LinkToUser('` + id + `');" class="mdc-icon-toggle material-icons" data-mdc-auto-init="MDCIconToggle">link</div>` : ``) +
-							`</td>
+							<td>
+								<div style="opacity: 0; transition: opacity 0.4s cubic-bezier(.4, 0, .2, 1)" onclick="menu.toggle(this.parentNode.querySelector('.a').innerHTML, this, 'width: 200px')" class="mdc-icon-toggle material-icons b" data-mdc-auto-init="MDCIconToggle">more_vert</div>
+								<div style="display: none;" class="a">
+									<ul class="mdc-list">
+										<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="AV_SS_AddHours('` + id + `'); menu.close();">
+											<span class="noselect mdc-list-item__graphic material-icons">add</span>
+											<span class="noselect mdc-list-item__text">Add Hours</span>
+										</li>` +
+										(data.name ? `
+										<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick = "AV_SS_LinkToUser('` + id + `'); menu.close();" >
+											<span class="noselect mdc-list-item__graphic material-icons">link</span>
+											<span class="noselect mdc-list-item__text">Link Account</span>
+										</li>` : ``) +
+									`</ul>
+								</div>
+							</td>
 						</tr>
 						`;
 					}
 					//Add Dummy to end
 					else {
 						dhtml += `
-						<tr style="border-top: 1px solid rgb(208, 208, 208);">
+						<tr style="border-top: 2px solid rgb(208, 208, 208); background: white" onmouseenter="this.querySelector('.b').style.opacity = 1" onmouseleave="this.querySelector('.b').style.opacity = 0">
 							<td>Dummy</td>
 							<td>` + (data.history.length % 2 != 0 ? "In" : "Out") + `</td>
 							<td>` + Math.floor(min / 60) + "h " + Math.floor(min % 60) + "m" + `</td>
-							<td></td>
+							<td>
+								<div style="opacity: 0; transition: opacity 0.4s cubic-bezier(.4, 0, .2, 1)" onclick="menu.toggle(this.parentNode.querySelector('.a').innerHTML, this, 'width: 200px')" class="mdc-icon-toggle material-icons b" data-mdc-auto-init="MDCIconToggle">more_vert</div>
+								<div style="display: none;" class="a">
+									<ul class="mdc-list">
+										<li class="mdc-list-item" data-mdc-auto-init="MDCRipple" onclick="AV_SS_AddHours('` + id + `'); menu.close();">
+											<span class="noselect mdc-list-item__graphic material-icons">add</span>
+											<span class="noselect mdc-list-item__text">Add Hours</span>
+										</li>
+									</ul>
+								</div>
+							</td>
 						</tr>
 						`;
 					}
@@ -89,6 +112,56 @@ function AV_SS_LinkToUser(from) {
 		return;
 	} catch (err) { alert(err); return; }
 }
+
+var AV_SS_AddHours_Target;
+function AV_SS_AddHours(target) {
+	AV_SS_AddHours_Target = target;
+	ShiftingDialog.set({
+		title: "Add Hours To ",
+		id: "AVSSAH",
+		submitButton: "Submit",
+		cancelButton: "Cancel",
+		contents:
+			mainSnips.datetimepicker("AVSSAH-S", "First Date", "First Date", true, null, true) +
+			mainSnips.datetimepicker("AVSSAH-E", "End Date", "End Date", true, null, true)
+	});
+	ShiftingDialog.open();
+}
+ShiftingDialog.addSubmitListener("AVSSAH", function (c) {
+	try {
+		function vd(e) {
+			try {
+				e = c.querySelector('#AVSSAH-' + e);
+				var d = new Date(e.value);
+				if (d == "Invalid Date")
+					throw "Invalid Date!";
+				return d;
+			} catch (err) {
+				ShiftingDialog.throwFormError(err, e);
+				ShiftingDialog.enableSubmitButton(true);
+				return;
+			}
+		}
+		var s = vd('S');
+		var e = vd('E');
+
+		if (s && e) {
+			var db = firebase.app().firestore().collection('SS').doc(AV_SS_AddHours_Target);
+			db.get().then(function (doc) {
+				var data = doc.data();
+				data.history.push(s);
+				data.history.push(e);
+
+				db.set(data).then(function () {
+					ShiftingDialog.close();
+				})
+			})
+		}
+		else
+			return
+
+	} catch (err) { console.error(err); }
+});
 
 function GetUserHours(uid, format) {
 	try {
@@ -157,7 +230,7 @@ function AV_SS_AddTable(html, minDate, maxDate) {
 	return `
 	<div class="material-table" style="height: 100%; overflow: auto; width: 100%;">
 		<div style="overflow: auto; max-width: 100vw; width: 100%;">
-			<div class="material-table--header" style="position: relative; overflow: auto; justify-content: space-around; min-width: 600px;">
+			<div class="material-table--header" style="position: relative; overflow: auto; justify-content: space-around; min-width: 600px; border-bottom: solid 2px #DDDDDD;">
 				<span class="material-table--title">Member's Hours</span>
 				<div class="form-group" style="width: 20%; max-width: 300px; min-width: 140px; min-height: 40px; max-height: 40px; margin: 0 0 0 5%; display: flex">
 					<i onclick="AV_SS_SaveDefaultStartDate(document.querySelector('#AVSS-SD').value)" aria-label="Set Default" aria-label-delay="0.1s" class="mdc-icon-toggle material-icons" data-mdc-auto-init="MDCIconToggle">save_alt</i>
@@ -169,8 +242,8 @@ function AV_SS_AddTable(html, minDate, maxDate) {
 				<i onclick="AV_SS_SignAllOut()" aria-label="Sign All User Out" aria-label-delay="0.2s" style="" class="mdc-icon-toggle" data-mdc-auto-init="MDCIconToggle"><i style="font-size: 120%; transform: translate(1px, 1px);" class="material-icons">exit_to_app</i></i>
 			</div>
 		<div>
-		<table style="width: 100%">
-			<thead>
+		<table style="width: 100%; min-width: 700px" class="striped">
+			<thead style="border-bottom: 2px solid #d0d0d0;">
 				<tr>
 					<th>Name</th>
 					<th>Status</th>

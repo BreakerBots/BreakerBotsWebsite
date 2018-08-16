@@ -270,14 +270,14 @@ Number.prototype.clamp = function (min, max) {
 	return this > max ? max : (this < min ? min : this);
 };
 /**
- * Kinda Sketchy...
+ * FINALLY WORKS!!!!!
  */
 Number.prototype.overflow = function (min, max) {
 	if (this < min) {
-		return max + (this - 1 + min + max) % (Math.abs(max) + Math.abs(min) + (min == 0 ? 1 : 0));
+		return (min == 0 ? min : min - 1) + ((max - min + 1) - (Math.abs(this) % (max - min + 1)))
 	}
 	else if (this > max) {
-		return min + (this + (Math.abs(max) + Math.abs(min) - max)) % (Math.abs(max) + Math.abs(min) + 1);
+		return (min - 1) + ((this - min) % (max - min + 1) + 1)
 	}
 	return Number(this);
 };
@@ -441,3 +441,7 @@ Date.prototype.addDays = function (days) {
 	return date;
 }
 
+Number.prototype.pad = function (size) {
+	var sign = Math.sign(this) === -1 ? '-' : '';
+	return sign + new Array(size).concat([Math.abs(this)]).join('0').slice(-size);
+}

@@ -292,14 +292,14 @@
 						</div>
 						<div style="display: flex; justify-content: space-around; height: 248px;">
 							<div>
-								<i onclick="var a = document.querySelector('#BreakerDate--Time--Hour'); a.innerHTML = (Number(a.innerHTML) + 1 + 13) % 13;" class="mdc-icon-toggle material-icons" data-mdc-auto-init="MDCIconToggle">keyboard_arrow_up</i>
+								<i onclick="var a = document.querySelector('#BreakerDate--Time--Hour'); a.innerHTML = (Number(a.innerHTML) + 1).overflow(1, 12)" class="mdc-icon-toggle material-icons" data-mdc-auto-init="MDCIconToggle">keyboard_arrow_up</i>
 								<div id="BreakerDate--Time--Hour" style="text-align: center;">8</div>
-								<i onclick="var a = document.querySelector('#BreakerDate--Time--Hour'); a.innerHTML = (Number(a.innerHTML) - 1 + 13) % 13;" class="mdc-icon-toggle material-icons" data-mdc-auto-init="MDCIconToggle">keyboard_arrow_down</i>
+								<i onclick="var a = document.querySelector('#BreakerDate--Time--Hour'); a.innerHTML = (Number(a.innerHTML) - 1).overflow(1, 12)" class="mdc-icon-toggle material-icons" data-mdc-auto-init="MDCIconToggle">keyboard_arrow_down</i>
 							</div>
 							<div>
-								<i onclick="var a = document.querySelector('#BreakerDate--Time--Min'); a.innerHTML = (Number(a.innerHTML) + 1 + 61) % 61;" class="mdc-icon-toggle material-icons" data-mdc-auto-init="MDCIconToggle">keyboard_arrow_up</i>
+								<i onclick="var a = document.querySelector('#BreakerDate--Time--Min'); a.innerHTML = (Number(a.innerHTML) + 1).overflow(0, 60).pad(2);" class="mdc-icon-toggle material-icons" data-mdc-auto-init="MDCIconToggle">keyboard_arrow_up</i>
 								<div id="BreakerDate--Time--Min" style="text-align: center;">32</div>
-								<i onclick="var a = document.querySelector('#BreakerDate--Time--Min'); a.innerHTML = (Number(a.innerHTML) - 1 + 61) % 61;" class="mdc-icon-toggle material-icons" data-mdc-auto-init="MDCIconToggle">keyboard_arrow_down</i>
+								<i onclick="var a = document.querySelector('#BreakerDate--Time--Min'); a.innerHTML = (Number(a.innerHTML) - 1).overflow(0, 60).pad(2);" class="mdc-icon-toggle material-icons" data-mdc-auto-init="MDCIconToggle">keyboard_arrow_down</i>
 							</div>
 						</div>
 						<div style="display: flex; justify-content: center; margin: 10px 0 10px 0;">

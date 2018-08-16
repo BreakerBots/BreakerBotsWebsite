@@ -43,11 +43,11 @@ var mainSnips = new class mainSnips {
 		`;
 	}
 
-	datetimepicker(id, label, placeholder, usetime, value) {
+	datetimepicker(id, label, placeholder, usetime, value, isRequired) {
 		return `
 		<div class="form-group" style="width: 90%; min-height: 65px; max-height: 73px;">
 			<label>` + MSN(label) + `</label>
-			<input ` + MSN_ID(id) + ` onfocus="BreakerDate.open(this, ` + (usetime || false) + `)" ` + MSN(value, 'value="', '"', '') + ` type="text" class="form-control" placeholder="` + MSN(placeholder) + `" autocomplete="off">
+			<input ` + MSN_ID(id) + ` onfocus="BreakerDate.open(this, ` + (usetime || false) + `)" ` + MSN(value, 'value="', '"', '') + MSNC(isRequired, " required ", "") + `type="text" class="form-control" placeholder="` + MSN(placeholder) + `" autocomplete="off">
 		</div>
 		`;
 	}
