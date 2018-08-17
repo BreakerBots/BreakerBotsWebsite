@@ -165,7 +165,7 @@ ShiftingDialog.addSubmitListener("AVSSAH", function (c) {
 
 function GetUserHours(uid, format) {
 	try {
-		var a = dateArrayToMin(findObjectByKey(SSSnap.docs, "id", uid).data().history);
+		var a = dateArrayToMinCD(findObjectByKey(SSSnap.docs, "id", uid).data().history, findObjectByKey(SSSnap.docs, "id", "Dummy").data().Default || new Date("1/1/2000"), new Date());
 		if (format)
 			a = Math.floor(a / 60) + "h " + Math.floor(a % 60) + "m";
 		return a;
