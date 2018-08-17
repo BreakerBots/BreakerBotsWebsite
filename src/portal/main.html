@@ -311,6 +311,7 @@
 
 			<!--Shifting Dialog-->
 			<div>
+				<!--Main-->
 				<div id="SD-Container" data-sd-container-state="closed">
 					<div id="SD-Main" data-sd-main-state="default" class="mdc-elevation--z10">
 						<!--The Header-->
@@ -333,11 +334,33 @@
 							</div>
 							<div id="SD-FooterWrapper">
 								<div id="SD-Footer">
-									<button id="SD-FooterCancel" data-mdc-auto-init="MDCRipple" onclick="ShiftingDialog.close()" class="mdc-button mdc-ripple-upgraded">Cancel</button>
+									<button id="SD-FooterCancel" data-mdc-auto-init="MDCRipple" type="button" onclick="ShiftingDialog.close()" class="mdc-button mdc-ripple-upgraded">Cancel</button>
 									<button id="SD-FooterSubmit" data-mdc-auto-init="MDCRipple" type="submit" class="mdc-button mdc-ripple-upgraded">Submit</button>
 								</div>
 							</div>
 						</form>
+					</div>
+				</div>
+
+				<!--Subdialog-->
+				<div id="SSD-Container" data-ssd-container-state="closed">
+					<div id="SSD-Main" class="mdc-elevation--z10">
+						<div id="SSD-Form" style="height: 100%;">
+							<div id="SSD-Wrapper" class="material-scrollbar">
+								<div style="min-height: 50%; width: 100%; display: flex; align-items: center; margin: 15px 0 10px 0">
+									<h4 id="SSD-Message" style="text-align: center; width: 100%; margin: 0">
+
+									</h4>
+								</div>
+								<input id="SSD-Textbox" type="text" style="width: 90%;" class="form-control" placeholder="" autocomplete="off">
+							</div>
+							<div id="SSD-FooterWrapper">
+								<div id="SSD-Footer">
+									<button id="SSD-FooterCancel" data-mdc-auto-init="MDCRipple" onclick="SSD_Submit(false);" class="mdc-button mdc-ripple-upgraded">Cancel</button>
+									<button id="SSD-FooterSubmit" data-mdc-auto-init="MDCRipple" onclick="SSD_Submit(true); " class="mdc-button mdc-ripple-upgraded mdc-button--raised">OK</button>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

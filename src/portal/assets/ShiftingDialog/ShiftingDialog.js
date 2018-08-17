@@ -9,7 +9,10 @@
 
  */
 
-var ShiftingDialog = new class ShiftingDialog {
+var ShiftingDialog = new class ShiftingDialogClass {
+	/**
+	 * Opens the dialog but does not change the contents (use ShiftingDialog.set)
+	 */
 	open() {
 		try {
 			var sdc = document.querySelector('#SD-Container');
@@ -28,6 +31,10 @@ var ShiftingDialog = new class ShiftingDialog {
 			document.querySelector("#SD-FooterSubmit").disabled = false;
 		} catch (err) { console.error(err); }
 	}
+
+	/**
+	 * Closes the dialog
+	 */
 	close() {
 		try {
 			var sdc = document.querySelector('#SD-Container');
@@ -42,12 +49,14 @@ var ShiftingDialog = new class ShiftingDialog {
 			}
 		} catch (err) { console.error(err); }
 	}
+
 	isOpen() {
 		try {
 			var sdc = document.querySelector('#SD-Container');
 			return sdc.dataset.sdContainerState == "opening" || sdc.dataset.sdContainerState == "open";
 		} catch (err) { console.error(err); }
 	}
+
 	/**
 	 * Sets the data inside the Shifiting Dialog
 	 * Input a Object with any of the values:
@@ -112,11 +121,23 @@ var ShiftingDialog = new class ShiftingDialog {
 			}, 1);
 		} catch (err) { console.error(err); }
 	}
+
+	/**
+	 * Add Listener for the submit
+	 * @param {any} id The ID of the Shifting Dialog
+	 * @param {any} callback A function callback (paramter1 = ShiftingDialog Contents)
+	 */
 	addSubmitListener(id, callback) {
 		try {
 			SD_Listeners.push({ id: id, callback: callback });
 		} catch (err) { console.error(err); }
 	}
+
+	/**
+	 * Throw A Form Error
+	 * @param {any} err The Message
+	 * @param {any} target The Element to display the message on (Default Submit Button)
+	 */
 	throwFormError(err, target) {
 		try {
 			if (this.isOpen()) {
@@ -137,10 +158,102 @@ var ShiftingDialog = new class ShiftingDialog {
 			return false;
 		} catch (err) { console.error(err); }
 	}
+
+	/**
+	 * Enable or disable the submit button (Automatically disabled after click)
+	 * @param {any} state True: Enabled, False: Disabled
+	 */
 	enableSubmitButton(state) {
 		try {
 			document.querySelector("#SD-FooterSubmit").disabled = state == undefined ? false : !state;
 		} catch (err) { console.error(err); }
+	}
+
+
+	// Subdialogs
+
+	alert(m, callback) {
+		try {
+			var sdc = document.querySelector('#SSD-Container');
+			if (sdc.dataset.ssdContainerState != "opening" && sdc.dataset.ssdContainerState != "open") {
+				ShiftingDialog.subcallback = callback;
+				ShiftingDialog.subtype = 0;
+				document.querySelector('#SSD-FooterCancel').style.display = "none";
+				document.querySelector('#SSD-Textbox').style.display = "none";
+				document.querySelector('#SSD-Message').innerHTML = m;
+				if (document.querySelector("#page-scroll")) {
+					this.scrollWasHiddens = document.querySelector("#page-scroll").style.overflowY == "hidden";
+					document.querySelector("#page-scroll").style.overflowY = "hidden";
+				}
+				sdc.dataset.ssdContainerState = "opening";
+				setTimeout(function () {
+					if (sdc.dataset.ssdContainerState == "opening")
+						sdc.dataset.ssdContainerState = "open";
+				}, 1000);
+			}
+			document.querySelector("#SSD-FooterSubmit").disabled = false;
+		} catch (err) { console.error(err) }
+	}
+
+	confirm(m, callback) {
+		try {
+			var sdc = document.querySelector('#SSD-Container');
+			if (sdc.dataset.ssdContainerState != "opening" && sdc.dataset.ssdContainerState != "open") {
+				ShiftingDialog.subcallback = callback;
+				ShiftingDialog.subtype = 1;
+				console.log(ShiftingDialog.subtype);
+				document.querySelector('#SSD-FooterCancel').style.display = "block";
+				document.querySelector('#SSD-Textbox').style.display = "none";
+				document.querySelector('#SSD-Message').innerHTML = m;
+				if (document.querySelector("#page-scroll")) {
+					this.scrollWasHiddens = document.querySelector("#page-scroll").style.overflowY == "hidden";
+					document.querySelector("#page-scroll").style.overflowY = "hidden";
+				}
+				sdc.dataset.ssdContainerState = "opening";
+				setTimeout(function () {
+					if (sdc.dataset.ssdContainerState == "opening")
+						sdc.dataset.ssdContainerState = "open";
+				}, 1000);
+			}
+			document.querySelector("#SSD-FooterSubmit").disabled = false;
+		} catch (err) { console.error(err) }
+	}
+
+	prompt(m, callback) {
+		try {
+			var sdc = document.querySelector('#SSD-Container');
+			if (sdc.dataset.ssdContainerState != "opening" && sdc.dataset.ssdContainerState != "open") {
+				ShiftingDialog.subcallback = callback;
+				ShiftingDialog.subtype = 2;
+				document.querySelector('#SSD-FooterCancel').style.display = "block";
+				document.querySelector('#SSD-Textbox').style.display = "block";
+				document.querySelector('#SSD-Message').innerHTML = m;
+				if (document.querySelector("#page-scroll")) {
+					this.scrollWasHiddens = document.querySelector("#page-scroll").style.overflowY == "hidden";
+					document.querySelector("#page-scroll").style.overflowY = "hidden";
+				}
+				sdc.dataset.ssdContainerState = "opening";
+				setTimeout(function () {
+					if (sdc.dataset.ssdContainerState == "opening")
+						sdc.dataset.ssdContainerState = "open";
+				}, 1000);
+			}
+			document.querySelector("#SSD-FooterSubmit").disabled = false;
+		} catch (err) { console.error(err) }
+	}
+
+	subclose() {
+		try {
+			var sdc = document.querySelector('#SSD-Container');
+			if (sdc.dataset.ssdContainerState != "closed" && sdc.dataset.ssdContainerState != "closed") {
+				if (!this.scrollWasHiddens && document.querySelector("#page-scroll")) document.querySelector("#page-scroll").style.overflowY = "auto";
+				sdc.dataset.ssdContainerState = "closing";
+				setTimeout(function () {
+					if (sdc.dataset.ssdContainerState == "closing")
+						sdc.dataset.ssdContainerState = "closed";
+				}, 1000);
+			}
+		} catch (err) { console.error(err) }
 	}
 }
 
@@ -161,6 +274,25 @@ function ShiftingDialogSubmit() {
 			}
 		}
 	} catch (err) { console.error(err); }
+}
+
+//Submit Subdialog
+function SSD_Submit(b) {
+	try {
+		switch (ShiftingDialog.subtype) {
+			case 0:
+				ShiftingDialog.subcallback();
+				break;
+			case 1:
+				ShiftingDialog.subcallback(b);
+				break;
+			case 2:
+				ShiftingDialog.subcallback(b ? (document.querySelector('#SSD-Textbox').value) : false);
+				break;
+		}
+
+		ShiftingDialog.subclose();
+	} catch (err) { }
 }
 
 //Close the dialog on a press somewhere else
