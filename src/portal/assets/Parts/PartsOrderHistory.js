@@ -1,4 +1,4 @@
-new RegisteredTab("Parts-OrderHistory", null, PartsOrderHistoryInit, null, false);
+new RegisteredTab("Parts-OrderHistory", null, PartsOrderHistoryInit, null, true);
 
 function PartsOrderHistoryInit() {
 	PartsOrderHistoryUpdateList();
@@ -10,6 +10,7 @@ function PartsOrderHistoryInit() {
 				setTimeout(a, 500);
 		} a();
 	} catch (err) { console.error(err); }
+	showMainLoader(false);
 } 
 
 function PartsOrderHistoryDraw() {
@@ -89,25 +90,27 @@ function PartsOrderHistoryUpdateList(add, id) {
 }
 
 function PartsOrderHistoryMarkArrived() {
-	if (confirm('Are you sure you want to mark these items as arrived. Your account will be recorded as making this change.')) {
-		var l = PartsOrderHistorySelectedList;
-		var d = {
-			date: new Date(),
-			marker: users.getCurrentUid()
-		};
+	ShiftingDialog.confirm('Confirm Arrival', 'Are you sure you want to mark these items as arrived. Your account will be recorded as making this change.', function (a) {
+		if (a) {
+			var l = PartsOrderHistorySelectedList;
+			var d = {
+				date: new Date(),
+				marker: users.getCurrentUid()
+			};
 
-		var b = firebase.app().firestore().batch();
-		var db = firebase.app().firestore().collection('Parts');
-		var dbr = {};
-		l.forEach(function (it) {
-			if (!dbr[it.split('/')[0]])
-				dbr[it.split('/')[0]] = findObjectByKey(partsSnapshot.docs, "id", it.split('/')[0]).data();
-			dbr[it.split('/')[0]].items[it.split('/')[1]].ar = d;
-			dbr[it.split('/')[0]].items[it.split('/')[1]].status = 4;
-			b.set(db.doc(it.split('/')[0]), dbr[it.split('/')[0]]);
-		});
-		b.commit().then(function () {
-			window.location.reload();
-		});
-	}
+			var b = firebase.app().firestore().batch();
+			var db = firebase.app().firestore().collection('Parts');
+			var dbr = {};
+			l.forEach(function (it) {
+				if (!dbr[it.split('/')[0]])
+					dbr[it.split('/')[0]] = findObjectByKey(partsSnapshot.docs, "id", it.split('/')[0]).data();
+				dbr[it.split('/')[0]].items[it.split('/')[1]].ar = d;
+				dbr[it.split('/')[0]].items[it.split('/')[1]].status = 4;
+				b.set(db.doc(it.split('/')[0]), dbr[it.split('/')[0]]);
+			});
+			b.commit().then(function () {
+				window.location.reload();
+			});
+		}
+	});
 }

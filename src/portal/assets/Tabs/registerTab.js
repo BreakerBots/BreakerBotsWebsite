@@ -16,7 +16,7 @@ class RegisteredTab {
 		this.everyCallback = (typeof everyCallback === 'undefined') ? null : everyCallback;
 		this.exitCallback = (typeof exitCallback === 'undefined') ? null : exitCallback;
 		this.first = true;
-		this.usedLoader = (typeof usedLoader === 'undefined') ? false : usedLoader;
+		this.usedLoader = !!usesLoader;
 
 		if (customUrlHashKey) tabOnlyHashParams[tabName] = customUrlHashKey;
 		registeredTabs.push(this);
@@ -38,7 +38,9 @@ class RegisteredTab {
 			this.first = false;
 		}
 		if (this.everyCallback) { this.everyCallback(); }
-		if (!this.usedLoader) { setTimeout(hideML, 500); }
+		if (!this.usedLoader) {
+			showMainLoader(false);
+		}
 	}
 
 	/**

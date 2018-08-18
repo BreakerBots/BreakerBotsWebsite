@@ -1,5 +1,6 @@
 //Tabs.Js
 
+var lastTabSwitch;
 /**
  * Ignore This handled by an assortment of other classes including this one. 
  */
@@ -9,6 +10,7 @@ function updateTabs(tab) {
 		TabHandleJSI();
 		return;
 	}
+	lastTabSwitch = new Date();
 
 	// Last Tab
 	var lastTab = document.querySelector('.tab.active');
@@ -107,8 +109,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
  * @param {boolean} state (False) Hides the loader, (True) Shows the loader.
  */
 function showMainLoader(state) {
-	document.querySelector("#MainLoader").style.opacity = (state ? 1 : 0);
-} function hideML() { showMainLoader(false); }
+	if (state == false)
+		setTimeout(function () {
+			document.querySelector("#MainLoader").style.opacity = 0;
+		}, (500 - (new Date().getTime() - lastTabSwitch.getTime())).min(0));
+	else
+		document.querySelector("#MainLoader").style.opacity = 1;
+}
 
 
 //Just signed in intro

@@ -19,15 +19,13 @@ var TeamsAPIWaiters = [], TeamsAPIReady = -1; function TeamsAPIWait(a) { 1 == Te
 function teamsInitEvery() {
 	TeamsPHI_Main();
 
-	showMainLoader(true);
-
 	teamsDraw(true);
 
 	authLoadedWait(function () {
 		if (users.getCurrentClearance() > 1)
 			TeamsFab.tabSwitch();
-		showMainLoader(false);
 	});
+	showMainLoader(false);
 }
 
 function teamsExit() {
@@ -293,8 +291,8 @@ function teamsGetMembersHtml(id) {
 				<img style="border-radius: 50%; width: 35px; margin: 2.5px 5px 0 2.5px;" src="` + (mem.avatar) + `">`
 				+ (memITL ? '<span class="material-icons" style="transform: translate(-6px, 5px)">star</span>' : '') +
 				`<div style="position: absolute; left: ` + (memITL ? 60 : 42) + `px; top: 8.5px; right: 0;">
-					<span style="font-size: 120%; font-weight: 600;">` + (mem.username || "Username") + `</span>
-					<span style="font-size: 90%; margin-left: 2px;">` + (mem.name || (mem.username || "Name")) + `</span>` +
+					<span style="font-size: 120%; font-weight: 600;">` + (mem.name || (mem.username || "Name")) + `</span>
+					<span style="font-size: 90%; margin-left: 2px;">` + (mem.username || "Username") + `</span>` +
 					(users.getCurrentClearance() > 1 ?
 					`<i onclick="menu.toggle(this.parentNode.parentNode.querySelector('.teamsMemberDropdown').innerHTML, this, '')" style="position: absolute; opacity: 0; transition: opacity 0.4s cubic-bezier(.2, 0, .2, 1); right: 0; top: -7px; width: 40px; height: 40px;" class="mdc-icon-toggle teamsMemberOptions" data-mdc-auto-init="MDCIconToggle"><i class="material-icons teamsMemberOptions">more_vert</i></i>`
 					: ``)

@@ -1,7 +1,7 @@
 ﻿//TodoTab.js
 
 //  ----------------------------------------  Initialization  -------------------------------------------------\\
-var TodoTab = new RegisteredTab("Todo", null, todoTabInit, todoTabExit, false, "todoView");
+var TodoTab = new RegisteredTab("Todo", null, todoTabInit, todoTabExit, true, "todoView");
 var todoSnapshot;
 var todoDrawn;
 var todoView;
@@ -11,6 +11,7 @@ function todoTabInit() {
 	TodoAddFab.tabSwitch();
 	setTimeout(function () { headerUseSearch(true); }, 10);
 	TodoPHI_Main();
+	showMainLoader(false);
 }
 
 window.addEventListener('DOMContentLoaded', todoTabFirstInit);
@@ -493,10 +494,10 @@ ShiftingDialog.addSubmitListener("TodoAddTask", function (content) {
 			})
 			.catch(function (a) {
 				if (a.toString().indexOf('bytes') != -1) {
-					alert('It Seems There Are Two Many Images In This Task-Group, \n Dont Worry, This is a bug in datebase that will be fixed soon.');
+					ShiftingDialog.alert('To Many Images', 'It Seems There Are Two Many Images In This Task-Group, \n Dont Worry, This is a bug in datebase that will be fixed soon.');
 				}
 				else {
-					alert("An Unknown Error Has Occured, \n This May Be Because of A Bad Internet Connection, or a Server Error.");
+					ShiftingDialog.alert("Unknown Error", "An Unknown Error Has Occured, \n This May Be Because of A Bad Internet Connection, or a Server Error.");
 				}
 				ShiftingDialog.enableSubmitButton();
 			});
@@ -526,7 +527,7 @@ function TodoConfirmDeleteFTG(item) {
 			, centerButtons: true
 		});
 		ShiftingDialog.open();
-	} else alert("You Need Be A Higher Clearance");
+	} else ShiftingDialog.alert("Clearance Issue", "You Need Be A Higher Clearance");
 }
 ShiftingDialog.addSubmitListener("TodoDeleteFTG", function (content) {
 	try {
@@ -562,7 +563,7 @@ ShiftingDialog.addSubmitListener("TodoDeleteFTG", function (content) {
 				ShiftingDialog.close();
 			}).catch(function (err) {
 				ShiftingDialog.close();
-				alert('An Error Has Occured');
+				ShiftingDialog.alert('Unknown Error', 'An Error Has Occured');
 				console.error(err);
 			});
 	} catch (err) { console.log(203, err); }
@@ -681,41 +682,46 @@ ShiftingDialog.addSubmitListener("TodoEditFTG", function (content) {
 		var filter = content.querySelector("#TodoEdit_Filter").value || "";
 		var tasks = findObjectByKey(todoSnapshot.docs, "id", TodoFTG_Editing).data().tasks;
 
-		var conf = (type == "Folder" && tasks != undefined) ? confirm("Are you sure you want to change this to a folder and remove all of it's tasks?") : true;
+		if (type == "Folder" && tasks != undefined)
+			ShiftingDialog.confirm("Task-Group to Folder", "Are you sure you want to change this to a folder and remove all of it's tasks?", a);
+		else
+			a(true);
 
-		if (conf) {
-			var json = { title: title, desc: desc };
-			if (type == "Task-Group") json["tasks"] = (tasks || {});
-			else if (type == "Item-View") {
-				if (stringUnNull(filter) == "") {
-					ShiftingDialog.throwFormError("Please Enter A Valid Filter", content.querySelector("#TodoEdit_Filter"))
-					ShiftingDialog.enableSubmitButton(true);
-					return false;
+		function a(c) {
+			if (c) {
+				var json = { title: title, desc: desc };
+				if (type == "Task-Group") json["tasks"] = (tasks || {});
+				else if (type == "Item-View") {
+					if (stringUnNull(filter) == "") {
+						ShiftingDialog.throwFormError("Please Enter A Valid Filter", content.querySelector("#TodoEdit_Filter"))
+						ShiftingDialog.enableSubmitButton(true);
+						return false;
+					}
+					else if (TodoValidateFixFilter(filter)[1].length > 0) {
+						ShiftingDialog.throwFormError(TodoValidateFixFilter(filter)[1], content.querySelector("#TodoEdit_Filter"))
+						ShiftingDialog.enableSubmitButton(true);
+						return false;
+					}
+					filter = TodoValidateFixFilter(filter)[0];
+					json.filter = filter;
 				}
-				else if (TodoValidateFixFilter(filter)[1].length > 0) {
-					ShiftingDialog.throwFormError(TodoValidateFixFilter(filter)[1], content.querySelector("#TodoEdit_Filter"))
-					ShiftingDialog.enableSubmitButton(true);
-					return false;
-				}
-				filter = TodoValidateFixFilter(filter)[0];
-				json.filter = filter;
+				var lastData = findObjectByKey(todoSnapshot.docs, "id", TodoFTG_Editing).data();
+				firebase.app().firestore().collection("Todo").doc(TodoFTG_Editing).set(json)
+					.then(function (doc) {
+						TodoAddToHistory(
+							"edit",
+							lastData || null,
+							json,
+							"ftg",
+							TodoFTG_Editing
+						);
+						ShiftingDialog.close();
+					});
 			}
-			var lastData = findObjectByKey(todoSnapshot.docs, "id", TodoFTG_Editing).data();
-			firebase.app().firestore().collection("Todo").doc(TodoFTG_Editing).set(json)
-				.then(function (doc) {
-					TodoAddToHistory(
-						"edit",
-						lastData || null,
-						json,
-						"ftg",
-						TodoFTG_Editing
-					);
-					ShiftingDialog.close();
-				});
+			else {
+				ShiftingDialog.enableSubmitButton(true);
+			}
 		}
-		else {
-			ShiftingDialog.enableSubmitButton(true);
-			}
 	} catch (err) { }
 });
 //Tasks
@@ -799,10 +805,10 @@ ShiftingDialog.addSubmitListener("TodoEditTask", function (content) {
 			})
 			.catch (function (a) {
 				if (a.toString().indexOf('bytes') != -1) {
-					alert('It Seems There Are Two Many Images In This Task-Group, \n Dont Worry, This is a bug in datebase that will be fixed soon.');
+					ShiftingDialog.alert("To Many Images", 'It Seems There Are Two Many Images In This Task-Group, \n Dont Worry, This is a bug in datebase that will be fixed soon.');
 				}
 				else {
-					alert("An Unknown Error Has Occured, \n This May Be Because of A Bad Internet Connection, or a Server Error.");
+					ShiftingDialog.alert("Unknown Error", "An Unknown Error Has Occured, \n This May Be Because of A Bad Internet Connection, or a Server Error.");
 				}
 				ShiftingDialog.enableSubmitButton();
 			});

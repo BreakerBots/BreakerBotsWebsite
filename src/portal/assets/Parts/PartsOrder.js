@@ -1,4 +1,4 @@
-new RegisteredTab("Parts-Order", null, PartsOrderInit, null, false);
+new RegisteredTab("Parts-Order", null, PartsOrderInit, null, true);
 
 function PartsOrderInit() {
 	PartsOrderUpdateList();
@@ -10,6 +10,7 @@ function PartsOrderInit() {
 				setTimeout(a, 500);
 		} a();
 	} catch (err) { }
+	showMainLoader(false);
 }
 
 function PartsOrderDraw() {
@@ -61,7 +62,7 @@ function PartsOrderUpdateList(add, id, vendor) {
 			if (add) {
 				PartsOrderSelectedList.push(id);
 				if (PartsOrderSelectedVendor != vendor && PartsOrderSelectedVendor != null)
-					alert(`You are choosing from two vendors! Orders can only have one vendor. Though if one item can be bought from two vendors you can order them together.`);
+					ShiftingDialog.alert('Multiple Vendors', `You are choosing from two vendors! Orders can only have one vendor. Though if one item can be bought from two vendors you can order them together.`);
 				PartsOrderSelectedVendor = vendor;
 			}
 			else {

@@ -11,9 +11,9 @@ function EditProfileInit() {
 	authLoadedFullWait(function () {
 		PeteSwitcher.set(false);
 		headerUseBackArrow(true, `setHashParam('profile', '` + users.getCurrentUid() + `'); setHashParam('tab', 'Profile');`);
-		showMainLoader(false);
 		document.querySelector('#page-scroll').scrollTop = 0; document.querySelector('#page-scroll').style.overflowY = 'hidden';
 		EditProfileChangeTab();
+		showMainLoader(false);
 	});
 }
 //  ----------------------------------------    ----------------------------------------  \\

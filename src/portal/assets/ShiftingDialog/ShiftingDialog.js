@@ -172,7 +172,12 @@ var ShiftingDialog = new class ShiftingDialogClass {
 
 	// Subdialogs
 
-	alert(m, callback) {
+	/**
+	 * @param {String} t Title
+	 * @param {String} m Message
+	 * @param {Function} callback Callback on closed
+	 */
+	alert(t, m, callback) {
 		try {
 			var sdc = document.querySelector('#SSD-Container');
 			if (sdc.dataset.ssdContainerState != "opening" && sdc.dataset.ssdContainerState != "open") {
@@ -181,6 +186,7 @@ var ShiftingDialog = new class ShiftingDialogClass {
 				document.querySelector('#SSD-FooterCancel').style.display = "none";
 				document.querySelector('#SSD-Textbox').style.display = "none";
 				document.querySelector('#SSD-Message').innerHTML = m;
+				document.querySelector('#SSD-Title').innerHTML = t;
 				if (document.querySelector("#page-scroll")) {
 					this.scrollWasHiddens = document.querySelector("#page-scroll").style.overflowY == "hidden";
 					document.querySelector("#page-scroll").style.overflowY = "hidden";
@@ -195,7 +201,13 @@ var ShiftingDialog = new class ShiftingDialogClass {
 		} catch (err) { console.error(err) }
 	}
 
-	confirm(m, callback) {
+
+	/**
+	 * @param {String} t Title
+	 * @param {String} m Message
+	 * @param {Function} callback Callback on closed (parameter1 {Boolean} Confirmed)
+	 */
+	confirm(t, m, callback) {
 		try {
 			var sdc = document.querySelector('#SSD-Container');
 			if (sdc.dataset.ssdContainerState != "opening" && sdc.dataset.ssdContainerState != "open") {
@@ -205,6 +217,7 @@ var ShiftingDialog = new class ShiftingDialogClass {
 				document.querySelector('#SSD-FooterCancel').style.display = "block";
 				document.querySelector('#SSD-Textbox').style.display = "none";
 				document.querySelector('#SSD-Message').innerHTML = m;
+				document.querySelector('#SSD-Title').innerHTML = t;
 				if (document.querySelector("#page-scroll")) {
 					this.scrollWasHiddens = document.querySelector("#page-scroll").style.overflowY == "hidden";
 					document.querySelector("#page-scroll").style.overflowY = "hidden";
@@ -219,7 +232,12 @@ var ShiftingDialog = new class ShiftingDialogClass {
 		} catch (err) { console.error(err) }
 	}
 
-	prompt(m, callback) {
+	/**
+	 * @param {String} t Title
+	 * @param {String} m Message
+	 * @param {Function} callback Callback on closed (parameter1 {String} TextValue or false on canceled)
+	 */
+	prompt(t, m, callback) {
 		try {
 			var sdc = document.querySelector('#SSD-Container');
 			if (sdc.dataset.ssdContainerState != "opening" && sdc.dataset.ssdContainerState != "open") {
@@ -228,6 +246,7 @@ var ShiftingDialog = new class ShiftingDialogClass {
 				document.querySelector('#SSD-FooterCancel').style.display = "block";
 				document.querySelector('#SSD-Textbox').style.display = "block";
 				document.querySelector('#SSD-Message').innerHTML = m;
+				document.querySelector('#SSD-Title').innerHTML = t;
 				if (document.querySelector("#page-scroll")) {
 					this.scrollWasHiddens = document.querySelector("#page-scroll").style.overflowY == "hidden";
 					document.querySelector("#page-scroll").style.overflowY = "hidden";
@@ -289,10 +308,11 @@ function SSD_Submit(b) {
 			case 2:
 				ShiftingDialog.subcallback(b ? (document.querySelector('#SSD-Textbox').value) : false);
 				break;
+			default:
+				break;
 		}
-
-		ShiftingDialog.subclose();
 	} catch (err) { }
+	ShiftingDialog.subclose();
 }
 
 //Close the dialog on a press somewhere else

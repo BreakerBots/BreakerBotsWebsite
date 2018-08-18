@@ -1,5 +1,5 @@
 
-new RegisteredTab("Parts-Parts", PartsPartsFirstInit, PartsPartsInit, PartsPartsExit, false, 'PartsPartsTab');
+new RegisteredTab("Parts-Parts", PartsPartsFirstInit, PartsPartsInit, PartsPartsExit, true, 'PartsPartsTab');
 
 function PartsPartsFirstInit() {
 	PartsPartsTabBar = new mdc.tabs.MDCTabBarScroller(document.querySelector('.Parts-Parts-Tabs'));
@@ -22,6 +22,7 @@ PartsPartsFab.addListener(function () {
 function PartsPartsInit() {
 	PartsPartsChangeTab();
 	PartsPartsFab.tabSwitch();
+	showMainLoader(false);
 }
 
 function PartsPartsExit() {
@@ -254,7 +255,7 @@ ShiftingDialog.addSubmitListener("PartsEditPart", function (c) {
 			.catch(function (e) {
 				throw e;
 			})
-	} catch (err) { console.error(err); alert("An Unknown Error Has Occured"); ShiftingDialog.enableSubmitButton(true); return; }
+	} catch (err) { console.error(err); ShiftingDialog.alert('Unknown Error', "An Unknown Error Has Occured"); ShiftingDialog.enableSubmitButton(true); return; }
 });
 function PartsPartsUDelete(item) {
 	try {
@@ -376,18 +377,19 @@ ShiftingDialog.addSubmitListener("PartsCreateNewManu", function (c) {
 });
 function PartsPartsDeleteManu(a) {
 	if (users.getCurrentClearance() > 1) {
-		var c = confirm('Are you sure you want to delete ' + a + '? \n This action cannot be undone.');
-		if (c)
-			firebase.app().firestore().collection("Parts").doc("MAN_UN").get().then(function (doc) {
-				var data = doc.data();
-				data.MANU.remove(a);
+		ShiftingDialog.confirm('Confirm Delete', 'Are you sure you want to delete ' + a + '? <br> This action cannot be undone.', function (a) {
+			if (a)
+				firebase.app().firestore().collection("Parts").doc("MAN_UN").get().then(function (doc) {
+					var data = doc.data();
+					data.MANU.remove(a);
 
-				firebase.app().firestore().collection("Parts").doc("MAN_UN").set(data).then(function () {
-					ShiftingDialog.close();
-					PartsPartsDrawManu();
+					firebase.app().firestore().collection("Parts").doc("MAN_UN").set(data).then(function () {
+						ShiftingDialog.close();
+						PartsPartsDrawManu();
+					});
 				});
-			});
-	} else alert("You Need Be A Higher Clearance");
+		})
+	} else ShiftingDialog.alert('Clearance Issue', "You Need Be A Higher Clearance");
 }
 //  ----------------------------------------    ----------------------------------------  \\
 
@@ -448,17 +450,18 @@ ShiftingDialog.addSubmitListener("PartsCreateNewUnit", function (c) {
 });
 function PartsPartsDeleteUnit(a) {
 	if (users.getCurrentClearance() > 1) {
-		var c = confirm('Are you sure you want to delete ' + a + '? \n This action cannot be undone.');
-		if (c)
-			firebase.app().firestore().collection("Parts").doc("MAN_UN").get().then(function (doc) {
-				var data = doc.data();
-				data.UNITS.remove(a);
+		ShiftingDialog.confirm('Confirm Delete', 'Are you sure you want to delete ' + a + '? \n This action cannot be undone.', function (a) {
+			if (a)
+				firebase.app().firestore().collection("Parts").doc("MAN_UN").get().then(function (doc) {
+					var data = doc.data();
+					data.UNITS.remove(a);
 
-				firebase.app().firestore().collection("Parts").doc("MAN_UN").set(data).then(function () {
-					ShiftingDialog.close();
-					PartsPartsDrawUnits();
+					firebase.app().firestore().collection("Parts").doc("MAN_UN").set(data).then(function () {
+						ShiftingDialog.close();
+						PartsPartsDrawUnits();
+					});
 				});
-			});
-	} else alert("You Need Be A Higher Clearance");
+		});
+	} else ShiftingDialog.alert('Clearance Issue', "You Need Be A Higher Clearance");
 }
 //  ----------------------------------------    ----------------------------------------  \\

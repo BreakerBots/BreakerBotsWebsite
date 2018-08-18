@@ -1,7 +1,7 @@
 ﻿// Parts All Tab
 
 //  ----------------------------------------  Initialization  -------------------------------------------------\\
-var PartsTab = new RegisteredTab("Parts", null, partsTabInit, partsTabExit, false, "partsView");
+var PartsTab = new RegisteredTab("Parts", null, partsTabInit, partsTabExit, true, "partsView");
 var partsSnapshot;
 var partsDrawn;
 var partsView;
@@ -11,6 +11,7 @@ function partsTabInit() {
 	PartsAddFab.tabSwitch();
 	setTimeout(function () { headerUseSearch(true); }, 10);
 	PartsPHI_Main();
+	showMainLoader(false);
 }
 
 window.addEventListener('DOMContentLoaded', partsTabFirstInit);
@@ -375,11 +376,10 @@ PartsAddFab.element.addEventListener('click', function () {
 function PartsAddItemInput() {
 	try {
 		var el = document.querySelector('#PartsAdd_Part');
-		console.log(el);
 		var u = '';
 		try {
 			u = PartsGetPartData(PartsGetPartByName(el.value)).unit;
-		} catch (err) { console.error(err); }
+		} catch (err) {  }
 		document.querySelector('#PartsAdd_Quan').parentNode.querySelector('label').innerHTML = `Quantity` + ((u == "" || !u) ? ('') : (' ( ' + u + ' )'))
 	} catch (err) { console.error(err) }
 }
@@ -427,10 +427,10 @@ ShiftingDialog.addSubmitListener("PartsAddItem", function (c) {
 		if (!part) {
 			ShiftingDialog.enableSubmitButton();
 
-			//Needs ShiftingDialog Subdialog
-			confirm("This Part Isn't Registered In The Database, Would You Like To Register It?");
-
-			PartsCreateNewPart((gd("Part").value || ""));
+			ShiftingDialog.confirm("Unregistered Part", "This Part Isn't Registered In The Database, Would You Like To Register It?", function (a) {
+				if (a)
+					PartsCreateNewPart((gd("Part").value || ""));
+			});
 		}
 		else {
 
@@ -469,7 +469,7 @@ ShiftingDialog.addSubmitListener("PartsAddItem", function (c) {
 					ShiftingDialog.close();
 				})
 				.catch(function (a) {
-					alert("An Unknown Error Has Occured, \n This May Be Because of A Bad Internet Connection, or a Server Error.");
+					ShiftingDialog.alert("Unknown Error", "An Unknown Error Has Occured, This May Be Because of A Bad Internet Connection, or a Server Error.");
 					console.error(a);
 					ShiftingDialog.enableSubmitButton();
 				});
@@ -541,7 +541,7 @@ ShiftingDialog.addSubmitListener("PartsDeleteFIG", function (content) {
 				alert('An Error Has Occured');
 				console.error(err);
 			});
-	} catch (err) { console.log(203, err); }
+	} catch (err) { console.error(err); }
 });
 //Item
 var PartsItem_Deleting = ["", null];
@@ -652,26 +652,33 @@ ShiftingDialog.addSubmitListener("PartsEditFIG", function (content) {
 		var desc = content.querySelector("#PartsEdit_Desc").value || "";
 		var items = findObjectByKey(partsSnapshot.docs, "id", PartsFIG_Editing).data().items;
 
-		var conf = (type == "Folder" && items != undefined) ? confirm("Are you sure you want to change this to a folder and remove all of it's items?") : true;
-
-		if (conf) {
-			var json = { title: title, desc: desc };
-			if (type == "Item-Group") json["items"] = (items || {});
-			var lastData = findObjectByKey(partsSnapshot.docs, "id", PartsFIG_Editing).data();
-			firebase.app().firestore().collection("Parts").doc(PartsFIG_Editing).set(json)
-				.then(function (doc) {
-					PartsAddToHistory(
-						"edit",
-						lastData || null,
-						json,
-						"fig",
-						PartsFIG_Editing
-					);
-					ShiftingDialog.close();
-				});
+		if (type == "Folder" && items != undefined) {
+			ShiftingDialog.confirm("Item-Group to Folder", "Are you sure you want to change this to a folder and remove all of it's items?", a);
 		}
 		else {
-			ShiftingDialog.enableSubmitButton(true);
+			a(true);
+		}
+
+		function a(c) {
+			if (c) {
+				var json = { title: title, desc: desc };
+				if (type == "Item-Group") json["items"] = (items || {});
+				var lastData = findObjectByKey(partsSnapshot.docs, "id", PartsFIG_Editing).data();
+				firebase.app().firestore().collection("Parts").doc(PartsFIG_Editing).set(json)
+					.then(function (doc) {
+						PartsAddToHistory(
+							"edit",
+							lastData || null,
+							json,
+							"fig",
+							PartsFIG_Editing
+						);
+						ShiftingDialog.close();
+					});
+			}
+			else {
+				ShiftingDialog.enableSubmitButton(true);
+			}
 		}
 	} catch (err) { }
 });
@@ -723,11 +730,10 @@ function PartsEditItem(item, parent) {
 function PartsEditItemInput() {
 	try {
 		var el = document.querySelector('#PartsEdit_Part');
-		console.log(el);
 		var u = '';
 		try {
 			u = PartsGetPartData(PartsGetPartByName(el.value)).unit;
-		} catch (err) { console.error(err); }
+		} catch (err) {  }
 		document.querySelector('#PartsEdit_Quan').parentNode.querySelector('label').innerHTML = `Quantity` + ((u == "" || !u) ? ('') : (' ( ' + u + ' )'))
 	} catch (err) { console.error(err) }
 }
@@ -746,10 +752,10 @@ ShiftingDialog.addSubmitListener("PartsEditItem", function (c) {
 		if (!part) {
 			ShiftingDialog.enableSubmitButton();
 
-			//Needs ShiftingDialog Subdialog
-			confirm("This Part Isn't Registered In The Database, Would You Like To Register It?");
-
-			PartsCreateNewPart((gd("Part").value || ""));
+			ShiftingDialog.confirm("Unregistered Part", "This Part Isn't Registered In The Database, Would You Like To Register It?", function (a) {
+				if (a)
+					PartsCreateNewPart((gd("Part").value || ""));
+			});
 		}
 		else {
 			var ctgN = PartsItems_Editing[1] ? PartsItems_Editing[1] : partsView.indexOf('\\') != -1 ? partsView.substring(partsView.lastIndexOf('\\') + 1) : partsView;
@@ -1223,7 +1229,7 @@ function PartsAddToHistory(operation, from, to, targetType, targetId) {
 			.catch(function () {
 
 			});
-	} catch (err) { console.log(err); }
+	} catch (err) { console.error(err); }
 }
 //  ----------------------------------------    -------------------------------------------------\\
 

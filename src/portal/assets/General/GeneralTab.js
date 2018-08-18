@@ -1,9 +1,10 @@
 //GeneralTab.js
 
-var GeneralTab = new RegisteredTab("General", null, GeneralInit);
+var GeneralTab = new RegisteredTab("General", null, GeneralInit, null, true);
 
 function GeneralInit() {
 	GeneralPHI();
+	showMainLoader(false);
 }
 
 function GeneralPHI() {

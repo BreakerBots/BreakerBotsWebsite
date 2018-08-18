@@ -32,8 +32,8 @@ function ManualsFirstInit() {
 } 
 
 function ManualsEveryInit() {
-	showMainLoader(false);
 	ManualsPHI_Main();
+	showMainLoader(false);
 }
 
 function ManualsExitInit() {
@@ -96,11 +96,17 @@ function ManualsDrawTab(transition) {
 			document.querySelector('#ManualsWrapper').style.margin = "0px 0px 0px 0px";
 			document.querySelector('#ManualsWrapper').style.width = "100%";
 			headerUseSearch(false);
-			var fmv = ManualsView; fmv = fmv.split('\\\\'); fmv.shift(); fmv.join('\\\\');
-			headerUseBackArrow(true, fmv == "" ? "deleteHashParam('manualsView')" : "setHashParam('manualsView', '" + fmv + "')");
+			var fmv = ManualsView;fmv = fmv.split('\\');fmv.splice(-1, 1);fmv.join('\\');
+			headerUseBackArrow(true, fmv == "" ? "deleteHashParam('manualsView'); ManualsTabDrawn = ManualsView; ManualsDrawTab(true);" : "setHashParam('manualsView', '" + fmv + "')");
 			ManualsFab.tabExit();
 			PeteSwitcher.set(false);
-			html = `<div style="display: flex; align-items: center; justify-content: center; align-content: center;"><div class="Manuals-ViewManualPaper mdc-elevation--z5"><div style="padding: 15px; position: absolute; left: 0; top: 0; right: 0; bottom: 0">` + cv.info + `</div></div></div>`;
+			html = `<div style="display: flex; align-items: center; justify-content: center; align-content: center;">
+						<div class="Manuals-ViewManualPaper mdc-elevation--z5">
+							<div class="Manuals-ViewManualContent">
+								` + cv.info + `
+							</div>
+						</div>
+					</div>`;
 		}
 
 		//Viewing Trash

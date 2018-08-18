@@ -263,6 +263,7 @@
 	min-height: 200px;
 	max-height:  280px;
 	margin-bottom: 10vh;
+	border-radius: 3px
 }
 
 /* Open/Close Animations */
@@ -307,7 +308,7 @@
 }
 
 #SSD-Footer {
-	padding: 10px;
+	padding: 10px 12.5px 10px 12.5px;
 	display: flex;
 	justify-content: flex-end;
 }
@@ -322,3 +323,20 @@
 		font-size: 15px !important;
 		letter-spacing: -0.1px !important;
 	}
+
+#SSD-Title {
+	color: black;
+	font-size: 200%;
+	font-weight: 500;
+	letter-spacing: .005em;
+	margin-top: 0
+}
+
+#SSD-Message {
+	color: black;
+	font-size: 100%;
+	font-weight: 400;
+	letter-spacing: 0.010em;
+	line-height: 1.6em;
+	margin: 0.8em 0 1.6em 5px;
+}
