@@ -118,7 +118,7 @@ var Helper = {
 				document.querySelector("#HelperI").setAttribute("data-active", "");
 				document.querySelector("#HelperI-Content").innerHTML = text;
 				document.querySelector("#HelperI-Next").onclick = (onNext || function () { Helper.drawing.close(); });
-				document.querySelector("#HelperI-Skip").onClick = (onSkip || function () { Helper.drawing.close(); });
+				document.querySelector("#HelperI-Skip").onclick = (onSkip || function () { Helper.drawing.close(); });
 
 				if (typeof anchorPoint == "string") {
 					anchorPoint = document.querySelector(anchorPoint);
