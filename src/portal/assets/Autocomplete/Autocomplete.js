@@ -29,9 +29,12 @@ class Autocomplete {
 							try { window[inp.dataset.autocompleteInput](); } catch (err) {  }
 					">
 						<span>` + (self.options[search[i]] || self.options[i]) + `</span>
-						<input type='hidden' value="` + (self.options[search[i]] || self.options[i]) + `">
+						<input type='hidden' value="` + formatSubel(self.options[search[i]] || self.options[i]) + `">
 					</div>
 					`;
+				}
+				function formatSubel(a) {
+					return a.substring(0, a.indexOf('<'));
 				}
 			}, 10);
 		}
@@ -100,10 +103,10 @@ class Autocomplete {
 		setInterval(getAutocompleteItems, 500);
 		var __options = "";
 		function getAutocompleteItems() {
-			if (__options != JSON.stringify(self.container.querySelector(".autocomplete-options").querySelectorAll("*"))) {
-				__options = JSON.stringify(self.container.querySelector(".autocomplete-options").querySelectorAll("*"));
+			if (__options != JSON.stringify(self.container.querySelector(".autocomplete-options").children)) {
+				__options = JSON.stringify(self.container.querySelector(".autocomplete-options").children);
 				var tempOptions = [];
-				var __tempop = self.container.querySelector(".autocomplete-options").querySelectorAll("*");
+				var __tempop = self.container.querySelector(".autocomplete-options").children;
 				for (var i = 0; i < __tempop.length; i++) {
 					tempOptions.push(__tempop[i].innerHTML);
 				}

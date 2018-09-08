@@ -185,11 +185,13 @@ function dateArrayToMinCD(a, minDate, maxDate) {
 	minDate.setHours(0, 0, 0, 0);
 	maxDate.setHours(0, 0, 0, 0);
 	for (var i = 0; i < a.length; i += 2) {
-		var m = Math.round(((a[i + 1] || new Date()).getTime() - a[i].getTime()) / 1000 / 60);
 		var d = a[i + 1];
-		d.setHours(0, 0, 0, 0);
-		if (d >= minDate && d <= maxDate) {
-			totalMinutes += m;
+		if (d) {
+			var m = Math.round(((a[i + 1] || new Date()).getTime() - a[i].getTime()) / 1000 / 60);
+			d.setHours(0, 0, 0, 0);
+			if (d >= minDate && d <= maxDate) {
+				totalMinutes += m;
+			}
 		}
 	}
 	return totalMinutes;
