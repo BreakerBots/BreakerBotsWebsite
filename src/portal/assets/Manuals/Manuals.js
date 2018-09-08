@@ -414,19 +414,19 @@ function ManualsPHI_Main() {
 		switch (Helper.API.getProgress("Manuals", 0)) {
 			case 0:
 				Helper.drawing.display("This is the Manuals System, a way to store tutorials for other members of the team.",
-					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Manuals", 0, 1); ManualsPHI_Main(); });
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Manuals", 0, 1); ManualsPHI_Main(); }, function () { Helper.API.setProgress("Manuals", 0, 4); ManualsPHI_Main(); });
 				break;
 			case 1:
 				Helper.drawing.display("Inside the Manuals System there are folders (for organization) and manuals (the tutorials themselves).",
-					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Manuals", 0, 2); ManualsPHI_Main(); });
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Manuals", 0, 2); ManualsPHI_Main(); }, function () { Helper.API.setProgress("Manuals", 0, 4); ManualsPHI_Main(); });
 				break;
 			case 2:
 				Helper.drawing.display("To navigate through the Manuals System, you can click on any folder or manual to open it. You can press the back arrow next to the url or the home button under the header to return to this page.",
-					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Manuals", 0, 3); ManualsPHI_Main(); });
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Manuals", 0, 3); ManualsPHI_Main(); }, function () { Helper.API.setProgress("Manuals", 0, 4); ManualsPHI_Main(); });
 				break;
 			case 3:
 				Helper.drawing.display("If you ever want to edit or trash an item, you can press the three stacked dots (⋮) at the bottom of it.",
-					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Manuals", 0, 4); ManualsPHI_Main(); });
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Manuals", 0, 4); ManualsPHI_Main(); }, function () { Helper.API.setProgress("Manuals", 0, 4); ManualsPHI_Main(); });
 				break;
 			default:
 				Helper.drawing.close();

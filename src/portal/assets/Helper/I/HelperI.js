@@ -111,12 +111,14 @@ var Helper = {
 		 * @param {String[]} anchorPoint Array of x, y. Ex) ['50px', '10px'] or ['50vw', '50vh'], you can also just use a querySelector like "#a-element-id" or the element after querySelector
 		 * @param {Number[]} rAnchorPoint Array of x, y in percent (0 - 1). Ex) [0.5, 0.5] -> Center on anchor point
 		 * @param {function} onNext A callback after the next arrow is pressed, leave undefined to close on next.
+		 * @param {function} onSkip Function to skip this part of the tutorial
 		 */
-		display(text, anchorPoint, rAnchorPoint, onNext) {
+		display(text, anchorPoint, rAnchorPoint, onNext, onSkip) {
 			try {
 				document.querySelector("#HelperI").setAttribute("data-active", "");
 				document.querySelector("#HelperI-Content").innerHTML = text;
 				document.querySelector("#HelperI-Next").onclick = (onNext || function () { Helper.drawing.close(); });
+				document.querySelector("#HelperI-Skip").onClick = (onSkip || function () { Helper.drawing.close(); });
 
 				if (typeof anchorPoint == "string") {
 					anchorPoint = document.querySelector(anchorPoint);
