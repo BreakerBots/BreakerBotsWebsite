@@ -13,7 +13,7 @@ function GeneralPHI() {
 
 		switch (Helper.API.getProgress("General", 0)) {
 			case 0:
-				Helper.drawing.display("Welcome to the BreakerSite! I'm the tutorial bot, and I will be introducing you into the website.",
+				Helper.drawing.display("Welcome to the BreakerSite! I'm the tutorial bot, and I will be introducing you to the BreakerSite Portal.",
 					['50vw', '30vh'], [0.5, 0.5], function () { Helper.API.setProgress("General", 0, 1); GeneralPHI(); }, f);
 				break;
 			case 1:
