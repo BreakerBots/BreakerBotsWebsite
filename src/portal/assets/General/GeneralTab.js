@@ -9,7 +9,7 @@ function GeneralInit() {
 
 function GeneralPHI() {
 	Helper.API.wait(function () {
-		var f = function () { Helper.API.setProgress("General", 0, 5); GeneralPHI_Main(); };
+		var f = function () { Helper.API.setProgress("General", 0, 5); GeneralPHI(); };
 
 		switch (Helper.API.getProgress("General", 0)) {
 			case 0:
