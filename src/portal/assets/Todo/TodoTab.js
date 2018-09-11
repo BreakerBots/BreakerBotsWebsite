@@ -1154,30 +1154,32 @@ function TodoAddToHistory(operation, from, to, targetType, targetId) {
 //  ----------------------------------------  Helper Intr.  ----------------------------------------  \\
 function TodoPHI_Main() {
 	Helper.API.wait(function () {
+		var f = function () { Helper.API.setProgress("Todo", 0, 7); TodoPHI_Main(); };
+
 		switch (Helper.API.getProgress("Todo", 0)) {
 			case 0:
 				Helper.drawing.display("This is the Todo System, targeted at organizing tasks and projects (Trello replacement).",
-					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Todo", 0, 1); TodoPHI_Main(); });
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Todo", 0, 1); TodoPHI_Main(); }, f);
 				break;
 			case 1:
 				Helper.drawing.display("Similar to the Item MS, you can have folders, task-groups and tasks. This home page and other folders contain only folders and task-groups. Tasks can only be added to task-groups.",
-					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Todo", 0, 2); TodoPHI_Main(); });
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Todo", 0, 2); TodoPHI_Main(); }, f);
 				break;
 			case 2:
 				Helper.drawing.display("The preferred organization system is to have major projects contained in folders and task-groups, while tasks are used for the individual components of each project.",
-					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Todo", 0, 3); TodoPHI_Main(); });
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Todo", 0, 3); TodoPHI_Main(); }, f);
 				break;
 			case 3:
 				Helper.drawing.display("Click on any folder or task-group to navigate inside it. You can press the back arrow next to the url or the home button under the header to return to this page.",
-					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Todo", 0, 4); TodoPHI_Main(); });
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Todo", 0, 4); TodoPHI_Main(); }, f);
 				break;
 			case 4:
 				Helper.drawing.display("This add button will be accessible through out the Todo System, though its actions change depending on where you are. Inside folders, you can create folders and task-groups, while inside task-groups, you can create tasks.",
-					['100vw - 92px', '100vh - 92px'], [1, 1], function () { Helper.API.setProgress("Todo", 0, 5); TodoPHI_Main(); });
+					['100vw - 92px', '100vh - 92px'], [1, 1], function () { Helper.API.setProgress("Todo", 0, 5); TodoPHI_Main(); }, f);
 				break;
 			case 5:
 				Helper.drawing.display("To edit or trash an item, you can press the three stacked dots (⋮) at the bottom of it.",
-					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Todo", 0, 6); TodoPHI_Main(); });
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Todo", 0, 6); TodoPHI_Main(); }, f);
 				break;
 			default:
 				Helper.drawing.close();

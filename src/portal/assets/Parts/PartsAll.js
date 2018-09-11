@@ -1239,34 +1239,36 @@ function PartsAddToHistory(operation, from, to, targetType, targetId) {
 //  ----------------------------------------  Helper Intr.  ----------------------------------------  \\
 function PartsPHI_Main() {
 	Helper.API.wait(function () {
+		var f = function () { Helper.API.setProgress("Item", 0, 7); PartsPHI_Main(); };
+
 		switch (Helper.API.getProgress("Item", 0)) {
 			case 0:
 				Helper.drawing.display("This is the Item Management System (IMS), for managing item orders.",
-					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Item", 0, 1); PartsPHI_Main(); });
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Item", 0, 1); PartsPHI_Main(); }, f);
 				break;
 			case 1:
 				Helper.drawing.display("In the IMS, there are folders, item-groups, items and parts. This home page and other folders contain only folders and item-groups. Tasks can only be added to task-groups.",
-					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Item", 0, 2); PartsPHI_Main(); });
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Item", 0, 2); PartsPHI_Main(); }, f);
 				break;
 			case 2:
 				Helper.drawing.display("An item is something you want to buy, while folders and item-groups are for organization. Every item in the IMS contains a name, description, status, priority, and reference to a part. Parts can then contain many fields including vendor, url, name, image, etc.",
-					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Item", 0, 3); PartsPHI_Main(); });
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Item", 0, 3); PartsPHI_Main(); }, f);
 				break;
 			case 3:
 				Helper.drawing.display("Click on any folder or item-group to navigate inside it. You can press the back arrow next to the url or the home button under the header to return to this page.",
-					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Item", 0, 4); PartsPHI_Main(); });
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Item", 0, 4); PartsPHI_Main(); }, f);
 				break;
 			case 4:
 				Helper.drawing.display("You are currently in the “items” part of the IMS, where you can manage items. Once this tutorial is finished, you can choose to manage parts as well under “Item MS” in the tab menu.",
-					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Item", 0, 5); PartsPHI_Main(); });
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Item", 0, 5); PartsPHI_Main(); }, f);
 				break;
 			case 5:
 				Helper.drawing.display("This add button is accessible throughout the IMS, though its actions change depending on where you are. Inside folders, you can create folders and item-groups, while inside item-groups, you can create items.",
-					['100vw - 92px', '100vh - 92px'], [1, 1], function () { Helper.API.setProgress("Item", 0, 6); PartsPHI_Main(); });
+					['100vw - 92px', '100vh - 92px'], [1, 1], function () { Helper.API.setProgress("Item", 0, 6); PartsPHI_Main(); }, f);
 				break;
 			case 6:
 				Helper.drawing.display("To edit or trash an item, you can press the three stacked dots (⋮) at the bottom of it.",
-					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Item", 0, 7); PartsPHI_Main(); });
+					['50vw', '30vh'], [0.5, 0], function () { Helper.API.setProgress("Item", 0, 7); PartsPHI_Main(); }, f);
 				break;
 			default:
 				Helper.drawing.close();
