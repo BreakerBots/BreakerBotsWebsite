@@ -275,6 +275,10 @@
 	<script src="assets/Resources/functions.js"></script>
 	<script src="assets/Resources/Autocomplete/AutocompleteSS.js"></script>
 	<script>
+		function yeetMe(date) {
+			return new Date((date.getMonth() + 1) + "/" + (date.getDate()) + "/" + (date.getYear() - 100 + 2000) + " " + (date.getHours()) + ":" + (Math.floor(date.getMinutes() / 15) * 15));
+		}
+
 		window.mdc.autoInit();
 		new RegisteredTab("SignIn", 330);
 		var ds33;
@@ -318,7 +322,7 @@
 			if (tm1[a]) {
 				a = tm1[a][0];
 				var b = findObjectByKey(ds33.docs, "id", a).data();
-				b.history.push(new Date());
+				b.history.push(yeetMe(new Date()));
 				firebase.app().firestore().collection("SS").doc(a).set(b)
 					.then(function () {
 						document.querySelector("#in5104").value = "";
@@ -363,17 +367,5 @@
 			function b(b, h) { var a = (b & 65535) + (h & 65535); return (b >> 16) + (h >> 16) + (a >> 16) << 16 | a & 65535 } function e(b, a) { return b >>> a | b << 32 - a } a = function (b) { b = b.replace(/\r\n/g, "\n"); for (var a = "", d = 0; d < b.length; d++) { var c = b.charCodeAt(d); 128 > c ? a += String.fromCharCode(c) : (127 < c && 2048 > c ? a += String.fromCharCode(c >> 6 | 192) : (a += String.fromCharCode(c >> 12 | 224), a += String.fromCharCode(c >> 6 & 63 | 128)), a += String.fromCharCode(c & 63 | 128)) } return a }(a); return function (a) { for (var b = "", d = 0; d < 4 * a.length; d++)b += "0123456789abcdef".charAt(a[d >> 2] >> 8 * (3 - d % 4) + 4 & 15) + "0123456789abcdef".charAt(a[d >> 2] >> 8 * (3 - d % 4) & 15); return b }(function (a, h) { var d = [1116352408, 1899447441, 3049323471, 3921009573, 961987163, 1508970993, 2453635748, 2870763221, 3624381080, 310598401, 607225278, 1426881987, 1925078388, 2162078206, 2614888103, 3248222580, 3835390401, 4022224774, 264347078, 604807628, 770255983, 1249150122, 1555081692, 1996064986, 2554220882, 2821834349, 2952996808, 3210313671, 3336571891, 3584528711, 113926993, 338241895, 666307205, 773529912, 1294757372, 1396182291, 1695183700, 1986661051, 2177026350, 2456956037, 2730485921, 2820302411, 3259730800, 3345764771, 3516065817, 3600352804, 4094571909, 275423344, 430227734, 506948616, 659060556, 883997877, 958139571, 1322822218, 1537002063, 1747873779, 1955562222, 2024104815, 2227730452, 2361852424, 2428436474, 2756734187, 3204031479, 3329325298], c = [1779033703, 3144134277, 1013904242, 2773480762, 1359893119, 2600822924, 528734635, 1541459225], g = Array(64), u, f; a[h >> 5] |= 128 << 24 - h % 32; a[(h + 64 >> 9 << 4) + 15] = h; for (u = 0; u < a.length; u += 16) { var n = c[0], q = c[1], r = c[2], x = c[3], p = c[4], v = c[5], w = c[6], l = c[7]; for (f = 0; 64 > f; f++) { if (16 > f) g[f] = a[f + u]; else { var k = f, m = g[f - 2]; m = e(m, 17) ^ e(m, 19) ^ m >>> 10; m = b(m, g[f - 7]); var t = g[f - 15]; t = e(t, 7) ^ e(t, 18) ^ t >>> 3; g[k] = b(b(m, t), g[f - 16]) } k = p; k = e(k, 6) ^ e(k, 11) ^ e(k, 25); k = b(b(b(b(l, k), p & v ^ ~p & w), d[f]), g[f]); l = n; l = e(l, 2) ^ e(l, 13) ^ e(l, 22); m = b(l, n & q ^ n & r ^ q & r); l = w; w = v; v = p; p = b(x, k); x = r; r = q; q = n; n = b(k, m) } c[0] = b(n, c[0]); c[1] = b(q, c[1]); c[2] = b(r, c[2]); c[3] = b(x, c[3]); c[4] = b(p, c[4]); c[5] = b(v, c[5]); c[6] = b(w, c[6]); c[7] = b(l, c[7]) } return c }(function (a) { for (var b = [], d = 0; d < 8 * a.length; d += 8)b[d >> 5] |= (a.charCodeAt(d / 8) & 255) << 24 - d % 32; return b }(a), 8 * a.length))
 		};
 	</script>
-	<script>
-		var i = document.documentElement;
-		if (i.requestFullscreen) {
-			i.requestFullscreen();
-		}
-		else if (i.webkitRequestFullscreen) {
-			i.webkitRequestFullscreen();
-		} else if (i.mozRequestFullScreen) {
-			i.mozRequestFullScreen();
-		} else if (i.msRequestFullscreen) {
-			i.msRequestFullscreen();
-		} window.scrollTo(0, 1);</script>
 </body>
 </html>
