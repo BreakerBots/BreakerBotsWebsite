@@ -74,14 +74,15 @@ function PartsPartsChangeTab() {
 function PartsPartsDrawParts() {
 	var at = document.querySelector('.Parts-Parts-Tab--0').querySelector('tbody');
 	var a = findObjectByKey(partsSnapshot.docs, "id", "Parts").data();
+	var af = ppsort(a, PartsPartsSortingBy, PartsPartsSortingReverse, " <Breaker-ID> ");
 	var b = findObjectByKey(partsSnapshot.docs, "id", "PartsUnv").data();
 	var html = ``;
 
-	for (var i = 0; i < Object.keys(a).length; i++) {
-		var n = Object.keys(a)[i];
+	for (var i = 0; i < af.length; i++) {
+		var n = af[i].split(' <Breaker-ID> ')[1];
 		var d = a[n];
 		html += `
-			<tr` + (i % 2 ? `style="background-color: rgb(230, 230, 230)"` : `` ) + `>
+			<tr ` + (i % 2 ? ` style="background-color: rgb(230, 230, 230)"` : ``) + `>
 				<td>` + d.name + `</td>
 				<td>` + d.vendor + `</td>
 				<td>` + d.price + `</td>
@@ -143,6 +144,37 @@ function PartsPartsDrawParts() {
 
 	at.innerHTML = html;
 	window.mdc.autoInit(at);
+
+	function ppsort(t, b, rev, s) {
+		var r = [];
+		for (var i = 0; i < Object.keys(t).length; i++) {
+			var id = Object.keys(t)[i];
+			var data = t[Object.keys(t)[i]];
+			r.push(data[b] + s + id);
+		}
+		r.sort();
+		if (rev)
+			r.reverse();
+		return r;
+	}
+}
+var PartsPartsSortingBy = "name";
+var PartsPartsSortingReverse = false;
+function PartsPartsSortBy(target, el) {
+	PartsPartsSortingBy = target;
+
+	var c = el.querySelector('i');
+	if (c.classList.contains('active')) {
+		c.innerHTML = ((c.innerHTML == "arrow_upward") ? "arrow_downward" : "arrow_upward")
+	}
+	else {
+		el.parentNode.querySelector('.active').classList.remove('active');
+		c.classList.add('active');
+	}
+
+	PartsPartsSortingReverse = (c.innerHTML == "arrow_downward");
+
+	PartsPartsDrawParts();
 }
 var PartsPartsChangeTarget;
 function PartsPartsDelete(item) {
@@ -197,7 +229,10 @@ function PartsPartsEdit(item) {
 				mainSnips.textField("EditPart_OD", "Ordering Data", "Any information on ordering the part", null, null, false, (itemData.od || "")) + 
 				mainSnips.textField("EditPart_Image", "Image", "A Url To An Image (Right-Click on Image and Press 'Copy image address')", "url", null, false, (itemData.image || "")) +
 				mainSnips.textFieldAutoComplete("EditPart_Unit", "Unit", "The Unit for this item (Bags, Pounds, Each, Feet...)", UNITS, '', true, (itemData.unit || "")) +
-				mainSnips.textField("EditPart_Price", "Price ($)", "The Price Per Unit of the Part", "number", null, true, (itemData.price || "")) +
+				`<div class="form-group" style="width: 90%; min-height: 65px; max-height: 73px;" >
+					<label  for="EditPart_Price" >Price ($)</label>
+					<input  id="EditPart_Price" required  type="number" step="0.01" min="0" max="10000" value="` + (itemData.price || "") + `" class="form-control" placeholder="The Price Per Unit of the Part" autocomplete="off">
+				</div>` +
 				mainSnips.textField("EditPart_Other", "Other", "Other Important Data About the Part", null, null, false, (itemData.other || ""))
 		});
 		ShiftingDialog.open();

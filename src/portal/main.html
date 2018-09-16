@@ -532,19 +532,19 @@
 							</div>
 						</div>
 						<div id="Parts-Parts-Tabs" style="height: 100%">
-							<div class="Parts-Parts-Tab Parts-Parts-Tab--0 Parts-Parts-Tab--Active" style="overflow-x: auto;">
+							<div class="Parts-Parts-Tab Parts-Parts-Tab--0 Parts-Parts-Tab--Active" style="overflow-x: auto; overflow-y: hidden">
 								<div class="material-table" style="height: 100%;">
 									<table style="min-width: 800px;">
 										<thead>
 											<tr>
-												<th>Name</th>
-												<th>Vendor</th>
-												<th>Price</th>
-												<th>Unit</th>
-												<th>Part Number</th>
-												<th>URL</th>
-												<th>Image</th>
-												<th>Other</th>
+												<th onclick="PartsPartsSortBy('name',	this)">	Name		<i class="material-icons active">arrow_upward</i></th>
+												<th onclick="PartsPartsSortBy('vendor', this)">	Vendor		<i class="material-icons">arrow_upward</i></th>
+												<th onclick="PartsPartsSortBy('price',	this)">	Price		<i class="material-icons">arrow_upward</i></th>
+												<th onclick="PartsPartsSortBy('unit',	this)">	Unit		<i class="material-icons">arrow_upward</i></th>
+												<th onclick="PartsPartsSortBy('pn',		this)">	Part Number	<i class="material-icons">arrow_upward</i></th>
+												<th onclick="PartsPartsSortBy('url',	this)">	URL			<i class="material-icons">arrow_upward</i></th>
+												<th onclick="PartsPartsSortBy('image',	this)">	Image		<i class="material-icons">arrow_upward</i></th>
+												<th onclick="PartsPartsSortBy('other',	this)">	Other		<i class="material-icons">arrow_upward</i></th>
 												<th></th>
 											</tr>
 										</thead>
