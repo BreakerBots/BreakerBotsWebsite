@@ -62,3 +62,6 @@ dist/
 .vs/slnx.sqlite
 .vs/VSWorkspaceState.json
 .vs/slnx.sqlite
+
+.firebase
+.firebase/hosting.c3Jj.cache
