@@ -196,7 +196,7 @@
 		*/
 	</style>
 
-	<!--Member Signup (Comment Out To Hide)-->
+	<!--Member Signup (Comment Out To Hide)
 	<style>
 		.ribbon {
 			position: fixed;
@@ -255,8 +255,8 @@
 
 		.memberSignup {
 			display: block
-		}
-	</style>
+		} -->
+	</style> 
 </head>
 
 <body id="page-top">
@@ -338,6 +338,7 @@
 		<div class="container-fluid">
 			<div class="wow fadeIn text-center">
 				<h1>Program Description</h1>
+				<br>
 				<div class="slideshow-container">
 					<div class="mySlides">
 						<img src="assets/img/teampics/website0.jpg" style="height: 300px; margin: 0% 5% 3% 5%;">
@@ -622,10 +623,10 @@
 					<br> Competition -
 					<i>Saturday, November 10 to Sunday, November 11</i>
 				</p>
-
+				<!-- remove when calendar works again
 				<p class="mb-0"><b>
 					<a href="https://calendar.google.com/calendar/embed?src=suiphcuq71fqpntbc2rojdun2g@group.calendar.google.com&ctz=America/Los_Angeles&pli=1">Click to See Calendar</a>
-				</p></b>
+				</p></b>-->
 			</div>
 		</div>
 	</section>
@@ -815,9 +816,10 @@
 			imgs[slideIndex].style.display = "block";
 
 			slideIndex++;
-			if (slideIndex > imgs.length) {
+			if (slideIndex >= imgs.length) {
 				slideIndex = 0;
 			}
+
 			setTimeout(showSlides, 5000);
 		}
 	</script>
