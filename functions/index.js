@@ -1,60 +1,128 @@
-const functions = require('firebase-functions');
-const admin = require('firebase-admin');
-admin.initializeApp();
+'use strict';
 
-// Notifications
-exports.sendNotification = functions.firestore
-	.document('Notifications/{userId}').onWrite((change, context) => {
-		var NotificationArray = change.after.data().Notifications;
-		//Only do this if an addition
-		if (NotificationArray.length <= change.before.data().Notifications.length) {
-			return;
-		}
-		var NewestNotification = NotificationArray[NotificationArray.length-1];
+const Datastore = require('@google-cloud/datastore');
+const datastore = new Datastore({
+	projectId: 'breaker-site',
+});
+var crypto = require('crypto');
+const cors = require('cors')({
+	origin: true,
+});
+const Time = require('./assets/js/time.js');
 
-		const payload = {
-			notification: {
-				title: NewestNotification.title || "Breakersite",
-				body: NewestNotification.desc || "",
-				icon: NewestNotification.icon || "../assets/img/iconT.png"
-			}
-		};
+//Register a Computer
+exports.registerComputer = (req, res) => {
+	try {
+		const pc = 'ywlkA9svAdUULsTmKbxe/cLGtBmOiTY5yOUBjcVmx6I=' == crypto.createHash('sha256').update(req.query.p).digest('base64');
 
-		var userId = context.params.userId;
+		if (!pc)
+			send(403, "Incorrect Password", req, res);
+		else {
+			var i = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+			if (i.indexOf(',') != -1) i = i.substring(0, i.indexOf(','));
+			const entity = {
+				key: datastore.key(['computer', i]),
+				data: { }
+			};
 
-		function sendPayloadToDevice(device, newData) {
-			try {
-				//console.log(" > Sending Payload To Device  [--- ]");
-				admin.messaging().sendToDevice(device, payload)
-					.then(function (response) {
-						try {
-							//console.log(response["results"]["0"]["error"]["errorInfo"]["code"]);
-
-							if (response["results"]["0"]["error"]["errorInfo"]["code"] == "messaging/invalid-registration-token" || response["results"]["0"]["error"]["errorInfo"]["code"] == "messaging/registration-token-not-registered") {
-								//console.log(" (!) Bad Device => ", device);
-								//console.log(" - Before Splice: ", newData);
-								if (newData.devices.indexOf(device) !== -1) { newData.devices.splice(newData.devices.indexOf(device), 1); }
-								//console.log(" => After Splice: ", newData);
-								admin.firestore().collection("users").doc(userId).set(newData);
-							}
-						} catch (err) { console.log("Caught ", err); }
-						//console.log(" > Sending Payload To Device  [----]");
-						//console.log(" > Payload Sent!");
-					})
-					.catch(function (error) {
-						//console.log("Error sending message:", error);
+			datastore.save(entity)
+				.then(() => {
+					return cors(req, res, () => {
+						res.status(200).send("Computer Registered!");
 					});
-			} catch (err) { console.log("Caught ", err); }
+				})
+				.catch((e) => {
+					console.error(e);
+					return cors(req, res, () => {
+						res.status(500).send({ error: e.message });
+					});
+					return Promise.reject(e);
+				});
 		}
+	} catch (e) {
+		console.error(e);
+		return cors(req, res, () => {
+			res.status(500).send({ error: e.message });
+		});
+	}
+};
 
-		admin.firestore().collection("users").doc(userId).get().then(function (doc) {
-			try {
-				var newData = doc.data();
-				//console.log(" > Sending Payload To Device [-   ]");
-				for (var t = 0; t < Object.keys(doc.data().devices).length; t++) {
-					//console.log(" > Sending Payload To Device  [--  ]");
-					sendPayloadToDevice(doc.data().devices[t], newData);
-				}
-			} catch (err) { console.log("Caught ", err); }
-		}).catch(function (err) { console.log("Caught ", err); });
-	});
+//Create Meeting
+exports.createMeeting = (req, res) => {
+	try {
+		var startDate = Time.toDate(decodeURIComponent(req.query.s));
+		var endDate = Time.toDate(decodeURIComponent(req.query.e));
+
+		datastore.get(datastore.key(['meeting', 'meeting']))
+			.then(([entity]) => {
+				var data = entity;
+				data.history.push(Time.dateToString(startDate));
+				data.history.push(Time.dateToString(endDate));
+
+				datastore.save(data)
+					.then(() => {
+						return cors(req, res, () => {
+							res.status(200).send("Meeting Created!");
+						});
+					})
+					.catch((e) => {
+						console.error(e);
+						return cors(req, res, () => {
+							res.status(500).send({ error: e.message });
+						});
+						return Promise.reject(e);
+					});
+			})
+			.catch((e) => {
+				console.error(e);
+				return cors(req, res, () => {
+					res.status(500).send({ error: e.message });
+				});
+				return Promise.reject(e);
+			});
+	} catch (e) {
+		console.error(e);
+		return cors(req, res, () => {
+			res.status(500).send({ error: e.message });
+		});
+	}
+}
+
+//Sign In/Out
+exports.sign = (req, res) => {
+	try {
+		var name = decodeURIComponent(req.query.n);
+
+		datastore.get(datastore.key(['member', name]))
+			.then(([entity]) => {
+				var data = entity;
+				data.history.push(Time.dateToString(Time.roundMinutes(Time.createDate(), 15)));
+
+				datastore.save(data)
+					.then(() => {
+						return cors(req, res, () => {
+							res.status(200).send("Sucess!");
+						});
+					})
+					.catch((e) => {
+						console.error(e);
+						return cors(req, res, () => {
+							res.status(500).send({ error: e.message });
+						});
+						return Promise.reject(e);
+					});
+			})
+			.catch((e) => {
+				console.error(e);
+				return cors(req, res, () => {
+					res.status(500).send({ error: e.message });
+				});
+				return Promise.reject(e);
+			});
+	} catch (e) {
+		console.error(e);
+		return cors(req, res, () => {
+			res.status(500).send({ error: e.message });
+		});
+	}
+}
