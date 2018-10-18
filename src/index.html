@@ -764,11 +764,6 @@
 		</div>
 	</footer>
 
-	<!--Close Ripple-->
-	<div id="CloseRippleWrap" class="ripple-wrap" style="z-index: 1000;">
-		<div id="CloseRipple" class="ripple"></div>
-	</div>
-
 	<!-- Javascript -->
 	<script src="assets/vit/vendor/jquery/jquery.min.js"></script>
 	<script src="assets/vit/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -794,15 +789,6 @@
 				mshtLOW = msht.offsetWidth;
 				msht.innerHTML = msht.offsetWidth < 480 ? ("BREAKER BOTS") : ("BREAKERBOTS");
 			}
-		}
-
-		function enterPortal() {
-			document.querySelector("#mainNav").style.opacity = 0;
-			var ripple = document.querySelector("#CloseRipple");
-			ripple.style.left = event.srcElement.offsetLeft + event.srcElement.offsetWidth + "px";
-			ripple.style.top = event.srcElement.offsetTop + event.srcElement.offsetHeight + "px";
-			document.querySelector("#CloseRippleWrap").classList.add('goripple');
-			setTimeout(function () { window.open('portal/enter.html', '_self', false); }, 700);
 		}
 
 		var slideIndex = 0;
