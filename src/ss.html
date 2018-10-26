@@ -96,9 +96,59 @@
 			font-size: 20px;
 			font-weight: 400;
 		}
+
+		/* Transitions */
+		page-fade--close {
+			display: block;
+			position: fixed;
+			left: 0;
+			top: 0;
+			width: 0;
+			height: 0;
+			background: transparent;
+			transition: background 0.4s cubic-bezier(.4, 0, .2, 1);
+			pointer-events: none;
+			z-index: 20;
+		}
+
+			page-fade--close.a {
+				width: 100vw;
+				height: 100vh;
+				background: white;
+			}
+
+		page-fade--open {
+			display: block;
+			position: fixed;
+			left: 0;
+			top: 0;
+			width: 100vw;
+			height: 100vh;
+			animation: page-fade-open 0.4s cubic-bezier(.4, 0, .2, 1);
+			pointer-events: none;
+			z-index: 20;
+		}
+
+		@keyframes page-fade-open {
+			from {
+				background: white;
+			}
+
+			to {
+				background: transparent;
+			}
+		}
 	</style>
 </head>
 <body>
 	CONTENT
+
+	<page-fade--close></page-fade--close>
+	<page-fade--open></page-fade--open>
+	<script>
+		function closePage() {
+			document.querySelector("page-fade--close").classList.add("a");
+		}
+	</script>
 </body>
 </html>

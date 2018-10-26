@@ -93,15 +93,19 @@ exports.sign = (req, res) => {
 	try {
 		var name = decodeURIComponent(req.query.n);
 
-		datastore.get(datastore.key(['member', name]))
-			.then(([entity]) => {
-				var data = entity;
+		//Get Member ID
+		datastore.runQuery(datastore.createQuery('member').filter('name', '=', name))
+			.then(results => {
+				var data = results[0][0];
+
+				//Add New History
 				data.history.push(Time.dateToString(Time.roundMinutes(Time.createDate(), 15)));
 
+				//Save Updated History
 				datastore.save(data)
 					.then(() => {
 						return cors(req, res, () => {
-							res.status(200).send("Sucess!");
+							res.status(200).send("Success!");
 						});
 					})
 					.catch((e) => {
