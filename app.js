@@ -39,6 +39,7 @@ app.get('/ss', (req, res) => {
 		</card>
 		<script>
 			function registerComputer(p) {
+				closePage();
 				fetch("https://us-central1-breaker-site.cloudfunctions.net/registerComputer?p=" + p).then(function (v) {
 					location.reload();
 				});
@@ -77,6 +78,7 @@ app.get('/ss', (req, res) => {
 				st = to24(st);
 				et = to24(et);
 				if (toDate(et) > toDate(st)) {
+					closePage();
 					fetch("https://us-central1-breaker-site.cloudfunctions.net/createMeeting?s=" + encodeURIComponent(st) + "&e=" + encodeURIComponent(et)).then(function () {
 						location.reload();
 					});
@@ -101,6 +103,7 @@ app.get('/ss', (req, res) => {
 		<span id="ruler" style="visibility: hidden"></span>
 		<script>
 			function sign(name) {
+				closePage();
 				fetch("https://us-central1-breaker-site.cloudfunctions.net/sign?n=" + encodeURIComponent(name)).then(function () {
 					location.reload();
 				});
@@ -171,7 +174,7 @@ app.get('/ss', (req, res) => {
 									page = page.replace('MEETING_TITLE', sh + "-" + eh);
 
 									//Get All Users
-									datastore.runQuery(datastore.createQuery('member'))
+									datastore.runQuery(datastore.createQuery('member').order('name'))
 										.then(results => {
 											const members = results[0];
 											var users = {};
