@@ -10,43 +10,6 @@ const cors = require('cors')({
 });
 const Time = require('./assets/js/time.js');
 
-//Register a Computer
-exports.registerComputer = (req, res) => {
-	try {
-		const pc = 'ywlkA9svAdUULsTmKbxe/cLGtBmOiTY5yOUBjcVmx6I=' == crypto.createHash('sha256').update(req.query.p).digest('base64');
-
-		if (!pc)
-			send(403, "Incorrect Password", req, res);
-		else {
-			var i = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-			if (i.indexOf(',') != -1) i = i.substring(0, i.indexOf(','));
-			const entity = {
-				key: datastore.key(['computer', i]),
-				data: { }
-			};
-
-			datastore.save(entity)
-				.then(() => {
-					return cors(req, res, () => {
-						res.status(200).send("Computer Registered!");
-					});
-				})
-				.catch((e) => {
-					console.error(e);
-					return cors(req, res, () => {
-						res.status(500).send({ error: e.message });
-					});
-					return Promise.reject(e);
-				});
-		}
-	} catch (e) {
-		console.error(e);
-		return cors(req, res, () => {
-			res.status(500).send({ error: e.message });
-		});
-	}
-};
-
 //Create Meeting
 exports.createMeeting = (req, res) => {
 	try {
@@ -92,14 +55,28 @@ exports.createMeeting = (req, res) => {
 exports.sign = (req, res) => {
 	try {
 		var name = decodeURIComponent(req.query.n);
+		var endDate = Time.createDate(decodeURIComponent(req.query.ed));
+		var signOut = decodeURIComponent(req.query.so) === "true";
 
 		//Get Member ID
 		datastore.runQuery(datastore.createQuery('member').filter('name', '=', name))
 			.then(results => {
 				var data = results[0][0];
 
-				//Add New History
-				data.history.push(Time.dateToString(Time.roundMinutes(Time.createDate(), 15)));
+				//Signing Out
+				if (signOut) {
+					//Replace end date with current time
+					data.history[data.history.length - 1] = Time.dateToString(Time.roundMinutes(Time.createDate(), 15));
+				}
+
+				//Signing In
+				else {
+					//Add Begin Date
+					data.history.push(Time.dateToString(Time.roundMinutes(Time.createDate(), 15)));
+
+					//Add End Date
+					data.history.push(endDate);
+				}
 
 				//Save Updated History
 				datastore.save(data)
