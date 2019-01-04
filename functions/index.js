@@ -71,11 +71,11 @@ exports.sign = (req, res) => {
 
 				//Signing In
 				else {
-					//Add Begin Date
+					//Add Begin Date at Current time
 					data.history.push(Time.dateToString(Time.roundMinutes(Time.createDate(), 15)));
 
-					//Add End Date
-					data.history.push(endDate);
+					//Add End Date at Current time
+					data.history.push(Time.dateToString(Time.roundMinutes(Time.createDate(), 15)));
 				}
 
 				//Save Updated History

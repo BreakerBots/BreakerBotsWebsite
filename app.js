@@ -52,8 +52,16 @@ app.get('/hours', (req, res) => {
 							})();
 						</script>
 						`);
+				//Get min date and total hours
+				var minDate;
+				var totalHours = 0;
+				datastore.get(datastore.key(['meeting', 'meeting']))
+				.then(([entity]) => {
+					var history = entity.history;
+					minDate = Time.createDate(entity.minDate);
+					totalHours = dateArrayToHours(history, minDate, Time.createDate());
+				});
 				//Get All Users
-				var minDate = Time.createDate('2018-09-13 (00:00:00.000) PDT');
 				datastore.runQuery(datastore.createQuery('member').order('name'))
 					.then(results => {
 						const members = results[0];
@@ -65,30 +73,30 @@ app.get('/hours', (req, res) => {
 							users[name] = {
 								hours: dateArrayToHours(history, minDate, Time.createDate())
 							};
-							console.log(users);
 						});
+						users['Total Hours'] = { hours: totalHours };
 						res.status(200).send(page.replace('USERS', JSON.stringify(users)));
-		
-						function dateArrayToHours(a, min, max) {
-							var totalMinutes = 0;
-							min.setHours(0, 0, 0, 0);
-							max.setHours(0, 0, 0, 0);
-							for (var i = 0; i < a.length; i += 2) {
-								var d = Time.createDate(a[i + 1]);
-								if (d != "Invalid Date") {
-									var m = Math.round((d.getTime() - Time.createDate(a[i]).getTime()) / 1000 / 60);
-									d.setHours(0, 0, 0, 0);
-									if (d >= min && d <= max) {
-										totalMinutes += m;
-									}
-								}
-							}
-							return Math.floor(totalMinutes / 60);
-						}
 					})
 					.catch((err) => {
 						console.error(err);
 					});
+		
+					function dateArrayToHours(a, min, max) {
+						var totalMinutes = 0;
+						min.setHours(0, 0, 0, 0);
+						max.setHours(0, 0, 0, 0);
+						for (var i = 0; i < a.length; i += 2) {
+							var d = Time.createDate(a[i + 1]);
+							if (d != "Invalid Date") {
+								var m = Math.round((d.getTime() - Time.createDate(a[i]).getTime()) / 1000 / 60);
+								d.setHours(0, 0, 0, 0);
+								if (d >= min && d <= max) {
+									totalMinutes += m;
+								}
+							}
+						}
+						return Math.floor(totalMinutes / 60);
+					}
 			});
 		});
 
