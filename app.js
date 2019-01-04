@@ -28,6 +28,69 @@ app.get('/regional', (req, res) => {
 		res.status(200).send(page);
 	});
 });
+app.get('/hours', (req, res) => {
+	getPage('/src/hours.html', function (page) {
+				page = page.replace('CONTENT', `
+					<br>
+					<table class="member-table">
+					</table>
+						<script>
+							//Fill In Select
+							var users = USERS;
+							(function fillInUsers() {
+								var html = "<tr> <th>Team Member</th> <th>Time</th> </tr>";
+								const select = document.querySelector('.member-table');
+		
+								for (var i = 0; i < Object.keys(users).length; i++) {
+									var name = Object.keys(users)[i];
+									var data = users[Object.keys(users)[i]];
+									data = data.hours + "h";
+		
+									html += '<tr> <td>' + name + '</td> <td>' + data + '</td> </tr>';								}
+		
+								select.innerHTML = html;
+							})();
+						</script>
+						`);
+				//Get All Users
+				var minDate = Time.createDate('2018-09-13 (00:00:00.000) PDT');
+				datastore.runQuery(datastore.createQuery('member').order('name'))
+					.then(results => {
+						const members = results[0];
+						var users = {};
+						members.forEach(function (member) {
+							var history = member.history;
+							var name = member.name;
+		
+							users[name] = {
+								hours: dateArrayToHours(history, minDate, Time.createDate())
+							};
+							console.log(users);
+						});
+						res.status(200).send(page.replace('USERS', JSON.stringify(users)));
+		
+						function dateArrayToHours(a, min, max) {
+							var totalMinutes = 0;
+							min.setHours(0, 0, 0, 0);
+							max.setHours(0, 0, 0, 0);
+							for (var i = 0; i < a.length; i += 2) {
+								var d = Time.createDate(a[i + 1]);
+								if (d != "Invalid Date") {
+									var m = Math.round((d.getTime() - Time.createDate(a[i]).getTime()) / 1000 / 60);
+									d.setHours(0, 0, 0, 0);
+									if (d >= min && d <= max) {
+										totalMinutes += m;
+									}
+								}
+							}
+							return Math.floor(totalMinutes / 60);
+						}
+					})
+					.catch((err) => {
+						console.error(err);
+					});
+			});
+		});
 
 app.get('/ss', (req, res) => {
 	const pages = {
@@ -59,6 +122,7 @@ app.get('/ss', (req, res) => {
 				<input type="text" class="form-control" id="endTime" placeholder="End Time">
 			</div>
 			<button onclick="createMeeting(document.querySelector('#startTime').value, document.querySelector('#endTime').value)" type="button" class="btn btn-primary">Start Meeting</button>
+			<button onclick="window.location.href='hours';" type="button" class="btn btn-primary">View Hours</button>
 		</card>
 		<script src="assets/js/time.js"></script>
 		<script>
