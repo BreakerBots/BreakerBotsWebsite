@@ -9,26 +9,54 @@ const Datastore = require('@google-cloud/datastore');
 const datastore = new Datastore({
 	projectId: 'breaker-site',
 });
-const Time = require('./src/assets/js/time.js');
+const Time = require('./src/resources/js/time.js');
 const https = require('https');
 
-//Hosting
+//Pages
 app.get('/', (req, res) => {
-	getPage('/src/index.html', function (page) {
-		res.status(200).send(page);
-	});
+	getPage('/src/pages/index.html', function (a) {
+		res.send(a);
+	}, true);
 });
-app.get('/blog', (req, res) => {
-	getPage('/src/blog.html', function (page) {
-		res.status(200).send(page);
-	});
+app.get('/community', (req, res) => {
+	getPage('/src/pages/community.html', function (a) {
+		res.send(a);
+	}, true);
 });
-app.get('/regional', (req, res) => {
-	getPage('/src/regional.html', function (page) {
-		res.status(200).send(page);
-	});
+app.get('/contact', (req, res) => {
+	getPage('/src/pages/contact.html', function (a) {
+		res.send(a);
+	}, true);
 });
+app.get('/events', (req, res) => {
+	getPage('/src/pages/events.html', function (a) {
+		res.send(a);
+	}, true);
+});
+app.get('/resources', (req, res) => {
+	getPage('/src/pages/resources.html', function (a) {
+		res.send(a);
+	}, true);
+});
+app.get('/robots', (req, res) => {
+	getPage('/src/pages/robots.html', function (a) {
+		res.send(a);
+	}, true);
+});
+app.get('/sponsor', (req, res) => {
+	getPage('/src/pages/sponsor.html', function (a) {
+		res.send(a);
+	}, true);
+});
+
+// Hours Tracker
 app.get('/hours', (req, res) => {
+	function getPage(dir, callback) {
+		fs.readFile(path.join(__dirname, dir), 'utf8', function (err, data) {
+			if (err) { console.error(err); return; }
+			callback(data);
+		});
+	}
 	getPage('/src/hours.html', function (page) {
 				page = page.replace('CONTENT', `
 					<br>
@@ -99,12 +127,17 @@ app.get('/hours', (req, res) => {
 					}
 			});
 		});
-
 app.get('/ss', (req, res) => {
+	function getPage(dir, callback) {
+		fs.readFile(path.join(__dirname, dir), 'utf8', function (err, data) {
+			if (err) { console.error(err); return; }
+			callback(data);
+		});
+	}
 	const pages = {
 		register: `
 		<card>
-			<img src="assets/img/foreverlogo.png" />
+			<img src="images/logosheet.png" />
 			<card-title>Register Computer</card-title>
 			<input type="text" class="form-control" placeholder="Admin Password" />
 			<button onclick="registerComputer(this.parentNode.querySelector('input').value)" type="button" class="btn btn-primary">Register</button>
@@ -119,7 +152,7 @@ app.get('/ss', (req, res) => {
 		</script>`,
 		meeting: `
 		<card>
-			<img src="assets/img/foreverlogo.png" />
+			<img src="images/logosheet.png" />
 			<card-title>Start Meeting</card-title>
 			<div class="form-group">
 				<label for="startTime">Start Time</label>
@@ -229,7 +262,7 @@ app.get('/ss', (req, res) => {
 			}
 		</style>
 		<card>
-			<img src="assets/img/foreverlogo.png" />
+			<img src="images/logosheet.png" />
 			<card-title>Sign In/Out</card-title>
 			<card-subtitle>(MEETING_TITLE)</card-subtitle>
 			<div class="form-group select">
@@ -391,12 +424,84 @@ app.get('/ss', (req, res) => {
 	});
 });
 
+//404
+app.get('*', (req, res) => {
+	getPage('/src/pages/404.html', function (a) {
+		res.send(a);
+	}, false);
+});
+
 //Page Functions
-function getPage(dir, callback) {
+function getPage(dir, callback, addDefaultWrapper, lph) {
 	fs.readFile(path.join(__dirname, dir), 'utf8', function (err, data) {
 		if (err) { console.error(err); return; }
-		callback(data);
+
+		if (addDefaultWrapper) {
+			addDefaultPage(data, function (parsedPage) {
+				callback(parsedPage);
+			});
+		}
+		else callback(data);
 	});
+
+	function addDefaultPage(data, callback) {
+		function ds(a) {
+			var s = data.lastIndexOf(`<${a}>`);
+			var e = data.lastIndexOf(`</${a}>`);
+			if (s != -1 && e != -1) {
+				var r = data.substring(s + a.length + 2, e);
+				data = data.slice(0, s) + data.slice(e + a.length + 3);
+				return r;
+			}
+			else return;
+		}
+
+		function dsm(a, lnb, lne) {
+			var ret = "";
+			var r = true;
+			while (r) {
+				var n = ds(a);
+				if (n)
+					ret += (lnb + n + lne);
+				else
+					r = false;
+			}
+			return ret;
+		}
+
+		var pageTitle = ds('title');
+		var headerTitle = pageTitle;
+		if (pageTitle == "") {
+			pageTitle = "Breakers Club";
+			headerTitle = "Breakers Club";
+		}
+		else
+			pageTitle = "Breakers Club - " + pageTitle;
+
+		var css = dsm(`css`, `<link href="` + '${lph}' + `/resources/css/`, `.css" type="text/css" rel="stylesheet">`);
+		css += dsm(`style`, `<style>`, `</style>`);
+
+		var javascript = dsm(`script`);
+
+		fs.readFile(path.join(__dirname, '/src/main.html'), 'utf8', function (err, pageData) {
+			if (err) { next(err); return; }
+
+			function r(f, t) {
+				while (pageData.indexOf('${' + f + '}') != -1) {
+					pageData = pageData.replace('${' + f + '}', t);
+				}
+			}
+
+			r('content', data);
+			r('page-title', pageTitle);
+			r('header-title', headerTitle);
+			r('css', css);
+			r('javascript', javascript);
+			r('lph', (lph || ""));
+
+			callback(pageData);
+		});
+	}
 }
 
 //Local Serving
