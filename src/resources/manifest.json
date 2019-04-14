@@ -3,7 +3,7 @@
 	"name": "BreakerBots Website",
 	"icons": [
 		{
-			"src": "/images/logo.jpg",
+			"src": "/images/logo.png",
 			"type": "image/jpg",
 			"sizes": "371x371"
 		}

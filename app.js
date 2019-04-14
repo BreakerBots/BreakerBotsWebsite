@@ -472,11 +472,11 @@ function getPage(dir, callback, addDefaultWrapper, lph) {
 		var pageTitle = ds('title');
 		var headerTitle = pageTitle;
 		if (pageTitle == "") {
-			pageTitle = "Breakers Club";
-			headerTitle = "Breakers Club";
+			pageTitle = "BreakerBots";
+			headerTitle = "BreakerBots";
 		}
 		else
-			pageTitle = "Breakers Club - " + pageTitle;
+			pageTitle = "BreakerBots - " + pageTitle;
 
 		var css = dsm(`css`, `<link href="` + '${lph}' + `/resources/css/`, `.css" type="text/css" rel="stylesheet">`);
 		css += dsm(`style`, `<style>`, `</style>`);
