@@ -1,11 +1,18 @@
-/* Header */
+/* Main.css */
 
+/* Viewport */
+body, html {
+	margin: 0;
+	width: 100vw;
+	overflow-x: hidden;
+}
+
+/* Header */
 .breaker-nav {
 	background-color: #C41E3A !important
 }
 
 /* Content */
-
 .carousel {
 	background: black;
 	margin-top: -25px;
