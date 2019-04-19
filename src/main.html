@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<!-- Meta -->
 	<meta charset="utf-8">
@@ -19,13 +20,32 @@
 	${css}
 
 </head>
+
 <body>
 	HEADER
 	${content}
-	FOOTER
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<breaker-footer>
+		<breaker-footer--other>
+			<breaker-footer--other-left>
+				<a href="${lph}/robots">Robots</a>
+				<a href="${lph}/resources_page">Resources</a>
+				<a href="${lph}/community">Community</a>
+			</breaker-footer--other-left>
+			<breaker-footer--other-center>
+				<img src="${lph}images/icon.png" />
+			</breaker-footer--other-center>
+			<breaker-footer--other-right>
+				<a href="${lph}/events">Events</a>
+				<a href="${lph}/sponsor">Sponsor</a>
+				<a href="${lph}/contact">Contact</a>
+			</breaker-footer--other-right>
+		</breaker-footer--other>
+	</breaker-footer>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+	 crossorigin="anonymous"></script>
 	<script src="${lph}resources/js/main.js"></script>
 	<script src="${lph}resources/bootstrap/bootstrap.js"></script>
 	${javascript}
 </body>
+
 </html>
