@@ -24,7 +24,8 @@
 }
 
 .lead {
-	color: #666 !important
+	color: #666 !important;
+	margin: 5px 2px
 }
 
 .featurette-divider {
