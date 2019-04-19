@@ -9,7 +9,9 @@ body, html {
 
 /* Header */
 .breaker-nav {
-	background-color: #C41E3A !important
+	background-color: #C41E3A !important;
+	border-top: 5px solid #f7c156;
+	border-bottom: 5px solid #f7c156;
 }
 
 /* Content */
