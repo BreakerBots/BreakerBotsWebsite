@@ -22,7 +22,36 @@
 </head>
 
 <body>
-	HEADER
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark breaker-nav">
+		<a class="navbar-brand" href="${lph}/"><img class="icon" src="images/icon-bg.png"></a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample05" aria-controls="navbarsExample05"
+		 aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarsExample05">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active">
+					<a class="nav-link" href="${lph}/robots">Robots</a>
+				</li>
+				<li class="nav-item active">
+					<a class="nav-link" href="${lph}/resources_page">Resources</a>
+				</li>
+				<li class="nav-item active">
+					<a class="nav-link" href="${lph}/community">Community</a>
+				</li>
+				<li class="nav-item active">
+					<a class="nav-link" href="${lph}/events">Events</a>
+				</li>
+				<li class="nav-item active">
+					<a class="nav-link" href="${lph}/sponsor">Sponsor</a>
+				</li>
+				<li class="nav-item active">
+					<a class="nav-link" href="${lph}/contact">Contact</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
 	${content}
 	<breaker-footer>
 		<breaker-footer--other>
@@ -32,7 +61,7 @@
 				<a href="${lph}/community">Community</a>
 			</breaker-footer--other-left>
 			<breaker-footer--other-center>
-				<img src="${lph}images/icon.png" />
+				<img src="${lph}images/icon-bg.png" />
 			</breaker-footer--other-center>
 			<breaker-footer--other-right>
 				<a href="${lph}/events">Events</a>

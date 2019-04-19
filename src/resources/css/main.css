@@ -1,4 +1,27 @@
+/* Header */
+
+.breaker-nav {
+	background-color: #C41E3A !important
+}
+
 /* Content */
+
+.carousel {
+	background: black;
+	margin-top: -25px;
+}
+.carousel img {
+	max-height: 90vh;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	opacity: 0.75;
+}
+
+.icon {
+	max-height: 45px;
+	margin-left: 15px;
+}
 
 .lead {
 	color: #666 !important
