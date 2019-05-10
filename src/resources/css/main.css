@@ -9,9 +9,9 @@ body, html {
 
 /* Header */
 .breaker-nav {
-	background-color: #C41E3A !important;
-	border-top: 5px solid #f7c156;
-	border-bottom: 5px solid #f7c156;
+	background-color: #AF1700 !important;
+	border-top: 5px solid #FAB01D;
+	border-bottom: 5px solid #FAB01D;
 }
 
 /* Content */
@@ -55,8 +55,8 @@ ul, li {
 /* Footer */
 breaker-footer {
 	display: block;
-	border-bottom: 5px solid #f7c156;
-	background-color: #C41E3A;
+	border-bottom: 5px solid #FAB01D;
+	background-color: #AF1700;
 }
 
 breaker-footer--other {
@@ -98,7 +98,7 @@ breaker-footer--other-right {
 }
 
 breaker-footer--other a {
-	color: #f7c156 !important;
+	color: #FAB01D !important;
 	text-decoration: none !important;
 	font-size: 17px;
 	margin: 0 5px 0 5px;
