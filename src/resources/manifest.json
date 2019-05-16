@@ -1,0 +1,16 @@
+{
+	"short_name": "BreakerBots",
+	"name": "BreakerBots Website",
+	"icons": [
+		{
+			"src": "/images/logo.png",
+			"type": "image/jpg",
+			"sizes": "371x371"
+		}
+	],
+	"start_url": "",
+	"background_color": "#AF1700",
+	"display": "standalone",
+	"scope": "",
+	"theme_color": "#AF1700"
+}
