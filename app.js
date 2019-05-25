@@ -48,6 +48,11 @@ app.get('/sponsor', (req, res) => {
 		res.send(a);
 	}, true);
 });
+app.get('/programming_lessons', (req, res) => {
+	getPage('/src/pages/programming_lessons.html', function (a) {
+		res.send(a);
+	}, true);
+});
 
 // Hours Tracker
 app.get('/hours', (req, res) => {
