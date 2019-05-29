@@ -48,8 +48,8 @@ app.get('/sponsor', (req, res) => {
 		res.send(a);
 	}, true);
 });
-app.get('/programming_lessons', (req, res) => {
-	getPage('/src/pages/programming_lessons.html', function (a) {
+app.get('/summer_lessons', (req, res) => {
+	getPage('/src/pages/summer_lessons.html', function (a) {
 		res.send(a);
 	}, true);
 });
