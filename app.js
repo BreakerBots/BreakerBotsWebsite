@@ -55,7 +55,8 @@ app.get('/summer_lessons', (req, res) => {
 });
 app.get('/join', (req, res) => {
 	getPage('/src/pages/join.html', function (a) {
-		res.send(a);
+		window.location.replace("");
+
 	}, true);
 });
 
