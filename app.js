@@ -53,11 +53,6 @@ app.get('/summer_lessons', (req, res) => {
 		res.send(a);
 	}, true);
 });
-app.get('/join', (req, res) => {
-	getPage('/src/pages/join.html', function (a) {
-		res.send(a);
-	}, true);
-});
 
 // Hours Tracker
 app.get('/hours', (req, res) => {
