@@ -176,7 +176,7 @@ app.get('/ss', (req, res) => {
 			<button onclick="createMeeting(document.querySelector('#startTime').value, document.querySelector('#endTime').value)" type="button" class="btn btn-primary">Start Meeting</button>
 			<button onclick="window.location.href='hours';" type="button" class="btn btn-primary">View Hours</button>
 		</card>
-		<script src="assets/js/time.js"></script>
+		<script src="resources/js/time.js"></script>
 		<script>
 			//Set Default Dates
 			(function setDefaultDates() {
@@ -390,10 +390,15 @@ app.get('/ss', (req, res) => {
 									members.forEach(function (member) {
 										var history = member.history;
 										var name = member.name;
+										var signedIn = false;
+										if (history.length > 0) {
+											signedIn = (
+													(Time.createDate(history[history.length - 1]).valueOf() == Time.createDate(history[history.length - 2]).valueOf()
+												) && (Time.createDate(history[history.length - 1]) >= sd));
+										}
 
 										users[name] = {
-											in: ((Time.createDate(history[history.length - 1]).valueOf() == Time.createDate(history[history.length - 2]).valueOf())
-											&& (Time.createDate(history[history.length - 1]) >= sd)),
+											in: signedIn,
 											hours: dateArrayToHours(history, minDate, Time.createDate())
 										};
 									});
