@@ -48,15 +48,14 @@ app.get('/sponsor', (req, res) => {
 		res.send(a);
 	}, true);
 });
-app.get('/summer_lessons', (req, res) => {
-	getPage('/src/pages/summer_lessons.html', function (a) {
+app.get('/thankyou', (req, res) => {
+	getPage('/src/pages/thankyou.html', function (a) {
 		res.send(a);
 	}, true);
 });
-app.get('/join', (req, res) => {
-	getPage('/src/pages/join.html', function (a) {
-		window.location.replace("");
-
+app.get('/summer_lessons', (req, res) => {
+	getPage('/src/pages/summer_lessons.html', function (a) {
+		res.send(a);
 	}, true);
 });
 
