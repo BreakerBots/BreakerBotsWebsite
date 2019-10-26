@@ -48,6 +48,11 @@ app.get('/sponsor', (req, res) => {
 		res.send(a);
 	}, true);
 });
+app.get('/donate', (req, res) => {
+	getPage('/src/pages/sponsor.html', function (a) {
+		res.send(a);
+	}, true);
+});
 app.get('/thankyou', (req, res) => {
 	getPage('/src/pages/thankyou.html', function (a) {
 		res.send(a);
