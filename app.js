@@ -53,6 +53,15 @@ app.get('/summer_lessons', (req, res) => {
 		res.send(a);
 	}, true);
 });
+<<<<<<< HEAD
+=======
+app.get('/join', (req, res) => {
+	getPage('/src/pages/join.html', function (a) {
+		window.location.replace("");
+
+	}, true);
+});
+>>>>>>> 21b02be34e6d380345a7120da1e4701e4598c96e
 
 // Hours Tracker
 app.get('/hours', (req, res) => {
@@ -170,7 +179,7 @@ app.get('/ss', (req, res) => {
 			<button onclick="createMeeting(document.querySelector('#startTime').value, document.querySelector('#endTime').value)" type="button" class="btn btn-primary">Start Meeting</button>
 			<button onclick="window.location.href='hours';" type="button" class="btn btn-primary">View Hours</button>
 		</card>
-		<script src="assets/js/time.js"></script>
+		<script src="resources/js/time.js"></script>
 		<script>
 			//Set Default Dates
 			(function setDefaultDates() {
@@ -384,10 +393,15 @@ app.get('/ss', (req, res) => {
 									members.forEach(function (member) {
 										var history = member.history;
 										var name = member.name;
+										var signedIn = false;
+										if (history.length > 0) {
+											signedIn = (
+													(Time.createDate(history[history.length - 1]).valueOf() == Time.createDate(history[history.length - 2]).valueOf()
+												) && (Time.createDate(history[history.length - 1]) >= sd));
+										}
 
 										users[name] = {
-											in: ((Time.createDate(history[history.length - 1]).valueOf() == Time.createDate(history[history.length - 2]).valueOf())
-											&& (Time.createDate(history[history.length - 1]) >= sd)),
+											in: signedIn,
 											hours: dateArrayToHours(history, minDate, Time.createDate())
 										};
 									});
