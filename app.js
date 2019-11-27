@@ -48,20 +48,21 @@ app.get('/sponsor', (req, res) => {
 		res.send(a);
 	}, true);
 });
+app.get('/donate', (req, res) => {
+	getPage('/src/pages/sponsor.html', function (a) {
+		res.send(a);
+	}, true);
+});
+app.get('/thankyou', (req, res) => {
+	getPage('/src/pages/thankyou.html', function (a) {
+		res.send(a);
+	}, true);
+});
 app.get('/summer_lessons', (req, res) => {
 	getPage('/src/pages/summer_lessons.html', function (a) {
 		res.send(a);
 	}, true);
 });
-<<<<<<< HEAD
-=======
-app.get('/join', (req, res) => {
-	getPage('/src/pages/join.html', function (a) {
-		window.location.replace("");
-
-	}, true);
-});
->>>>>>> 21b02be34e6d380345a7120da1e4701e4598c96e
 
 // Hours Tracker
 app.get('/hours', (req, res) => {
