@@ -400,6 +400,7 @@ app.get('/ss', (req, res) => {
 													(Time.createDate(history[history.length - 1]).valueOf() == Time.createDate(history[history.length - 2]).valueOf()
 												) && (Time.createDate(history[history.length - 1]) >= sd));
 										}
+										// for (var i = 0; )
 
 										users[name] = {
 											in: signedIn,

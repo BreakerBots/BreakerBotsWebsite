@@ -133,3 +133,8 @@ breaker-footer--other a {
 #padthisplease{
 	padding-bottom: 2%; 
 }
+
+.resize_1 {
+	width: 40px;
+	height: 40px;
+}
