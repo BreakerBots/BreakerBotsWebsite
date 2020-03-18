@@ -33,6 +33,11 @@ app.get('/events', (req, res) => {
 		res.send(a);
 	}, true);
 });
+app.get('/photos', (req, res) => {
+	getPage('/src/pages/photos.html', function (a) {
+		res.send(a);
+	}, true);
+});
 app.get('/resources_page', (req, res) => {
 	getPage('/src/pages/resources.html', function (a) {
 		res.send(a);
