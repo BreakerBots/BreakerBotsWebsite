@@ -1,5 +1,4 @@
-﻿
-<!-- Index.html -->
+﻿<!-- Index.html -->
 <title>Home</title>
 
 <head>
@@ -24,46 +23,36 @@
             <li data-target="#carousel" data-slide-to="0" class="active"></li>
             <li data-target="#carousel" data-slide-to="1"></li>
             <li data-target="#carousel" data-slide-to="2"></li>\
-        </ol> 
+        </ol>
         <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="../images/home/attProAmGoodPhoto1.png" class="d-block w-100" alt="..." id="x">
-            <div class="carousel-caption d-none d-md-block">
-               <h5>Monterey Peninsula Foundation and Chevron</h5>
-                <p><a href="http://www.montereypeninsulafoundation.org/"
-                        style="color: white">Thank you to Monterey Peninsula Foundation and Chevron for our Eagles for Education Grant!</a></p>
-            </div>
-        </div>
-        <div class="carousel-item">
-            <img src="../images/home/paradeoflights.JPG" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-none d-md-block">
-                <h5>Our team at the 2019 Parade of Lights</h5>
-                <p style = "color: white"><a href="${lph}/robots#riptide" style="color: white">Also with Riptide!</a></p>
-            </div>
-        </div>
-            <div class="carousel-item">
-                <img src="../images/sponsors/Thanks.JPG" class="d-block w-100" alt="...">
+            <div class="carousel-item active">
+                <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RAC27FGW8BJBY&source=url">
+                    <img src="../images/home/faceshield.jpg" class="d-block w-100" alt="..."></a>
                 <div class="carousel-caption d-none d-md-block">
-                    <h5>Thank you for supporting our Family and Friends Fall Fundraiser!</h5>
-                    <p><a href="${lph}/sponsor" style="color: white">Become a sponsor</a></p>
-                </div>
-            </div>
-            <!--
-            <div class="carousel-item">
-                <img src="../images/home/slide3.jpg" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Congratulations Evan!</h5>
-                    <p>Best of luck to our graduating senior and the Class of 2019!</p>
+                    <h5>COVID-19 Response</h5>
+                    <p style="color: white">PG STEAM and the BreakerBots are working with the
+                        local maker community to provide Personal Protective Equipment (PPE) to area hospitals and others in need.
+                        <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RAC27FGW8BJBY&source=url"
+                            style="color: white">
+                        Please donate to this cause </a> so that we can purchase much needed material, filament,
+                        and parts to make faceshields, masks, and other PPE equipment that we desperately need.</p>
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="../images/home/slide1.JPG" class="d-block w-100" alt="...">
+                <img src="../images/robots/Tsunami.jpg" class="d-block w-100" alt="...">
                 <div class="carousel-caption d-none d-md-block">
-                    <h5>Success at Monterey Bay Regional</h5>
-                    <p>The BreakerBots were second seed alliance captains.</p>
+                    <h5>Meet our 2020 robot, Tsunami!</h5>
+                    <p>While the Infinite Recharge season has been suspended, we are excited to bring Tsunami to future events.</p>
                 </div>
             </div>
-        -->
+            <div class="carousel-item">
+                <img src="../images/home/attProAmGoodPhoto1.png" class="d-block w-100" alt="..." id="x">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Monterey Peninsula Foundation and Chevron</h5>
+                    <p><a href="http://www.montereypeninsulafoundation.org/" style="color: white">Thank you to Monterey
+                            Peninsula Foundation and Chevron for our Eagles for Education Grant!</a></p>
+                </div>
+            </div>
         </div>
         <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -136,17 +125,17 @@
 
 
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript">
+<script type="text/javascript">
 
 
-let apple = []
+    let apple = []
 
-$(document).keypress(function (keyPressed) {
-    apple.push(keyPressed.keyCode)
-    
-    if(apple [0] === 53 && apple [1] === 52  && apple [2] === 50 && apple [3] === 54){
-       document.getElementById("x").src="../images/home/easterEgg.JPG"
-    }
-});
+    $(document).keypress(function (keyPressed) {
+        apple.push(keyPressed.keyCode)
+
+        if (apple[0] === 53 && apple[1] === 52 && apple[2] === 50 && apple[3] === 54) {
+            document.getElementById("x").src = "../images/home/easterEgg.JPG"
+        }
+    });
 
 </script>
