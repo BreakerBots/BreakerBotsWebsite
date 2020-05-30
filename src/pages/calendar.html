@@ -1,0 +1,24 @@
+﻿<!-- Calendar.html -->
+<title>Calendar</title>
+
+<style>
+	@media(max-width: 1080px) {
+		.calendarspacer {
+			height: 278px !important;
+		}
+	}
+	@media(min-width: 1636px) {
+		.calendarspacer {
+			height: 0 !important;
+		}
+	}
+	.calendarspacer {
+		height: calc(-50vw + 818px);
+	}
+</style>
+
+<div style="width: 100%; height: 100%; padding: 20px;">
+	<iframe src="https://calendar.google.com/calendar/embed?src=suiphcuq71fqpntbc2rojdun2g%40group.calendar.google.com&ctz=America%2FLos_Angeles"
+			style="border: 0; width: 100%; height: calc(50vw - 40px); min-height: 500px;" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+	<div class="calendarspacer"></div>
+</div>
