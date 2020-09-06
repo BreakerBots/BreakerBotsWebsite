@@ -87,6 +87,11 @@ function createDate(date) {
 		return new Date(new Date().toLocaleString("en-US", { timeZone: "America/Los_Angeles" }));
 }
 
+function addHours(date, hours) {
+	date.setHours(date.getHours() + hours);
+	return date;
+}
+
 try {
 	exports.to24 = to24;
 	exports.to12 = to12;
@@ -96,4 +101,5 @@ try {
 	exports.hourFormat = hourFormat;
 	exports.dateToString = dateToString;
 	exports.createDate = createDate;
+	exports.addHours = addHours;
 } catch (e) { }

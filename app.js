@@ -178,7 +178,7 @@ app.get('/ss', (req, res) => {
 		meeting: `
 		<card>
 			<img src="images/logosheet.png" />
-			<card-title>Start Meeting</card-title>
+			<card-title>Start Meeting (dont do this unless your are in leadership)</card-title>
 			<div class="form-group">
 				<label for="startTime">Start Time</label>
 				<input type="text" class="form-control" id="startTime" placeholder="Start Time">
@@ -288,7 +288,7 @@ app.get('/ss', (req, res) => {
 		</style>
 		<card>
 			<img src="images/logosheet.png" />
-			<card-title>Sign In/Out</card-title>
+			<card-title>Sign In</card-title>
 			<card-subtitle>(MEETING_TITLE)</card-subtitle>
 			<div class="form-group select">
 				<label for="name">Name</label>
@@ -309,7 +309,7 @@ app.get('/ss', (req, res) => {
 				for (var i = 0; i < Object.keys(users).length; i++) {
 					var name = Object.keys(users)[i];
 					var data = users[Object.keys(users)[i]];
-					data = (data.in ? "In" : "Out") + " " + data.hours + "h";
+					data = data.hours + " meetings";
 
 					html += '<div> <s0>' + name + '</s0> <s1>' + data + '</s1></div>';
 				}

@@ -75,7 +75,7 @@ exports.sign = (req, res) => {
 					data.history.push(Time.dateToString(Time.roundMinutes(Time.createDate(), 15)));
 
 					//Add End Date at Current time
-					data.history.push(Time.dateToString(Time.roundMinutes(Time.createDate(), 15)));
+					data.history.push(Time.dateToString(Time.addHours(Time.roundMinutes(Time.createDate(), 15), 1)));
 				}
 
 				//Save Updated History
