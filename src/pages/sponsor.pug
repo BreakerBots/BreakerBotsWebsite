@@ -1,0 +1,338 @@
+doctype html
+html
+	head
+		title="BreakerBots - Home"
+		- var mobile = mobile
+		include ../includes/head.pug
+		style.
+			.sponsor {
+					margin: 4%;
+			}
+
+			h1, h3 {
+					text-align: center
+			}
+
+			h4 {
+				div.color: #666;
+			}
+
+			.sponsor-us {
+					margin: 2%;
+					text-align: center
+			}
+
+			.sustainer {
+					max-width: 200px;
+					max-height: 250px;
+					margin-top: 50px
+			}
+
+			.platinum {
+					max-width: 200px;
+					max-height: 150px;
+					margin-top: 50px
+			}
+
+			.gold {
+					max-width: 200px;
+					max-height: 100px;
+					margin-top: 50px
+			}
+	body
+		include ../includes/header.pug
+
+		div.sponsor
+			div.row.featurette
+				h2.featurette-heading(style='width: 100%; text-align: center;') Sponsor us!
+				div.row.sponsor-us
+					div.col-md-4
+						h4 By check
+						p.lead
+							| Write check to PG STEAM and send to us at 
+							i
+								| Pacific Grove High School, Attention: BreakerBots, 615
+								| Sunset
+								| Drive, Pacific Grove, CA, 93950
+					div.col-md-4
+						h4 In kind
+						p.lead
+							b Businesses:
+							|  Contact us at 
+							a(href='mailto:5104breakerbots@gmail.com') 5104breakerbots@gmail.com
+							br
+							br
+							b Individuals:
+							|  Buy an item from our 
+							a(href='http://a.co/9w99zmH') Amazon wishlist
+					div.col-md-4
+						h4 Online
+						p.lead
+							| Use PayPal to donate through PG STEAM, Inc., our 501(c)(3) non-profit organization.
+							br
+							a(href='https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RAC27FGW8BJBY&source=url')
+								button.btn.btn-primary.btn-lg(style='margin-top: 15px') Click here to donate!
+			hr.featurette-divider
+			h1 Thank you to all our generous sponsors!
+			h3.featurette-heading(style='background-color: #fdb515; margin: 15px 0px; padding: 5px') Sustainers
+			div.row.featurette
+				div.row.mb-2
+					div.col-md-6
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.mb-4.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static
+								h4.mb-0 PGUSD
+								p.lead.mb-auto Challenging every student with exceptional learning opportunities.
+								a.stretched-link(href='http://pgusd.org') pgusd.org
+							div.col-auto.d-none.d-lg-block
+								img.bd-placeholder-img.sustainer(src='../images/sponsors/pgusd.png')
+					div.col-md-6
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.mb-4.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static(style='max-width: 250px')
+								h4.mb-0 The Snow Family
+								p.lead.mb-auto On behalf of Liam Snow.
+							div.col-auto.d-none.d-lg-block(style='margin-top: -40px')
+								img.bd-placeholder-img.sustainer(src='../images/sponsors/snowbot.png')
+					div.col-md-6
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.mb-4.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static
+								h4.mb-0 Hirevue
+								p.lead.mb-auto
+									| HireVue helps global enterprises gain a competitive advantage in the
+									| modern talent marketplace with video interviewing software and assessments.
+								a.stretched-link(href='https://www.hirevue.com/') hirevue.com
+							div.col-auto.d-none.d-lg-block
+								img.bd-placeholder-img.sustainer(src='../images/sponsors/hirevue.png')
+					div.col-md-6
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.mb-4.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static
+								h4.mb-0 Cisco
+								p.lead.mb-auto
+									| Cisco helps seize the opportunities of tomorrow by proving that amazing
+									| things can happen when you connect the unconnected.
+								a.stretched-link(href='https://www.cisco.com/') cisco.com
+							div.col-auto.d-none.d-lg-block
+								img.bd-placeholder-img.sustainer(src='../images/sponsors/Cisco.png')
+					div.col-md-6
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.mb-4.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static
+								h4.mb-0 AT&amp;T Chevron Eagles for Education
+								p.lead.mb-auto The human energy company.
+								a.stretched-link(href='https://www.chevron.com/sustainability/social/education') chevron.com
+							div.col-auto.d-none.d-lg-block(style='margin-top: -50px')
+								img.bd-placeholder-img.sustainer(src='../images/sponsors/chevron.png')
+					div.col-md-6
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.mb-4.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static
+								h4.mb-0 Monterey Peninsula Foundation
+								p.lead.mb-auto
+									| The thrill of golf. The power of giving.
+									br
+								a.stretched-link(href='http://www.montereypeninsulafoundation.org/') montereypeninsulafoundation.org
+							div.col-auto.d-none.d-lg-block
+								img.bd-placeholder-img.sustainer(src='../images/sponsors/mpf.png')
+					div.col-md-6(style='margin: auto')
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.mb-4.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static
+								h4.mb-0 Microsoft
+								p.lead.mb-auto
+									| At Microsoft our mission and values are to help people and businesses
+									| throughout the world realize their full potential.
+								a.stretched-link(href='https://www.microsoft.com/') microsoft.com
+							div.col-auto.d-none.d-lg-block(style='margin-top: 30px')
+								img.bd-placeholder-img.sustainer(src='../images/sponsors/microsoft.png')
+			h3.featurette-heading(style='background-color: #fdb515; margin: 15px 0px; padding: 5px') Platinum Sponsors
+			div.row.featurette
+				div.row.mb-2
+					div.col-md-6
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.mb-4.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static
+								h4.mb-0 NDEP
+								p.lead.mb-auto National Defense Education Program.
+								a.stretched-link(href='')
+							div.col-auto.d-none.d-lg-block(style='margin-top: -25px')
+								img.bd-placeholder-img.platinum(src='../images/sponsors/ndep.png')
+					div.col-md-6
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.mb-4.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static
+								h4.mb-0 Over the Moon Realty
+								p.lead.mb-auto
+									| I am passionate about Pacific Grove. I can sell PG because I believe in
+									| it.
+								a.stretched-link(href='http://www.overthemoonrealty.com/') overthemoonrealty.com
+							div.col-auto.d-none.d-lg-block
+								img.bd-placeholder-img.platinum(src='../images/sponsors/overthemoon.PNG')
+					div.col-md-4
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static(style='color: #666')
+								h3.mb-0
+									img(src='../images/icon.png' style='max-height: 50px; max-width: 50px')
+									|  Joan
+									|                             Snow
+					div.col-md-4
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static(style='color: #666')
+								h3.mb-0
+									img(src='../images/icon.png' style='max-height: 50px; max-width: 50px')
+									|                             Elizabeth Shea
+					div.col-md-4
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static(style='color: #666')
+								h3.mb-0
+									img(src='../images/icon.png' style='max-height: 50px; max-width: 50px')
+									|                             Leslee Marlow
+					div.col-md-4(style='margin: auto')
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static(style='color: #666')
+								h3.mb-0
+									img(src='../images/icon.png' style='max-height: 50px; max-width: 50px')
+									|                             Shirley Smithtro
+					div.col-md-4(style='margin: auto')
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static(style='color: #666')
+								h3.mb-0
+									img(src='../images/icon.png' style='max-height: 50px; max-width: 50px')
+									|                             Stephanie Sullivan
+			h3.featurette-heading(style='background-color: #fdb515; margin: 15px 0px; padding: 5px') Gold Sponsors
+			div.row.featurette
+				div.row.mb-2
+					div.col-md-4
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static(style='color: #666')
+								h3.mb-0 Dr. Bob Johnson
+					div.col-md-4
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static(style='color: #666')
+								h3.mb-0 Brian Carrington
+					div.col-md-4
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static(style='color: #666')
+								h3.mb-0 Christine Hicks
+					div.col-md-4
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static(style='color: #666')
+								h3.mb-0 Dave Pippenger
+					div.col-md-4
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static(style='color: #666')
+								h3.mb-0 Debbie Crandell
+					div.col-md-4
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static(style='color: #666')
+								h3.mb-0 Dennis Foster
+					div.col-md-4
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static(style='color: #666')
+								h3.mb-0 Dorothy Aten
+					div.col-md-4
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static(style='color: #666')
+								h3.mb-0 Gene Yates
+					div.col-md-4
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static(style='color: #666')
+								h3.mb-0 Joseph Mori
+					div.col-md-4
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static(style='color: #666')
+								h3.mb-0 Karen Aten
+					div.col-md-4
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static(style='color: #666')
+								h3.mb-0 Larry and Susie Carrington
+					div.col-md-4
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static(style='color: #666')
+								h3.mb-0 Margaret Aten
+					div.col-md-4
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static(style='color: #666')
+								h3.mb-0 Nandita Sarkar
+					div.col-md-4
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static(style='color: #666')
+								h3.mb-0 Richard Rodolf
+					div.col-md-4
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static(style='color: #666')
+								h3.mb-0 Robert Danziger
+					div.col-md-4
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static(style='color: #666')
+								h3.mb-0 Robin Van Lant
+					div.col-md-4
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static(style='color: #666')
+								h3.mb-0 Sally Samson
+					div.col-md-4
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static(style='color: #666')
+								h3.mb-0 Shannon McFarland
+					div.col-md-4(style='margin: auto')
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static(style='color: #666')
+								h3.mb-0 Steve Rodolf and Kathryn Aten
+					div.col-md-4(style='margin: auto')
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static(style='color: #666')
+								h3.mb-0 Suzann Cromer
+			h3.featurette-heading(style='background-color: #fdb515; margin: 15px 0px; padding: 5px') In-Kind Sponsors
+			div.row.featurette
+				div.row.mb-2
+					div.col-md-6
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.mb-4.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static
+								h4.mb-0 Peppers Mexicali Cafe
+								p.lead.mb-auto
+									| Peppers is casual restaurant with a Southwestern-styled decor
+									| specializing in Latin American Cuisine with an emphasis on fresh seafood.
+								a.stretched-link(href='http://www.pepperspg.com/') pepperspg.com
+							div.col-auto.d-none.d-lg-block
+								img.bd-placeholder-img.gold(style='margin-right:25px' src='../images/sponsors/peppers.png')
+					div.col-md-6
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.mb-4.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static
+								h4.mb-0 Bagel Bakery
+								p.lead.mb-auto
+									| The Bagel Bakery is renowned for having the best and tastiest bagels as
+									| voted by the residents of Monterey County year after year.
+								a.stretched-link(href='http://www.thebagelbakery.com/index.html') thebagelbakery.com
+							div.col-auto.d-none.d-lg-block
+								img.bd-placeholder-img.gold(style='margin-right: 40px' src='../images/sponsors/bagelbakery.jpg')
+					div.col-md-6
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.mb-4.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static
+								h4.mb-0 Finishing Touch Powder Coating
+								p.lead.mb-auto Finishing Touch is your Powder Coater on the Peninsula.
+							div.col-auto.d-none.d-lg-block
+								img.bd-placeholder-img.gold(style='margin-right:25px' src='../images/icon.png')
+					div.col-md-6
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.mb-4.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static
+								h4.mb-0 Monterey Bay Diving
+								p.lead.mb-auto
+									| Beneath the waves, there&rsquo;s no room for error. Monterey Bay Diving sets
+									| the standard in commercial diving expertise, safety and technical capability.
+								a.stretched-link(href='https://www.montereybaydiving.com/') montereybaydiving.com
+							div.col-auto.d-none.d-lg-block
+								img.bd-placeholder-img.gold(style='margin-right: 40px' src='../images/sponsors/diving.png')
+					div.col-md-6
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.mb-4.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static
+								h4.mb-0 Hayward Lumber
+								p.lead.mb-auto
+									| Hayward in Pacific Grove is a full-service lumber and building
+									| materials yard with a large selection of high-quality lumber, building materials,
+									| and more.
+								a.stretched-link(href='https://www.haywardlumber.com/pacific-grove-lumberyard-and-design-center') haywardlumber.com
+							div.col-auto.d-none.d-lg-block
+								img.bd-placeholder-img.gold(src='../images/sponsors/Hayward.jpg')
+					div.col-md-6
+						div.row.no-gutters.rounded.overflow-hidden.flex-md-row.mb-4.h-md-250.position-relative
+							div.col.p-4.d-flex.flex-column.position-static
+								h4.mb-0 Cedar Street Times
+								p.lead.mb-auto News and opinion for Pacific Grove.
+								a.stretched-link(href='https://cedarstreettimes.com/') cedarstreettimes.com
+							div.col-auto.d-none.d-lg-block
+								img.bd-placeholder-img.gold(src='../images/sponsors/cedar-st.png')
+
+		include ../includes/footer.pug

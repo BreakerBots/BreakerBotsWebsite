@@ -1,0 +1,55 @@
+doctype html
+html
+	head
+		title="BreakerBots - 404"
+		- var mobile = mobile
+		include ../includes/head.pug
+	
+		style.
+			body, html {
+				margin: 0;
+				width: 100vw;
+				overflow-x: hidden;
+				background-image: linear-gradient(45deg, #AF1700 25%, #b8233c 25%, #b8233c 50%, #AF1700 50%, #AF1700 75%, #b8233c 75%, #b8233c 100%);
+				background-size: 56.57px 56.57px;
+				color: #dda942;
+			}
+
+			* {
+				font-family: Roboto, sans-serif !important;
+			}
+
+			div {
+				display: flex;
+				width: 100vw;
+				height: 80vh;
+				justify-content: center;
+				align-content: center;
+				align-items: center;
+				flex-wrap: wrap;
+			}
+
+			h1 {
+				width: 100%;
+				text-align: center;
+				font-size: 7rem;
+				margin: 0;
+				padding: 0;
+			}
+
+			h2 {
+				width: 100%;
+				text-align: center;
+				font-size: 2rem;
+				margin: 0;
+				padding: 0;
+			}
+
+			p {
+				font-size: 0.8rem;
+			}
+body
+	div
+		h1 404
+		h2 Looks Like We Did Our Job Wrong
+		p BreakerBots

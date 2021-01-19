@@ -1,0 +1,143 @@
+doctype html
+html
+	head
+		title="BreakerBots - Events"
+		- var mobile = mobile
+		include ../includes/head.pug
+
+		style.
+			.events {
+					margin: 40px 4% 60px 4%;
+					justify-content: center
+			}
+
+			h1, h2 {
+					text-align: center
+			}
+
+			b, h3 {
+					color: #666;
+			}
+
+			.event {
+					margin: 2%;
+					text-align: center
+			}
+
+			.event-pic {
+					max-height: 200px;
+			}
+	body
+		include ../includes/header.pug
+
+		div.events
+			div(id="padthisplease")
+				h2.featurette-heading Season Meeting Schedule
+			div.row
+				div.col-lg-5
+					div.event
+						p.lead
+							| Near the beginning of every year,
+							| Dean Kamen's FIRST kicks off their worldwide Build-Bot competition.
+							| During this approximately 8 week preparation period (January, February, and March),
+							| we enter the busiest time of the year and
+							| meet more often than usual. Here is our build season schedule.
+							| During the off-season, we meet considerably less, but continue to learn and teach.
+						p
+							a(href="https://calendar.google.com/calendar/embed?src=suiphcuq71fqpntbc2rojdun2g@group.calendar.google.com&ctz=America/Los_Angeles&pli=1") Click to See Calendar
+				div.col-lg-5.event(style="margin:auto; display: flex; justify-content: center")
+					table.table.table-sm(style="width: 400px; background-color: rgb(220, 220, 220); border: 2px solid rgb(230, 230, 230)" id="myTable")
+						thead
+							tr
+								th(scope="col") Day
+								th(scope="col") Time
+						tbody
+							tr(style="background-color: white")
+								th(scope="row") Monday
+								td 3:00 PM - 6:00 PM
+							tr(style="background-color: rgb(230, 230, 230)")
+								th(scope="row") Tuesday
+								td 3:00 PM - 9:00 PM
+							tr(style="background-color: white")
+								th(scope="row") Wednesday
+								td No meeting, rest day
+							tr(style="background-color: rgb(230, 230, 230)")
+								th(scope="row") Thursday
+								td 3:00 PM - 6:00 PM
+							tr(style="background-color: white")
+								th(scope="row") Friday
+								td 3:00 PM - 9:00 PM
+							tr(style="background-color: rgb(230, 230, 230)")
+								th(scope="row") Saturday
+								td 9:00 AM - 6:00 PM
+							tr(style="background-color: white")
+								th(scope="row") Sunday
+								td No meeting, rest day
+			hr.featurette-divider
+			h2.featurette-heading Upcoming Events
+			div.row.featurette
+				div.row.event(style="width: 100%;")
+					div.col-lg-4
+						img.event-pic(src="../images/events/cvr_cancelled_big_rip.jpg")
+						h2 Central Valley Regional
+						p.lead Postponed
+							br 
+							| Fresno, California
+							br 
+							a(href="https://www.thebluealliance.com/event/2020cafr") CVR on The Blue Alliance
+					div.col-lg-4
+						img.event-pic(src="../images/events/calgames.jpg")
+						h2 Monterey Bay Regional
+						p.lead Postponed
+							br 
+							| Seaside, California
+							br 
+							a(href="https://www.thebluealliance.com/event/2020camb") MBR on The Blue Alliance
+					div.col-lg-4
+						img.event-pic(src="../images/events/javacademy.jpg")
+						h2
+							a(href="summer_lessons") Summer Lessons
+						p.lead June - July
+							br
+							| Weekly lessons to learn CNC skills and Java for FRC
+
+			hr.featurette-divider
+			h2.featurette-heading Recent Events
+			div.row.featurette.event
+				div.row.event(style="width: 100%;")
+					div.col-lg-4
+						img.event-pic(src="../images/robots/Tsunami.jpg")
+						h2 Robot Reveal
+						p.lead
+							| Our 2020 Season Robot Reveal Party!
+							br 
+							| The BreakerBots present our 2020 robot, #[b Tsunami]
+					div.col-lg-4
+						img.event-pic(src="../images/events/kickoff.png")
+						h2 Kickoff
+						p.lead January 4 #[br] Start of 2020 build season and 
+							a(href="https://www.firstinspires.org/robotics/frc/game-and-season") Infinite Recharge
+					div.col-lg-4
+						img.event-pic(src="../images/events/madtown.jpg")
+						h2 
+							a(href="https://team1323.com/mttd/") MadTown Throwdown
+						p.lead November 2019
+							br 
+							| Off-Season Competition
+							br 
+							| Winner of Judges' Award
+
+			div.row.featurette
+				div.col-md-7
+					div(style="padding-left: 20px")
+						p.lead
+							h3(style="padding-left: 20px") Monterey Bay Regional 2019
+							br 
+							b(style="padding-left: 20px") Highlights:
+							ul
+								li The first ever Monterey Bay Regional was a success!
+								li #[strong Second Rank:] Ended qualification matches as the second ranked team, and made it to semifinals as second seed alliance captains.
+				div.col-md-5
+					img.featurette-image.img-fluid.d-block(src="../images/events/AllianceMBR.jpg")
+
+		include ../includes/footer.pug

@@ -1,57 +1,50 @@
 {
 	"name": "breakersite",
 	"version": "1.0.0",
-	"description": "",
-	"private": true,
+	"description": "the website for the BreakerBots Robotics Team",
+	"main": "index.js",
 	"scripts": {
-		"start": "node app.js",
-		"e2e": "repo-tools test deploy",
-		"test": "repo-tools test app",
-		"cover": "nyc --cache npm test; nyc report --reporter=html"
+		"start": "babel-watch server.js",
+		"compile": "webpack",
+		"deploy": "webpack && gcloud app deploy"
 	},
-	"author": "BreakerBots Robotics Team",
-	"contributors": [
-		{
-			"name": "Liam Snow",
-			"email": "liamsnow03@gmail.com"
-		},
-		{
-			"name": "Mitali Chowdhury",
-			"email": "mitalichowdhury00@gmail.com"
-		}
-	],
-	"cloud-repo-tools": {
-		"requiresKeyFile": true,
-		"requiresProjectId": true,
-		"test": {
-			"app": {
-				"args": [
-					"app.js"
-				]
-			}
-		}
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/BreakerBots/Breakersite.git"
 	},
-	"semistandard": {
-		"globals": [
-			"after",
-			"afterEach",
-			"before",
-			"beforeEach",
-			"describe",
-			"it"
-		]
+	"author": "BreakerBots",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/BreakerBots/Breakersite/issues"
 	},
+	"homepage": "https://github.com/BreakerBots/Breakersite#readme",
 	"dependencies": {
-		"@google-cloud/datastore": "^1.4.2",
-		"express": "4.16.2",
-		"npm": "^6.12.0"
+		"bootstrap": "^4.5.3",
+		"express": "^4.17.1",
+		"jquery": "^3.5.1",
+		"popper.js": "^1.16.1",
+		"pug": "^3.0.0"
 	},
 	"devDependencies": {
-		"@google-cloud/nodejs-repo-tools": "^3.3.0",
-		"ava": "^2.4.0",
-		"supertest": "3.0.0"
-	},
-	"engines": {
-		"node": "10.x.x"
+		"@babel/core": "^7.12.10",
+		"@babel/preset-env": "^7.12.10",
+		"autoprefixer": "^10.1.0",
+		"babel-loader": "^8.2.2",
+		"babel-watch": "^7.0.0",
+		"clean-webpack-plugin": "^3.0.0",
+		"core-js": "^3.8.1",
+		"css-loader": "^5.0.1",
+		"cssnano": "^4.1.10",
+		"extract-loader": "^5.1.0",
+		"file-loader": "^6.2.0",
+		"postcss-loader": "^4.1.0",
+		"sass": "^1.30.0",
+		"sass-loader": "^10.1.0",
+		"webpack": "^5.10.1",
+		"webpack-cli": "^4.2.0",
+		"webpack-dev-middleware": "^4.0.2",
+		"webpack-dev-server": "^3.11.0",
+		"webpack-hot-middleware": "^2.25.0",
+		"webpack-merge": "^5.7.3"
 	}
 }

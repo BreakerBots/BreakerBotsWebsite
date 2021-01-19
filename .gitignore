@@ -1,4 +1,4 @@
-node_modules
-*.log
-config.json
+node_modules/
 .vs/
+dist/
+package-lock.json

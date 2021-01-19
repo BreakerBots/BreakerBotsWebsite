@@ -1,0 +1,91 @@
+doctype html
+html
+	head
+		title="BreakerBots - Home"
+		- var mobile = mobile
+		include ../includes/head.pug
+
+		style.
+			h1, h2, h3, h4 {
+				color: #b90013;
+			}
+
+			.about {
+				margin: 4%;
+			}
+
+			.top-image {
+				background-repeat: no-repeat;
+				background-position: center center;
+				background-size: cover;
+				margin: 0 !important;
+			}
+	body
+		include ../includes/header.pug
+
+		div
+			div.top-image.position-relative.overflow-hidden.p-3.p-md-5.m-md-3.text-center.bg-light(style="background-image: url('../images/home/lasercutter.jpg'); ")
+				div.col-md-5.mx-auto.my-5(style='background-color: white; opacity: .9;  border-radius: 15px; min-width: 50vw')
+					div(style='justify-content: center; opacity: 1')
+						br
+						h1.display-4.font-weight-normal COVID-19 response
+						p.lead.font-weight-normal
+							| PG STEAM and the BreakerBots are working with the local maker community to provide Personal
+							| Protective Equipment (PPE) to area hospitals and others in need.
+							br
+							br
+							|                     Please donate to this cause so that we can purchase much needed material, filament,
+							|                     and parts to make faceshields, masks, and other PPE equipment that we desperately need.
+							br
+							br
+							a.btn.btn-primary(href='https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RAC27FGW8BJBY&source=url' role='button') Donate
+						br
+			div.about
+				hr.featurette-divider
+				div.row.featurette
+					div.col-md-7
+						h2.featurette-heading About us
+						p.lead
+							| We are Team 5104, a FIRST Robotics Competition (FRC) team from Pacific Grove,
+							| California known as the BreakerBots. Coach Roby Hyde started our team in 2013 with the goal of
+							| providing a welcoming space for students who shared an interest in STEM. Since then, our team has
+							| grown to about 4 mentors and 18 active students, with approximately 1/3 of them women. Our focus
+							| has expanded beyond science as well; we now have students working on business, project management,
+							| communications, art and team spirit.
+							br
+							br
+							|                     Although we meet year-round, our busiest time begins in January when we have just six weeks to
+							|                     design and build a robot that can compete in a specifically designed robot game. We typically enter
+							|                     two regional competitions in the Silicon Valley area each year, and we have qualified for the FIRST
+							|                     World Championships in Houston, Texas the past two years. This year, we are launching into
+							|                     Destination: Deep Space, in FIRST&rsquo;s unique &ldquo;varsity sport for the mind.&rdquo;
+					div.col-md-5
+						img.featurette-image.img-fluid.d-block(src='../images/home/TeamMBR.JPG')
+				hr.featurette-divider
+				div.row.featurette
+					div.col-md-7.order-md-2
+						h2.featurette-heading Mission Statement
+						br
+						p.lead
+							| To inspire students in STEM-related fields, foster teamwork, and provide a welcoming
+							| space for all who share our desire to pursue excellence.
+						br
+					div.col-md-5
+						img.featurette-image.img-fluid.d-block(style='max-height: 250px' src='../images/home/electronics.JPG')
+				hr.featurette-divider
+				div.row.featurette
+					div.col-md-7
+						h2.featurette-heading About FIRST
+						p.lead
+							| For Inspiration and Recognition of Science and Technology (FIRST) is a
+							| non-profit organization founded by Dean Kamen in 1989 with the goal of inspiring young people to
+							| pursue an education in STEM-related fields. Through competition, cooperation, and gracious
+							| professionalism, FIRST reaches students throughout the United States and the world. You can find
+							| more information 
+							a(href='https://www.firstinspires.org/') here
+							| .
+					div.col-md-5
+						img.featurette-image.img-fluid.d-block(style='object-fit: contain; max-height: 250px; box-shadow: none !important;' src='../images/home/frc_logo.jpg')
+				hr.featurette-divider
+
+		include ../includes/footer.pug
