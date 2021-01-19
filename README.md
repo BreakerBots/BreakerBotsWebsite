@@ -26,8 +26,7 @@ If you intend on deploying the website you will also have to download and setup 
 
 ## Serving Locally
 Serving the website locally will allow you to edit the website very quickly only on your computer. 
-All edits inside of `/src` or `server.js` will automatically update so all you need to do is
-refresh your browser. Other edits like to `webpack.config.js`, `app.yaml`, etc. will require a full restart with `Ctrl+C` twice.
+All file edits will automatically update so all you need to do is refresh your browser.
 
 - Run `npm start`
 - Navigate to `localhost:8080`
@@ -46,11 +45,10 @@ If something doesnt say `Breakersite` type `n` and press enter
   - `images/` contains every image on the website
   - `includes/` contains all of the pug files that are used by other pug files. Things like the header and footer
   - `pages/` contains every page on the website. If you add a new page make sure to add it to `server.js` (see below)
-  - `resources/` contains all sass (`.scss`) and javascript (`.js`) files, note that these files do not get 
+  - `assets/` contains all sass (`.scss`) and javascript (`.js`) files, note that these files do not get 
   used directly and compile into `dist/` (see below)
 - `server.js` is the javascript that runs locally (when serving) or on the server (when deployed)
 - `webpack.config.js` contains all the configuration for Webpack (this shouldn't have to be edited much)
-- `dist/` contains all the compiled versions of files inside `resources/` after running `npm run compile`, 
-or `npm run deploy`. This folder does not get pushed to github.
+- `dist/` contains all the compiled versions of files inside `assets/` after compiling. This folder does not get pushed to github or google cloud
 - `node_modules/` contains all of these installed node dependences (when you do `npm install`). 
-This folder does not get pushed to github.
+This folder does not get pushed to github or google cloud.

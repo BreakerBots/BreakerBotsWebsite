@@ -6,14 +6,12 @@ const path = require('path');
 
 module.exports = [{
 	mode: 'production',
-	context: path.resolve(__dirname, 'src/resources/'),
 	entry: [
-		'/main.js',
-		'/main.scss'
+		path.resolve(__dirname, './src/assets/main.js')
 	],
 	output: {
 		filename: 'main.js',
-		path: path.resolve(__dirname, '././dist/')
+		path: path.resolve(__dirname, './dist/')
 	},
 	module: {
 		rules: [
@@ -41,10 +39,7 @@ module.exports = [{
 					{
 						loader: 'sass-loader',
 						options: {
-							// Prefer Dart Sass
 							implementation: require('sass'),
-
-							// See https://github.com/webpack-contrib/sass-loader/issues/804
 							webpackImporter: false,
 							sassOptions: {
 								includePaths: ['./node_modules']
