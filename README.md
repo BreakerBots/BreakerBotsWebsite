@@ -28,9 +28,10 @@ If you intend on deploying the website you will also have to download and setup 
 Serving the website locally will allow you to edit the website very quickly only on your computer. 
 All file edits will automatically update so all you need to do is refresh your browser.
 
-- Run `npm start`
-- Navigate to `localhost:8080`
-- Exit with `Ctrl+C` twice
+- Open up a command prompt in the repo
+- Run `npm start` in the console
+- Navigate to `localhost:8080` in your browser
+- Exit with `Ctrl+C` twice in the console
 
 ## Deploying
 Make sure you followed the tutorial to setup locally including setting up the Google Cloud SDK Tools before attempting to deploy.
