@@ -2,3 +2,4 @@ node_modules/
 .vs/
 dist/
 package-lock.json
+.idea/
