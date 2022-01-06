@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>BreakerBots - Calendar</title>
+    <%- include('../includes/head.html') %>
+
+    <style>
+        .wrapper {
+            box-sizing: border-box;
+            position: relative;
+            display: block;
+            height: auto;
+            min-height: calc(100vh - 246px);
+        }
+
+        .calendar {
+            padding: 20px;
+            border: 0;
+            width: 100%;
+            height: calc(50vw - 40px);
+            min-height: 500px;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('../includes/header.html') %>
+
+    <div class="wrapper">
+        <iframe
+            src="https://calendar.google.com/calendar/embed?src=suiphcuq71fqpntbc2rojdun2g%40group.calendar.google.com&amp;ctz=America%2FLos_Angeles"
+            width="800" height="600" frameborder="0" scrolling="no"
+            class="calendar">
+        </iframe>
+    </div>
+
+    <%- include('../includes/footer.html') %>
+</body>
+
+</html>

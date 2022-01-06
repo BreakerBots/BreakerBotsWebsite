@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>BreakerBots - Hours</title>
+    <%- include('../includes/head.html') %>
+</head>
+
+<body class="hours">
+    <card><img src="../images/icon-bg.webp">
+        <card-title>Sign In</card-title>
+        <card-subtitle>(MEETING_TITLE)</card-subtitle>
+        <div class="form-group select"><label for="name">Name</label>
+            <div class="select-selected select-arrow-active"></div>
+            <div class="select-items"></div>
+        </div><button class="btn btn-primary" id="signButton" onclick="sign()" type="button" style="display: none;"></button>
+    </card>
+    <script type="text/javascript" src="assets/bootstrap.js"></script>
+    <script type="text/javascript" src="images/hours.js"></script>
+    <script>
+        if (localStorage.getItem("hash") !== password) {
+            window.location.href = "";
+        }
+    </script>
+</body>
+
+</html>

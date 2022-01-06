@@ -17,9 +17,7 @@
 	},
 	"homepage": "https://github.com/BreakerBots/Breakersite#readme",
 	"dependencies": {
-		"express": "^4.17.2",
-		"pug": "^3.0.2"
-	},
-	"devDependencies": {
+		"ejs": "^3.1.6",
+		"express": "^4.17.2"
 	}
 }

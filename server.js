@@ -1,23 +1,23 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 8080;
-app.set('view engine', 'pug');
 app.set('views', 'src');
+app.engine('.html', require('ejs').__express);
 app.use('/images', express.static('src/images'));
 app.use('/assets', express.static('src/assets'));
 
 //Pages
 var pages = {
-	"/": "index",
-	"/robots": "robots",
-	"/events": "events",
-	"/sponsor": "sponsor",
-	"/contact": "contact",
-	"/calendar": "calendar",
-	"/hours": "hours",
-	"/hours/view": "view",
-	"/hours/meeting": "meeting",
-	"/hours/meeting/people": "people"
+	"/": "index.html",
+	"/robots": "robots.html",
+	"/events": "events.html",
+	"/sponsor": "sponsor.html",
+	"/contact": "contact.html",
+	"/calendar": "calendar.html",
+	"/hours": "hours/auth.html",
+	"/hours/view": "hours/view.html",
+	"/hours/meeting": "hours/meeting.html",
+	"/hours/meeting/people": "hours/people.html"
 }; 
 
 //Hosting
@@ -26,7 +26,7 @@ app.get(Object.keys(pages), (req, res) => {
 	res.render('pages/' + pages[req.url], getMeta(req));
 });
 app.get('*', (req, res) => {
-	res.render('pages/404', getMeta(req));
+	res.render('pages/404.html', getMeta(req));
 });
 
 function getMeta(req) {

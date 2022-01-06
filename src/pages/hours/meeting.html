@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>BreakerBots - Hours</title>
+    <%- include('../includes/head.html') %>
+</head>
+
+<body class="hours">
+    <card><img src="../images/icon-bg.webp">
+        <card-title>Start Meeting </card-title>
+        <div class="form-group"><label for="endTime">End Time</label><input class="form-control" id="endTime" type="text" placeholder="End Time"></div><button class="btn btn-primary" onclick="createMeeting(document.querySelector('#startTime').value, document.querySelector('#endTime').value)" type="button">Start Meeting</button><button class="btn btn-primary" onclick="window.location.href='view';" type="button">View Hours </button>
+    </card>
+    <script type="text/javascript" src="assets/bootstrap.js"></script>
+    <script type="text/javascript" src="images/hours.js"></script>
+    <script>
+        if (localStorage.getItem("hash") !== password) {
+            window.location.href = "";
+        }
+    </script>
+</body>
+
+</html>

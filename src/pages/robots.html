@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>BreakerBots - Robots</title>
+    <%- include('../includes/head.html') %>
+
+    <style>
+        .robots {
+            margin: 4%;
+        }
+
+        b {
+            color: #666;
+        }
+
+        .featurette-image {
+            object-fit: contain;
+            width: auto;
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('../includes/header.html') %>
+
+    <div class="robots">
+        <!--Tsunami :)-->
+        <div class="row featurette">
+            <div class="col-md-7">
+                <h2 class="featurette-heading">Tsunami <span class="text-muted">2020 - Infinite Recharge</span></h2>
+                <p class="lead">Capable of shooting power cells across the field into the lower, upper, and inner ports
+                    with automatic vision targeting. Uses a flywheel shooter with an adjustable hood and turret for
+                    precision aiming. Also capable of climbing the generator switch when over five feet high in under 8
+                    seconds, using a folding bar system.</p><br><br>
+                <div><b>Tech Specs:</b>
+                    <ul>
+                        <li>
+                            <div><strong>Weight:</strong> 125 lbs</div>
+                        </li>
+                        <li>
+                            <div><strong>Size:</strong> 28" W x 32" L x 27.5" H</div>
+                        </li>
+                        <li>
+                            <div><strong>Shooter:</strong> 270d turret, 40d adj. hood, 9000rpm flywheel, limelight for
+                                vision tracking</div>
+                        </li>
+                        <li>
+                            <div><strong>Climber:</strong> folding arms w/ under 8 second full climb</div>
+                        </li>
+                        <li>
+                            <div><strong>Drive-Train:</strong> Custom falcon gearboxes w/ 11.5 ft/s max speed, 6" wheels
+                                with omnis in front</div>
+                        </li>
+                        <li>
+                            <div><strong>Hopper:</strong> snake hopper w/ versa rollers for movement</div>
+                        </li>
+                        <li>
+                            <div><strong>Intake:</strong> drop down folding deploy, printed mechanum wheels for
+                                centering</div>
+                        </li>
+                        <li>
+                            <div><strong>Paneler:</strong> 3" flex wheels powered by a 775pro w/ vp encoder and rev
+                                color sensor v3</div>
+                        </li>
+                        <li>
+                            <div><strong>Autonomous:</strong> 3, 6, and 8 ball autos</div>
+                        </li>
+                    </ul>
+                </div>
+                <div><b>Resources:</b>
+                    <ul>
+                        <li><b>Code: </b><a target="_blank"
+                                href="https://github.com/BreakerBots/Tsunami_2020">Tsunami</a></li>
+                        <li><b>CAD: </b><a target="_blank" href="https://a360.co/3gtMkKe">Tsunami</a></li>
+                        <li><b>Videos: </b><a target="_blank" href="https://photos.app.goo.gl/UPLpZPuZrnwJ3dAy7">Auto,
+                            </a><a target="_blank" href="https://photos.app.goo.gl/gvFtA81bdxUfTx5GA">Climb</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-5"> <img class="featurette-image img-fluid d-block" src="../images/robots/Tsunami.webp">
+            </div>
+        </div>
+        <hr class="featurette-divider">
+        <!--Riptide-->
+        <div class="row featurette">
+            <div class="col-md-7 order-md-2">
+                <h2 class="featurette-heading">Riptide <span class="text-muted">2019 - Off season </span></h2>
+                <p class="lead">Built for team outreach and to make our robotics team better known in our school and
+                    community. Uses a two scuba tank system to fire t-shirts into the crowd at various events, including
+                    school rallies and football games.</p><br><br>
+                <div><b>Tech Specs:</b>
+                    <ul>
+                        <li>
+                            <div><strong>Weight:</strong> ~160 lbs</div>
+                        </li>
+                        <li>
+                            <div><strong>Size:</strong> 28" W x 33" L x 24" H</div>
+                        </li>
+                        <li>
+                            <div><strong>Top Speed:</strong> 17 ft/s</div>
+                        </li>
+                        <li>
+                            <div><strong>Projectile Range:</strong> 100+ ft</div>
+                        </li>
+                        <li>
+                            <div><strong>Pneumatics:</strong> High pressure scuba tank at 3000psi, scuba tank expansion
+                                chamber at 0psi-120psi, MAC Solenoid Valve for firing</div>
+                        </li>
+                        <li>
+                            <div><strong>Control System:</strong> RoboRIO w/ Generic FRC Control System</div>
+                        </li>
+                        <li>
+                            <div><strong>Wireless:</strong> Modified Open Mesh Radio w/ External Antennas</div>
+                        </li>
+                        <li>
+                            <div><strong>Drivetrain:</strong> 4x CIM Motors w/ 3" Custom Gearboxes</div>
+                        </li>
+                        <li>
+                            <div><strong>Turret & Pitch:</strong> Powered by Bosch Seat Motors</div>
+                        </li>
+                    </ul>
+                </div>
+                <div> <b>Resources:</b>
+                    <ul>
+                        <li><b>Code: </b><a target="_blank" href="https://github.com/BreakerBots/Riptide">Riptide</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-5"> <img class="featurette-image img-fluid d-block" src="../images/robots/Riptide.webp">
+            </div>
+        </div>
+        <hr class="featurette-divider">
+        <!--Nebula-->
+        <div class="row featurette">
+            <div class="col-md-7">
+                <h2 class="featurette-heading">Nebula <span class="text-muted">2019 - Destination: Deep Space </span>
+                </h2>
+                <p class="lead">Capable of placing game pieces in the cargo ship and level one of the rocket. Uses a
+                    pneumatic system for handling hatches, a motorized arm and chute for cargo, and an additional
+                    pneumatic system for solo Hab-3 climb.</p><br><br>
+                <div><b>Tech Specs:</b>
+                    <ul>
+                        <li>
+                            <div><strong>Weight:</strong> 117 lbs</div>
+                        </li>
+                        <li>
+                            <div><strong>Size:</strong> 28" W x 32" L x 47" H</div>
+                        </li>
+                    </ul>
+                </div>
+                <div><b>Awards:</b>
+                    <ul>
+                        <li>
+                            <div><strong>Second Seed Alliance Captain:</strong> Monterey Bay Regional</div>
+                        </li>
+                        <li>
+                            <div><strong>Regional Semifinalist:</strong> Monterey Bay Regional</div>
+                        </li>
+                        <li>
+                            <div><strong>Regional Semifinalist:</strong> Central Valley Regional</div>
+                        </li>
+                    </ul>
+                </div>
+                <div><b>Resources:</b>
+                    <ul>
+                        <li><b>Code: </b><a target="_blank" href="https://github.com/BreakerBots/Nebula_2019">Nebula</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-5"><img class="featurette-image img-fluid d-block" src="../images/robots/Nebula.webp">
+            </div>
+        </div>
+        <hr class="featurette-divider">
+        <!--Athena-->
+        <div class="row featurette">
+            <div class="col-md-7 order-md-2">
+                <h2 class="featurette-heading">Athena <span class="text-muted">2018 - Power Up </span></h2>
+                <p class="lead">Uses a motorized intake and a single column cascading elevator to pick up, transport,
+                    and eject power cubes on the switch, scale, and vault. Also capable of climbing with a hook and
+                    winch.</p><br><br>
+                <div><b>Tech Specs:</b>
+                    <ul>
+                        <li>
+                            <div><strong>Weight:</strong> 120 lbs</div>
+                        </li>
+                        <li>
+                            <div><strong>Size:</strong> 28" W x 33" L x 55" H</div>
+                        </li>
+                    </ul>
+                </div>
+                <div><b>Awards:</b>
+                    <ul>
+                        <li>
+                            <div><strong>Regional Finalist:</strong> Central Valley Regional</div>
+                        </li>
+                        <li>
+                            <div><strong>Eighth Seed Alliance Captain:</strong> Newton Division at Houston World
+                                Championships</div>
+                        </li>
+                        <li>
+                            <div><strong>Tournament Semifinalists:</strong> CalGames</div>
+                        </li>
+                        <li>
+                            <div><strong>Tournament Quarterfinalists:</strong> MadTown Throwdown</div>
+                        </li>
+                    </ul>
+                </div>
+                <div><b>Resources:</b>
+                    <ul>
+                        <li> <b>Code: </b><a target="_blank"
+                                href="https://github.com/BreakerBots/Power-Up-2018-Offseason">Power Up 2018
+                                Off-season</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-5"> <img class="featurette-image img-fluid d-block" src="../images/robots/Athena.webp">
+            </div>
+        </div>
+        <hr class="featurette-divider">
+        <!--Archer-->
+        <div class="row featurette">
+            <div class="col-md-7">
+                <h2 class="featurette-heading">Archer <span class="text-muted">2017 - Steamworks </span></h2>
+                <p class="lead">Picks up, transports, and places gears using a passive funnel-style intake and pneumatic
+                    ejection. Uses a winch and rachet system to climb at the end of the match.</p><br>
+                <div><b>Tech Specs:</b>
+                    <ul>
+                        <li>
+                            <div><strong>Weight:</strong> 115 lbs</div>
+                        </li>
+                        <li>
+                            <div><strong>Size:</strong> 40" W x 36" L x 24" H</div>
+                        </li>
+                    </ul>
+                </div>
+                <div><b>Awards:</b>
+                    <ul>
+                        <li>
+                            <div><strong>Regional Finalists:</strong> Central Valley Regional</div>
+                        </li>
+                        <li>
+                            <div><strong>Fourth Seed Alliance Captains:</strong> Turing Division at Houston World
+                                Championships</div>
+                        </li>
+                        <li>
+                            <div><strong>Tournament Finalists:</strong> CalGames</div>
+                        </li>
+                    </ul>
+                </div>
+                <div><b>Resources:</b>
+                    <ul>
+                        <li> <b>Code: </b><a target="_blank" href="https://github.com/BreakerBots/Archer_2017">Archer
+                                2017</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-5"> <img class="featurette-image img-fluid d-block" src="../images/robots/Archer.webp">
+            </div>
+        </div>
+        <hr class="featurette-divider">
+        <!--Madoc-->
+        <div class="row featurette">
+            <div class="col-md-7 order-md-2">
+                <h2 class="featurette-heading">Madoc <span class="text-muted">2016 - Stronghold </span></h2>
+                <p class="lead">Uses a dual-motor intake system paired with a servo trigger control to collect,
+                    transport, and eject 10" foam balls into goals. For maneuverability, uses large, rubber tires and
+                    custom (wooden) hubs to be able to cross "defenses" easily.</p><br>
+                <div><b>Tech Specs:</b>
+                    <ul>
+                        <li>
+                            <div><strong>Size:</strong> 28" W x 32" L x 12" H</div>
+                        </li>
+                    </ul>
+                </div>
+                <div><b>Awards:</b>
+                    <ul>
+                        <li>
+                            <div><strong>Tournament Finalists:</strong> CalGames</div>
+                        </li>
+                    </ul>
+                </div>
+                <div><b>Resources:</b>
+                    <ul>
+                        <li> <b>Code: </b><a target="_blank" href="https://github.com/BreakerBots/Madoc_2016">Madoc
+                                2016</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-5"> <img class="featurette-image img-fluid d-block" src="../images/robots/Madoc.webp">
+            </div>
+        </div>
+        <hr class="featurette-divider">
+        <!--Klaus-->
+        <div class="row featurette">
+            <div class="col-md-7">
+                <h2 class="featurette-heading">Klaus <span class="text-muted">2015 - Recycle Rush </span></h2>
+                <p class="lead">Uses a winch and pulley system to pick up, stack, and transport totes across the field.
+                    Also uses Mecanum wheels to provide omni-directional driving.</p><br>
+                <div><b>Tech Specs:</b>
+                    <ul>
+                        <li>
+                            <div><strong>Size:</strong> 27" W x 29" L x 14" H</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-5"> <img class="featurette-image img-fluid d-block" src="../images/robots/Klaus.webp">
+            </div>
+        </div>
+        <hr class="featurette-divider">
+        <div class="row featurette">
+            <div class="col-md-7 order-md-2">
+                <h2 class="featurette-heading">Felix <span class="text-muted">2014 - Aerial Assist </span></h2>
+                <p class="lead">Competed in Aerial Assist. The BreakerBots' first robot!</p><br>
+                <div> </div><b>Tech Specs:</b>
+                <ul>
+                    <li>
+                        <div><strong>Size:</strong> 23" W x 32" L x 28" H</div>
+                    </li>
+                </ul>
+                <div><b>Resources:</b>
+                    <ul>
+                        <li><b>Code: </b><a target="_blank" href="https://github.com/BreakerBots/Felix-2014">Felix
+                                2014</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-5"> <img class="featurette-image img-fluid d-block" src="../images/robots/Felix.webp">
+            </div>
+        </div>
+        <hr class="featurette-divider">
+    </div>
+
+    <%- include('../includes/footer.html') %>
+</body>
+
+</html>

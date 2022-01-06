@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>BreakerBots - Hours</title>
+    <%- include('../includes/head.html') %>
+</head>
+
+<body class="hours">
+    <card><img src="../images/icon.webp">
+        <card-title>Password</card-title><input class="form-control" type="text" placeholder="Password"><button class="btn btn-primary" onclick="signIn(this.parentNode.querySelector('input').value)" type="button">Login</button>
+    </card>
+    <script type="text/javascript" src="assets/bootstrap.js"></script>
+    <script type="text/javascript" src="images/hours.js"></script>
+    <script>
+        if (localStorage.getItem("hash") === password) {
+            window.location.href = "hours/meeting";
+        }
+    </script>
+</body>
+
+</html>
