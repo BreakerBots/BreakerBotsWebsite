@@ -1,8 +1,8 @@
 steps:
   # Install node packages
-  - name: node:16.13.1
-    entrypoint: npm
-    args: ["install"]
+  # - name: node:16.13.1
+  #   entrypoint: npm
+  #   args: ["install"]
 
   # Build
   # - name: node:16.13.1
