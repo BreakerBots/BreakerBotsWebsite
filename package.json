@@ -17,6 +17,9 @@
 	},
 	"homepage": "https://github.com/BreakerBots/Breakersite#readme",
 	"dependencies": {
+		"@google-cloud/datastore": "^6.6.2",
+		"compression": "^1.7.4",
+		"cookie-parser": "^1.4.6",
 		"ejs": "^3.1.6",
 		"express": "^4.17.2"
 	}

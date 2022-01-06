@@ -2,21 +2,20 @@
 <html>
 
 <head>
-    <title>BreakerBots - Hours</title>
-    <%- include('../includes/head.html') %>
+    <title>BreakerBots - Hours Auth</title>
+    <%- include('../../includes/head.html') %>
 </head>
 
 <body class="hours">
-    <card><img src="../images/icon.webp">
-        <card-title>Password</card-title><input class="form-control" type="text" placeholder="Password"><button class="btn btn-primary" onclick="signIn(this.parentNode.querySelector('input').value)" type="button">Login</button>
+    <card><img src="/images/icon.png">
+        <card-title>Hours Tracker</card-title>
+        <card-subtitle>Register Device</card-subtitle>
+        <input class="form-control" type="text" placeholder="Super Secret Admin Password">
+        <button class="btn btn-primary" onclick="signIn(this.parentNode.querySelector('input').value)"
+            type="button">Sign In</button>
     </card>
-    <script type="text/javascript" src="assets/bootstrap.js"></script>
-    <script type="text/javascript" src="images/hours.js"></script>
-    <script>
-        if (localStorage.getItem("hash") === password) {
-            window.location.href = "hours/meeting";
-        }
-    </script>
+    <script type="text/javascript" src="/assets/bootstrap.js"></script>
+    <script type="text/javascript" src="/assets/hours.js"></script>
 </body>
 
 </html>
