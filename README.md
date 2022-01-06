@@ -1,4 +1,4 @@
-# Breakersite
+# BreakerBots Website
 The website for the BreakerBots Robotics Team. The website in run through Webpack (via npm) with 
 PostCSS (for AutoPrefixer), Babel, Pug, and Sass. Hosting is through Google
 Cloud (NodeJS12 through Express). Theming is through Bootstrap.

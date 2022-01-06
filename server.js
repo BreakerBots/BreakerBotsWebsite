@@ -256,6 +256,9 @@ app.get(Object.keys(pages), async (req, res) => {
   const injection = page[1] ? await page[1]() : {};
   res.render('pages/' + page[0], injection);
 });
+app.get('/_ah/warmup', (req, res) => {
+  res.json({ok: true});
+});
 app.get('*', (req, res) => {
   res.render('pages/404.html');
 });

@@ -1,4 +1,6 @@
-runtime: nodejs12
+runtime: nodejs16
+env: standard
+instance_class: F1
 
 # force HTTPS
 handlers:
@@ -6,3 +8,15 @@ handlers:
   script: auto
   secure: always
   redirect_http_response_code: 301
+
+inbound_services:
+ - warmup
+automatic_scaling:
+  target_cpu_utilization: 0.65
+  min_instances: 1
+  max_instances: 4
+  min_idle_instances: 1
+  max_idle_instances: 1
+  min_pending_latency: 500ms
+  max_pending_latency: automatic
+  max_concurrent_requests: 20
