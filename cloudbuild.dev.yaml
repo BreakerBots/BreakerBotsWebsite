@@ -12,3 +12,5 @@ steps:
   # Deploy to google cloud app engine
   - name: "gcr.io/cloud-builders/gcloud"
     args: ["app", "deploy", "--version=dev", "--no-promote"]
+
+timeout: "1600s"
