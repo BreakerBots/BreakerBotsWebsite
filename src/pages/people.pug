@@ -2,11 +2,11 @@ doctype html
 html   
     head 
         title="BreakerBots - Hours"
-        link(rel='stylesheet', type="text/css", href='../dist/main.css')
+        include ../includes/head.pug
 
-    body
+    body.hours
         card
-            img(src='images/logosheet.png')
+            img(src='../images/icon-bg.webp')
             card-title Sign In
             card-subtitle (MEETING_TITLE)
             .form-group.select
@@ -15,4 +15,9 @@ html
                 .select-items
             button#signButton.btn.btn-primary(onclick='sign()' type='button' style='display: none;')
 
+        script(type='text/javascript', src='assets/bootstrap.js')
         script(type='text/javascript', src='images/hours.js')
+        script.
+                if (localStorage.getItem("hash") !== password) {
+                    window.location.href = "";
+                }

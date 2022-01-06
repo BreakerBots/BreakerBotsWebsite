@@ -1,12 +1,15 @@
 doctype html
-html   
+html
     head 
         title="BreakerBots - Hours"
-        link(rel='stylesheet', type="text/css", href='../dist/main.css')
+        include ../includes/head.pug
 
-    body
-        <table class="member-table">
-                    </table>
+    body.hours
+        table.member-table
 
-            
+        script(type='text/javascript', src='assets/bootstrap.js')
         script(type='text/javascript', src='images/hours.js')
+        script.
+                if (localStorage.getItem("hash") !== password) {
+                    window.location.href = "";
+                }

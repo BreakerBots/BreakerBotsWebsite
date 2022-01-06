@@ -4,9 +4,7 @@
 	"description": "the website for the BreakerBots Robotics Team",
 	"main": "index.js",
 	"scripts": {
-		"start": "babel-watch server.js",
-		"compile": "webpack",
-		"gcp-build": "npm run compile"
+		"start": "node server.js"
 	},
 	"repository": {
 		"type": "git",
@@ -19,32 +17,9 @@
 	},
 	"homepage": "https://github.com/BreakerBots/Breakersite#readme",
 	"dependencies": {
-		"bootstrap": "^4.5.3",
-		"express": "^4.17.1",
-		"jquery": "^3.5.1",
-		"popper.js": "^1.16.1",
-		"pug": "^3.0.0",
-		"babel-watch": "^7.0.0",
-		"@babel/core": "^7.12.10"
+		"express": "^4.17.2",
+		"pug": "^3.0.2"
 	},
 	"devDependencies": {
-		"@babel/preset-env": "^7.12.10",
-		"autoprefixer": "^10.1.0",
-		"babel-loader": "^8.2.2",
-		"clean-webpack-plugin": "^3.0.0",
-		"core-js": "^3.8.1",
-		"css-loader": "^5.0.1",
-		"cssnano": "^4.1.10",
-		"extract-loader": "^5.1.0",
-		"file-loader": "^6.2.0",
-		"postcss-loader": "^4.1.0",
-		"sass": "^1.30.0",
-		"sass-loader": "^10.1.0",
-		"webpack": "^5.10.1",
-		"webpack-cli": "^4.2.0",
-		"webpack-dev-middleware": "^4.0.2",
-		"webpack-dev-server": "^3.11.0",
-		"webpack-hot-middleware": "^2.25.0",
-		"webpack-merge": "^5.7.3"
 	}
 }
