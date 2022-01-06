@@ -9,7 +9,7 @@ async function sha256(message) {
 
 //hash the submitted password and put it in the query express to handle
 async function signIn(password) {
-  const hash = await sha256(password);
+  const hash = await sha256(password); //TODO VULNERABILITY
   window.location.search = "hash=" + hash;
 }
 

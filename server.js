@@ -6,11 +6,10 @@ const cookieParser = require('cookie-parser');
 const crypto = require('crypto');
 const cookieSecret = crypto.createHash('sha256').update('51O4').digest('hex');
 const savedHash = '9fb9297d179a9e2341c9562f94e88b76d6a3c45fdb3a0cbaca832a22aa99b7b2';
+const {SecretManagerServiceClient} = require('@google-cloud/secret-manager');
+const secretClient = new SecretManagerServiceClient();
 const Datastore = require('@google-cloud/datastore').Datastore;
-const datastore = this.datastore = new Datastore({
-  projectId: 'breaker-site',
-  keyFilename: './keys/datastore.json'
-});
+const datastore = new Datastore();
 
 app.set('view engine', 'html');
 app.set('views', 'src');
@@ -249,6 +248,23 @@ app.post('/hours/meeting', async (req, res) => {
   }
 });
 
+//Datastore
+// async function initDatastore() {
+//   const [version] = await secretClient.accessSecretVersion({
+//     name: "datastore-api-key",
+//   });
+
+//   const payload = version.payload.data.toString();
+
+//   datastore = new Datastore({
+//     projectId: 'breakerbots-website',
+//     keyFilename: './keys/datastore.json'
+//   });
+//   const [version] = await client.accessSecretVersion({
+//     name: name,
+//   });
+// }
+// initDatastore();
 
 //Serve Page
 app.get(Object.keys(pages), async (req, res) => {
