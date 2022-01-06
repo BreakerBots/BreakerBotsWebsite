@@ -1,16 +1,6 @@
-//source: https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/digest
-async function sha256(message) {
-  const msgBuffer = new TextEncoder().encode(message);                    
-  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-  return hashHex;
-}
-
-//hash the submitted password and put it in the query express to handle
+//put password into the query for express to handle
 async function signIn(password) {
-  const hash = await sha256(password); //TODO VULNERABILITY
-  window.location.search = "hash=" + hash;
+  window.location.search = "password=" + password;
 }
 
 async function postMeeting(startTimeElement, endTimeElement) {

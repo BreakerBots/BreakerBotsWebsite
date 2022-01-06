@@ -5,11 +5,15 @@ const port = process.env.PORT || 8080;
 const cookieParser = require('cookie-parser');
 const crypto = require('crypto');
 const cookieSecret = crypto.createHash('sha256').update('51O4').digest('hex');
-const savedHash = '9fb9297d179a9e2341c9562f94e88b76d6a3c45fdb3a0cbaca832a22aa99b7b2';
+const isRunningOnGoogle = Boolean(process.env.GCLOUD);
 const {SecretManagerServiceClient} = require('@google-cloud/secret-manager');
 const secretClient = new SecretManagerServiceClient();
 const Datastore = require('@google-cloud/datastore').Datastore;
-const datastore = new Datastore();
+const datastore = isRunningOnGoogle ? new Datastore() : new Datastore({
+  projectId: 'breakerbots-website',
+  keyFilename: './datastore.json'
+});
+const hoursPasswordHash = '9fb9297d179a9e2341c9562f94e88b76d6a3c45fdb3a0cbaca832a22aa99b7b2';
 
 app.set('view engine', 'html');
 app.set('views', 'src');
@@ -37,10 +41,11 @@ var pages = {
 //Hours Auth Middleware
 app.use('/hours**', cookieParser(cookieSecret), (req, res, next) => {
   //first time auth with query
-  if (Object.keys(req.query).length > 0) {
-    if (req.query.hash && req.query.hash === savedHash) {
-      //save hash in cookie
-      res.cookie('hash', req.query.hash, {
+  if (Object.keys(req.query).length > 0 && req.query.password) {
+    // @ts-ignore
+    if (crypto.createHash('sha256').update(req.query.password).digest('hex') === hoursPasswordHash) {
+      //save password in signed cookie
+      res.cookie('password', req.query.password, {
         signed: true
       });
 
@@ -53,7 +58,8 @@ app.use('/hours**', cookieParser(cookieSecret), (req, res, next) => {
   }
 
   //cashed auth with cookie
-  else if (req?.signedCookies?.hash === savedHash) {
+  else if (req.signedCookies && req.signedCookies.password &&
+    crypto.createHash('sha256').update(req.signedCookies.password).digest('hex') === hoursPasswordHash) {
     if (req.baseUrl === '/hours') {
       //go home timmy
       res.redirect('/hours/home');
@@ -66,7 +72,7 @@ app.use('/hours**', cookieParser(cookieSecret), (req, res, next) => {
   //invalid auth
   else {
     //remove invalid cookie
-    res.clearCookie('hash', {
+    res.clearCookie('password', {
       signed: true
     });
 
@@ -247,24 +253,6 @@ app.post('/hours/meeting', async (req, res) => {
     res.status(500).json({ success: false, error: err });
   }
 });
-
-//Datastore
-// async function initDatastore() {
-//   const [version] = await secretClient.accessSecretVersion({
-//     name: "datastore-api-key",
-//   });
-
-//   const payload = version.payload.data.toString();
-
-//   datastore = new Datastore({
-//     projectId: 'breakerbots-website',
-//     keyFilename: './keys/datastore.json'
-//   });
-//   const [version] = await client.accessSecretVersion({
-//     name: name,
-//   });
-// }
-// initDatastore();
 
 //Serve Page
 app.get(Object.keys(pages), async (req, res) => {
