@@ -1,0 +1,19 @@
+doctype html
+html   
+    head 
+        title="BreakerBots - Hours"
+        link(rel='stylesheet', type="text/css", href='dist/main.css')
+
+    body 
+         card
+            img(src='../images/icon.webp')
+            card-title Password
+            input.form-control(type='text' placeholder='Password')
+            button.btn.btn-primary(onclick="signIn(this.parentNode.querySelector('input').value)" type='button') Login
+         
+         script(type='text/javascript', src='images/hours.js')
+         script.
+                if (localStorage.getItem("hash") === password) {
+                    window.location.href = "hours/meeting";
+                    }
+

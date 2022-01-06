@@ -12,8 +12,12 @@ var pages = {
 	"/events": "events",
 	"/sponsor": "sponsor",
 	"/contact": "contact",
-	"/calendar": "calendar"
-};
+	"/calendar": "calendar",
+	"/hours": "hours",
+	"/hours/view": "view",
+	"/hours/meeting": "meeting",
+	"/hours/meeting/people": "people"
+}; 
 
 //Hosting
 app.get(Object.keys(pages), (req, res) => {

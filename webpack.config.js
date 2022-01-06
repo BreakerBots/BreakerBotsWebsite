@@ -11,7 +11,10 @@ module.exports = [{
 	],
 	output: {
 		filename: 'main.js',
-		path: path.resolve(__dirname, './dist/')
+		path: path.resolve(__dirname, './dist/'),
+		libraryTarget: 'var',
+		library: 'EntryPoint'
+
 	},
 	module: {
 		rules: [

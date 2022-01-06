@@ -135,3 +135,32 @@ breaker-footer--other a:hover {
 	width: 40px;
 	height: 40px;
 }
+
+
+
+
+//Member table stuff
+
+.member-table, .member-table > th, .member-table > td {
+    border: 1px solid #ced4da;
+    border-collapse: collapse;
+}
+
+.member-table {
+    width: 98%;
+    margin: 1%;
+}
+
+.member-table > th, .member-table > td {
+    padding: .5%;
+}
+
+.member-table > th {
+    background-color: #ea778b;
+}
+
+.member-table tr:nth-child(odd) {
+    background-color: rgba(234, 119, 139, 0.3);
+}
+
+

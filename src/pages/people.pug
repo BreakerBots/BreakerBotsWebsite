@@ -1,0 +1,18 @@
+doctype html
+html   
+    head 
+        title="BreakerBots - Hours"
+        link(rel='stylesheet', type="text/css", href='../dist/main.css')
+
+    body
+        card
+            img(src='images/logosheet.png')
+            card-title Sign In
+            card-subtitle (MEETING_TITLE)
+            .form-group.select
+                label(for='name') Name
+                .select-selected.select-arrow-active
+                .select-items
+            button#signButton.btn.btn-primary(onclick='sign()' type='button' style='display: none;')
+
+        script(type='text/javascript', src='images/hours.js')

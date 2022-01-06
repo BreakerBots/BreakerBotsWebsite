@@ -1,0 +1,22 @@
+doctype html
+html   
+    head 
+        title="BreakerBots - Hours"
+        link(rel='stylesheet', type="text/css", href='../dist/main.css')
+
+    body
+        card
+            img(src='../images/icon.webp')
+            card-title Start Meeting 
+            .form-group
+                label(for='endTime') End Time
+                input#endTime.form-control(type='text' placeholder='End Time')
+            button.btn.btn-primary(onclick="createMeeting(document.querySelector('#startTime').value, document.querySelector('#endTime').value)" type='button') Start Meeting
+            button.btn.btn-primary(onclick="window.location.href='view';" type='button') View Hours    
+        
+        script(type='text/javascript', src='images/hours.js')
+        
+        script.
+                if (localStorage.getItem("hash") !== password) {
+                    window.location.href = "";
+                    }
