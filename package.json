@@ -1,5 +1,5 @@
 {
-	"name": "breakersite",
+	"name": "breakerbots-website",
 	"version": "1.0.0",
 	"description": "the website for the BreakerBots Robotics Team",
 	"main": "index.js",
