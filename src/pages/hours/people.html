@@ -18,7 +18,7 @@
         <img src="/images/icon.png">
         <card-title>Hours Tracker</card-title>
         <card-subtitle><%= meeting.title %> Meeting</card-subtitle>
-        <card-subtitle><%= (new Date()).toLocaleDateString('en-US') %></card-subtitle>
+        <card-subtitle><%= date %></card-subtitle>
         <table class="people-table">
             <tr>
                 <th>Name</th>
@@ -47,6 +47,7 @@
     </card>
 
     <script type="text/javascript" src="/assets/bootstrap.js"></script>
+    <script type="text/javascript" src="/assets/dayjs.js"></script>
     <script type="text/javascript" src="/assets/hours.js"></script>
 </body>
 

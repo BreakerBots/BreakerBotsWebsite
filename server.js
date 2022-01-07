@@ -14,7 +14,12 @@ const datastore = isRunningOnGoogle ? new Datastore() : new Datastore({
   keyFilename: './datastore.json'
 });
 const hoursPasswordHash = '9fb9297d179a9e2341c9562f94e88b76d6a3c45fdb3a0cbaca832a22aa99b7b2';
+const dayjs = require('dayjs');
+dayjs.extend(require('dayjs/plugin/utc'));
+dayjs.extend(require('dayjs/plugin/timezone'));
+dayjs.tz.setDefault("America/Los_Angeles");
 
+//Express Config
 app.set('view engine', 'html');
 app.set('views', 'src');
 // @ts-ignore
@@ -86,23 +91,6 @@ app.use('/hours**', cookieParser(cookieSecret), (req, res, next) => {
   }
 });
 
-//Hours Date Functions
-function isValidDate(date) {
-  return !isNaN(date.getTime());
-}
-function roundDateTo15Min(date) {
-  if (isValidDate) {
-    date.setMilliseconds(Math.round(date.getMilliseconds() / 1000) * 1000);
-    date.setSeconds(Math.round(date.getSeconds() / 60) * 60);
-    date.setMinutes(Math.round(date.getMinutes() / 15) * 15);
-  }
-  return date;
-}
-function toLocaleTimeStringSimple(date) {
-  const str = date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-  return str.charAt(0) == 0 ? str.slice(1) : str;
-}
-
 //Hours Redirected
 app.use('/hours/home', async (req, res, next) => {
   if (await inMeeting()) {
@@ -122,15 +110,19 @@ app.use('/hours/people', async (req, res, next) => {
     res.redirect('/hours/home');
   }
 });
+function roundToNearest15Minutes(date) {
+  return date.minute(Math.round(date.minute()  / 15) * 15).second(0).millisecond(0);
+}
 async function inMeeting() {
   const taskKey = datastore.key(['person', 'Meeting']);
   const [entity] = await datastore.get(taskKey);
   const history = entity.history;
 
   if (history.length > 1) {
-    const startOfLastMeetingDate = new Date(history[history.length - 2]);
-    const endOfLastMeetingDate = new Date(history[history.length - 1]);
-    const currentDate = roundDateTo15Min(new Date());
+    const startOfLastMeetingDate = dayjs.tz(dayjs(history[history.length - 2]));
+    const endOfLastMeetingDate = dayjs.tz(dayjs(history[history.length - 1]));
+    const currentDate = dayjs.tz(roundToNearest15Minutes(dayjs()));
+
     return currentDate >= startOfLastMeetingDate && currentDate <= endOfLastMeetingDate;
   }
   else {
@@ -156,24 +148,25 @@ async function getPeopleInjection() {
 
       //calculate hours
       let totalMs = 0;
-      for (let i = 0; i < history.length - 2; i++) {
-        const startDate = new Date(history[i]);
-        const endDate = new Date(history[i + 1]);
-        const diffMs = endDate.getTime() - startDate.getTime();
-        if (diffMs > 24 * 3600000) {
-          console.log(name, "potential error @", i, i + 1);
+      for (let i = 0; i < history.length - 1; i += 2) {
+        if (history[i] !== null && history[i + 1] !== null) {
+          const startDate = dayjs.tz(dayjs(history[i]));
+          const endDate = dayjs.tz(dayjs(history[i + 1]));
+          const diffMs = endDate.valueOf() - startDate.valueOf();
+          if (diffMs > 24 * 3600000) {
+            console.log(name, "potential error @", i, i + 1);
+          }
+          totalMs += diffMs;
         }
-        totalMs += diffMs;
       }
       const hours = totalMs / 3600000;
       
       if (name === "Meeting") {
         //meeting object
-        const startOfLastMeetingDate = new Date(history[history.length - 2]);
-        const endOfLastMeetingDate = new Date(history[history.length - 1]);
-        const startOfLastMeetingTime = toLocaleTimeStringSimple(startOfLastMeetingDate);
-        const endOfLastMeetingTime = toLocaleTimeStringSimple(endOfLastMeetingDate);
-        meeting = { name, hours, title: startOfLastMeetingTime + ' - ' + endOfLastMeetingTime };
+        const startOfLastMeetingDate = dayjs.tz(dayjs(history[history.length - 2]));
+        const endOfLastMeetingDate = dayjs.tz(dayjs(history[history.length - 1]));
+        meeting = { name, hours, 
+          title: startOfLastMeetingDate.format('h:mm A') + ' - ' + endOfLastMeetingDate.format('h:mm A') };
       }
       else {
         //person object
@@ -200,12 +193,12 @@ app.post('/hours/person', async (req, res) => {
       if (entity.history.length > 0 && entity.history[entity.history.length - 1] === null) {
         console.log(req.body.name, "signed out");
         //then signing out
-        entity.history[entity.history.length - 1] = roundDateTo15Min(new Date());
+        entity.history[entity.history.length - 1] = dayjs.tz(roundToNearest15Minutes(dayjs())).format();
       }
       else {
         console.log(req.body.name, "signed in");
         //else signing in
-        entity.history.push(roundDateTo15Min(new Date()));
+        entity.history.push(dayjs.tz(roundToNearest15Minutes(dayjs())).format());
         entity.history.push(null);
       }
   
@@ -226,17 +219,17 @@ app.post('/hours/person', async (req, res) => {
 });
 app.post('/hours/meeting', async (req, res) => {
   try {
-    const startDate = roundDateTo15Min(new Date(req.body.startDate));
-    const endDate = roundDateTo15Min(new Date(req.body.endDate));
+    const startDate = roundToNearest15Minutes(dayjs(req.body.startDate));
+    const endDate = roundToNearest15Minutes(dayjs(req.body.endDate));
 
-    if (isValidDate(startDate) && isValidDate(endDate) && startDate < endDate) {
+    if (startDate.isValid() && endDate.isValid() && startDate < endDate) {
       const taskKey = datastore.key(['person', 'Meeting']);
       const [entity] = await datastore.get(taskKey);
 
-      entity.history.push(startDate);
-      entity.history.push(endDate);
+      entity.history.push(startDate.format());
+      entity.history.push(endDate.format());
 
-      console.log("created new meeting from ", toLocaleTimeStringSimple(startDate), " to ", toLocaleTimeStringSimple(endDate));
+      console.log("created new meeting from ", startDate.format("h:m A"), " to ", endDate.format("h:m A"));
   
       await datastore.update({ key: taskKey, data: entity });
   
@@ -258,6 +251,7 @@ app.post('/hours/meeting', async (req, res) => {
 app.get(Object.keys(pages), async (req, res) => {
   const page = pages[req.path];
   const injection = page[1] ? await page[1]() : {};
+  injection.date = dayjs.tz(dayjs()).format("M/D/YYYY");
   res.render('pages/' + page[0], injection);
 });
 app.get('/_ah/warmup', (req, res) => {

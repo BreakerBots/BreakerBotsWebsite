@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "breakerbots-website",
+  "private_key_id": "168e2e358e29c95c3d39f614e36381d56baa4eae",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC3R3KtkVyvMF4U\nzLTy+G/4YRwnS2lGNE0anR57/saHDbZJybY/B1MQyir819ApphqZPJoMwIPxvld7\npD6NoUgfiD01uGSiWuVIrO5Qr3Izn+hS1feQ0e5AWqohkLLmQR2LeesHOgnbst/D\n/PJufwwhPRRKUDc1rgK6mSxB1Vw22MoKja1zZGazlKemz8q4Fc0w4a82InQdfCdR\nYvDFLDfv2higMbFnCig5Vago4QpwcqkvWb6McRuJw46gbt88AKJBKaHeF5DOC9w2\n+t7Ad+6eA9Gy/Ds+ee2tgeaGmj5P/9dr5BlsDHEycZW7uTm9VlJSLI9XjR1Ucani\nWH3ojNubAgMBAAECggEAApO5G5KrLHVwJTe5pZ7zqBjpde38BXYvzVt/Nbwf239I\nXGI/M0StmNNW5mY8cZF510TAX8SHNmt4PG9TR9eINZVLUwmMNLI1fh+cXDsTToGF\nmUCT8g/Zm0MLGFy5/z3UJgVpVhktUU8DEXTpjb8wkvkSY3ccR59yP2Bu/F/9I3JD\n0IEMNPEwpCcJAbp8Ui+dnYlXKH78p8lbkXZPlLQop7a8oXkpcbQFviU8pt2UWyI/\nZ/jDlYbuyMkCTAgxt3AcF/wLM0BPIlhlH2rH+7h/ZxHUIETHrA74/YQMAaZsNGem\nWzTb72woNz1hEAa8NEpgwSKuPDCXAAwnISz9YL/qGQKBgQDg13wcm14M/08DaWsR\nePCQiN8uOM44tFB0g6EjWlVJEM7EhfBKTjK1fbIPrNtC7FgG0nZK2+raV0lvPUkp\noHB/20vXcGpTIWFChLQDWoWPAI5ruU+hvz2qtmd4vDM4myT2iFXFNvx1Pm63lrIS\n0/S8ww2nEij+8hOVhTJL/h0vAwKBgQDQrXs2jyD/Lrx/xhO6loibw2LZYL5zl0h9\n7m7dYyIejPtl0uqcVbDZDvywfIOQlvdXbsKEI2SxO2ygR15zuwDqZLeKc16Do6Ep\n7k9bmyb73QMqODUFDbXtiuMAAHSs2xgQBGqXW8p+aaLwpSdQTEIKX6I1HvacDd8S\nd4H+3xqRiQKBgEdCpHhgmZ9e74jySVfhT8VPTATXRizcoT88VL7iq3Mb25yXor+6\nJwI0k1G6hEeipoeK/qjdKIMI9SJHdz+1NNKhC1l9rIUqaCvv6SnC79+R2pGzytRF\ny2KmqwauB0HikgV80kpOEheKsQaIwWmMOd31qAcSj2G2EZTrATTqlg9HAoGAWtib\ngmYPNGixUWL3JczxDfaiqwXuA76BpalOhHzq1qgDrhGDZ6n6gpR+t4qNcD340gx7\nDDGoXWwEX0aSvQlVXbWZHeIZ7G8o82s3CydhclaGUTQFCP0uDYrgRhjssm/zas2x\nZdFlN2FfuSn9En0QZxm5MS0YqVl0msKCSmXwWBkCgYEAv4iBKVtuH+fFGt83ymBM\nLbU6wnhIJjsogiASRTxfzTAKyBhEC72ehhEJnH3LKAg4sQhVWlLMt0CarfLSVCRf\nZCpudxKIPf+iliUngGIVrny26cX2KE3RxbH6mYZaowoMjUsl1GfwpY9pb/kkF66H\ntDcYEI8G6oUXvw54zs14Kkk=\n-----END PRIVATE KEY-----\n",
+  "client_email": "datastore-sa@breakerbots-website.iam.gserviceaccount.com",
+  "client_id": "104321091950617296525",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/datastore-sa%40breakerbots-website.iam.gserviceaccount.com"
+}

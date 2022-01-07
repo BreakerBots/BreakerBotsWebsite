@@ -18,7 +18,7 @@
         <img src="/images/icon.png">
         <card-title>Hours Tracker</card-title>
         <card-subtitle>No Active Meeting</card-subtitle>
-        <card-subtitle><%= (new Date()).toLocaleDateString('en-US') %></card-subtitle>
+        <card-subtitle><%= date %></card-subtitle>
         <div class="form-group">
             <label for="startTime">Meeting Start</label>
             <input class="form-control" id="startTime" placeholder="Start Time" type="time" step="900">
@@ -46,6 +46,7 @@
         </table>
     </card>
     <script type="text/javascript" src="/assets/bootstrap.js"></script>
+    <script type="text/javascript" src="/assets/dayjs.js"></script>
     <script type="text/javascript" src="/assets/hours.js"></script>
 </body>
 
