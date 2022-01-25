@@ -43,6 +43,10 @@
                 <td>Ishaan (Total)</td>
                 <td><%= meeting.hours %></td>
             </tr>
+            <tr>
+                <td>2/3 of Total</td>
+                <td> <%= meeting.hours % * 2/3> </td>
+            </tr>
         </table>
     </card>
     <script type="text/javascript" src="/assets/bootstrap.js"></script>
