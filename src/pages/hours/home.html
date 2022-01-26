@@ -40,8 +40,12 @@
             </tr>
             <% } %>
             <tr>
+                <td>2/3 of total</td>
+                <td> <%= meeting.hours * 2/3 %> </td>
+            </tr>
+            <tr>
                 <td>Ishaan (Total)</td>
-                <td><%= meeting.hours %></td>
+                <td> <%= meeting.hours %> </td>
             </tr>
         </table>
     </card>
