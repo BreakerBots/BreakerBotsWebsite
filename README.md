@@ -30,7 +30,7 @@ All file edits will automatically update so all you need to do is refresh your b
 
 - Open up a command prompt in the repo
 - Run `npm start` in the console
-- Navigate to `localhost:8080` in your browser
+- Navigate to `localhost:5104` in your browser
 - Exit with `Ctrl+C` twice in the console
 
 ## Deploying

@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const compression = require('compression');
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 5104;
 const cookieParser = require('cookie-parser');
 const crypto = require('crypto');
 const cookieSecret = crypto.createHash('sha256').update('51O4').digest('hex');
