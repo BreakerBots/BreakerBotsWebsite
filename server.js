@@ -40,7 +40,8 @@ var pages = {
   "/calendar": ["calendar.html"],
   "/hours": ["hours/auth.html"],
   "/hours/home": ["hours/home.html", getPeopleInjection],
-  "/hours/people": ["hours/people.html", getPeopleInjection]
+  "/hours/people": ["hours/people.html", getPeopleInjection],
+  "/thankyou": ["thankyou.html"]
 };
 
 //Hours Auth Middleware
