@@ -1,214 +1,163 @@
-
-
-
 var year = getCurrentYear();
-var teamNum = "5104";
-
-
-
-var sb, testEvent;
-var prevMatchResult = "UNKNOWN";
+var teamNum = "frc5104";
+var activeEventStatusJson;
+var eventProjectionJson;
+var nextMatchJson;
+var prevMatchJson;
 
 const sleep = (milliseconds) => {
-    return new Promise(resolve => setTimeout(resolve, milliseconds))
-}
-
-testEvent = "2022camb";
-
-function getActiveEventName() {
-  var events;
-  events = getJsonFromUrl("https://api.statbotics.io/v1/team_events/team/" + teamNum + "/year/" + year + "?format=json");
-
-  for (var event in events){
-    if (event["status"] === "active") {
-        return event["event_name"];
-    }
-  }
-    return testEvent;
+    return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
 
 function getCurrentYear() {
-  let cur = new Date();
-  return cur.getFullYear().toString();
+    let cur = new Date();
+    return cur.getFullYear().toString();
 }
 
-function getAllTeamMatches() {
-  return getJsonFromUrl("https://api.statbotics.io/v1/team_matches/team/" + teamNum + "/event/" + getActiveEventName() + "?format=json");
+async function updateJSONs() {
+    var events = await getJsonFromURL("https://www.thebluealliance.com/api/v3/team/" + teamNum + "/events/" + year + "/statuses");
+    activeEventStatusJson = events["2022caph"];
+    for (var event in events) {
+        if (events[event].next_match_key != null) {
+            activeEventStatusJson = events[event];
+            nextMatchJson = await getMatchJson(events[event].next_match_key);
+            eventProjectionJson = await getJsonFromURL("https://www.thebluealliance.com/api/v3/event/"+ event +"/predictions");
+            prevMatchJson = await getMatchJson(events[event].prev_match_key);
+        }
+    } 
 }
 
-function getJsonFromUrl(jsonUrl) {
-    var xhttp;
-    if (window.XMLHttpRequest) {
-        xhttp = new XMLHttpRequest();
-    } else {
-        xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+async function getMatchJson(matchKey) {
+    return getJsonFromURL("https://www.thebluealliance.com/api/v3/match/" + matchKey);
+}
+
+async function getJsonFromURL(url) {
+    const res = await fetch(url, {
+      method: "GET",
+      withCredentials: false,
+      headers: {
+        'accept': 'application/json',
+        'X-TBA-Auth-Key': 'TQ79e7hQebH2ZWEoqDsNGQEwmBGi4gReFZAhx8VOEMq6POc7RxJMaFzikrN8URrB'
+      }
+    })
+    const json = await res.json();
+    return json;
+}
+
+function getNextMatchStartTime() {
+    let date = new Date(nextMatchJson.time * 1000);
+    return date.toLocaleTimeString();
+}
+
+function getNextMatchAllianceColor() {
+    for (var key in nextMatchJson.alliances.blue.team_keys) {
+        if (key === teamNum) {
+            return "blue";
+        }
     }
-    xhttp.open("GET", jsonUrl, false);
-    xhttp.send();
-    return JSON.parse(xhttp.responseText);
-}
-
-function getNextMatchName() {
-    matches = getAllTeamMatches();
-  for (let i = 0; i < matches.length; i++) {
-    if (matches[i]["status"] !== "Completed") {
-      return matches[i]["match"];
-    }
-  }
-  return matches[3]['match']
-}
-
-function getPrevMatchName() {
-  matches = getAllTeamMatches();
-  for (let i = 0; i < matches.length; i++) {
-    if (matches[i]["status"] !== "Completed" && i > 0) {
-      return matches[i-1]["match"];
-    }
-  }
-  return matches[2]['match']
-}
-
-function getMatchJson(matchName) {
-  return getJsonFromUrl("https://api.statbotics.io/v1/match/" + matchName + "?format=json");
+    return "red";
 }
 
 function getDispMatchName(json) {
-  if (json["comp_level"] === "qm") {
-    return "Qualification" + " - " + json["match_number"].toString();
-  } else {
-    if (json["comp_level"] === "qf") {
-      return "Quarter Final" + " - " + json["match_number"].toString();
+    if (json.comp_level === "qm") {
+      return "Qualification" + " - " + json.match_number.toString();
     } else {
-      if (json["comp_level"] === "sf") {
-        return "Semi Final" + " - " + json["match_number"].toString();
+      if (json.comp_level === "qf") {
+        return "Quarter Final" + " - " + json.match_number.toString();
       } else {
-        if (json["comp_level"] === "f") {
-          return "Final" + " - " + json["match_number"].toString();
+        if (json.comp_level === "sf") {
+          return "Semi Final" + " - " + json.match_number.toString();
+        } else {
+          if (json.comp_level === "f") {
+            return "Final" + " - " + json.match_number.toString();
+          }
         }
       }
     }
-  }
 }
 
-function getMatchOutcome(matchJsonFile, yourAlliance) {
-  var prob;
-  prob = matchJsonFile["mix_win_prob"];
-  prob *= 100;
-
-  if (matchJsonFile["mix_winner"] === yourAlliance && prob >= 35.0) {
-    return "Win - " + prob.toString() + "%";
-  } else {
-    if (matchJsonFile["mix_winner"] !== yourAlliance && prob >= 35.0) {
-      return "Loss - " + prob.toString() + "%";
-    } else {
-      return "Inconclisive: (" + matchJsonFile["mix_winner"] + " - " + prob.toString() + "%)";
+function getFormatedNextMatchTeamNums(ally) {
+    var teamStrs = [];
+    
+    for (let i = 0; i < nextMatchJson.alliances[ally].team_keys.length; i++ ) {
+        teamStrs[i] = " " + nextMatchJson.alliances[ally].team_keys[i].slice(3);
     }
-  }
+    return teamStrs;
 }
 
-function getNextMatchStringForPrint(matchJson) {
-  matchJson = matchJson[0];
-  var ally, next;
-  ally = getJsonFromUrl("https://api.statbotics.io/v1/team_match/team/" + teamNum + "/match/" + matchJson["key"] + "?format=json")[0]["alliance"];
-  console.log(getJsonFromUrl("https://api.statbotics.io/v1/team_match/team/" + teamNum + "/match/" + matchJson["key"] + "?format=json"));
-  next = "\n\n======================================================================================================\n\n";
-  next += "MATCH: " + getDispMatchName(matchJson) + "\n";
-  next += "ALLIANCE: " + ally + "\n";
-  next += "PROJECTED OUTCOME: " + getMatchOutcome(matchJson, ally) + "\n";
-  next += "OUR TEAMS: " + matchJson[ally] + "\n";
-  next += "OPPOSING TEAMS: " + matchJson[ally === "blue" ? "red" : "blue"] + "\n";
-  next += "START TIME: " + getMatchStartTime(matchJson);
-  next += "\n\n======================================================================================================\n\n";
-  return next;
+function getNextMatchProjectedOutcome() {
+    var sub = eventProjectionJson["match_predictions"];
+    var curLvl = sub[nextMatchJson.comp_level === "qm" ? "qual" : 'playoff'];
+    var matchPred = curLvl[nextMatchJson.key].winning_alliance;
+    var ourScore = Math.round(curLvl[nextMatchJson.key][getNextMatchAllianceColor()].score);
+    var oppScore =  Math.round(curLvl[nextMatchJson.key][getNextMatchAllianceColor() === "blue" ? "red" : "blue"].score);
+    return (matchPred === getNextMatchAllianceColor() ? "Win" : "Loss") + " (" + ourScore + " to " + oppScore + ")";
 }
 
-function getMatchStartTime(matchJson) {
-  let date = new Date(matchJson["time"] * 1000)
-  return date.toLocaleTimeString();
+function getNextMatchStringForHTML() {
+    var str = "";
+    str += "MATCH: " + getDispMatchName(nextMatchJson) + "<br>";
+    str += "ALLIANCE: " + getNextMatchAllianceColor() + "<br>";
+    str += "PROJECTED OUTCOME: " + getNextMatchProjectedOutcome() + "<br>";
+    str += "OUR TEAMS: " + getFormatedNextMatchTeamNums(getNextMatchAllianceColor()) + "<br>";
+    str += "OPPOSING TEAMS: " + getFormatedNextMatchTeamNums(getNextMatchAllianceColor() === "blue" ? "red" : "blue") + "<br><br>";
+    return str;
 }
 
-function getNextMatchStringForHTML(matchJson) {
-    matchJson = matchJson[0];
-  var ally, next;
-  console.log(matchJson)
-  ally = getJsonFromUrl("https://api.statbotics.io/v1/team_match/team/" + teamNum + "/match/" + matchJson["key"] + "?format=json")[0]["alliance"];
-  next = "=====================================<br><br>";
-  next += "MATCH: " + getDispMatchName(matchJson) + "<br>";
-  next += "ALLIANCE: " + ally + "<br>";
-  next += "PROJECTED OUTCOME: " + getMatchOutcome(matchJson, ally) + "<br>";
-  next += "OUR TEAMS: " + matchJson[ally] + "<br>";
-  next += "OPPOSING TEAMS: " + matchJson[((ally === "blue")? "red" : "blue")] + "<br><br>";
-  return next;
-}
-
-window.onload = init;
-  function init(){
-    windowUpdate()
-    windowUpdateLoop();
-    updateCurrentTime();
-    currentTimeUpdateLoop();
-    calcPrevMatchWinLoss(getMatchJson(getPrevMatchName()));
-  }
-
-  async function windowUpdateLoop() {
-    while (true) {
-        await sleep(60000);
-        windowUpdate();
-        calcPrevMatchWinLoss(getMatchJson(getPrevMatchName()))
-    }
-  }
-
- function windowUpdate() {
-  console.log("DATA UPDATED: ");
-  document.getElementById("nextMatchStr").innerHTML = getNextMatchStringForHTML(getMatchJson(getNextMatchName()));
-  document.getElementById("matchStartTime").innerHTML = "START TIME: " + getMatchStartTime(getMatchJson(getNextMatchName())[0]);
-  document.getElementById("matchStartTime").style.color =  getJsonFromUrl("https://api.statbotics.io/v1/team_match/team/" + teamNum + "/match/" + getMatchJson(getNextMatchName())[0]["key"] + "?format=json")[0]["alliance"];
-  console.log(getNextMatchStringForPrint(getMatchJson(getNextMatchName())));
-  let current = new Date();
-  let timeStamp = 'Last updated: ' + current.toLocaleString();
-  document.getElementById("updateTimestamp").innerHTML = timeStamp;
-  console.log(timeStamp);
- }
-
- async function currentTimeUpdateLoop() {
-  while (true) {
-    await sleep(1000)
-    updateCurrentTime();
-  }
-}
-
-function updateCurrentTime() {
-  let current = new Date();
-  document.getElementById("currentTime").innerHTML = "(Current Time: " + current.toLocaleTimeString() + ")    (Previous Match Result: " + getPrevMatchWinLoss() +")";
+function updateDoc() {
+    document.getElementById("nextMatchStr").innerHTML = getNextMatchStringForHTML();
+    document.getElementById("matchStartTime").innerHTML = "START TIME: " + getNextMatchStartTime();
+    document.getElementById("matchStartTime").style.color = getNextMatchAllianceColor();
+    let current = new Date();
+    let timeStamp = 'Last updated: ' + current.toLocaleString();
+    document.getElementById("updateTimestamp").innerHTML = timeStamp;
 }
 
 function getPrevMatchWinLoss() {
-  return prevMatchResult
+    if (activeEventStatusJson.prev_match_key != null) {
+        var ally = "red";
+        for (var key in prevMatchJson.alliances.blue.team_keys) {
+            if (key === teamNum) {
+                ally = "blue";
+            }
+        }
+        ourPts = prevMatchJson.alliances[ally].totalPoints;
+        oppPts = prevMatchJson.alliances[ally === "blue" ? "red" : "blue"].totalPoints;
+        return (prevMatchJson.winning_alliance === ally ? "Win" : "Loss") + " | " + ourPts + " to " + oppPts + ")";
+    }
+        return "N/A";
 }
 
-function getMatchScores(ally, json) {
-  let ourScore = json[ally + "_score"];
-  let oppScore = json[((ally === "blue")? "red" : "blue") + "_score"];
-  return ourScore + " to " + oppScore;
+function updateCurrentTime() {
+    let pmr = getPrevMatchWinLoss();
+    let current = new Date();
+    document.getElementById("currentTime").innerHTML = "(Current Time: " + current.toLocaleTimeString() + ")    (Previous Match Result: " + pmr + ")";
 }
 
 
-function calcPrevMatchWinLoss(json) {
-  json = json[0];
-  let ally = getJsonFromUrl("https://api.statbotics.io/v1/team_match/team/" + teamNum + "/match/" + json["key"] + "?format=json")[0]["alliance"];
-  if (json["winner"] === ally) {
-    prevMatchResult = "WIN | " + getMatchScores(ally, json);
-  } else {
-    prevMatchResult = "LOSS | " + getMatchScores(ally, json);
+
+
+
+window.onload = init;
+  async function init(){
+    await updateJSONs();
+    updateDoc();
+    updateCurrentTime();
+    fastUpdateLoop();
+    slowUpdateLoop();
   }
-}
 
-async function calcPrevMatchWinLossLoop() {
-  while (true) {
-    await sleep(60000)
-    calcPrevMatchWinLoss(getMatchJson(getPrevMatchName()))
+  async function fastUpdateLoop() {
+    while(true) {
+        await sleep(250);
+        updateCurrentTime();
+    }
   }
-}
 
-
-
+  async function slowUpdateLoop() {
+    while (true) {
+        await sleep(60000);
+        await updateJSONs();
+        updateDoc();
+    }
+  }
