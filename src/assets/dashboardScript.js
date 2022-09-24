@@ -22,7 +22,7 @@ async function updateJSONs() {
             activeEventStatusJson = events[event];
             nextMatchJson = await getMatchJson(events[event].next_match_key);
             eventProjectionJson = await getJsonFromURL("https://www.thebluealliance.com/api/v3/event/"+ event +"/predictions");
-            prevMatchJson = await getMatchJson(events[event].prev_match_key);
+            prevMatchJson = await getMatchJson(events[event].last_match_key);
         }
     } 
 }
