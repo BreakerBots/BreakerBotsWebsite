@@ -114,7 +114,7 @@ function updateDoc() {
 }
 
 function getPrevMatchWinLoss() {
-    if (activeEventStatusJson.prev_match_key != null) {
+    if (activeEventStatusJson.next_match_key != null) {
         var ally = "red";
         for (var key in prevMatchJson.alliances.blue.team_keys) {
             if (key === teamNum) {
