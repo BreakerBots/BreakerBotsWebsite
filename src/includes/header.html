@@ -16,7 +16,10 @@
             <li class="nav-item active"><a class="nav-link" href="/calendar">Calendar</a></li>
         </ul>
     </div>
-    <ul>
-        <button class="btn" type="button" onclick="document.body.classList.toggle('dark')" > <img class="icon" src="images/home/logo-dark-mode.png"> </button>
-    </ul>
 </nav>
+<script>
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {document.body.classList.toggle('dark');});
+</script>
