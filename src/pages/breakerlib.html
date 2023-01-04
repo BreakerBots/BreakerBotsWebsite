@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>BreakerBots - BreakerLib</title>
+    <%- include('../includes/head.html') %>
+
+    <style>
+        .software {
+            margin: 40px 4% 60px 4%;
+            justify-content: center;
+            min-height: calc(100vh - 346px);
+        }
+
+        h1,
+        h2 {
+            text-align: center;
+            color:  #666
+        }
+
+        b,
+        h3 {
+            color: #666;
+        }
+
+        .opening {
+            margin: 2%;
+            text-align: center
+        }
+
+        .event-pic {
+            max-height: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('../includes/header.html') %>
+
+    <div class="software">
+        <div style="padding-bottom: 25px;">
+            <h2 class="display-1 font-weight-normal">BreakerLib</h2>
+        </div>
+      
+        <hr class="featurette-divider">
+        <h1 class="featurette-heading">About The Library</h1>
+        <div class="opening">
+            <p class="lead"> BreakerLib is a large, Java based, FRC robot programming library that strives to nearly eliminate 
+                the repetitive work that programming an FRC robot entails while adding an easy-to-use ecosystem of deeply integrated 
+                quality-of-life features. BreakerLib works by reducing often reused robot features (drivetrain code, shooter code,
+                self-test functionality, power management, autonomous, etc.) to little more than apple style “it just works” setup code,
+                letting your team focus on the important code that is unique to that year’s challenge. </p>
+        </div>
+        <hr class="featurette-divider">
+        <h1 class="featurette-heading">Feature Highlights</h1>
+        <div class="row featurette">
+            <div class="row event" style="width: 100%;">
+                <div class="col-lg-6">
+                    <h2>Swerve And Differential Drive Support<br></h2>
+                    <p style="text-align: center;">filler</p>
+                </div>
+                <div class="col-lg-6">
+                    <h2>Self Test and Troubleshooting </h2>
+                    <p style="text-align: center;">filler</p>
+                </div>
+            </div>
+        </div>
+        <div class="row featurette">
+            <div class="row event" style="width: 100%;">
+                <div class="col-lg-6">
+                    <h2>Autonomous<br></h2>
+                    <p style="text-align: center;">filler</p>
+                </div>
+                <div class="col-lg-6">
+                    <h2>Extensive Toolkit</h2>
+                    <p style="text-align: center;">filler</p>
+                </div>
+            </div>
+        </div>
+        <hr class="featurette-divider">
+        <h1 class="featurette-heading">Hardware Support</h1>
+        <div class="opening">
+            <p class="lead"> BreakerLib strives to support as many different components as possible, including full 
+                and parodied support for both the SPARK and Talon motor controller ecosystems, support for various IMU's, 
+                LED controllers, and more. Furthermore, devices that are not natively supported by BreakerLib can be easily
+                integrated through BreakerLib’s host of comprehensive hardware interfaces. </p>
+        </div>
+    </div>
+
+    <%- include('../includes/footer.html') %>
+</body>
+
+</html>
