@@ -13,7 +13,7 @@ const datastore = isRunningOnGoogle ? new Datastore() : new Datastore({
   projectId: 'breakerbots-website',
   keyFilename: './datastore.json'
 });
-const hoursPasswordHash = 'd45ed65b1ce6e44628310f71e9356fdedffb12c2bcd7658a0186284f073a3786';
+const hoursPasswordHash = '9fb9297d179a9e2341c9562f94e88b76d6a3c45fdb3a0cbaca832a22aa99b7b2';
 const dayjs = require('dayjs');
 dayjs.extend(require('dayjs/plugin/utc'));
 dayjs.extend(require('dayjs/plugin/timezone'));
