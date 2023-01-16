@@ -38,11 +38,12 @@ var pages = {
   "/sponsor": ["sponsor.html"],
   "/contact": ["contact.html"],
   "/calendar": ["calendar.html"],
+  "/breakerlib": ["breakerlib.html"],
   "/hours": ["hours/auth.html"],
   "/hours/home": ["hours/home.html", getPeopleInjection],
   "/hours/people": ["hours/people.html", getPeopleInjection],
   "/thankyou": ["thankyou.html"],
-  "/dashboard": ["dashboard.html"]
+  "/dashboard": ["dashboard.html"],
 };
 
 //Hours Auth Middleware
