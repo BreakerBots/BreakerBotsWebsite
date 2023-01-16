@@ -43,6 +43,7 @@ var pages = {
   "/hours/people": ["hours/people.html", getPeopleInjection],
   "/thankyou": ["thankyou.html"],
   "/dashboard": ["dashboard.html"],
+  "/weeklyupdates": ["weeklyupdates.html"]
 };
 
 //Hours Auth Middleware
