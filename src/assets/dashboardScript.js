@@ -16,7 +16,7 @@ function getCurrentYear() {
 
 async function updateJSONs() {
     var events = await getJsonFromURL("https://www.thebluealliance.com/api/v3/team/" + teamNum + "/events/" + year + "/statuses");
-    activeEventStatusJson = events["2022caph"];
+    activeEventStatusJson = events["2023camb"];
     for (var event in events) {
         if (events[event].next_match_key != null) {
             activeEventStatusJson = events[event];
