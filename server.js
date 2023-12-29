@@ -207,9 +207,9 @@ app.post('/hours/person', async (req, res) => {
         const endOfLastMeetingDate = dayjs.tz(dayjs(meetingEntity.history[meetingEntity.history - 1]));
         const startOfLastMeetingDate = dayjs.tz(dayjs(meetingEntity.history[meetingEntity.history - 2]));
         const startOfPersonShift = dayjs.tz(dayjs(entity.history[meetingEntity.history - 2]));
-        const currentDate = dayjs.tz(roundToNearest15Minutes(dayjs()));
+        const currentDate = dayjs.tz(dayjs());
 
-        if (((currentDate.unix - endOfLastMeetingDate.unix) < 15*60) || (startOfLastMeetingDate.unix <= startOfPersonShift.unix)) {
+        if (((currentDate.unix - endOfLastMeetingDate.unix) < 15*60) && (startOfLastMeetingDate.unix <= startOfPersonShift.unix)) {
           entity.history[entity.history.length - 1] = dayjs.tz(roundToNearest15Minutes(dayjs())).format();
         } else {
           entity.history[entity.history.length - 1] = entity.history[entity.history.length - 2];
