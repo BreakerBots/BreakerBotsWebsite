@@ -206,7 +206,7 @@ app.post('/hours/person', async (req, res) => {
         const [meetingEntity] = await datastore.get(taskKey);
         const endOfLastMeetingDate = dayjs.tz(dayjs(meetingEntity.history[meetingEntity.history - 1]));
         const startOfLastMeetingDate = dayjs.tz(dayjs(meetingEntity.history[meetingEntity.history - 2]));
-        const startOfPersonShift = dayjs.tz(dayjs(entity.history[meetingEntity.history - 2]));
+        const startOfPersonShift = dayjs.tz(dayjs(entity.history[entity.history - 2]));
         const currentDate = dayjs.tz(dayjs());
 
         if (((currentDate.unix - endOfLastMeetingDate.unix) < 15*60) && (startOfLastMeetingDate.unix <= startOfPersonShift.unix)) {
