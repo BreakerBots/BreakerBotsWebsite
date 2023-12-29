@@ -6,12 +6,6 @@ async function postMeeting(startTimeElement, endTimeElement) {
   let startTime = startTimeElement.value;
   let endTime = endTimeElement.value;
 
-  // if (!startTimeElement.checkValidity() || !endTimeElement.checkValidity()/* ||
-  //    startTime.length < 1 || endTime.length < 1*/) {
-  //   alert("Please enter a valid start and end time.");
-  //   return;
-  // }
-
   startTime = startTime.split(/:| /);
   endTime = endTime.split(/:| /);
   const startTimeHours = Number(startTime[0]) + (startTime[2] === "PM" ? 12 : 0);
