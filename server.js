@@ -151,6 +151,8 @@ async function getPeopleInjection() {
       const history = person.history;
       const name = person[datastore.KEY].name;
 
+
+
       //calculate hours
       let totalMs = 0;
       for (let i = 0; i < history.length - 1; i += 2) {
@@ -203,9 +205,11 @@ app.post('/hours/person', async (req, res) => {
         const taskKey = datastore.key(['person', 'Meeting']);
         const [meetingEntity] = await datastore.get(taskKey);
         const endOfLastMeetingDate = dayjs.tz(dayjs(meetingEntity.history[meetingEntity.history - 1]));
+        const startOfLastMeetingDate = dayjs.tz(dayjs(meetingEntity.history[meetingEntity.history - 2]));
+        const startOfPersonShift = dayjs.tz(dayjs(entity.history[meetingEntity.history - 2]));
         const currentDate = dayjs.tz(roundToNearest15Minutes(dayjs()));
 
-        if ((currentDate.unix - endOfLastMeetingDate.unix) < 15*60) {
+        if (((currentDate.unix - endOfLastMeetingDate.unix) < 15*60) || (startOfLastMeetingDate.unix <= startOfPersonShift.unix)) {
           entity.history[entity.history.length - 1] = dayjs.tz(roundToNearest15Minutes(dayjs())).format();
         } else {
           entity.history[entity.history.length - 1] = entity.history[entity.history.length - 2];
