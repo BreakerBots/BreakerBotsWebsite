@@ -6,11 +6,11 @@ async function postMeeting(startTimeElement, endTimeElement) {
   let startTime = startTimeElement.value;
   let endTime = endTimeElement.value;
 
-  if (!startTimeElement.checkValidity() || !endTimeElement.checkValidity()/* ||
-     startTime.length < 1 || endTime.length < 1*/) {
-    alert("Please enter a valid start and end time.");
-    return;
-  }
+  // if (!startTimeElement.checkValidity() || !endTimeElement.checkValidity()/* ||
+  //    startTime.length < 1 || endTime.length < 1*/) {
+  //   alert("Please enter a valid start and end time.");
+  //   return;
+  // }
 
   startTime = startTime.split(/:| /);
   endTime = endTime.split(/:| /);
