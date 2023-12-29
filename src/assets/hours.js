@@ -6,8 +6,8 @@ async function postMeeting(startTimeElement, endTimeElement) {
   let startTime = startTimeElement.value;
   let endTime = endTimeElement.value;
 
-  if (!startTimeElement.checkValidity() || !endTimeElement.checkValidity() ||
-    startTime.length < 1 || endTime.length < 1) {
+  if (!startTimeElement.checkValidity() || !endTimeElement.checkValidity()/* ||
+     startTime.length < 1 || endTime.length < 1*/) {
     alert("Please enter a valid start and end time.");
     return;
   }
