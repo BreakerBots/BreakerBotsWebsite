@@ -198,7 +198,7 @@ app.post('/hours/person', async (req, res) => {
   
       //if signed in
       if (entity.history.length > 0 && entity.history[entity.history.length - 1] === null) {
-        console.log(req.body.name, "signed out");
+        
         //then signing out
 
         //get last meeting info
@@ -216,8 +216,10 @@ app.post('/hours/person', async (req, res) => {
         console.log("startPS: " + startOfPersonShift.unix());
         if (((currentDate.unix() - endOfLastMeetingDate.unix()) < 15*60) && (startOfLastMeetingDate.unix() <= startOfPersonShift.unix())) {
           entity.history[entity.history.length - 1] = dayjs.tz(roundToNearest15Minutes(dayjs())).format();
+          console.log(req.body.name, "signed out successfully");
         } else {
           entity.history[entity.history.length - 1] = entity.history[entity.history.length - 2];
+          console.log(req.body.name, "signed out | time voided due to overrun");
         }
         
       }
