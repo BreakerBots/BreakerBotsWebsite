@@ -202,8 +202,8 @@ app.post('/hours/person', async (req, res) => {
         //then signing out
 
         //get last meeting info
-        const taskKey = datastore.key(['person', 'Meeting']);
-        const [meetingEntity] = await datastore.get(taskKey);
+        const meetingTaskKey = datastore.key(['person', 'Meeting']);
+        const [meetingEntity] = await datastore.get(meetingTaskKey);
         const endOfLastMeetingDate = dayjs.tz(dayjs(meetingEntity.history[meetingEntity.history - 1]));
         const startOfLastMeetingDate = dayjs.tz(dayjs(meetingEntity.history[meetingEntity.history - 2]));
         const startOfPersonShift = dayjs.tz(dayjs(entity.history[entity.history - 2]));
