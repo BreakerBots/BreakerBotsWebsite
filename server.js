@@ -155,6 +155,7 @@ async function getPeopleInjection() {
 
       //calculate hours
       let totalMs = 0;
+      let errorFlag = false;
       for (let i = 0; i < history.length - 1; i += 2) {
         if (history[i] !== null && history[i + 1] !== null) {
           const startDate = dayjs.tz(dayjs(history[i]));
@@ -162,6 +163,7 @@ async function getPeopleInjection() {
           const diffMs = endDate.valueOf() - startDate.valueOf();
           if (diffMs > 24 * 3600000) {
             console.log(name, "potential error @", i, i + 1);
+            errorFlag = true;
           }
           totalMs += diffMs;
         }
@@ -172,12 +174,14 @@ async function getPeopleInjection() {
         //meeting object
         const startOfLastMeetingDate = dayjs.tz(dayjs(history[history.length - 2]));
         const endOfLastMeetingDate = dayjs.tz(dayjs(history[history.length - 1]));
+
         meeting = { name, hours, 
           title: startOfLastMeetingDate.format('h:mm A') + ' - ' + endOfLastMeetingDate.format('h:mm A') };
       }
       else {
+        let displayHours = hours + (errorFlag ? "*" : "");
         //person object
-        people.push({ name, hours, signedIn: history.length > 0 && history[history.length - 1] === null });
+        people.push({ name, displayHours, signedIn: history.length > 0 && history[history.length - 1] === null });
       }
     }
 
