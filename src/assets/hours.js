@@ -2,7 +2,7 @@ function signIn(password) {
   window.location.search = "password=" + password;
 }
 
-async function postMeeting(startTimeElement, endTimeElement, isMakeupMeeting) {
+async function postMeeting(startTimeElement, endTimeElement, isOptionalMeeting) {
   let startTime = startTimeElement.value;
   let endTime = endTimeElement.value;
 
@@ -30,7 +30,7 @@ async function postMeeting(startTimeElement, endTimeElement, isMakeupMeeting) {
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
     //date rounding occurs server-side
-    body: JSON.stringify({ startDate: startDate.format(), endDate: endDate.format(), isMakeupMeeting})
+    body: JSON.stringify({ startDate: startDate.format(), endDate: endDate.format(), isOptionalMeeting})
   });
   const data = await res.json();
   if (data.success) {

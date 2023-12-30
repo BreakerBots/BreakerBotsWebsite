@@ -190,7 +190,7 @@ async function getPeopleInjection() {
             console.log(name, "potential error @", i, i + 1);
             errorFlag = true;
           }
-          if (!(isMeeting && person.is_makeup[i] && person.is_makeup[i+1])) {
+          if (!(isMeeting && person.is_optional[i] && person.is_optional[i+1])) {
             totalMs += diffMs;
           }
         }
@@ -207,8 +207,8 @@ async function getPeopleInjection() {
         const startOfLastMeetingDate = dayjs.tz(dayjs(history[history.length - 2]));
         const endOfLastMeetingDate = dayjs.tz(dayjs(history[history.length - 1]));
         let meetingTitle = startOfLastMeetingDate.format('h:mm A') + ' - ' + endOfLastMeetingDate.format('h:mm A');
-        if (person.is_makeup[person.is_makeup.length - 1] && person.is_makeup[person.is_makeup.length - 2]) {
-          meetingTitle += " Makeup"
+        if (person.is_optional[person.is_optional.length - 1] && person.is_optional[person.is_optional.length - 2]) {
+          meetingTitle += " Optional"
         }
 
         meeting = { name, hours, 
@@ -289,7 +289,7 @@ app.post('/hours/meeting', async (req, res) => {
   try {
     const startDate = roundToNearest15Minutes(dayjs(req.body.startDate));
     const endDate = roundToNearest15Minutes(dayjs(req.body.endDate));
-    const isMakeupMeeting = req.body.isMakeupMeeting;
+    const isOptionalMeeting = req.body.isOptionalMeeting;
 
 
     if (startDate.isValid() && endDate.isValid() && startDate < endDate) {
@@ -298,8 +298,8 @@ app.post('/hours/meeting', async (req, res) => {
 
       entity.history.push(startDate.format());
       entity.history.push(endDate.format());
-      entity.is_makeup.push(isMakeupMeeting);
-      entity.is_makeup.push(isMakeupMeeting);
+      entity.is_optional.push(isOptionalMeeting);
+      entity.is_optional.push(isOptionalMeeting);
 
       console.log("created new meeting from ", startDate.format("h:m A"), " to ", endDate.format("h:m A"));
   
