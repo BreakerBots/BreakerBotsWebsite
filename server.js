@@ -135,6 +135,22 @@ async function inMeeting() {
   }
 }
 
+clearHours();
+async function clearHours() {
+    try {
+      const query = datastore.createQuery('person');
+      const [result] = await datastore.runQuery(query);
+      console.log("!! CLEARING ALL HOURS DATA !!")
+      for (const person of result) {
+        console.log("cleared all "+person.history.length+" entries in " + person[datastore.KEY].name)
+        person.history.clear();
+      }
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ success: false, error: err });
+    }
+}
+
 //Hours People Injection
 async function getPeopleInjection() {
   try {
