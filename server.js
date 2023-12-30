@@ -200,7 +200,7 @@ app.post('/hours/person', async (req, res) => {
       if (entity.history.length > 0 && entity.history[entity.history.length - 1] === null) {
         
         //then signing out
-
+        console.log(req.body.name, "signing out");
         //get last meeting info
         const meetingTaskKey = datastore.key(['person', 'Meeting']);
         const [meetingEntity] = await datastore.get(meetingTaskKey);
@@ -210,10 +210,10 @@ app.post('/hours/person', async (req, res) => {
         const currentDate = dayjs.tz(dayjs());
 
 
-        console.log("CurDate: " + currentDate.format());
-        console.log("endLM: " + endOfLastMeetingDate.format());
-        console.log("startLM: " + startOfLastMeetingDate.format());
-        console.log("startPS: " + startOfPersonShift.format());
+        console.log("current date: " + currentDate.format());
+        console.log("end of last meeting: " + endOfLastMeetingDate.format());
+        console.log("start of last meeting: " + startOfLastMeetingDate.format());
+        console.log("start of person's shift: " + startOfPersonShift.format());
         if (((currentDate.diff(endOfLastMeetingDate)) < 15*60) && !(startOfLastMeetingDate.isAfter(startOfPersonShift))) {
           entity.history[entity.history.length - 1] = dayjs.tz(roundToNearest15Minutes(dayjs())).format();
           console.log(req.body.name, "signed out successfully");
