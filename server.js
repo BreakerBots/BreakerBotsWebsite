@@ -135,7 +135,7 @@ async function inMeeting() {
   }
 }
 
-// clearHours();  
+// // clearHours();  
 // async function clearHours() {
 //     try {
 //       const query = datastore.createQuery('person');
@@ -143,15 +143,14 @@ async function inMeeting() {
 //       console.log("!! CLEARING ALL HOURS DATA !!")
 //       for (const person of result) {
 //         let successStr = "cleared all "+person.history.length+" entries in " + person[datastore.KEY].name;
-//         while (person.history.length > 0) {
-//           person.history.pop();
-//         }
-//         if (person.history.length > 0) {
-//           console.log("failed to clear all entries in " + person[datastore.KEY].name + " | remaining entries: " + person.history.length)
-//         } else {
-//           console.log(successStr);
-//         }
+//         person.history = [];
+
+//         await datastore.update({ key: person., data: person});
+  
+     
 //       }
+//       res.status(200).json({ success: true });
+//       return;
 //     } catch (err) {
 //       console.error(err);
 //       res.status(500).json({ success: false, error: err });
@@ -179,21 +178,25 @@ async function getPeopleInjection() {
       //calculate hours
       let totalMs = 0;
       let errorFlag = false;
+      const isMeeting = name === "Meeting";
       for (let i = 0; i < history.length - 1; i += 2) {
         if (history[i] !== null && history[i + 1] !== null) {
           const startDate = dayjs.tz(dayjs(history[i]));
           const endDate = dayjs.tz(dayjs(history[i + 1]));
           const diffMs = endDate.valueOf() - startDate.valueOf();
+
           if (diffMs > 24 * 3600000) {
             console.log(name, "potential error @", i, i + 1);
             errorFlag = true;
           }
-          totalMs += diffMs;
+          if (!(isMeeting && person.makeup[i] && person.makeup[i+1])) {
+            totalMs += diffMs;
+          }
         }
       }
       const hours = totalMs / 3600000;
       
-      if (name === "Meeting") {
+      if (isMeeting) {
         //meeting object
         const startOfLastMeetingDate = dayjs.tz(dayjs(history[history.length - 2]));
         const endOfLastMeetingDate = dayjs.tz(dayjs(history[history.length - 1]));
@@ -276,6 +279,8 @@ app.post('/hours/meeting', async (req, res) => {
   try {
     const startDate = roundToNearest15Minutes(dayjs(req.body.startDate));
     const endDate = roundToNearest15Minutes(dayjs(req.body.endDate));
+    const isMakeupMeeting = req.body.isMakeupMeeting;
+
 
     if (startDate.isValid() && endDate.isValid() && startDate < endDate) {
       const taskKey = datastore.key(['person', 'Meeting']);
@@ -283,6 +288,7 @@ app.post('/hours/meeting', async (req, res) => {
 
       entity.history.push(startDate.format());
       entity.history.push(endDate.format());
+      entity.makeup.push(isMakeupMeeting);
 
       console.log("created new meeting from ", startDate.format("h:m A"), " to ", endDate.format("h:m A"));
   

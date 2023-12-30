@@ -27,7 +27,8 @@
             <label for="endTime">Meeting End</label>
             <input class="form-control" id="endTime" placeholder="End Time" type="time" step="900">
         </div>
-        <button class="btn btn-primary" onclick="postMeeting(document.querySelector('#startTime'), document.querySelector('#endTime'))" type="button">Start Meeting</button>
+        <button class="btn btn-primary" onclick="postMeeting(document.querySelector('#startTime'), document.querySelector('#endTime'), false)" type="button">Start Meeting</button>
+        <button class="btn btn-primary" onclick="postMeeting(document.querySelector('#startTime'), document.querySelector('#endTime'), true)" type="button">Start Makeup Meeting</button>
         <table class="people-table">
             <tr>
                 <th>Name</th>
