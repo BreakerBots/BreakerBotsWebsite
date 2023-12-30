@@ -135,28 +135,28 @@ async function inMeeting() {
   }
 }
 
-clearHours();  
-async function clearHours() {
-    try {
-      const query = datastore.createQuery('person');
-      const [result] = await datastore.runQuery(query);
-      console.log("!! CLEARING ALL HOURS DATA !!")
-      for (const person of result) {
-        let successStr = "cleared all "+person.history.length+" entries in " + person[datastore.KEY].name;
-        while (person.history.length > 0) {
-          person.history.pop();
-        }
-        if (person.history.length > 0) {
-          console.log("failed to clear all entries in " + person[datastore.KEY].name + " | remaining entries: " + person.history.length)
-        } else {
-          console.log(successStr);
-        }
-      }
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ success: false, error: err });
-    }
-}
+// clearHours();  
+// async function clearHours() {
+//     try {
+//       const query = datastore.createQuery('person');
+//       const [result] = await datastore.runQuery(query);
+//       console.log("!! CLEARING ALL HOURS DATA !!")
+//       for (const person of result) {
+//         let successStr = "cleared all "+person.history.length+" entries in " + person[datastore.KEY].name;
+//         while (person.history.length > 0) {
+//           person.history.pop();
+//         }
+//         if (person.history.length > 0) {
+//           console.log("failed to clear all entries in " + person[datastore.KEY].name + " | remaining entries: " + person.history.length)
+//         } else {
+//           console.log(successStr);
+//         }
+//       }
+//     } catch (err) {
+//       console.error(err);
+//       res.status(500).json({ success: false, error: err });
+//     }
+// }
 
 //Hours People Injection
 async function getPeopleInjection() {
