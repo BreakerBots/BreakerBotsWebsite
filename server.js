@@ -135,7 +135,7 @@ async function inMeeting() {
   }
 }
 
-clearHours();
+clearHours();  
 async function clearHours() {
     try {
       const query = datastore.createQuery('person');
