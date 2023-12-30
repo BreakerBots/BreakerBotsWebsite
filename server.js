@@ -143,7 +143,7 @@ async function clearHours() {
       console.log("!! CLEARING ALL HOURS DATA !!")
       for (const person of result) {
         console.log("cleared all "+person.history.length+" entries in " + person[datastore.KEY].name)
-        person.history.clear();
+        person.history.length = 0;
       }
     } catch (err) {
       console.error(err);
