@@ -214,7 +214,7 @@ app.post('/hours/person', async (req, res) => {
         console.log("endLM: " + endOfLastMeetingDate.format());
         console.log("startLM: " + startOfLastMeetingDate.format());
         console.log("startPS: " + startOfPersonShift.format());
-        if (((currentDate.diff(endOfLastMeetingDate)) < 15*60) && !(startOfLastMeetingDate.isAfter(startOfPersonShift.unix()))) {
+        if (((currentDate.diff(endOfLastMeetingDate)) < 15*60) && !(startOfLastMeetingDate.isAfter(startOfPersonShift))) {
           entity.history[entity.history.length - 1] = dayjs.tz(roundToNearest15Minutes(dayjs())).format();
           console.log(req.body.name, "signed out successfully");
         } else {
