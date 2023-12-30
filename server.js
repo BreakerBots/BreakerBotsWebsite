@@ -208,7 +208,7 @@ async function getPeopleInjection() {
         const endOfLastMeetingDate = dayjs.tz(dayjs(history[history.length - 1]));
         let meetingTitle = startOfLastMeetingDate.format('h:mm A') + ' - ' + endOfLastMeetingDate.format('h:mm A');
         if (person.is_makeup[person.is_makeup.length - 1] && person.is_makeup[person.is_makeup.length - 2]) {
-          meetingTitle += " | (MAKEUP)"
+          meetingTitle += " Makeup"
         }
 
         meeting = { name, hours, 
