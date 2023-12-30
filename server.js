@@ -214,7 +214,7 @@ app.post('/hours/person', async (req, res) => {
         console.log("endLM: " + endOfLastMeetingDate.unix());
         console.log("startLM: " + startOfLastMeetingDate.unix());
         console.log("startPS: " + startOfPersonShift.unix());
-        if (((currentDate.unix - endOfLastMeetingDate.unix) < 15*60) && (startOfLastMeetingDate.unix <= startOfPersonShift.unix)) {
+        if (((currentDate.unix() - endOfLastMeetingDate.unix()) < 15*60) && (startOfLastMeetingDate.unix() <= startOfPersonShift.unix())) {
           entity.history[entity.history.length - 1] = dayjs.tz(roundToNearest15Minutes(dayjs())).format();
         } else {
           entity.history[entity.history.length - 1] = entity.history[entity.history.length - 2];
