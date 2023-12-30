@@ -204,17 +204,17 @@ app.post('/hours/person', async (req, res) => {
         //get last meeting info
         const taskKey = datastore.key(['person', 'Meeting']);
         const [meetingEntity] = await datastore.get(taskKey);
-        const endOfLastMeetingDate = dayjs(meetingEntity.history[meetingEntity.history - 1]);//dayjs.tz(dayjs(meetingEntity.history[meetingEntity.history - 1]));
+        const endOfLastMeetingDate = dayjs.tz(dayjs(meetingEntity.history[meetingEntity.history - 1]));
         const startOfLastMeetingDate = dayjs.tz(dayjs(meetingEntity.history[meetingEntity.history - 2]));
         const startOfPersonShift = dayjs.tz(dayjs(entity.history[entity.history - 2]));
         const currentDate = dayjs.tz(dayjs());
 
 
-        console.log("CurDate1: " + currentDate.unix());
-        console.log("endLM: " + endOfLastMeetingDate.unix());
-        console.log("startLM: " + startOfLastMeetingDate.unix());
-        console.log("startPS: " + startOfPersonShift.unix());
-        if (((currentDate.unix() - endOfLastMeetingDate.unix()) < 15*60) && (startOfLastMeetingDate.unix() <= startOfPersonShift.unix())) {
+        console.log("CurDate1: " + currentDate.format());
+        console.log("endLM: " + endOfLastMeetingDate.format());
+        console.log("startLM: " + startOfLastMeetingDate.format());
+        console.log("startPS: " + startOfPersonShift.format());
+        if (((currentDate.diff(endOfLastMeetingDate)) < 15*60) && !(startOfLastMeetingDate.isAfter(startOfPersonShift.unix()))) {
           entity.history[entity.history.length - 1] = dayjs.tz(roundToNearest15Minutes(dayjs())).format();
           console.log(req.body.name, "signed out successfully");
         } else {
