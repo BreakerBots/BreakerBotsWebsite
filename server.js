@@ -178,6 +178,7 @@ async function getPeopleInjection() {
       //calculate hours
       let totalMs = 0;
       let errorFlag = false;
+      let extraHours = 0;
       const isMeeting = name === "Meeting";
       for (let i = 0; i < history.length - 1; i += 2) {
         if (history[i] !== null && history[i + 1] !== null) {
@@ -194,7 +195,12 @@ async function getPeopleInjection() {
           }
         }
       }
-      const hours = totalMs / 3600000;
+
+      if (!isMeeting) {
+        extraHours = person.extra_hours;
+      }
+
+      const hours = (totalMs / 3600000) + extraHours;
       
       if (isMeeting) {
         //meeting object
@@ -288,6 +294,7 @@ app.post('/hours/meeting', async (req, res) => {
 
       entity.history.push(startDate.format());
       entity.history.push(endDate.format());
+      entity.makeup.push(isMakeupMeeting);
       entity.makeup.push(isMakeupMeeting);
 
       console.log("created new meeting from ", startDate.format("h:m A"), " to ", endDate.format("h:m A"));
