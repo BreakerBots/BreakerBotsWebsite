@@ -210,7 +210,7 @@ app.post('/hours/person', async (req, res) => {
         const currentDate = dayjs.tz(dayjs());
 
 
-        console.log("CurDate: " + currentDate.unix());
+        console.log("CurDate1: " + currentDate.unix());
         console.log("endLM: " + endOfLastMeetingDate.unix());
         console.log("startLM: " + startOfLastMeetingDate.unix());
         console.log("startPS: " + startOfPersonShift.unix());
