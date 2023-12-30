@@ -204,13 +204,13 @@ app.post('/hours/person', async (req, res) => {
         //get last meeting info
         const meetingTaskKey = datastore.key(['person', 'Meeting']);
         const [meetingEntity] = await datastore.get(meetingTaskKey);
-        const endOfLastMeetingDate = dayjs.tz(dayjs(meetingEntity.history[meetingEntity.history - 1]));
-        const startOfLastMeetingDate = dayjs.tz(dayjs(meetingEntity.history[meetingEntity.history - 2]));
-        const startOfPersonShift = dayjs.tz(dayjs(entity.history[entity.history - 2]));
+        const endOfLastMeetingDate = dayjs.tz(dayjs(meetingEntity.history[meetingEntity.history.length - 1]));
+        const startOfLastMeetingDate = dayjs.tz(dayjs(meetingEntity.history[meetingEntity.history.length - 2]));
+        const startOfPersonShift = dayjs.tz(dayjs(entity.history[entity.history.length - 2]));
         const currentDate = dayjs.tz(dayjs());
 
 
-        console.log("CurDate1: " + currentDate.format());
+        console.log("CurDate: " + currentDate.format());
         console.log("endLM: " + endOfLastMeetingDate.format());
         console.log("startLM: " + startOfLastMeetingDate.format());
         console.log("startPS: " + startOfPersonShift.format());
