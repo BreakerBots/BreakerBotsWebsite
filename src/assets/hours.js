@@ -2,15 +2,9 @@ function signIn(password) {
   window.location.search = "password=" + password;
 }
 
-async function postMeeting(startTimeElement, endTimeElement) {
+async function postMeeting(startTimeElement, endTimeElement, isOptionalMeeting) {
   let startTime = startTimeElement.value;
   let endTime = endTimeElement.value;
-
-  if (!startTimeElement.checkValidity() || !endTimeElement.checkValidity() ||
-    startTime.length < 1 || endTime.length < 1) {
-    alert("Please enter a valid start and end time.");
-    return;
-  }
 
   startTime = startTime.split(/:| /);
   endTime = endTime.split(/:| /);
@@ -36,7 +30,7 @@ async function postMeeting(startTimeElement, endTimeElement) {
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
     //date rounding occurs server-side
-    body: JSON.stringify({ startDate: startDate.format(), endDate: endDate.format() })
+    body: JSON.stringify({ startDate: startDate.format(), endDate: endDate.format(), isOptionalMeeting})
   });
   const data = await res.json();
   if (data.success) {

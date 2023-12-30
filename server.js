@@ -135,6 +135,28 @@ async function inMeeting() {
   }
 }
 
+// // clearHours();  
+// async function clearHours() {
+//     try {
+//       const query = datastore.createQuery('person');
+//       const [result] = await datastore.runQuery(query);
+//       console.log("!! CLEARING ALL HOURS DATA !!")
+//       for (const person of result) {
+//         let successStr = "cleared all "+person.history.length+" entries in " + person[datastore.KEY].name;
+//         person.history = [];
+
+//         await datastore.update({ key: person., data: person});
+  
+     
+//       }
+//       res.status(200).json({ success: true });
+//       return;
+//     } catch (err) {
+//       console.error(err);
+//       res.status(500).json({ success: false, error: err });
+//     }
+// }
+
 //Hours People Injection
 async function getPeopleInjection() {
   try {
@@ -151,31 +173,51 @@ async function getPeopleInjection() {
       const history = person.history;
       const name = person[datastore.KEY].name;
 
+
+
       //calculate hours
       let totalMs = 0;
+      let errorFlag = false;
+      let extraHours = 0;
+      const isMeeting = name === "Meeting";
       for (let i = 0; i < history.length - 1; i += 2) {
         if (history[i] !== null && history[i + 1] !== null) {
           const startDate = dayjs.tz(dayjs(history[i]));
           const endDate = dayjs.tz(dayjs(history[i + 1]));
           const diffMs = endDate.valueOf() - startDate.valueOf();
+
           if (diffMs > 24 * 3600000) {
             console.log(name, "potential error @", i, i + 1);
+            errorFlag = true;
           }
-          totalMs += diffMs;
+          if (!(isMeeting && person.is_optional[i] && person.is_optional[i+1])) {
+            totalMs += diffMs;
+          }
         }
       }
-      const hours = totalMs / 3600000;
+
+      if (!isMeeting) {
+        extraHours = person.extra_hours;
+      }
+
+      const hours = (totalMs / 3600000) + extraHours;
       
-      if (name === "Meeting") {
+      if (isMeeting) {
         //meeting object
         const startOfLastMeetingDate = dayjs.tz(dayjs(history[history.length - 2]));
         const endOfLastMeetingDate = dayjs.tz(dayjs(history[history.length - 1]));
+        let meetingTitle = startOfLastMeetingDate.format('h:mm A') + ' - ' + endOfLastMeetingDate.format('h:mm A');
+        if (person.is_optional[person.is_optional.length - 1] && person.is_optional[person.is_optional.length - 2]) {
+          meetingTitle += " Optional"
+        }
+
         meeting = { name, hours, 
-          title: startOfLastMeetingDate.format('h:mm A') + ' - ' + endOfLastMeetingDate.format('h:mm A') };
+          title:  meetingTitle};
       }
       else {
+      const displayHours = hours + (errorFlag ? "*" : "");
         //person object
-        people.push({ name, hours, signedIn: history.length > 0 && history[history.length - 1] === null });
+        people.push({ name, hours: displayHours, signedIn: history.length > 0 && history[history.length - 1] === null });
       }
     }
 
@@ -196,9 +238,30 @@ app.post('/hours/person', async (req, res) => {
   
       //if signed in
       if (entity.history.length > 0 && entity.history[entity.history.length - 1] === null) {
-        console.log(req.body.name, "signed out");
+        
         //then signing out
-        entity.history[entity.history.length - 1] = dayjs.tz(roundToNearest15Minutes(dayjs())).format();
+        console.log(req.body.name, "signing out");
+        //get last meeting info
+        const meetingTaskKey = datastore.key(['person', 'Meeting']);
+        const [meetingEntity] = await datastore.get(meetingTaskKey);
+        const endOfLastMeetingDate = dayjs.tz(dayjs(meetingEntity.history[meetingEntity.history.length - 1]));
+        const startOfLastMeetingDate = dayjs.tz(dayjs(meetingEntity.history[meetingEntity.history.length - 2]));
+        const startOfPersonShift = dayjs.tz(dayjs(entity.history[entity.history.length - 2]));
+        const currentDate = dayjs.tz(dayjs());
+
+
+        console.log("current date: " + currentDate.format());
+        console.log("end of last meeting: " + endOfLastMeetingDate.format());
+        console.log("start of last meeting: " + startOfLastMeetingDate.format());
+        console.log("start of person's shift: " + startOfPersonShift.format());
+        if (((currentDate.diff(endOfLastMeetingDate)) < 15*60) && !(startOfLastMeetingDate.isAfter(startOfPersonShift))) {
+          entity.history[entity.history.length - 1] = dayjs.tz(roundToNearest15Minutes(dayjs())).format();
+          console.log(req.body.name, "signed out successfully");
+        } else {
+          entity.history[entity.history.length - 1] = entity.history[entity.history.length - 2];
+          console.log(req.body.name, "signed out | time voided due to overrun");
+        }
+        
       }
       else {
         console.log(req.body.name, "signed in");
@@ -226,6 +289,8 @@ app.post('/hours/meeting', async (req, res) => {
   try {
     const startDate = roundToNearest15Minutes(dayjs(req.body.startDate));
     const endDate = roundToNearest15Minutes(dayjs(req.body.endDate));
+    const isOptionalMeeting = req.body.isOptionalMeeting;
+
 
     if (startDate.isValid() && endDate.isValid() && startDate < endDate) {
       const taskKey = datastore.key(['person', 'Meeting']);
@@ -233,6 +298,8 @@ app.post('/hours/meeting', async (req, res) => {
 
       entity.history.push(startDate.format());
       entity.history.push(endDate.format());
+      entity.is_optional.push(isOptionalMeeting);
+      entity.is_optional.push(isOptionalMeeting);
 
       console.log("created new meeting from ", startDate.format("h:m A"), " to ", endDate.format("h:m A"));
   
