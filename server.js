@@ -143,7 +143,9 @@ async function clearHours() {
       console.log("!! CLEARING ALL HOURS DATA !!")
       for (const person of result) {
         let successStr = "cleared all "+person.history.length+" entries in " + person[datastore.KEY].name;
-        person.history = [];
+        while (person.history.length > 0) {
+          person.history.pop();
+        }
         if (person.history.length > 0) {
           console.log("failed to clear all entries in " + person[datastore.KEY].name + " | remaining entries: " + person.history.length)
         } else {
