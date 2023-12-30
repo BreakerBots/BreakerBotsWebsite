@@ -190,7 +190,7 @@ async function getPeopleInjection() {
             console.log(name, "potential error @", i, i + 1);
             errorFlag = true;
           }
-          if (!(isMeeting && person.makeup[i] && person.makeup[i+1])) {
+          if (!(isMeeting && person.is_makeup[i] && person.is_makeup[i+1])) {
             totalMs += diffMs;
           }
         }
@@ -294,8 +294,8 @@ app.post('/hours/meeting', async (req, res) => {
 
       entity.history.push(startDate.format());
       entity.history.push(endDate.format());
-      entity.makeup.push(isMakeupMeeting);
-      entity.makeup.push(isMakeupMeeting);
+      entity.is_makeup.push(isMakeupMeeting);
+      entity.is_makeup.push(isMakeupMeeting);
 
       console.log("created new meeting from ", startDate.format("h:m A"), " to ", endDate.format("h:m A"));
   
