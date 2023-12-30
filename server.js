@@ -179,9 +179,9 @@ async function getPeopleInjection() {
           title: startOfLastMeetingDate.format('h:mm A') + ' - ' + endOfLastMeetingDate.format('h:mm A') };
       }
       else {
-        let displayHours = hours + (errorFlag ? "*" : "");
+        let displayName = name + (errorFlag ? "*" : "");
         //person object
-        people.push({ name, displayHours, signedIn: history.length > 0 && history[history.length - 1] === null });
+        people.push({ displayName, hours, signedIn: history.length > 0 && history[history.length - 1] === null });
       }
     }
 
