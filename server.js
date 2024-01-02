@@ -15,6 +15,7 @@ const datastore = isRunningOnGoogle ? new Datastore() : new Datastore({
 });
 const hoursPasswordHash = '9fb9297d179a9e2341c9562f94e88b76d6a3c45fdb3a0cbaca832a22aa99b7b2';
 const dayjs = require('dayjs');
+const { futimes } = require('fs');
 dayjs.extend(require('dayjs/plugin/utc'));
 dayjs.extend(require('dayjs/plugin/timezone'));
 dayjs.tz.setDefault("America/Los_Angeles");
@@ -135,10 +136,26 @@ async function inMeeting() {
   }
 }
 
+test();
+async function test() {
+      try {
+        const taskKey = datastore.key(['person', 'Meeting']);
+        const [entity] = await datastore.get(taskKey);
+        console.log(JSON.stringify(entity));
+        res.status(200).json({ success: true });
+        return;
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, error: err });
+      }
+  }
+
+
+
 // // clearHours();  
 // async function clearHours() {
 //     try {
-//       const query = datastore.createQuery('person');
+//       const query = datastore.createQuery('person');np
 //       const [result] = await datastore.runQuery(query);
 //       console.log("!! CLEARING ALL HOURS DATA !!")
 //       for (const person of result) {
@@ -155,6 +172,12 @@ async function inMeeting() {
 //       console.error(err);
 //       res.status(500).json({ success: false, error: err });
 //     }
+// }
+
+// async function addPeople([peopleToAdd]) {
+//   for (const person of peopleToAdd) {
+//     datastore.insert
+//   }
 // }
 
 //Hours People Injection
@@ -269,7 +292,6 @@ app.post('/hours/person', async (req, res) => {
         entity.history.push(dayjs.tz(roundToNearest15Minutes(dayjs())).format());
         entity.history.push(null);
       }
-  
       await datastore.update({ key: taskKey, data: entity });
   
       res.status(200).json({ success: true });
