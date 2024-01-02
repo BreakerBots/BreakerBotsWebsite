@@ -136,20 +136,6 @@ async function inMeeting() {
   }
 }
 
-test();
-async function test() {
-      try {
-        const taskKey = datastore.key(['person', 'Meeting']);
-        const [entity] = await datastore.get(taskKey);
-        console.log(JSON.stringify(entity));
-        res.status(200).json({ success: true });
-        return;
-      } catch (err) {
-        console.error(err);
-        res.status(500).json({ success: false, error: err });
-      }
-  }
-
 
 
 // // clearHours();  
