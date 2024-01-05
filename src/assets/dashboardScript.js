@@ -1,4 +1,4 @@
-var year = getCurrentYear();
+var year = 2023;//getCurrentYear();
 var teamNum = "frc5104";
 var activeEventStatusJson;
 var eventProjectionJson;
@@ -20,15 +20,16 @@ async function updateJSONs() {
     for (var event in events) {
         if (events[event].next_match_key != null) {
             activeEventStatusJson = events[event];
-            nextMatchJson = await getMatchJson(events[event].next_match_key);
+            nextMatchJson = await getMatchJson("2023camb_qm11"/*events[event].next_match_key*/);
             eventProjectionJson = await getJsonFromURL("https://www.thebluealliance.com/api/v3/event/"+ event +"/predictions");
-            prevMatchJson = await getMatchJson(events[event].last_match_key);
+            prevMatchJson = await getMatchJson("2023camb_qm10"/*events[event].last_match_key*/);
+            console.log(nextMatchJson);
         }
     } 
 }
 
 async function getMatchJson(matchKey) {
-    return getJsonFromURL("https://www.thebluealliance.com/api/v3/match/" + matchKey);
+    return await getJsonFromURL("https://www.thebluealliance.com/api/v3/match/" + matchKey);
 }
 
 async function getJsonFromURL(url) {
