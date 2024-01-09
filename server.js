@@ -43,7 +43,7 @@ var pages = {
   "/hours/home": ["hours/home.html", getPeopleInjection],
   "/hours/people": ["hours/people.html", getPeopleInjection],
   "/thankyou": ["thankyou.html"],
-  "/dashboard": ["dashboard.html"]
+  "/dashboard": ["dashboard2.html"]
   // "/breakerlib": ["breakerlib.html"],
   // "/weeklyupdates": ["weeklyupdates.html"],
   // "/joinus": ["joinus.html"]
