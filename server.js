@@ -300,7 +300,7 @@ app.post('/hours/meeting', async (req, res) => {
     const isOptionalMeeting = req.body.isOptionalMeeting;
 
 
-    if (startDate.isValid() && endDate.isValid() && startDate < endDate && startDate.isAfter(dayjs.tz(dayjs()))) {
+    if (startDate.isValid() && endDate.isValid() && startDate < endDate) {
       const taskKey = datastore.key(['person', 'Meeting']);
       const [entity] = await datastore.get(taskKey);
 
