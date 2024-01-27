@@ -52,7 +52,7 @@ async function updateJSONs() {
 }
 var player;
 var twitchEmbedInit = function() {
-  let scaiar = 70;
+  let scaiar = 60;
   var options = {
     width: 16*scaiar,
     height: 9*scaiar,
