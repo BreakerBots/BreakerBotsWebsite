@@ -1,11 +1,11 @@
 steps:
   # Install node packages
-  # - name: node:17.9.1
+  # - name: node:18.19.1
   #   entrypoint: npm
   #   args: ["install"]
 
   # Build
-  # - name: node:17.9.1
+  # - name: node:18.19.1
   #   entrypoint: npm
   #   args: ["run", "build"]
 
