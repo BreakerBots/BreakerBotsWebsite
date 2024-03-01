@@ -1,10 +1,11 @@
 
-var year = 2023;//getCurrentYear();
+var year = getCurrentYear();
 var teamNum = "frc5104";
 var activeEventStatusJson;
 var eventProjectionJson;
 var nextMatchJson;
 var prevMatchJson;
+var webcastKey
 
 function loadScript(url, callback)
 {
@@ -35,13 +36,16 @@ function getCurrentYear() {
 
 async function updateJSONs() {
     var events = await getJsonFromURL("https://www.thebluealliance.com/api/v3/team/" + teamNum + "/events/" + year + "/statuses");
-    activeEventStatusJson = events["2023camb"];
+    activeEventStatusJson = events["2023casj"];
     for (var event in events) {
         if (events[event].next_match_key != null) {
             activeEventStatusJson = events[event];
             nextMatchJson = await getMatchJson(events[event].next_match_key);
             eventProjectionJson = await getJsonFromURL("https://www.thebluealliance.com/api/v3/event/"+ event +"/predictions");
+            webcastKey =  await getJsonFromURL("https://www.thebluealliance.com/api/v3/event/"+event);
+            webcastKey = webcastKey.webcasts[0].channel
             prevMatchJson = await getMatchJson(events[event].last_match_key);
+            
         }
     } 
     if (nextMatchJson == null)  {
@@ -56,7 +60,7 @@ var twitchEmbedInit = function() {
   var options = {
     width: 16*scaiar,
     height: 9*scaiar,
-    channel: "piratesoftware"
+    channel: webcastKey
   };
    player = new Twitch.Player("twitch-embed", options);
   player.setVolume(0.5);
@@ -110,7 +114,7 @@ function getNextMatchTimeRemaining() {
 function msToTime(duration) {
 
   if (duration >= 0.0) {
-    var milliseconds = Math.floor((duration % 1000) / 100),
+    //var milliseconds = Math.floor((duration % 1000) / 100),
     seconds = Math.floor((duration / 1000) % 60),
     minutes = Math.floor((duration / (1000 * 60)) % 60),
     hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
@@ -122,11 +126,11 @@ function msToTime(duration) {
     hours ="0";
     minutes = "0";
     seconds = "0";
-    milliseconds = "0";
+    //milliseconds = "0";
   }
   
 
-  return hours + "h " + minutes + "m " + seconds + "." + milliseconds + "s";
+  return hours + "h " + minutes + "m " + seconds + "s";
 }
 
 function getNextMatchAllianceColor() {
@@ -169,11 +173,32 @@ function getFormatedNextMatchTeamNums(ally) {
     var teamStrs = [];
     
     for (let i = 0; i < nextMatchJson.alliances[ally].team_keys.length; i++ ) {
-        teamStrs[i] = " " + nextMatchJson.alliances[ally].team_keys[i].slice(3);
+        teamStrs[i] = nextMatchJson.alliances[ally].team_keys[i].slice(3);
     }
     return teamStrs;
 }
 
+async function updateNextMatchPred() {
+  matchPred = await getStatboticsJsonFromURL("https://api.statbotics.io/v3/match/" + nextMatchJson.key);
+  ally = getNextMatchAllianceColor();
+  winner =  matchPred.pred.winner;
+  redProb = matchPred.pred.red_win_prob;
+  blueProb = 1.0 - redProb;
+  certanty = winner === "blue" ? blueProb : redProb;
+  redScore = matchPred.pred.red_score;
+  blueScore = matchPred.pred.blue_score;
+  red_rp = (matchPred.pred.red_melody_rp >= 0.5 ? 1 : 0) + (matchPred.pred.red_harmony_rp >= 0.5 ? 1 : 0) + (winner === "red" ? 2 : 0);
+  blue_rp = (matchPred.pred.blue_melody_rp >= 0.5 ? 1 : 0) + (matchPred.pred.blue_harmony_rp >= 0.5 ? 1 : 0) + (winner === "blue" ? 2 : 0);
+ 
+
+  document.getElementById("us_projected_rp").innerHTML = (ally === "blue") ? blue_rp : red_rp;
+  document.getElementById("us_projected_score").innerHTML = (ally === "blue") ? blueScore : redScore;
+  document.getElementById("opp_projected_rp").innerHTML = (ally === "red") ? blue_rp : red_rp;
+  document.getElementById("opp_projected_score").innerHTML = (ally === "red") ? blueScore : redScore;
+
+  
+  document.getElementById("projected_outcome").innerHTML = (winner === ally ? "WIN" : "LOSS") + " (" + formatPercent(certanty) + ")";
+}
 function getNextMatchProjectedOutcome() {
     var sub = eventProjectionJson["match_predictions"];
     var curLvl = sub[nextMatchJson.comp_level === "qm" ? "qual" : 'playoff'];
@@ -209,12 +234,12 @@ function formatPercent(percent) {
 async function updateTeam(ally, index) {
   const teamNums = getFormatedNextMatchTeamNums(ally);
   document.getElementById(ally+"_"+index+"_num").innerHTML = teamNums[index];
-  teamStatsJson = await getStatboticsJsonFromURL("https://api.statbotics.io/v2/team_year/"+teamNums[index]+"/" + year);
-  document.getElementById(ally+"_"+index+"_auto_epa").innerHTML = teamStatsJson["auto_epa_end"];
-  document.getElementById(ally+"_"+index+"_tele_epa").innerHTML = teamStatsJson["teleop_epa_end"];
-  document.getElementById(ally+"_"+index+"_end_epa").innerHTML = teamStatsJson["endgame_epa_end"];
-  document.getElementById(ally+"_"+index+"_norm_epa").innerHTML = teamStatsJson["norm_epa_end"];
-  document.getElementById(ally+"_"+index+"_perc").innerHTML =formatPercent(teamStatsJson["total_epa_percentile"]);
+  teamStatsJson = await getStatboticsJsonFromURL("https://api.statbotics.io/v3/team_year/"+teamNums[index]+"/" + year);
+  document.getElementById(ally+"_"+index+"_auto_epa").innerHTML = teamStatsJson["epa"]["breakdown"]["auto_points"]["mean"];
+  document.getElementById(ally+"_"+index+"_tele_epa").innerHTML = teamStatsJson["epa"]["breakdown"]["teleop_points"]["mean"];
+  document.getElementById(ally+"_"+index+"_end_epa").innerHTML = teamStatsJson["epa"]["breakdown"]["endgame_points"]["mean"];
+  document.getElementById(ally+"_"+index+"_norm_epa").innerHTML = teamStatsJson["epa"]['norm'];
+  document.getElementById(ally+"_"+index+"_perc").innerHTML =formatPercent(teamStatsJson["epa"]["ranks"]["total"]["percentile"]);
 }
 
 function updateDoc() {
@@ -225,11 +250,12 @@ function updateDoc() {
     let timeStamp = 'Last updated: ' + current.toLocaleString();
     document.getElementById("last_update").innerHTML = timeStamp;
     updateNextMatchTeams();
+    updateNextMatchPred();
 
 }
 
 function getPrevMatchWinLoss() {
-    //if (activeEventStatusJson.next_match_key != null) {
+    if (activeEventStatusJson.prev_match_key != null) {
         var ally = "red";
         for (var key of prevMatchJson.alliances.blue.team_keys) {
             if (key === teamNum) {
@@ -239,8 +265,8 @@ function getPrevMatchWinLoss() {
         ourPts = prevMatchJson.alliances[ally].score;
         oppPts = prevMatchJson.alliances[ally === "blue" ? "red" : "blue"].score;
         return (prevMatchJson.winning_alliance === ally ? "Win" : "Loss") + " | " + ourPts + " to " + oppPts + ")";
-    // }
-    //     return "N/A";
+    }
+        return "N/A";
 }
 
 function updateCurrentTime() {
@@ -252,7 +278,7 @@ function updateCurrentTime() {
 window.onload = init;
   async function init(){
     await updateJSONs();
-    loadScript("https://embed.twitch.tv/embed/v1.js", twitchEmbedInit);
+   loadScript("https://embed.twitch.tv/embed/v1.js", twitchEmbedInit);
     updateDoc();
     updateCurrentTime();
     fastUpdateLoop();
@@ -263,6 +289,7 @@ window.onload = init;
     while(true) {
         await sleep(250);
         updateCurrentTime();
+        document.getElementById("next_match_eta").innerHTML = getNextMatchTimeRemaining();
     }
   }
 
