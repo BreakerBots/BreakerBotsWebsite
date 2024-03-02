@@ -133,18 +133,14 @@ function msToTime(duration) {
   return hours + "h " + minutes + "m " + seconds + "s";
 }
 
-function getNextMatchAllianceColor() {
-    for (var key in nextMatchJson.alliances.blue.team_keys) {
-        if (key === teamNum) {
-            return "blue";
-        }
-    }
-    return "red";
+async function getNextMatchAllianceColor() {
+  var tmJson = await getStatboticsJsonFromURL('https://api.statbotics.io/v3/team_match/5104/2024casj_qm1');
+  return tmJson.alliance;
 }
 
-function getNextMatchOpponentAllianceColor() {
+async function getNextMatchOpponentAllianceColor() {
   for (var key in nextMatchJson.alliances.red.team_keys) {
-      if (key === teamNum) {
+      if (key == teamNum) {
           return "blue";
       }
   }
@@ -180,7 +176,8 @@ function getFormatedNextMatchTeamNums(ally) {
 
 async function updateNextMatchPred() {
   matchPred = await getStatboticsJsonFromURL("https://api.statbotics.io/v3/match/" + nextMatchJson.key);
-  ally = getNextMatchAllianceColor();
+  ally = await getNextMatchAllianceColor();
+  console.log(ally)
   winner =  matchPred.pred.winner;
   redProb = matchPred.pred.red_win_prob;
   blueProb = 1.0 - redProb;
@@ -290,12 +287,14 @@ window.onload = init;
         await sleep(250);
         updateCurrentTime();
         document.getElementById("next_match_eta").innerHTML = getNextMatchTimeRemaining();
+        var q = await getNextMatchAllianceColor();
+        console.log(q)
     }
   }
 
   async function slowUpdateLoop() {
     while (true) {
-        await sleep(60000);
+        await sleep(60000);y
         await updateJSONs();
         updateDoc();
     }
