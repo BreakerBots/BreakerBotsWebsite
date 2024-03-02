@@ -287,8 +287,6 @@ window.onload = init;
         await sleep(250);
         updateCurrentTime();
         document.getElementById("next_match_eta").innerHTML = getNextMatchTimeRemaining();
-        var q = await getNextMatchAllianceColor();
-        console.log(q)
     }
   }
 
