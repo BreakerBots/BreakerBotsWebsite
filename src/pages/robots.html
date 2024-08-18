@@ -26,6 +26,66 @@
     <%- include('../includes/header.html') %>
 
     <div class="robots">
+        <!--Typhoon-->
+        <div class="row featurette">
+            <div class="col-md-7 order-md-2">
+                <h2 class="featurette-heading" style="color: #666;">Typhoon <span class="text-muted">2024 - Crescendo</span></h2> 
+                <p class="lead">Our most advanced and automated robot to-date, Typhoon leverages its efficient design to rapidly score notes in the speaker and amp while maintaining excellent maneuverability. 
+                    Typhoon features evolved controls, allowing our driver to focus more on strategy and less on details, from intelligent two-button teleop controls (the robot decides what action to perform on its own) to various teleop assists and automatons (intake assist, etc).
+                </p><br><br>
+                <div><b>Tech Specs:</b>
+                    <ul>
+                        <li>
+                            <div><strong>Weight:</strong> 122.6 lbs</div>
+                        </li>
+                        <li>
+                            <div><strong>Size:</strong> 28" W x 28" L x 27.7" H</div>
+                        </li>
+                        <li>
+                            <div><strong>Intake:</strong> Over-the-bumper style pivoting intake using rubber wrapped carbon fiber rollers, powered by a Falcon 500 motor and controlled by a beam break sensor, pivot powered by an independent Falcon 500 for each side</div>
+                        </li>
+                        <li>
+                            <div><strong>Amp:</strong> Uses intake to shoot notes into the AMP via an extendable (virtual four bar linkage) carbon fiber deflector rod</div>
+                        </li>
+                        <li>
+                            <div><strong>Shooter:</strong> Pivot driven by a profiled PIDF controlled falcon 500 motor on a 9:1 planetary reduction, connected to a 3d printed herringbone circular rack and pinion, uses a pre-tuned firing solution table to score notes from anywhere</div>
+                        </li>
+                        <li>
+                            <div><strong>Hopper:</strong> 775 driven belt hopper controlled by beam break sensor </div>
+                        </li>
+                        <li>
+                            <div><strong>Flywheel:</strong> Through-axle, full contact flywheel using Colson Performa outer wheels and Andymark Stealth inner wheels, PIDF controlled up to 6000 RPM</div>
+                        </li>
+                        <li>
+                            <div><strong>Vision:</strong> 4x Arducam OV9281 connected to 2X OrangePi 5 runing Photonvision, fed to BreakerLib pose filtering and 200hz multi-threded kalman odometry fusion. ML note pursuit in auto and lock-to-note intake assistance powered by an LL3 w/ google coral</div>
+                        </li>
+                        <li>
+                            <div><strong>Drivetrain:</strong> SDS MK4i L3 (16T) swerve modules with Kraken Drive Motors, Falcon 500 azimuth motors, and CTRE CANcoder encoders. Powered by BreakerLib.</div>
+                        </li>
+                        <li>
+                            <div><strong>Autonomous:</strong> 1 - 5 Note autos with AD* replanning and AI Note tracking/pursuit to improve gamepiece acquisition reliability</div>
+                        </li>
+                    </ul>
+                </div>
+                <div><b>Awards:</b>
+                    <ul>
+                        <li>
+                            <div><strong>Regional Finalists:</strong> Monterey Bay Regional</div>
+                        </li>
+                    </ul>
+                </div>
+                <div> <b>Resources:</b>
+                    <ul>
+                        <li><b>Code: </b><a target="_blank" href="https://github.com/BreakerBots/Typhoon_2024">Typhoon (Build Season)</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-5"> <img class="featurette-image img-fluid d-block" src="../images/robots/Typhoon.webp">
+            </div>
+        </div>
+        <hr class="featurette-divider">
+
         <div class="row featurette">
             <div class="col-md-7">
                 <!--Plop-->
@@ -76,7 +136,7 @@
             <div class="col-md-7 order-md-2">
                 <h2 class="featurette-heading" style="color: #666;">Cthulhu <span class="text-muted">2023 - Charged Up | MBR</span></h2>
                 <p class="lead">Designed and built from the ground up in the two weeks between our CVR and MBR competitions, Cthulhu represents an evolution of the BreakerBots' 2023 design stratagem. 
-                    Cthulhu features a more precise single jointed arm mounted low in the robot to Monterey efficiently score both cones and (primarily) cubes in the hybrid and mid nodes of the scoring grid.
+                    Cthulhu features a more precise single jointed arm mounted low in the robot to more efficiently score both cones and (primarily) cubes in the hybrid and mid nodes of the scoring grid.
                 </p><br><br>
                 <div><b>Tech Specs:</b>
                     <ul>
@@ -163,7 +223,7 @@
         <div class="row featurette">
             <div class="col-md-7 order-md-2">
                 <h2 class="featurette-heading" style="color: #666;"> Charybdis <span class="text-muted">2022 - Rapid React </span></h2>
-                <p class="lead">Averages 7 cycles per match, scoring two cargo into the upper hub each cycle.  
+                <p class="lead">Averages 9 cycles per match, scoring two cargo into the upper hub each cycle.  
                     The flywheel shooter has the ability to shoot to the upper hub or lower hub.  
                     With a consistent climb directly to the mid-rung in under 10 seconds. </p><br><br>
                 <div><b>Tech Specs:</b>

@@ -45,7 +45,7 @@ var pages = {
   "/thankyou": ["thankyou.html"],
   "/dashboard": ["dashboard2.html"],
   // "/breakerlib": ["breakerlib.html"],
-  "/weeklyupdates": ["weeklyupdates.html"],
+  // "/weeklyupdates": ["weeklyupdates.html"],
   // "/joinus": ["joinus.html"]
 };
 
