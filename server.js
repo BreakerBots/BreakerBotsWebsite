@@ -332,6 +332,7 @@ app.post('/hours/meeting', async (req, res) => {
 app.get(Object.keys(pages), async (req, res) => {
   const page = pages[req.path];
   const injection = page[1] ? await page[1]() : {};
+  console.log("I HATE JS!")
   injection.date = dayjs.tz(dayjs()).format("M/D/YYYY");
   res.render('pages/' + page[0], injection);
 });
