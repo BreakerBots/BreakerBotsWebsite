@@ -44,7 +44,7 @@ var pages = {
   // "/hours/people": ["hours/people.html", getPeopleInjection],
   "/thankyou": ["thankyou.html"],
   "/dashboard": ["dashboard2.html"],
-  "/store": ["store.html"],
+  //"/store": ["store.html"],
   // "/breakerlib": ["breakerlib.html"],
   // "/weeklyupdates": ["weeklyupdates.html"],
   // "/joinus": ["joinus.html"]
