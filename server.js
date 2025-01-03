@@ -118,7 +118,7 @@ app.use('/hours/people', async (req, res, next) => {
   }
 });
 function roundToNearest15Minutes(date) {
-  return date.minute(Math.round(date.minute()  / 15) * 15).second(0).millisecond(0);
+  return date;
 }
 async function inMeeting() {
   const taskKey = datastore.key(['person', 'Meeting']);
@@ -295,37 +295,8 @@ app.post('/hours/person', async (req, res) => {
   }
 });
 app.post('/hours/meeting', async (req, res) => {
-  try {
-    const startDate = roundToNearest15Minutes(dayjs(req.body.startDate));
-    const endDate = roundToNearest15Minutes(dayjs(req.body.endDate));
-    const isOptionalMeeting = req.body.isOptionalMeeting;
-
-
-    if (startDate.isValid() && endDate.isValid() && startDate < endDate) {
-      const taskKey = datastore.key(['person', 'Meeting']);
-      const [entity] = await datastore.get(taskKey);
-
-      entity.history.push(startDate.format());
-      entity.history.push(endDate.format());
-      entity.is_optional.push(isOptionalMeeting);
-      entity.is_optional.push(isOptionalMeeting);
-
-      console.log("created new meeting from ", startDate.format("h:m A"), " to ", endDate.format("h:m A"));
-  
-      await datastore.update({ key: taskKey, data: entity });
-  
-      res.status(200).json({ success: true });;
-      return;
-    }
-    else {
-      res.status(400).json({ success: false, error: "invalid dates" });
-      return;
-    }
-  }
-  catch (err) {
-    console.error(err);
-    res.status(500).json({ success: false, error: err });
-  }
+  res.status(200).json({ success: true });;
+  return;
 });
 
 //Serve Page
