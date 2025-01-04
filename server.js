@@ -107,14 +107,6 @@ app.use('/hours**', cookieParser(cookieSecret), (req, res, next) => {
 });
 
 //Hours Redirected
-app.use('/hours/home', async (req, res, next) => {
-  if (await inMeeting()) {
-    //meeting is happening --> redirect
-    res.redirect('/hours/people');
-  } else {
-    next();
-  }
-});
 app.use('/hours/people', async (req, res, next) => {
   if (await inMeeting()) {
     next();
@@ -207,11 +199,7 @@ async function getPeopleInjection() {
           meetingTitle += ' Optional';
         }
 
-        meeting = {
-          name,
-          hours,
-          title: meetingTitle,
-        };
+        meeting = { name, hours, title: meetingTitle };
       } else {
         const displayHours = hours + (errorFlag ? '*' : '');
         //person object
@@ -297,9 +285,6 @@ app.post('/hours/person', async (req, res) => {
     console.error(err);
     res.status(500).json({ success: false, error: err });
   }
-});
-app.post('/hours/meeting', async (req, res) => {
-  res.status(200).json({ success: true });
 });
 
 //Serve Page
