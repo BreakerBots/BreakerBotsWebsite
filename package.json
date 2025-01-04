@@ -17,11 +17,11 @@
 	},
 	"homepage": "https://github.com/BreakerBots/Breakersite#readme",
 	"dependencies": {
-		"@google-cloud/datastore": "^6.6.2",
-		"compression": "^1.7.4",
-		"cookie-parser": "^1.4.6",
-		"dayjs": "^1.10.7",
-		"ejs": "^3.1.6",
-		"express": "^4.18.2"
+		"@google-cloud/datastore": "^9.2.1",
+		"compression": "^1.7.5",
+		"cookie-parser": "^1.4.7",
+		"dayjs": "^1.11.13",
+		"ejs": "^3.1.10",
+		"express": "^4.21.2"
 	}
 }
