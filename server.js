@@ -194,7 +194,7 @@ async function getPeopleInjection() {
           const endDate = dayjs.tz(dayjs(history[i + 1]));
           const diffMs = endDate.valueOf() - startDate.valueOf();
 
-          if (diffMs > 24 * 3600000) {
+          if (!isMeeting && diffMs > 24 * 3600000) {
             console.log(name, "potential error @", i, i + 1);
             errorFlag = true;
           }
