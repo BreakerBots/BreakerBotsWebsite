@@ -6,8 +6,6 @@ const cookieParser = require('cookie-parser');
 const crypto = require('crypto');
 const cookieSecret = crypto.createHash('sha256').update('51O4').digest('hex');
 const isRunningOnGoogle = !!process.env.GOOGLE_CLOUD_PROJECT;
-const {SecretManagerServiceClient} = require('@google-cloud/secret-manager');
-const secretClient = new SecretManagerServiceClient();
 const Datastore = require('@google-cloud/datastore').Datastore;
 const datastore = isRunningOnGoogle ? new Datastore() : new Datastore({
   projectId: 'breakerbots-website',
@@ -196,7 +194,7 @@ async function getPeopleInjection() {
           const endDate = dayjs.tz(dayjs(history[i + 1]));
           const diffMs = endDate.valueOf() - startDate.valueOf();
 
-          if (diffMs > 24 * 3600000) {
+          if (!isMeeting && diffMs > 24 * 3600000) {
             console.log(name, "potential error @", i, i + 1);
             errorFlag = true;
           }
@@ -302,6 +300,9 @@ app.post('/hours/meeting', async (req, res) => {
 //Serve Page
 app.get(Object.keys(pages), async (req, res) => {
   const page = pages[req.path];
+  if (!page) {
+    return res.render('pages/404.html');
+  }
   const injection = page[1] ? await page[1]() : {};
   injection.date = dayjs.tz(dayjs()).format("M/D/YYYY");
   res.render('pages/' + page[0], injection);
