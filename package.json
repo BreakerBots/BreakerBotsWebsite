@@ -18,7 +18,6 @@
 	"homepage": "https://github.com/BreakerBots/Breakersite#readme",
 	"dependencies": {
 		"@google-cloud/datastore": "^6.6.2",
-		"@google-cloud/secret-manager": "^3.10.1",
 		"compression": "^1.7.4",
 		"cookie-parser": "^1.4.6",
 		"dayjs": "^1.10.7",

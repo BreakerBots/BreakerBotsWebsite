@@ -6,8 +6,6 @@ const cookieParser = require('cookie-parser');
 const crypto = require('crypto');
 const cookieSecret = crypto.createHash('sha256').update('51O4').digest('hex');
 const isRunningOnGoogle = !!process.env.GOOGLE_CLOUD_PROJECT;
-const {SecretManagerServiceClient} = require('@google-cloud/secret-manager');
-const secretClient = new SecretManagerServiceClient();
 const Datastore = require('@google-cloud/datastore').Datastore;
 const datastore = isRunningOnGoogle ? new Datastore() : new Datastore({
   projectId: 'breakerbots-website',
