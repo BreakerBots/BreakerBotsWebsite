@@ -1,0 +1,28 @@
+{
+  "npm-intellisense.packageSubfoldersIntellisense": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "files.trimTrailingWhitespace": true,
+  "editor.rulers": [80],
+  "eslint.lintTask.enable": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnPaste": true,
+  "editor.formatOnType": true,
+  "editor.formatOnSaveMode": "modifications",
+  "editor.formatOnSave": true,
+  "eslint.codeActionsOnSave.rules": null,
+  "javascript.referencesCodeLens.enabled": true,
+  "javascript.referencesCodeLens.showOnAllFunctions": true,
+  "js/ts.implicitProjectConfig.experimentalDecorators": true,
+  "js/ts.implicitProjectConfig.checkJs": true,
+  "javascript.suggest.completeFunctionCalls": true,
+  "javascript.preferGoToSourceDefinition": true,
+  "javascript.format.semicolons": "insert",
+  "prettier.singleQuote": true,
+  "prettier.experimentalTernaries": true,
+  "prettier.jsxSingleQuote": true,
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}
