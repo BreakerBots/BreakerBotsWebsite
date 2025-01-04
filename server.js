@@ -302,6 +302,9 @@ app.post('/hours/meeting', async (req, res) => {
 //Serve Page
 app.get(Object.keys(pages), async (req, res) => {
   const page = pages[req.path];
+  if (!page) {
+    return res.render('pages/404.html');
+  }
   const injection = page[1] ? await page[1]() : {};
   injection.date = dayjs.tz(dayjs()).format("M/D/YYYY");
   res.render('pages/' + page[0], injection);
