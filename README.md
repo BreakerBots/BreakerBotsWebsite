@@ -5,7 +5,7 @@ Cloud (NodeJS12 through Express). Theming is through Bootstrap.
 
 This readme explains how to setup and work on the website.
 
-## Setting Up Locally
+## Setting Up Locally 
 - Download and install [Github Desktop](https://desktop.github.com/)
 - Sign into Github Desktop
 - Navigate to `File > Clone Repository...`
