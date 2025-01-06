@@ -6,8 +6,6 @@ const cookieParser = require('cookie-parser');
 const crypto = require('crypto');
 const cookieSecret = crypto.createHash('sha256').update('51O4').digest('hex');
 const isRunningOnGoogle = !!process.env.GOOGLE_CLOUD_PROJECT;
-const {SecretManagerServiceClient} = require('@google-cloud/secret-manager');
-const secretClient = new SecretManagerServiceClient();
 const Datastore = require('@google-cloud/datastore').Datastore;
 const datastore = isRunningOnGoogle ? new Datastore() : new Datastore({
   projectId: 'breakerbots-website',
@@ -44,9 +42,9 @@ var pages = {
   "/hours/people": ["hours/people.html", getPeopleInjection],
   "/thankyou": ["thankyou.html"],
   "/dashboard": ["dashboard2.html"],
-  "/store": ["store.html"],
+  //"/store": ["store.html"],
   // "/breakerlib": ["breakerlib.html"],
-  // "/weeklyupdates": ["weeklyupdates.html"],
+  "/weeklyupdates": ["weeklyupdates.html"],
   // "/joinus": ["joinus.html"]
 };
 
@@ -118,7 +116,7 @@ app.use('/hours/people', async (req, res, next) => {
   }
 });
 function roundToNearest15Minutes(date) {
-  return date.minute(Math.round(date.minute()  / 15) * 15).second(0).millisecond(0);
+  return date;
 }
 async function inMeeting() {
   const taskKey = datastore.key(['person', 'Meeting']);
@@ -196,7 +194,7 @@ async function getPeopleInjection() {
           const endDate = dayjs.tz(dayjs(history[i + 1]));
           const diffMs = endDate.valueOf() - startDate.valueOf();
 
-          if (diffMs > 24 * 3600000) {
+          if (!isMeeting && diffMs > 24 * 3600000) {
             console.log(name, "potential error @", i, i + 1);
             errorFlag = true;
           }
@@ -295,44 +293,24 @@ app.post('/hours/person', async (req, res) => {
   }
 });
 app.post('/hours/meeting', async (req, res) => {
-  try {
-    const startDate = roundToNearest15Minutes(dayjs(req.body.startDate));
-    const endDate = roundToNearest15Minutes(dayjs(req.body.endDate));
-    const isOptionalMeeting = req.body.isOptionalMeeting;
-
-
-    if (startDate.isValid() && endDate.isValid() && startDate < endDate) {
-      const taskKey = datastore.key(['person', 'Meeting']);
-      const [entity] = await datastore.get(taskKey);
-
-      entity.history.push(startDate.format());
-      entity.history.push(endDate.format());
-      entity.is_optional.push(isOptionalMeeting);
-      entity.is_optional.push(isOptionalMeeting);
-
-      console.log("created new meeting from ", startDate.format("h:m A"), " to ", endDate.format("h:m A"));
-  
-      await datastore.update({ key: taskKey, data: entity });
-  
-      res.status(200).json({ success: true });;
-      return;
-    }
-    else {
-      res.status(400).json({ success: false, error: "invalid dates" });
-      return;
-    }
-  }
-  catch (err) {
-    console.error(err);
-    res.status(500).json({ success: false, error: err });
-  }
+  res.status(200).json({ success: true });;
+  return;
 });
 
 //Serve Page
 app.get(Object.keys(pages), async (req, res) => {
+<<<<<<< HEAD
   // const page = pages[req.path];
   // const injection = page[1] ? await page[1]() : {};
   // injection.date = dayjs.tz(dayjs()).format("M/D/YYYY");
+=======
+  const page = pages[req.path];
+  if (!page) {
+    return res.render('pages/404.html');
+  }
+  const injection = page[1] ? await page[1]() : {};
+  injection.date = dayjs.tz(dayjs()).format("M/D/YYYY");
+>>>>>>> master
   res.render('pages/' + page[0], injection);
 });
 app.get('/_ah/warmup', (req, res) => {
