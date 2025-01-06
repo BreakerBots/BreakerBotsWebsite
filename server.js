@@ -110,37 +110,6 @@ app.use('/hours**', cookieParser(cookieSecret), (req, res, next) => {
   }
 });
 
-//Hours Redirected
-app.use('/hours/people', async (req, res, next) => {
-  if (await inMeeting()) {
-    next();
-  } else {
-    //meeting is over --> redirect
-    res.redirect('/hours/home');
-  }
-});
-function roundToNearest15Minutes(date) {
-  return date;
-}
-async function inMeeting() {
-  const taskKey = datastore.key(['person', 'Meeting']);
-  const [entity] = await datastore.get(taskKey);
-  const history = entity.history;
-
-  if (history.length > 1) {
-    const startOfLastMeetingDate = dayjs.tz(dayjs(history[history.length - 2]));
-    const endOfLastMeetingDate = dayjs.tz(dayjs(history[history.length - 1]));
-    const currentDate = dayjs.tz(roundToNearest15Minutes(dayjs()));
-
-    return (
-      currentDate >= startOfLastMeetingDate &&
-      currentDate <= endOfLastMeetingDate
-    );
-  } else {
-    return false;
-  }
-}
-
 //Hours People Injection
 async function getPeopleInjection() {
   try {
