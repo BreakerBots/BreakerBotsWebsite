@@ -44,7 +44,7 @@ var pages = {
   "/dashboard": ["dashboard2.html"],
   //"/store": ["store.html"],
   // "/breakerlib": ["breakerlib.html"],
-  // "/weeklyupdates": ["weeklyupdates.html"],
+  "/weeklyupdates": ["weeklyupdates.html"],
   // "/joinus": ["joinus.html"]
 };
 
