@@ -1,60 +1,49 @@
 <!DOCTYPE html>
-<html>
-
-<head>
+<html lang="en">
+  <head>
     <title>BreakerBots - Hours</title>
     <%- include('../../includes/head.html') %>
-    <meta http-equiv="refresh" content="900">
+    <meta http-equiv="refresh" content="900" />
 
     <style>
-        button {
-            margin-bottom: 40px;
-        }
+      button {
+        margin-bottom: 40px;
+      }
     </style>
-</head>
+  </head>
 
-<body class="hours">
+  <body class="hours">
     <card>
-        <img src="/images/icon.png">
-        <card-title>Hours Tracker</card-title>
-        <card-subtitle>No Active Meeting</card-subtitle>
-        <card-subtitle><%= date %></card-subtitle>
-        <div class="form-group">
-            <label for="startTime">Meeting Start</label>
-            <input class="form-control" id="startTime" placeholder="Start Time" type="time" step="900">
-        </div>
-        <div class="form-group">
-            <label for="endTime">Meeting End</label>
-            <input class="form-control" id="endTime" placeholder="End Time" type="time" step="900">
-        </div>
-        <div>
-            <button class="btn btn-primary" onclick="postMeeting(document.querySelector('#startTime'), document.querySelector('#endTime'), false)" type="button">Start Meeting</button>
-            <button class="btn btn-primary" onclick="postMeeting(document.querySelector('#startTime'), document.querySelector('#endTime'), true)" type="button">Start Optional Meeting</button>
-        </div>
-        <table class="people-table">
-            <tr>
-                <th>Name</th>
-                <th>Hours</th>
-            </tr>
-            <% for (const person of people) { %>
-            <tr>
-                <td><%= person.name %></td>
-                <td><%= person.hours %></td>
-            </tr>
-            <% } %>
-            <tr>
-                <td>2/3 of total</td>
-                <td> <%= meeting.hours * 2/3 %> </td>
-            </tr>
-            <tr>
-                <td>Total</td>
-                <td> <%= meeting.hours %> </td>
-            </tr>
-        </table>
+      <img src="/images/icon.png" alt="" />
+      <card-title>Hours Tracker</card-title>
+      <card-subtitle><%= date %></card-subtitle>
+      <table class="people-table">
+        <tr>
+          <th>Name</th>
+          <th>Hours</th>
+        </tr>
+        <% for (const person of people) { %>
+        <tr>
+          <td><%= person.name %></td>
+          <td><%= person.hours %></td>
+        </tr>
+        <% } %>
+        <tr>
+          <td>66% of Total</td>
+          <td><%= meeting.hours * 0.66 %></td>
+        </tr>
+        <tr>
+          <td>75% of Total</td>
+          <td><%= meeting.hours * 0.75 %></td>
+        </tr>
+        <tr>
+          <td>Total</td>
+          <td><%= meeting.hours %></td>
+        </tr>
+      </table>
     </card>
     <script type="text/javascript" src="/assets/bootstrap.js"></script>
     <script type="text/javascript" src="/assets/dayjs.js"></script>
     <script type="text/javascript" src="/assets/hours.js"></script>
-</body>
-
+  </body>
 </html>
