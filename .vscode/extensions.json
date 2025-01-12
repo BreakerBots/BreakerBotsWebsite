@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "dbaeumer.vscode-eslint",
+        "xabikos.javascriptsnippets",
+        "christian-kohler.npm-intellisense",
+        "sonarsource.sonarlint-vscode",
+        "esbenp.prettier-vscode"
+    ]
+}
