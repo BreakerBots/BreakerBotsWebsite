@@ -2,10 +2,13 @@ import { calendar as Calendar } from '@googleapis/calendar';
 import dayjs from 'dayjs';
 
 import { CALENDAR_ID, IS_RUNNING_ON_GOOGLE } from '../config/constants.js';
+import { getCalendarAuthToken } from './datastoreService.js';
 
 const calendar = Calendar({
   version: 'v3',
-  auth: IS_RUNNING_ON_GOOGLE ? undefined : process.env.API_KEY,
+  auth: IS_RUNNING_ON_GOOGLE
+    ? await getCalendarAuthToken()
+    : process.env.API_KEY,
 });
 
 /**

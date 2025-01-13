@@ -39,3 +39,8 @@ export async function updatePerson(name, data) {
   const key = datastore.key(['person', name]);
   return datastore.update({ key, data });
 }
+
+export async function getCalendarAuthToken() {
+  const query = datastore.createQuery('calendarAuthToken');
+  return datastore.runQuery(query).then(([tokens]) => tokens[0].API_KEY);
+}
