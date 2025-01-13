@@ -1,10 +1,16 @@
 import dayjs from 'dayjs';
+import minMaxPlugin from 'dayjs/plugin/minMax.js';
+import timezonePlugin from 'dayjs/plugin/timezone.js';
 
 import { getPeople, updatePerson } from './datastoreService.js';
 import {
   getMeetingsToday,
   getMeetingsLastTwoWeeks,
 } from './calendarService.js';
+
+dayjs.extend(minMaxPlugin);
+dayjs.extend(timezonePlugin);
+dayjs.tz.setDefault('America/Los_Angeles');
 
 export async function postPerson(req, res) {
   // Check if name is provided

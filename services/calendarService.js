@@ -1,8 +1,14 @@
 import { calendar as Calendar } from '@googleapis/calendar';
 import dayjs from 'dayjs';
+import minMaxPlugin from 'dayjs/plugin/minMax.js';
+import timezonePlugin from 'dayjs/plugin/timezone.js';
 
 import { CALENDAR_ID, IS_RUNNING_ON_GOOGLE } from '../config/constants.js';
 import { getCalendarAuthToken } from './datastoreService.js';
+
+dayjs.extend(minMaxPlugin);
+dayjs.extend(timezonePlugin);
+dayjs.tz.setDefault('America/Los_Angeles');
 
 const calendar = Calendar({
   version: 'v3',
