@@ -118,7 +118,7 @@ export async function getHoursInjection() {
       }
     }
     // TODO: add extra hours
-    const hours = Math.round(minutes / 15) / 4;
+    const hours = (Math.round(minutes / 15) + 3) / 4;
     return {
       name,
       hours,
