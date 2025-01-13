@@ -195,8 +195,10 @@ function* validSignInOutHistory(name, history) {
     }
 
     // Discard signed in overnight (sign out is on a different day from sign in)
+    // TODO: work around buggy dayjs isSame() function
     const signIn = dayjs(history[i]);
     const signOut = dayjs(history[i + 1]);
+    /*
     if (!signIn.isSame(signOut, 'day')) {
       console.log(
         name,
@@ -207,6 +209,7 @@ function* validSignInOutHistory(name, history) {
       );
       continue;
     }
+    */
 
     yield [signIn, signOut];
   }
