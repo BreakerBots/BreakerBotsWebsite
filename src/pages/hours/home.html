@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>BreakerBots - Hours</title>
-    <%- include('../../includes/head.html') %>
+
+<head>
+  <title>BreakerBots - Hours</title>
+  <%- include('../../includes/head.html') %>
     <meta http-equiv="refresh" content="900" />
 
     <style>
@@ -10,40 +11,56 @@
         margin-bottom: 40px;
       }
     </style>
-  </head>
+</head>
 
-  <body class="hours">
-    <card>
-      <img src="/images/icon.png" alt="" />
-      <card-title>Hours Tracker</card-title>
-      <card-subtitle><%= date %></card-subtitle>
-      <table class="people-table">
+<body class="hours">
+  <card>
+    <img src="/images/icon.png" alt="" />
+    <card-title>Hours Report</card-title>
+    <card-subtitle>
+      <%= date %>
+    </card-subtitle>
+    <a class="btn btn-primary" href="people.html">
+      Hours Tracker
+    </a>
+    <table class="people-table">
+      <tr>
+        <th>Name</th>
+        <th>Hours (<%= window.start.format('M/D') %> to <%= window.end.format('M/D') %>)</th>
+      </tr>
+      <% for (const person of people) { %>
         <tr>
-          <th>Name</th>
-          <th>Hours</th>
-        </tr>
-        <% for (const person of people) { %>
-        <tr>
-          <td><%= person.name %></td>
-          <td><%= person.hours %></td>
+          <td>
+            <%= person.name %>
+          </td>
+          <td>
+            <%= person.hours %>
+          </td>
         </tr>
         <% } %>
-        <tr>
-          <td>66% of Total</td>
-          <td><%= meeting.hours * 0.66 %></td>
-        </tr>
-        <tr>
-          <td>75% of Total</td>
-          <td><%= meeting.hours * 0.75 %></td>
-        </tr>
-        <tr>
-          <td>Total</td>
-          <td><%= meeting.hours %></td>
-        </tr>
-      </table>
-    </card>
-    <script type="text/javascript" src="/assets/bootstrap.js"></script>
-    <script type="text/javascript" src="/assets/dayjs.js"></script>
-    <script type="text/javascript" src="/assets/hours.js"></script>
-  </body>
+          <tr>
+            <td>66% of Total</td>
+            <td>
+              <%= window.hours * 0.66 %>
+            </td>
+          </tr>
+          <tr>
+            <td>75% of Total</td>
+            <td>
+              <%= window.hours * 0.75 %>
+            </td>
+          </tr>
+          <tr>
+            <td>Total</td>
+            <td>
+              <%= window.hours %>
+            </td>
+          </tr>
+    </table>
+  </card>
+  <script type="text/javascript" src="/assets/bootstrap.js"></script>
+  <script type="text/javascript" src="/assets/dayjs.js"></script>
+  <script type="text/javascript" src="/assets/hours.js"></script>
+</body>
+
 </html>

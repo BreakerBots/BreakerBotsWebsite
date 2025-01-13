@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <title>BreakerBots - Hours People</title>
@@ -15,10 +15,14 @@
 
 <body class="hours">
     <card>
-        <img src="/images/icon.png">
+        <img src="/images/icon.png" alt="">
         <card-title>Hours Tracker</card-title>
-	<!--<card-subtitle><%= meeting.title %> Meeting</card-subtitle>-->
-        <card-subtitle><%= date %></card-subtitle>
+        <card-subtitle>
+            <%= meeting.title %>
+        </card-subtitle>
+        <card-subtitle>
+            <%= meeting.start %> – <%= meeting.end %>
+        </card-subtitle>
         <table class="people-table">
             <tr>
                 <th>Name</th>
@@ -29,7 +33,7 @@
                 <td><%= person.name %></td>
                 <td>
                     <button type="button"
-                        class="btn <%= person.signedIn ? 'btn-secondary' : 'btn-primary' %>" 
+                        class="btn <%= person.signedIn ? 'btn-secondary' : 'btn-primary' %>"
                         onclick="postPerson('<%= person.name %>')">
                         Sign <%= person.signedIn ? 'Out' : 'In' %>
                     </button>
