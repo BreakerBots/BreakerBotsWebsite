@@ -6,8 +6,11 @@ function signIn(password) {
 
 async function postPerson(button, name) {
   button.disabled = true;
+  button.classList.toggle('btn-primary');
+  button.classList.toggle('btn-secondary');
   const signedIn = button.textContent === ' Sign Out ';
-  const color = signedIn ? '#b01dfa' : '#00af17';
+  button.style.color = signedIn ? '#fff' : '#212529';
+  const color = signedIn ? '#00af17' : '#b01dfa';
   button.style.backgroundColor = color;
   button.style.borderColor = color;
   button.textContent = '...';
@@ -33,7 +36,6 @@ async function postPerson(button, name) {
       const color = signedIn ? '#af1700' : '#fab01d';
       button.style.backgroundColor = color;
       button.style.borderColor = color;
-      button.style.color = signedIn ? '#fff' : '#212529';
       button.textContent = signedIn ? ' Sign In ' : ' Sign Out ';
       button.disabled = false;
     }
