@@ -33,7 +33,7 @@ async function postPerson(button, name) {
       button.style.color = '#fff';
       button.textContent = ' Error ';
     } else {
-      button.removeProperty('style');
+      button.removeAttribute('style');
       button.textContent = signedIn ? ' Sign In ' : ' Sign Out ';
       button.disabled = false;
     }
