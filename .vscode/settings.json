@@ -9,7 +9,6 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnPaste": true,
   "editor.formatOnType": true,
-  "editor.formatOnSaveMode": "modifications",
   "editor.formatOnSave": true,
   "eslint.codeActionsOnSave.rules": null,
   "javascript.referencesCodeLens.enabled": true,
@@ -27,5 +26,6 @@
   },
   "[html]": {
     "editor.defaultFormatter": "vscode.html-language-features"
-  }
+  },
+  "editor.tabSize": 2
 }

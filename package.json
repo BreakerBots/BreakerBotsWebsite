@@ -1,33 +1,29 @@
 {
-	"name": "breakerbots-website",
-	"version": "1.0.0",
-	"description": "the website for the BreakerBots Robotics Team",
-	"main": "index.js",
-	"scripts": {
-		"start": "node server.js"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/BreakerBots/Breakersite.git"
-	},
-	"author": "BreakerBots",
-	"license": "ISC",
-	"bugs": {
-		"url": "https://github.com/BreakerBots/Breakersite/issues"
-	},
-	"homepage": "https://github.com/BreakerBots/Breakersite#readme",
-	"dependencies": {
-		"@google-cloud/datastore": "^9.2.1",
-		"@googleapis/calendar": "^9.7.9",
-		"compression": "^1.7.5",
-		"cookie-parser": "^1.4.7",
-		"dayjs": "^1.11.13",
-		"ejs": "^3.1.10",
-		"express": "^4.21.2"
-	},
-	"devDependencies": {
-		"@eslint/js": "^9.16.0",
-		"eslint": "^9.17.0",
-		"globals": "^15.14.0"
-	}
+  "name": "breakerbots-website",
+  "version": "1.0.0",
+  "description": "The website for the BreakerBots Robotics Team",
+  "license": "ISC",
+  "repository": "https://github.com/BreakerBots/BreakerBotsWebsite",
+  "bugs": "https://github.com/BreakerBots/BreakerBotsWebsite/issues",
+  "homepage": "https://github.com/BreakerBots/BreakerBotsWebsite#readme",
+  "author": "BreakerBots",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@google-cloud/datastore": "^9.2.1",
+    "@googleapis/calendar": "^9.7.9",
+    "compression": "^1.7.5",
+    "cookie-parser": "^1.4.7",
+    "dayjs": "^1.11.13",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.16.0",
+    "eslint": "^9.17.0",
+    "globals": "^15.14.0"
+  }
 }
