@@ -174,14 +174,22 @@ export async function getPeopleInjection() {
   if (!displayMeeting.start) {
     displayMeeting.start = undefined;
   } else {
-    displayMeeting.start = meeting.start.format('ddd, MMM D h:mm A');
+    displayMeeting.start = meeting.start
+      .tz('America/Los_Angeles')
+      .format('ddd, MMM D h:mm A');
   }
   if (!displayMeeting.end) {
     displayMeeting.end = undefined;
   } else {
-    displayMeeting.end = meeting.end.format(
-      meeting.start.isSame(meeting.end, 'day') ? 'h:mm A' : 'ddd, MMM D h:mm A'
-    );
+    displayMeeting.end = meeting.end
+      .tz('America/Los_Angeles')
+      .format(
+        meeting.start
+          .tz('America/Los_Angeles')
+          .isSame(meeting.end.tz('America/Los_Angeles'), 'day')
+          ? 'h:mm A'
+          : 'ddd, MMM D h:mm A'
+      );
   }
 
   return { people: displayPeople, meeting: displayMeeting };
@@ -195,10 +203,8 @@ function* validSignInOutHistory(name, history) {
     }
 
     // Discard signed in overnight (sign out is on a different day from sign in)
-    // TODO: work around buggy dayjs isSame() function
-    const signIn = dayjs(history[i]);
-    const signOut = dayjs(history[i + 1]);
-    /*
+    const signIn = dayjs(history[i]).tz('America/Los_Angeles');
+    const signOut = dayjs(history[i + 1]).tz('America/Los_Angeles');
     if (!signIn.isSame(signOut, 'day')) {
       console.log(
         name,
@@ -209,7 +215,6 @@ function* validSignInOutHistory(name, history) {
       );
       continue;
     }
-    */
 
     yield [signIn, signOut];
   }
