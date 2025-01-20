@@ -4,13 +4,13 @@
 <head>
     <title>BreakerBots - Hours People</title>
     <%- include('../../includes/head.html') %>
-    <meta http-equiv="refresh" content="120">
+        <meta http-equiv="refresh" content="120">
 
-    <style>
-        button {
-            width: 90px;
-        }
-    </style>
+        <style>
+            button {
+                width: 90px;
+            }
+        </style>
 </head>
 
 <body class="hours">
@@ -29,17 +29,18 @@
                 <th style="width:120px;"></th>
             </tr>
             <% for (const person of people) { %>
-            <tr>
-                <td><%= person.name %></td>
-                <td>
-                    <button type="button"
-                        class="btn <%= person.signedIn ? 'btn-secondary' : 'btn-primary' %>"
-                        onclick="postPerson('<%= person.name %>')">
-                        Sign <%= person.signedIn ? 'Out' : 'In' %>
-                    </button>
-                </td>
-            </tr>
-            <% } %>
+                <tr>
+                    <td>
+                        <%= person.name %>
+                    </td>
+                    <td>
+                        <button type="button" class="btn <%= person.signedIn ? 'btn-secondary' : 'btn-primary' %>"
+                            onclick="postPerson('<%= person.name %>', '<%= person.signedIn %>')">
+                            Sign <%= person.signedIn ? 'Out' : 'In' %>
+                        </button>
+                    </td>
+                </tr>
+                <% } %>
         </table>
     </card>
 

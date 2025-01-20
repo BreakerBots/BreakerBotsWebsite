@@ -4,8 +4,8 @@ function signIn(password) {
   window.location.search = 'password=' + password;
 }
 
-async function postPerson(name) {
-  const res = await fetch('/hours/person', {
+async function postPerson(name, signedIn) {
+  fetch('/hours/person', {
     method: 'POST',
     mode: 'cors',
     cache: 'no-cache',
@@ -16,12 +16,12 @@ async function postPerson(name) {
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
     //date handling will occur server-side
-    body: JSON.stringify({ name }),
+    body: JSON.stringify({ name, signIn: !signedIn }),
+  }).then((res) => {
+    const data = res.json();
+    if (!data.success) {
+      alert('An error has occured. ' + data.error);
+    }
   });
-  const data = await res.json();
-  if (data.success) {
-    window.location.reload();
-  } else {
-    alert('An error has occured. ' + data.error);
-  }
+  window.location.reload();
 }
