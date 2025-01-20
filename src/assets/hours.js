@@ -26,7 +26,7 @@ async function postPerson(button, name) {
     if (!res.ok) {
       console.error('POST person failed:', res);
     } else {
-      const color = signedIn ? '#fab01d' : '#af1700';
+      const color = signedIn ? '#af1700' : '#fab01d';
       button.style.backgroundColor = color;
       button.style.borderColor = color;
       button.style.color = signedIn ? '#fff' : '#212529';
