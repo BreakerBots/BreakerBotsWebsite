@@ -35,7 +35,7 @@
                     </td>
                     <td>
                         <button type="button" class="btn <%= person.signedIn ? 'btn-secondary' : 'btn-primary' %>"
-                            onclick="postPerson('<%= person.name %>', '<%= person.signedIn %>')">
+                            onclick="postPerson(this, '<%= person.name %>', '<%= person.signedIn %>')">
                             Sign <%= person.signedIn ? 'Out' : 'In' %>
                         </button>
                     </td>

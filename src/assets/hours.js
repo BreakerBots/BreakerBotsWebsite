@@ -4,7 +4,7 @@ function signIn(password) {
   window.location.search = 'password=' + password;
 }
 
-async function postPerson(name, signedIn) {
+async function postPerson(button, name, signedIn) {
   fetch('/hours/person', {
     method: 'POST',
     mode: 'cors',
@@ -18,9 +18,8 @@ async function postPerson(name, signedIn) {
     //date handling will occur server-side
     body: JSON.stringify({ name, signIn: !signedIn }),
   }).then((res) => {
-    const data = res.json();
-    if (!data.success) {
-      alert('An error has occured. ' + data.error);
+    if (!res.ok) {
+      console.error('POST person failed:', res);
     }
   });
   window.location.reload();
