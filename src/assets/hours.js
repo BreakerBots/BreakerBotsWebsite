@@ -6,7 +6,7 @@ function signIn(password) {
 
 async function postPerson(button, name) {
   button.disabled = true;
-  const signedIn = button.textContent === 'Sign Out';
+  const signedIn = button.textContent === ' Sign Out ';
   const color = signedIn ? '#b01dfa' : '#00af17';
   button.style.backgroundColor = color;
   button.style.borderColor = color;
@@ -30,7 +30,7 @@ async function postPerson(button, name) {
       button.style.backgroundColor = color;
       button.style.borderColor = color;
       button.style.color = signedIn ? '#fff' : '#212529';
-      button.textContent = signedIn ? 'Sign In' : 'Sign Out';
+      button.textContent = signedIn ? ' Sign In ' : ' Sign Out ';
       button.disabled = false;
     }
   });
