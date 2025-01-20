@@ -5,6 +5,10 @@ function signIn(password) {
 }
 
 async function postPerson(button, name, signedIn) {
+  button.disabled = true;
+  const color = signedIn ? '#b01dfa' : '#00af17';
+  button.style.backgroundColor = color;
+  button.style.borderColor = color;
   fetch('/hours/person', {
     method: 'POST',
     mode: 'cors',
@@ -15,12 +19,15 @@ async function postPerson(button, name, signedIn) {
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
-    //date handling will occur server-side
     body: JSON.stringify({ name, signIn: !signedIn }),
   }).then((res) => {
     if (!res.ok) {
       console.error('POST person failed:', res);
+    } else {
+      const color = signedIn ? '#fab01d' : '#af1700';
+      button.style.backgroundColor = color;
+      button.style.borderColor = color;
+      button.enabled = true;
     }
   });
-  window.location.reload();
 }
