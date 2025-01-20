@@ -64,7 +64,7 @@ app.get(Object.keys(pages), async (req, res) => {
     return res.render('pages/404.html');
   }
   const injection = page[1] ? await page[1]() : {};
-  injection.date = dayjs().format('M/D/YYYY');
+  injection.date = dayjs().tz().format('M/D/YYYY');
   res.render('pages/' + page[0], injection);
 });
 

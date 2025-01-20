@@ -37,22 +37,22 @@ export async function postPerson(req, res) {
     person.history[person.history.length - 1] === null
   ) {
     // If person is signed in, then sign out
-    const outTime = dayjs().format();
+    const outTime = dayjs().tz();
     console.log(
       req.body.name,
       'signing out at',
-      dayjs(outTime).format('ddd, MMM D h:mm A')
+      outTime.format('ddd, MMM D h:mm A')
     );
-    person.history[person.history.length - 1] = outTime;
+    person.history[person.history.length - 1] = outTime.format();
   } else {
     // If person is signed out, then sign in
-    const inTime = dayjs().format();
+    const inTime = dayjs().tz();
     console.log(
       req.body.name,
       'signing in at',
-      dayjs(inTime).format('ddd, MMM D h:mm A')
+      inTime.format('ddd, MMM D h:mm A')
     );
-    person.history.push(inTime);
+    person.history.push(inTime.format());
     person.history.push(null);
   }
 
@@ -79,8 +79,8 @@ export async function getHoursInjection() {
     return {
       people: [],
       window: {
-        start: dayjs().startOf('week').subtract(2, 'week'),
-        end: dayjs().startOf('week').subtract(1, 'day'),
+        start: dayjs().tz().startOf('week').subtract(2, 'week'),
+        end: dayjs().tz().startOf('week').subtract(1, 'day'),
         hours: -1,
       },
     };
@@ -128,8 +128,8 @@ export async function getHoursInjection() {
   return {
     people: displayPeople,
     window: {
-      start: dayjs().startOf('week').subtract(2, 'week'),
-      end: dayjs().startOf('week').subtract(1, 'day'),
+      start: dayjs().tz().startOf('week').subtract(2, 'week'),
+      end: dayjs().tz().startOf('week').subtract(1, 'day'),
       hours: totalHours,
     },
   };
@@ -150,8 +150,8 @@ export async function getPeopleInjection() {
 
   // Get the ongoing or next upcoming meeting today
   const meeting =
-    meetings.find((meeting) => meeting.end.isAfter(dayjs())) ||
-    meetings.findReverse((meeting) => meeting.start.isBefore(dayjs()));
+    meetings.find((meeting) => meeting.end.isAfter(dayjs().tz())) ||
+    meetings.findReverse((meeting) => meeting.start.isBefore(dayjs().tz()));
 
   // Convert person entities from Datastore format to display format
   const displayPeople = Object.entries(people).map(([name, person]) => ({
@@ -168,22 +168,14 @@ export async function getPeopleInjection() {
   if (!displayMeeting.start) {
     displayMeeting.start = undefined;
   } else {
-    displayMeeting.start = meeting.start
-      .tz('America/Los_Angeles')
-      .format('ddd, MMM D h:mm A');
+    displayMeeting.start = meeting.start.format('ddd, MMM D h:mm A');
   }
   if (!displayMeeting.end) {
     displayMeeting.end = undefined;
   } else {
-    displayMeeting.end = meeting.end
-      .tz('America/Los_Angeles')
-      .format(
-        meeting.start
-          .tz('America/Los_Angeles')
-          .isSame(meeting.end.tz('America/Los_Angeles'), 'day')
-          ? 'h:mm A'
-          : 'ddd, MMM D h:mm A'
-      );
+    displayMeeting.end = meeting.end.format(
+      meeting.start.isSame(meeting.end, 'day') ? 'h:mm A' : 'ddd, MMM D h:mm A'
+    );
   }
 
   return { people: displayPeople, meeting: displayMeeting };
@@ -197,8 +189,8 @@ function* validSignInOutHistory(name, history) {
     }
 
     // Discard signed in overnight (sign out is on a different day from sign in)
-    const signIn = dayjs(history[i]).tz('America/Los_Angeles');
-    const signOut = dayjs(history[i + 1]).tz('America/Los_Angeles');
+    const signIn = dayjs(history[i]).tz();
+    const signOut = dayjs(history[i + 1]).tz();
     if (!signIn.isSame(signOut, 'day')) {
       console.log(
         name,

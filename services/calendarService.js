@@ -24,7 +24,7 @@ const calendar = Calendar({
  * in the specified format with title, start, and end times.
  */
 export async function getMeetingsLastTwoWeeks() {
-  const end = dayjs().startOf('week');
+  const end = dayjs().tz().startOf('week');
   const start = end.subtract(2, 'weeks');
   return getEventsFromCalendar(CALENDAR_ID, start, end).then(
     getMeetingsFromEvents
@@ -43,7 +43,7 @@ export async function getMeetingsLastTwoWeeks() {
  * in the specified format with title, start, and end times.
  */
 export async function getMeetingsToday() {
-  const today = dayjs().startOf('day');
+  const today = dayjs().tz().startOf('day');
   const tomorrow = dayjs().add(1, 'day');
   return getEventsFromCalendar(CALENDAR_ID, today, tomorrow).then(
     getMeetingsFromEvents
@@ -78,8 +78,8 @@ function getMeetingsFromEvents(events) {
       );
       return {
         title,
-        start: dayjs(event.start?.dateTime),
-        end: dayjs(event.end?.dateTime),
+        start: dayjs(event.start?.dateTime).tz(),
+        end: dayjs(event.end?.dateTime).tz(),
       };
     });
 }
