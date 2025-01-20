@@ -7,6 +7,7 @@ import { PORT } from './config/constants.js';
 import dayjs from 'dayjs';
 import minMaxPlugin from 'dayjs/plugin/minMax.js';
 import timezonePlugin from 'dayjs/plugin/timezone.js';
+import utcPlugin from 'dayjs/plugin/utc.js';
 import hoursAuthMiddleware from './middleware/auth.js';
 
 import {
@@ -17,6 +18,7 @@ import {
 
 dayjs.extend(minMaxPlugin);
 dayjs.extend(timezonePlugin);
+dayjs.extend(utcPlugin);
 dayjs.tz.setDefault('America/Los_Angeles');
 
 //Express Config
