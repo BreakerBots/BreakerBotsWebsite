@@ -26,16 +26,12 @@ async function postPerson(button, name) {
     if (!res.ok) {
       console.error('POST person failed:', res);
     } else {
-      /*
       const color = signedIn ? '#fab01d' : '#af1700';
       button.style.backgroundColor = color;
       button.style.borderColor = color;
       button.style.color = signedIn ? '#fff' : '#212529';
-      */
-      button.classList.toggle('btn-primary');
-      button.classList.toggle('btn-secondary');
       button.textContent = signedIn ? 'Sign In' : 'Sign Out';
-      button.enabled = true;
+      button.disabled = false;
     }
   });
 }
