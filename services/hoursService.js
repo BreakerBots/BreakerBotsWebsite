@@ -151,7 +151,7 @@ export async function getPeopleInjection() {
   // Get the ongoing or next upcoming meeting today
   const meeting =
     meetings.find((meeting) => meeting.end.isAfter(dayjs().tz())) ||
-    meetings.findReverse((meeting) => meeting.start.isBefore(dayjs().tz()));
+    meetings.reverse().find((meeting) => meeting.start.isBefore(dayjs().tz()));
 
   // Convert person entities from Datastore format to display format
   const displayPeople = Object.entries(people).map(([name, person]) => ({
