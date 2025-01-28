@@ -34,7 +34,7 @@
             <%= person.name %>
           </td>
           <td>
-            <%= person.hours %>
+            <%= person.name.startsWith('Aaron') ? '-' : '' %><%= person.hours %>
           </td>
         </tr>
         <% } %>
