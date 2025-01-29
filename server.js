@@ -15,6 +15,7 @@ import {
   getPeopleInjection,
   postPerson,
 } from './services/hoursService.js';
+import { getHoursXlsx } from './services/xlsxService.js';
 
 dayjs.extend(minMaxPlugin);
 dayjs.extend(timezonePlugin);
@@ -53,6 +54,17 @@ const pages = {
 
 //Hours Auth Middleware
 app.use('/hours**', hoursAuthMiddleware);
+
+app.get('/hours/download', async (req, res) => {
+  const { filename, buffer } = await getHoursXlsx();
+  res.setHeader('Content-Disposition', `attachment; filename=${filename}`);
+  res.setHeader(
+    'Content-Type',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  );
+  console.dir(buffer);
+  res.write(buffer, 'binary');
+});
 
 //Hours Post Requests
 app.post('/hours/person', postPerson);

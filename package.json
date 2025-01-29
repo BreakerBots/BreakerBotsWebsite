@@ -19,7 +19,8 @@
     "cookie-parser": "^1.4.7",
     "dayjs": "^1.11.13",
     "ejs": "^3.1.10",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "node-xlsx": "^0.24.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.16.0",
