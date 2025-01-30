@@ -10,10 +10,10 @@ export async function getHoursXlsx() {
   start = start.replace('-', '/');
   end = end.replace('-', '/');
   const data = people.map((person) => [person.name, person.hours]);
-  data.unshift(['Total', window.hours]);
+  data.unshift(['Total', window.hours.toFixed(2)]);
   data.push(
-    ['75% of Total', window.hours * 0.75],
-    ['66% of Total', window.hours * 0.66]
+    ['75% of Total', (window.hours * 0.75).toFixed(2)],
+    ['66% of Total', (window.hours * 0.66).toFixed(2)]
   );
   data.sort((a, b) => b[1] - a[1]);
   data.unshift(['Name', `Hours (${start} – ${end})`]);

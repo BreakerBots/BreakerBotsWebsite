@@ -39,26 +39,26 @@
             <%= person.name %>
           </td>
           <td>
-            <%= person.hours %>
+            <%= person.hours.toFixed(2) %>
           </td>
         </tr>
         <% } %>
           <tr>
             <td>66% of Total</td>
             <td>
-              <%= window.hours * 0.66 %>
+              <%= (window.hours * 0.66).toFixed(2) %>
             </td>
           </tr>
           <tr>
             <td>75% of Total</td>
             <td>
-              <%= window.hours * 0.75 %>
+              <%= (window.hours * 0.75).toFixed(2) %>
             </td>
           </tr>
           <tr>
             <td>Total</td>
             <td>
-              <%= window.hours %>
+              <%= window.hours.toFixed(2) %>
             </td>
           </tr>
     </table>
