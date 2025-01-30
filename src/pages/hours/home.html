@@ -4,7 +4,7 @@
 <head>
   <title>BreakerBots - Hours</title>
   <%- include('../../includes/head.html') %>
-    <meta http-equiv="refresh" content="900" />
+    <meta http-equiv="refresh" content="3600" />
 
     <style>
       button {
@@ -20,9 +20,14 @@
     <card-subtitle>
       <%= date %>
     </card-subtitle>
-    <a class="btn btn-primary" href="people">
-      Hours Tracker
-    </a>
+    <span>
+      <a class="btn btn-primary" href="people">
+        Hours Tracker
+      </a>
+      <a class="btn btn-secondary" href="download">
+        Download .xlsx
+      </a>
+    </span>
     <table class="people-table">
       <tr>
         <th>Name</th>
@@ -34,26 +39,26 @@
             <%= person.name %>
           </td>
           <td>
-            <%= person.hours %>
+            <%= person.hours.toFixed(2) %>
           </td>
         </tr>
         <% } %>
           <tr>
             <td>66% of Total</td>
             <td>
-              <%= window.hours * 0.66 %>
+              <%= (window.hours * 0.66).toFixed(2) %>
             </td>
           </tr>
           <tr>
             <td>75% of Total</td>
             <td>
-              <%= window.hours * 0.75 %>
+              <%= (window.hours * 0.75).toFixed(2) %>
             </td>
           </tr>
           <tr>
             <td>Total</td>
             <td>
-              <%= window.hours %>
+              <%= window.hours.toFixed(2) %>
             </td>
           </tr>
     </table>

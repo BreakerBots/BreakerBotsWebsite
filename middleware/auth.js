@@ -3,7 +3,7 @@ import { createHash } from 'crypto';
 
 const cookieSecret = createHash('sha256').update('51O4').digest('hex');
 const hoursPasswordHash =
-  '9fb9297d179a9e2341c9562f94e88b76d6a3c45fdb3a0cbaca832a22aa99b7b2';
+  'b1170d000f6a2c4e32d1ba34f7d788efa32bceeaba5f5ff432eb11ac21cd3d81';
 
 function cookieParserMiddleware(req, res, next) {
   return cookieParser(cookieSecret)(req, res, next);
