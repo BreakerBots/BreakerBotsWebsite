@@ -67,6 +67,7 @@ export async function postPerson(req, res) {
 
   res.status(200).json({ success: true });
 }
+
 export async function getHoursInjection() {
   let people, meetings;
   try {

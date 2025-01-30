@@ -4,7 +4,7 @@
 <head>
   <title>BreakerBots - Hours</title>
   <%- include('../../includes/head.html') %>
-    <meta http-equiv="refresh" content="900" />
+    <meta http-equiv="refresh" content="3600" />
 
     <style>
       button {
@@ -20,9 +20,14 @@
     <card-subtitle>
       <%= date %>
     </card-subtitle>
-    <a class="btn btn-primary" href="people">
-      Hours Tracker
-    </a>
+    <span>
+      <a class="btn btn-primary" href="people">
+        Hours Tracker
+      </a>
+      <a class="btn btn-primary" href="download">
+        Download Report
+      </a>
+    </span>
     <table class="people-table">
       <tr>
         <th>Name</th>

@@ -56,14 +56,19 @@ const pages = {
 app.use('/hours**', hoursAuthMiddleware);
 
 app.get('/hours/download', async (req, res) => {
-  const { filename, buffer } = await getHoursXlsx();
-  res.setHeader('Content-Disposition', `attachment; filename=${filename}`);
-  res.setHeader(
-    'Content-Type',
-    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-  );
-  console.dir(buffer);
-  res.write(buffer, 'binary');
+  try {
+    const { filename, buffer } = await getHoursXlsx();
+    res.writeHead(200, {
+      'Content-Disposition': `attachment; filename=${filename}`,
+      'Content-Type':
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'Content-Length': buffer.length,
+    });
+    res.end(Buffer.from(buffer, 'binary'));
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: err });
+  }
 });
 
 //Hours Post Requests
