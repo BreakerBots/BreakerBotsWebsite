@@ -26,7 +26,7 @@ export async function getHoursXlsx() {
           data,
         },
       ],
-      { '!cols': [{ wch: 20 }, { wch: 10 }] }
+      { sheetOptions: { '!cols': [{ wch: 25 }, { wch: 5 }] } }
     ),
   };
 }
