@@ -4,11 +4,11 @@ import { getHoursInjection } from './hoursService.js';
 
 export async function getHoursXlsx() {
   const { people, window } = await getHoursInjection();
-  const start = window.start.format('MM-DD');
-  const end = window.end.format('MM-DD');
+  let start = window.start.format('MM-DD');
+  let end = window.end.format('MM-DD');
   const filename = `hours_${start}_${end}.xlsx`;
-  start.replace('-', '/');
-  end.replace('-', '/');
+  start = start.replace('-', '/');
+  end = end.replace('-', '/');
   const data = people.map((person) => [person.name, person.hours]);
   data.unshift(['Total', window.hours]);
   data.push(
@@ -22,7 +22,7 @@ export async function getHoursXlsx() {
     buffer: xlsx.build(
       [
         {
-          name: `Hours (${start} – ${end})`,
+          name: 'Hours',
           data,
         },
       ],
