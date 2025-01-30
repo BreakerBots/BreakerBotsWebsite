@@ -87,6 +87,13 @@ export async function getHoursInjection() {
     };
   }
 
+  // Calculate total possible hours for all meetings in the 2 week window.
+  let totalMinutes = 0;
+  for (const { start, end } of meetings) {
+    totalMinutes += end.diff(start, 'minutes');
+  }
+  let totalHours = totalMinutes / 60;
+
   // Convert person entities from Datastore format to display format
   const displayPeople = Object.entries(people).map(([name, person]) => {
     let minutes = 0;
@@ -113,18 +120,12 @@ export async function getHoursInjection() {
       }
     }
     // TODO: add extra hours
-    const hours = Math.ceil(minutes / 60);
+    const hours = Math.min(totalHours, Math.ceil(minutes / 60));
     return {
       name,
       hours,
     };
   });
-
-  let totalMinutes = 0;
-  for (const { start, end } of meetings) {
-    totalMinutes += end.diff(start, 'minutes');
-  }
-  let totalHours = totalMinutes / 60;
 
   return {
     people: displayPeople,
