@@ -1,29 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>BreakerBots - Hours Auth</title>
-    <%- include('../../includes/head.html') %>
-  </head>
 
-  <body class="hours">
-    <card>
-      <img src="/images/icon.png" alt="" />
-      <card-title>Hours Tracker</card-title>
-      <card-subtitle>Register Device</card-subtitle>
-      <input
-        class="form-control"
-        type="password"
-        placeholder="Super Secret Admin Password"
-      />
-      <button
-        class="btn btn-primary"
-        onclick="signIn(this.parentNode.querySelector('input').value)"
-        type="button"
-      >
-        Sign In
-      </button>
-    </card>
-    <script type="text/javascript" src="/assets/bootstrap.js"></script>
-    <script type="text/javascript" src="/assets/hours.js"></script>
-  </body>
+<head>
+  <title>BreakerBots - Hours Auth</title>
+  <%- include('../../includes/head.html') %>
+</head>
+
+<body class="hours">
+  <card>
+    <img src="/images/icon.png" alt="" />
+    <card-title>Hours Tracker</card-title>
+    <card-subtitle>Register Device</card-subtitle>
+    <input class="form-control" type="password" placeholder="Super Secret Admin Password" />
+    <button class="btn btn-primary" onclick="signIn(this.parentNode.querySelector('input').value)" type="button">
+      Sign In
+    </button>
+  </card>
+  <script type="text/javascript" src="/assets/bootstrap.js"></script>
+  <script type="text/javascript">
+    function signIn(password) {
+      window.location.search = 'password=' + password;
+    }
+  </script>
+</body>
+
 </html>

@@ -1,9 +1,5 @@
 /* eslint-disable no-unused-vars */
 
-function signIn(password) {
-  window.location.search = 'password=' + password;
-}
-
 async function postPerson(button, name) {
   button.disabled = true;
   const signedIn = button.classList.contains('btn-secondary');
@@ -39,3 +35,23 @@ async function postPerson(button, name) {
     }
   });
 }
+
+function idleTimer() {
+  var t;
+  window.onload = resetTimer;
+  window.onmousemove = resetTimer; // catches mouse movements
+  window.onmousedown = resetTimer; // catches mouse movements
+  window.onclick = resetTimer; // catches mouse clicks
+  window.onscroll = resetTimer; // catches scrolling
+  window.onkeypress = resetTimer; //catches keyboard actions
+
+  function reload() {
+    window.location = self.location.href; //Reloads the current page
+  }
+
+  function resetTimer() {
+    clearTimeout(t);
+    t = setTimeout(reload, 800000); // time is in milliseconds (1000 is 1 second)
+  }
+}
+idleTimer();
