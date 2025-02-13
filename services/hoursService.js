@@ -87,6 +87,18 @@ export async function getHoursInjection() {
     };
   }
 
+  // Between 2025-02-14 and 2025-02-23, clamp meeting hours to 15:40-18:00.
+  meetings = meetings.map((meeting) => {
+    if (
+      meeting.start.isAfter('2025-02-14') ||
+      meeting.start.isBefore('2025-02-23')
+    ) {
+      meeting.start = meeting.start.hour(15).minute(40);
+      meeting.end = meeting.end.hour(18).minute(0);
+    }
+    return meeting;
+  });
+
   // Calculate total possible hours for all meetings in the 2 week window.
   let totalMinutes = 0;
   for (const { start, end } of meetings) {
