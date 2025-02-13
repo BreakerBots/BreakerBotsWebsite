@@ -44,7 +44,7 @@ export async function getMeetingsLastTwoWeeks() {
  */
 export async function getMeetingsToday() {
   const today = dayjs().tz().startOf('day');
-  const tomorrow = dayjs().add(1, 'day');
+  const tomorrow = dayjs().tz().add(1, 'day');
   return getEventsFromCalendar(CALENDAR_ID, today, tomorrow).then(
     getMeetingsFromEvents
   );
