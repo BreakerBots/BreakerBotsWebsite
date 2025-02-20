@@ -1,12 +1,15 @@
 <style>
-    .btn{
+    .btn {
         outline: none;
     }
+
     /* .btn:hover{
         background-color: #1f2224;
     } */
 </style>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark breaker-nav"><a class="navbar-brand" href="/"><img class="icon" src="images/icon-bg.webp" /></a><button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar"><span class="navbar-toggler-icon"></span></button>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark breaker-nav"><a class="navbar-brand" href="/"><img class="icon"
+            src="images/icon-bg.webp" /></a><button class="navbar-toggler" type="button" data-toggle="collapse"
+        data-target="#navbar" aria-controls="navbar"><span class="navbar-toggler-icon"></span></button>
     <div class="collapse navbar-collapse" id="navbar">
         <ul class="navbar-nav">
             <li class="nav-item active"><a class="nav-link" href="/robots">Robots</a></li>
@@ -15,10 +18,31 @@
             <li class="nav-item active"><a class="nav-link" href="/contact">Contact</a></li>
             <li class="nav-item active"><a class="nav-link" href="/calendar">Calendar</a></li>
             <!-- <li class="nav-item active"><a class="nav-link" href="/store">Store</a></li> -->
-            <li class="nav-item active"><a class="nav-link" href="/weeklyupdates">Weekly Updates</a></li> 
+            <li class="nav-item active"><a class="nav-link" href="/weeklyupdates">Weekly Updates</a></li>
         </ul>
     </div>
     <ul>
-        <button class="btn" type="button" onclick="document.body.classList.toggle('dark')" > <img class="icon" src="images/home/logo-dark-mode.png"> </button>
+        <button class="btn" type="button" onclick="doDarkMode(true)"> <img class="icon"
+                src="images/home/logo-dark-mode.png"> </button>
     </ul>
 </nav>
+
+<script>
+    function doDarkMode(refresh) {
+        document.body.classList.toggle('dark');
+        let dark = localStorage.getItem("darkMode");
+        if (refresh) {
+            if (dark === "disabled" || dark === null) {
+                localStorage.setItem("darkMode", "enabled");
+            } else {
+                localStorage.setItem("darkMode", "disabled");
+            }
+        }
+    }
+
+    let dark = localStorage.getItem("darkMode");
+    if (dark === "enabled") {
+        doDarkMode(false);
+    }
+
+</script>
