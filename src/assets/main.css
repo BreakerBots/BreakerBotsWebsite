@@ -119,7 +119,7 @@ breaker-footer--other a:hover {
 body.dark {
     color: white;
     background-color: #1f2224;
-    transition: color 500ms linear, background-color 500ms linear;
+    transition: color 500ms linear, background-color 500ms linear !important;
 }
 
     /* Additional target for elements with text */
@@ -148,6 +148,39 @@ body.dark .disabled-link {
     color: white !important;
 }
 
+
+/* Dark Mode  :D  */
+body.darkNoTrans {
+    color: white;
+    background-color: #1f2224;
+    transition: color 0ms linear, background-color 0ms linear !important;
+}
+
+    /* Additional target for elements with text */
+body.darkNoTrans .lead {
+    color: white !important;
+}
+
+body.darkNoTrans ul,
+body.darkNoTrans li {
+    color: white;
+}
+
+
+
+/* Hover turn orange thingy
+body.darkNoTrans a:hover {
+    color: #fab01d;
+}
+*/
+
+body.darkNoTrans .breaker-footer--other a {
+    color: white !important;
+}
+
+body.darkNoTrans .disabled-link {
+    color: white !important;
+}
 
 body {
     transition: color 500ms linear, background-color 500ms linear;  /* Smooth transition back to light mode */
