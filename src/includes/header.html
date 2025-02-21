@@ -22,30 +22,27 @@
         </ul>
     </div>
     <ul>
-        <button class="btn" type="button" onclick="doDarkMode()"> <img class="icon"
+        <button class="btn" type="button" onclick="doDarkMode(true)"> <img class="icon"
                 src="images/home/logo-dark-mode.png"> </button>
     </ul>
 </nav>
 
 <script>
-    function doDarkMode() {
-        if (document.body.classList.contains('darkNoTrans')) {
-            document.body.classList.remove('darkNoTrans');
-        } else {
-            document.body.classList.toggle('dark');
-        }
-
+    function doDarkMode(refresh) {
+        document.body.classList.toggle('dark');
         let dark = localStorage.getItem("darkMode");
-        if (dark === "disabled" || dark === null) {
-            localStorage.setItem("darkMode", "enabled");
-        } else {
-            localStorage.setItem("darkMode", "disabled");
+        if (refresh) {
+            if (dark === "disabled" || dark === null) {
+                localStorage.setItem("darkMode", "enabled");
+            } else {
+                localStorage.setItem("darkMode", "disabled");
+            }
         }
     }
 
     let dark = localStorage.getItem("darkMode");
     if (dark === "enabled") {
-        document.body.classList.add('darkNoTrans');
+        doDarkMode(false);
     }
 
 </script>
