@@ -23,9 +23,10 @@ const calendar = Calendar({
  * @returns {Promise<Array>} A promise that resolves to an array of meetings
  * in the specified format with title, start, and end times.
  */
-export async function getMeetingsLastTwoWeeks() {
-  const end = dayjs().tz().startOf('week');
-  const start = end.subtract(2, 'weeks');
+export async function getMeetings(
+  start = dayjs().tz().startOf('week').subtract(2, 'weeks'),
+  end = start.add(2, 'weeks')
+) {
   return getEventsFromCalendar(CALENDAR_ID, start, end).then(
     getMeetingsFromEvents
   );

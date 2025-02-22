@@ -1,10 +1,7 @@
 import dayjs from 'dayjs';
 
 import { getPeople, updatePerson } from './datastoreService.js';
-import {
-  getMeetingsToday,
-  getMeetingsLastTwoWeeks,
-} from './calendarService.js';
+import { getMeetings, getMeetingsToday } from './calendarService.js';
 
 export async function postPerson(req, res) {
   // Check if name is provided
@@ -68,20 +65,23 @@ export async function postPerson(req, res) {
   res.status(200).json({ success: true });
 }
 
-export async function getHoursInjection() {
+export async function getHoursInjection(
+  start = dayjs().tz().startOf('week').subtract(2, 'week'),
+  end = dayjs().tz().startOf('week')
+) {
   let people, meetings;
   try {
     [people, meetings] = await Promise.all([
       getPeople(),
-      getMeetingsLastTwoWeeks(),
+      getMeetings(start, end),
     ]);
   } catch (err) {
     console.error(err);
     return {
       people: [],
       window: {
-        start: dayjs().tz().startOf('week').subtract(2, 'week'),
-        end: dayjs().tz().startOf('week').subtract(1, 'day'),
+        start,
+        end: end.subtract(1, 'day'),
         hours: -1,
       },
     };
@@ -147,8 +147,8 @@ export async function getHoursInjection() {
   return {
     people: displayPeople,
     window: {
-      start: dayjs().tz().startOf('week').subtract(2, 'week'),
-      end: dayjs().tz().startOf('week').subtract(1, 'day'),
+      start,
+      end: end.subtract(1, 'day'),
       hours: totalHours,
     },
   };
