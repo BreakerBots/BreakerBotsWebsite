@@ -55,6 +55,10 @@ ul, li {
 	color: #666
 }
 
+b {
+	color: #666
+}
+
 /* Footer */
 breaker-footer {
 	display: block;
@@ -122,12 +126,21 @@ body.dark {
     transition: color 500ms linear, background-color 500ms linear !important;
 }
 
+body.dark .toptext {
+     background-color: #1f2224;
+}
+
     /* Additional target for elements with text */
-body.dark h1,
-body.dark h2 {
+
+body.dark h2,
+body.dark h3,
+body.dark h4 {
     color: white;
 }
 
+body.dark b {
+    color: white !important;
+}
 
 body.dark .lead {
     color: white !important;
@@ -150,11 +163,11 @@ body.darkNoTrans .featurette-heading { /* Surely... there's a better way */
     color: white;
 }
 
-/* Hover turn orange thingy
+
 body.dark a:hover {
     color: #fab01d;
 }
-*/
+
 
 body.dark .breaker-footer--other a {
     color: white !important;
@@ -165,14 +178,29 @@ body.dark .disabled-link {
 }
 
 
-/* Dark Mode  :D  */
+/* Dark Mode no Transition on Cache Class (Surely there's a better way to do this...) */
 body.darkNoTrans {
     color: white;
     background-color: #1f2224;
     transition: color 0ms linear, background-color 0ms linear !important;
 }
 
+body.darkNoTrans .toptext {
+     background-color: #1f2224;
+}
+
     /* Additional target for elements with text */
+
+body.darkNoTrans h2,
+body.darkNoTrans h3,
+body.darkNoTrans h4 {
+    color: white;
+}
+
+body.darkNoTrans b {
+    color: white !important;
+}
+
 body.darkNoTrans .lead {
     color: white !important;
 }
@@ -182,13 +210,25 @@ body.darkNoTrans li {
     color: white;
 }
 
+.featurette-heading {
+    color: #666;
+}
+
+body.darkNoTrans .featurette-heading {
+    color: white;
+}
 
 
-/* Hover turn orange thingy
+body.darkNoTrans .featurette-heading { /* Surely... there's a better way */
+    color: white;
+}
+
+
+
 body.darkNoTrans a:hover {
     color: #fab01d;
 }
-*/
+
 
 body.darkNoTrans .breaker-footer--other a {
     color: white !important;
