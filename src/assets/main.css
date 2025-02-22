@@ -130,6 +130,10 @@ body.dark .toptext {
      background-color: #1f2224;
 }
 
+body.dark .toptext {
+     background-color: #1f2224;
+}
+
     /* Additional target for elements with text */
 
 body.dark h2,
