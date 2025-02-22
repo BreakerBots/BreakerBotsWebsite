@@ -5,600 +5,677 @@
     <title>BreakerBots - Robots</title>
     <%- include('../includes/head.html') %>
 
-    <style>
-        .robots {
-            margin: 4%;
-        }
+        <style>
+            .robots {
+                margin: 4%;
+            }
 
-        b {
-            color: #666;
-        }
+            /* b {
+                color: #666;
+            } */
 
-        .featurette-image {
-            object-fit: contain;
-            width: auto;
-            height: auto;
-        }
-    </style>
+            .featurette-image {
+                object-fit: contain;
+                width: auto;
+                height: auto;
+            }
+        </style>
 </head>
 
 <body>
     <%- include('../includes/header.html') %>
 
-    <div class="robots">
-        <!--Typhoon-->
-        <div class="row featurette">
-            <div class="col-md-7 order-md-2">
-                <h2 class="featurette-heading" style="color: #666;">Typhoon <span class="text-muted">2024 - Crescendo</span></h2> 
-                <p class="lead">Our most advanced and automated robot to-date, Typhoon leverages its efficient design to rapidly score notes in the speaker and amp while maintaining excellent maneuverability. 
-                    Typhoon features evolved controls, allowing our driver to focus more on strategy and less on details, from intelligent two-button teleop controls (the robot decides what action to perform on its own) to various teleop assists and automatons (intake assist, etc).
-                </p><br><br>
-                <div><b>Tech Specs:</b>
-                    <ul>
-                        <li>
-                            <div><strong>Weight:</strong> 122.6 lbs</div>
-                        </li>
-                        <li>
-                            <div><strong>Size:</strong> 28" W x 28" L x 27.7" H</div>
-                        </li>
-                        <li>
-                            <div><strong>Intake:</strong> Over-the-bumper style pivoting intake using rubber wrapped carbon fiber rollers, powered by a Falcon 500 motor and controlled by a beam break sensor, pivot powered by an independent Falcon 500 for each side</div>
-                        </li>
-                        <li>
-                            <div><strong>Amp:</strong> Uses intake to shoot notes into the AMP via an extendable (virtual four bar linkage) carbon fiber deflector rod</div>
-                        </li>
-                        <li>
-                            <div><strong>Shooter:</strong> Pivot driven by a profiled PIDF controlled falcon 500 motor on a 9:1 planetary reduction, connected to a 3d printed herringbone circular rack and pinion, uses a pre-tuned firing solution table to score notes from anywhere</div>
-                        </li>
-                        <li>
-                            <div><strong>Hopper:</strong> 775 driven belt hopper controlled by beam break sensor </div>
-                        </li>
-                        <li>
-                            <div><strong>Flywheel:</strong> Through-axle, full contact flywheel using Colson Performa outer wheels and Andymark Stealth inner wheels, PIDF controlled up to 6000 RPM</div>
-                        </li>
-                        <li>
-                            <div><strong>Vision:</strong> 4x Arducam OV9281 connected to 2X OrangePi 5 runing Photonvision, fed to BreakerLib pose filtering and 200hz multi-threded kalman odometry fusion. ML note pursuit in auto and lock-to-note intake assistance powered by an LL3 w/ google coral</div>
-                        </li>
-                        <li>
-                            <div><strong>Drivetrain:</strong> SDS MK4i L3 (16T) swerve modules with Kraken Drive Motors, Falcon 500 azimuth motors, and CTRE CANcoder encoders. Powered by BreakerLib.</div>
-                        </li>
-                        <li>
-                            <div><strong>Autonomous:</strong> 1 - 5 Note autos with AD* replanning and AI Note tracking/pursuit to improve gamepiece acquisition reliability</div>
-                        </li>
-                    </ul>
-                </div>
-                <div><b>Awards:</b>
-                    <ul>
-                        <li>
-                            <div><strong>Regional Finalists:</strong> Monterey Bay Regional</div>
-                        </li>
-                    </ul>
-                </div>
-                <div> <b>Resources:</b>
-                    <ul>
-                        <li><b>Code: </b><a target="_blank" href="https://github.com/BreakerBots/Typhoon_2024">Typhoon (Build Season)</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-5"> <img class="featurette-image img-fluid d-block" src="../images/robots/Typhoon.webp">
-            </div>
-        </div>
-        <hr class="featurette-divider">
-
-        <div class="row featurette">
-            <div class="col-md-7">
-                <!--Plop-->
-                <h2 class="featurette-heading" style="color: #666;">Plop <span class="text-muted">2023 - Charged Up | Off season</span></h2>
-                <p class="lead">A development platform for next gen competition technologies and a learning platform for new mechanical strategies. 
-                    Uses a combined elevator/wrist system to rapidly and precisely score cones and cubes in all levels of the grid autonomously, even during Teleop. 
-                    Competed in the 2023 Madtown Throwdown Off-season competition.</p><br><br>
-                <div><b>Tech Specs:</b>
-                    <ul>
-                        <li>
-                            <div><strong>Weight:</strong> 90 lbs</div>
-                        </li>
-                        <li>
-                            <div><strong>Size:</strong> 26" W x 26" L x 33.4" H</div>
-                        </li>
-                        <li>
-                            <div><strong>Hand:</strong> Falcon based everybot style intake with 2 Autonics beam break sensors 
-                                for game piece detection and a PWF CAN ToF sensor for cone position compensation for autonomous and teleop auto-alignment. Single falcon PID-FF actuator for wrist movement.</div>
-                        </li>
-                        <li>
-                            <div><strong>Elevator:</strong> Duel falcon grey-t style elevator w/ motion magic control</div>
-                        </li>
-                        <li>
-                            <div><strong>Drivetrain:</strong> SDS MK4i L1 swerve modules with Falcon 500 motors and CTRE CANcoder encoders. Field centric and heading compensated control with cardinal field angle snap. Powered by BreakerLib.</div>
-                        </li>
-                        <li>
-                            <div><strong>Vision:</strong> Quad Arducam OV9281 Global Shutter USB cameras, each powered by its own Orange PI4 LTS running PhotonVision. 
-                                On-RIO pose filtering and odometry fusion powered by BreakerLib. </div>
-                        </li>
-                        <li>
-                            <div><strong>Autonomous: </strong> 1 and 2 game piece autos with autobalance. Pathing based on Pathplanner.  </div>
-                        </li>
-                    </ul>
-                </div>
-                <div><b>Resources:</b>
-                    <ul>
-                        <li><b>Code: </b><a target="_blank"
-                                href="https://github.com/BreakerBots/Plop_2023">Plop</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-5"> <img class="featurette-image img-fluid d-block" src="../images/robots/Plop.webp">
-            </div>
-        </div>
-        <hr class="featurette-divider">
-        <!--Cthulhu-->
-        <div class="row featurette">
-            <div class="col-md-7 order-md-2">
-                <h2 class="featurette-heading" style="color: #666;">Cthulhu <span class="text-muted">2023 - Charged Up | MBR</span></h2>
-                <p class="lead">Designed and built from the ground up in the two weeks between our CVR and MBR competitions, Cthulhu represents an evolution of the BreakerBots' 2023 design stratagem. 
-                    Cthulhu features a more precise single jointed arm mounted low in the robot to more efficiently score both cones and (primarily) cubes in the hybrid and mid nodes of the scoring grid.
-                </p><br><br>
-                <div><b>Tech Specs:</b>
-                    <ul>
-                        <li>
-                            <div><strong>Weight:</strong> 100.8 lbs</div>
-                        </li>
-                        <li>
-                            <div><strong>Size:</strong> 26" W x 26" L x 27.7" H</div>
-                        </li>
-                        <li>
-                            <div><strong>Intake:</strong> Fixed, tri-roller, 3" compliant wheel based intake powered by a 775 motor on a 40:1 reduction</div>
-                        </li>
-                        <li>
-                            <div><strong>Arm:</strong> Single jointed arm powered by a custom Duel falcon gearbox</div>
-                        </li>
-                        <li>
-                            <div><strong>Drivetrain:</strong> SDS MK4i L1 swerve modules with Falcon 500 motors and CTRE CANcoder encoders. Powered by Breakerlib.</div>
-                        </li>
-                        <li>
-                            <div><strong>Autonomous:</strong> 1, 2, and 3 game piece autos with autobalance. Pathing based on in-house PathPoint system.</div>
-                        </li>
-                        
-                    </ul>
-                </div>
-                <div><b>Awards:</b>
-                    <ul>
-                        <li>
-                            <div><strong>Gracious Professionalism:</strong> Monterey Bay Regional</div>
-                        </li>
-                    </ul>
-                </div>
-                <div> <b>Resources:</b>
-                    <ul>
-                        <li><b>Code: </b><a target="_blank" href="https://github.com/BreakerBots/Cthulhu_2023">Cthulhu</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-5"> <img class="featurette-image img-fluid d-block" src="../images/robots/Cthulhu.webp">
-            </div>
-        </div>
-        <hr class="featurette-divider">
-        <!--Kraken-->
-        <div class="row featurette">
-            <div class="col-md-7">
-                <h2 class="featurette-heading" style="color: #666;">Kraken <span class="text-muted">2023 - Charged Up | CVR</span>
-                </h2>
-                <p class="lead">Uses a double jointed arm to score Cones and Cubes in all levels of the grid. The BreakerBot's first competition swerve drive robot.</p><br><br>
-                <div><b>Tech Specs:</b>
-                    <ul>
-                        <li>
-                            <div><strong>Weight:</strong> 117 lbs</div>
-                        </li>
-                        <li>
-                            <div><strong>Size:</strong> 26" W x 26" L x 53.2" H</div>
-                        </li>
-                        <li>
-                            <div><strong>Arm:</strong> Double jointed arm powered by 2x custom single falcon gearboxes with gas-shock suspension to counteract gravity</div>
-                        </li>
-                        <li>
-                            <div><strong>Intake:</strong> Duel 2" compliant wheel roller intake power by a 775 motor on a 40:1 reduction. The Intake assembly is kept level to the ground by a direct mechanical linkage to the robot chassis base.</div>
-                        </li>
-                        <li>
-                            <div><strong>Drivetrain:</strong> SDS MK4i L1 swerve modules with Falcon 500 motors and CTRE CANcoder encoders. Powered by Breakerlib.</div>
-                        </li>
-                        <li>
-                            <div><strong>Autonomous:</strong> 1 and 2 game pice autos with autobalance. Pathing based on in-house PathPoint system.</div>
-                        </li>
-                    </ul>
-                </div>
-                <div><b>Awards:</b>
-                    <ul>
-                        <li>
-                            <div><strong>Regional Finalists:</strong> Central Valley Regional</div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-5"><img class="featurette-image img-fluid d-block" src="../images/robots/Kraken.webp" >
-            </div>
-        </div>
-        <hr class="featurette-divider">
-        <!--Charybdis :)-->
-        <div class="row featurette">
-            <div class="col-md-7 order-md-2">
-                <h2 class="featurette-heading" style="color: #666;"> Charybdis <span class="text-muted">2022 - Rapid React </span></h2>
-                <p class="lead">Averages 9 cycles per match, scoring two cargo into the upper hub each cycle.  
-                    The flywheel shooter has the ability to shoot to the upper hub or lower hub.  
-                    With a consistent climb directly to the mid-rung in under 10 seconds. </p><br><br>
-                <div><b>Tech Specs:</b>
-                    <ul>
-                        <li>
-                            <div><strong>Weight:</strong> 122.8 lbs</div>
-                        </li>
-                        <li>
-                            <div><strong>Size:</strong> 28" W x 32" L x 38.75" H</div>
-                        </li>
-                        <LI>
-                            <DIV><STRONG>Shooter:</STRONG> Dual flywheel, 6,000 rpm, 2 limelights for increased driver vision </DIV>
-                        </LI>
-                        <li>
-                            <div><strong>Drivetrain:</strong> 6 falcon, WCP Flipped Gearbox (Single Speed, 3 Stages) </div>
-                        </li>
-                        <LI>
-                            <DIV><STRONG>Climb:</STRONG> WCP telescoping, mid, high, and traverse climb </DIV>
-                        </LI>
-                        <LI>
-                            <DIV><STRONG>Intake:</STRONG> 4-bar linkage deployable full width intake for consistent cargo pickup </DIV>
-                        </LI>
-                        <li>
-                            <div><strong>Indexer:</strong> Centers cargo into hopper, with 18 flex wheels </div>
-                        </li>
-                        <li>
-                            <div><strong>Autonomous:</strong> 2 & 3 ball auto </div>
-                        </li>
-                    </ul>
-                </div>
-                <div><b>Awards:</b>
-                    <ul>
-                        <li>
-                            <div><strong>Regional Finalists:</strong> Monterey Bay Regional</div>
-                        </li>
-                        <li><div><strong>Second Seed Alliance Captain:</strong> Monterey Bay Regional</div>
-                        </li>
-                        <li>
-                            <div><strong>Excellence In Engineering Award: </strong> Monterey Bay Regional</div>
-                        </li>
-                        <li>
-                            <div><strong>Regional Quarterfinalists:</strong> Port Hueneme</div>
-                        </li>
-                        <li>
-                            <div><strong>Sixth Seed Alliance Captain:</strong> Port Hueneme</div>
-                        </li>
+        <div class="robots">
+            <!--Typhoon-->
+            <div class="row featurette">
+                <div class="col-md-7 order-md-2">
+                    <h2 class="featurette-heading">Typhoon 2024 - Crescendo</span></h2>
+                    <p class="lead">Our most advanced and automated robot to-date, Typhoon leverages its efficient
+                        design to rapidly score notes in the speaker and amp while maintaining excellent
+                        maneuverability.
+                        Typhoon features evolved controls, allowing our driver to focus more on strategy and less on
+                        details, from intelligent two-button teleop controls (the robot decides what action to perform
+                        on its own) to various teleop assists and automatons (intake assist, etc).
+                    </p><br><br>
+                    <div><b>Tech Specs:</b>
+                        <ul>
+                            <li>
+                                <div><strong>Weight:</strong> 122.6 lbs</div>
+                            </li>
+                            <li>
+                                <div><strong>Size:</strong> 28" W x 28" L x 27.7" H</div>
+                            </li>
+                            <li>
+                                <div><strong>Intake:</strong> Over-the-bumper style pivoting intake using rubber wrapped
+                                    carbon fiber rollers, powered by a Falcon 500 motor and controlled by a beam break
+                                    sensor, pivot powered by an independent Falcon 500 for each side</div>
+                            </li>
+                            <li>
+                                <div><strong>Amp:</strong> Uses intake to shoot notes into the AMP via an extendable
+                                    (virtual four bar linkage) carbon fiber deflector rod</div>
+                            </li>
+                            <li>
+                                <div><strong>Shooter:</strong> Pivot driven by a profiled PIDF controlled falcon 500
+                                    motor on a 9:1 planetary reduction, connected to a 3d printed herringbone circular
+                                    rack and pinion, uses a pre-tuned firing solution table to score notes from anywhere
+                                </div>
+                            </li>
+                            <li>
+                                <div><strong>Hopper:</strong> 775 driven belt hopper controlled by beam break sensor
+                                </div>
+                            </li>
+                            <li>
+                                <div><strong>Flywheel:</strong> Through-axle, full contact flywheel using Colson
+                                    Performa outer wheels and Andymark Stealth inner wheels, PIDF controlled up to 6000
+                                    RPM</div>
+                            </li>
+                            <li>
+                                <div><strong>Vision:</strong> 4x Arducam OV9281 connected to 2X OrangePi 5 runing
+                                    Photonvision, fed to BreakerLib pose filtering and 200hz multi-threded kalman
+                                    odometry fusion. ML note pursuit in auto and lock-to-note intake assistance powered
+                                    by an LL3 w/ google coral</div>
+                            </li>
+                            <li>
+                                <div><strong>Drivetrain:</strong> SDS MK4i L3 (16T) swerve modules with Kraken Drive
+                                    Motors, Falcon 500 azimuth motors, and CTRE CANcoder encoders. Powered by
+                                    BreakerLib.</div>
+                            </li>
+                            <li>
+                                <div><strong>Autonomous:</strong> 1 - 5 Note autos with AD* replanning and AI Note
+                                    tracking/pursuit to improve gamepiece acquisition reliability</div>
+                            </li>
                         </ul>
+                    </div>
+                    <div><b>Awards:</b>
+                        <ul>
+                            <li>
+                                <div><strong>Regional Finalists:</strong> Monterey Bay Regional</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div> <b>Resources:</b>
+                        <ul>
+                            <li><b>Code: </b><a target="_blank"
+                                    href="https://github.com/BreakerBots/Typhoon_2024">Typhoon (Build Season)</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <div> <b>Resources:</b>
-                    <ul>
-                        <li><b>Code: </b><a target="_blank" href="https://github.com/BreakerBots/RAPID_REACT_2022_CMD">Charybdis</a>
-                        </li>
-                        <li><b>CAD: </b><a target="_blank" href="https://a360.co/3s4GerA">Charybdis</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-5"> <img class="featurette-image img-fluid d-block" src="../images/robots/charybdis.webp" >
-            </div>
-        </div>
-        <hr class="featurette-divider">
-        <!--Tsunami :)-->
-        <div class="row featurette">
-            <div class="col-md-7">
-                <h2 class="featurette-heading" style="color: #666;">Tsunami <span class="text-muted">2020 - Infinite Recharge</span></h2>
-                <p class="lead">Capable of shooting power cells across the field into the lower, upper, and inner ports
-                    with automatic vision targeting. Uses a flywheel shooter with an adjustable hood and turret for
-                    precision aiming. Also capable of climbing the generator switch when over five feet high in under 8
-                    seconds, using a folding bar system.</p><br><br>
-                <div><b>Tech Specs:</b>
-                    <ul>
-                        <li>
-                            <div><strong>Weight:</strong> 125 lbs</div>
-                        </li>
-                        <li>
-                            <div><strong>Size:</strong> 28" W x 32" L x 27.5" H</div>
-                        </li>
-                        <li>
-                            <div><strong>Shooter:</strong> 270d turret, 40d adj. hood, 9000rpm flywheel, limelight for
-                                vision tracking</div>
-                        </li>
-                        <li>
-                            <div><strong>Climber:</strong> folding arms w/ under 8 second full climb</div>
-                        </li>
-                        <li>
-                            <div><strong>Drivetrain:</strong> Custom falcon gearboxes w/ 11.5 ft/s max speed, 6" wheels
-                                with omnis in front</div>
-                        </li>
-                        <li>
-                            <div><strong>Hopper:</strong> snake hopper w/ versa rollers for movement</div>
-                        </li>
-                        <li>
-                            <div><strong>Intake:</strong> drop down folding deploy, printed mechanum wheels for
-                                centering</div>
-                        </li>
-                        <li>
-                            <div><strong>Paneler:</strong> 3" flex wheels powered by a 775pro w/ vp encoder and rev
-                                color sensor v3</div>
-                        </li>
-                        <li>
-                            <div><strong>Autonomous:</strong> 3, 6, and 8 ball autos</div>
-                        </li>
-                    </ul>
-                </div>
-                <div><b>Awards:</b>
-                    <ul>
-                        <li>
-                            Industrial Design Award
-                        </li>
-                    </ul>
-                </div>
-                <div><b>Resources:</b>
-                    <ul>
-                        <li><b>Code: </b><a target="_blank"
-                                href="https://github.com/BreakerBots/Tsunami_2020">Tsunami</a></li>
-                        <li><b>CAD: </b><a target="_blank" href="https://a360.co/3gtMkKe">Tsunami</a></li>
-                        <li><b>Videos: </b><a target="_blank" href="https://photos.app.goo.gl/UPLpZPuZrnwJ3dAy7">Auto,
-                            </a><a target="_blank" href="https://photos.app.goo.gl/gvFtA81bdxUfTx5GA">Climb</a></li>
-                    </ul>
+                <div class="col-md-5"> <img class="featurette-image img-fluid d-block"
+                        src="../images/robots/Typhoon.webp">
                 </div>
             </div>
-            <div class="col-md-5"> <img class="featurette-image img-fluid d-block" src="../images/robots/Tsunami.webp">
-            </div>
-        </div>
-        <hr class="featurette-divider">
-        <!--Riptide-->
-        <div class="row featurette">
-            <div class="col-md-7 order-md-2">
-                <h2 class="featurette-heading" style="color: #666;">Riptide <span class="text-muted">2019 - Off season </span></h2>
-                <p class="lead">Built for team outreach and to make our robotics team better known in our school and
-                    community. Uses a two scuba tank system to fire t-shirts into the crowd at various events, including
-                    school rallies and football games.</p><br><br>
-                <div><b>Tech Specs:</b>
-                    <ul>
-                        <li>
-                            <div><strong>Weight:</strong> ~160 lbs</div>
-                        </li>
-                        <li>
-                            <div><strong>Size:</strong> 28" W x 33" L x 24" H</div>
-                        </li>
-                        <li>
-                            <div><strong>Top Speed:</strong> 17 ft/s</div>
-                        </li>
-                        <li>
-                            <div><strong>Projectile Range:</strong> 100+ ft</div>
-                        </li>
-                        <li>
-                            <div><strong>Pneumatics:</strong> High pressure scuba tank at 3000psi, scuba tank expansion
-                                chamber at 0psi-120psi, MAC Solenoid Valve for firing</div>
-                        </li>
-                        <li>
-                            <div><strong>Control System:</strong> Since 2022 Riptide has used a standard PWM based RC control system</div>
-                        </li>
-                        <li>
-                            <div><strong>Drivetrain:</strong> 4x CIM Motors w/ 3" Custom Gearboxes</div>
-                        </li>
-                        <li>
-                            <div><strong>Turret & Pitch:</strong> Powered by Bosch Seat Motors</div>
-                        </li>
-                    </ul>
-                </div>
-                <div> <b>Resources:</b>
-                    <ul>
-                        <li><b>Code: </b><a target="_blank" href="https://github.com/BreakerBots/Riptide">Riptide</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-5"> <img class="featurette-image img-fluid d-block" src="../images/robots/Riptide.webp">
-            </div>
-        </div>
-        <hr class="featurette-divider">
-        <!--Nebula-->
-        <div class="row featurette">
-            <div class="col-md-7">
-                <h2 class="featurette-heading" style="color: #666;">Nebula <span class="text-muted">2019 - Destination: Deep Space </span>
-                </h2>
-                <p class="lead">Capable of placing game pieces in the cargo ship and level one of the rocket. Uses a
-                    pneumatic system for handling hatches, a motorized arm and chute for cargo, and an additional
-                    pneumatic system for solo Hab-3 climb.</p><br><br>
-                <div><b>Tech Specs:</b>
-                    <ul>
-                        <li>
-                            <div><strong>Weight:</strong> 117 lbs</div>
-                        </li>
-                        <li>
-                            <div><strong>Size:</strong> 28" W x 32" L x 47" H</div>
-                        </li>
-                    </ul>
-                </div>
-                <div><b>Awards:</b>
-                    <ul>
-                        <li>
-                            <div><strong>Second Seed Alliance Captain:</strong> Monterey Bay Regional</div>
-                        </li>
-                        <li>
-                            <div><strong>Regional Semifinalist:</strong> Monterey Bay Regional</div>
-                        </li>
-                        <li>
-                            <div><strong>Regional Semifinalist:</strong> Central Valley Regional</div>
-                        </li>
-                    </ul>
-                </div>
-                <div><b>Resources:</b>
-                    <ul>
-                        <li><b>Code: </b><a target="_blank" href="https://github.com/BreakerBots/Nebula_2019">Nebula</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-5"><img class="featurette-image img-fluid d-block" src="../images/robots/Nebula.webp" >
-            </div>
-        </div>
-        <hr class="featurette-divider">
-        <!--Athena-->
-        <div class="row featurette">
-            <div class="col-md-7 order-md-2">
-                <h2 class="featurette-heading" style="color: #666;">Athena <span class="text-muted">2018 - Power Up </span></h2>
-                <p class="lead">Uses a motorized intake and a single column cascading elevator to pick up, transport,
-                    and eject power cubes on the switch, scale, and vault. Also capable of climbing with a hook and
-                    winch.</p><br><br>
-                <div><b>Tech Specs:</b>
-                    <ul>
-                        <li>
-                            <div><strong>Weight:</strong> 120 lbs</div>
-                        </li>
-                        <li>
-                            <div><strong>Size:</strong> 28" W x 33" L x 55" H</div>
-                        </li>
-                    </ul>
-                </div>
-                <div><b>Awards:</b>
-                    <ul>
-                        <li>
-                            <div><strong>Regional Finalist:</strong> Central Valley Regional</div>
-                        </li>
-                        <li>
-                            <div><strong>Eighth Seed Alliance Captain:</strong> Newton Division at Houston World
-                                Championships</div>
-                        </li>
-                        <li>
-                            <div><strong>Tournament Semifinalists:</strong> CalGames</div>
-                        </li>
-                        <li>
-                            <div><strong>Tournament Quarterfinalists:</strong> MadTown Throwdown</div>
-                        </li>
-                    </ul>
-                </div>
-                <div><b>Resources:</b>
-                    <ul>
-                        <li> <b>Code: </b><a target="_blank"
-                                href="https://github.com/BreakerBots/Power-Up-2018-Offseason">Power Up 2018
-                                Off-season</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-5"> <img class="featurette-image img-fluid d-block" src="../images/robots/Athena.webp">
-            </div>
-        </div>
-        <hr class="featurette-divider">
-        <!--Archer-->
-        <div class="row featurette">
-            <div class="col-md-7">
-                <h2 class="featurette-heading" style="color: #666;">Archer <span class="text-muted">2017 - Steamworks </span></h2>
-                <p class="lead">Picks up, transports, and places gears using a passive funnel-style intake and pneumatic
-                    ejection. Uses a winch and rachet system to climb at the end of the match.</p><br>
-                <div><b>Tech Specs:</b>
-                    <ul>
-                        <li>
-                            <div><strong>Weight:</strong> 115 lbs</div>
-                        </li>
-                        <li>
-                            <div><strong>Size:</strong> 40" W x 36" L x 24" H</div>
-                        </li>
-                    </ul>
-                </div>
-                <div><b>Awards:</b>
-                    <ul>
-                        <li>
-                            <div><strong>Regional Finalists:</strong> Central Valley Regional</div>
-                        </li>
-                        <li>
-                            <div><strong>Fourth Seed Alliance Captains:</strong> Turing Division at Houston World
-                                Championships</div>
-                        </li>
-                        <li>
-                            <div><strong>Tournament Finalists:</strong> CalGames</div>
-                        </li>
-                    </ul>
-                </div>
-                <div><b>Resources:</b>
-                    <ul>
-                        <li> <b>Code: </b><a target="_blank" href="https://github.com/BreakerBots/Archer_2017">Archer
-                                2017</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-5"> <img class="featurette-image img-fluid d-block" src="../images/robots/Archer.webp">
-            </div>
-        </div>
-        <hr class="featurette-divider">
-        <!--Madoc-->
-        <div class="row featurette">
-            <div class="col-md-7 order-md-2">
-                <h2 class="featurette-heading" style="color: #666;">Madoc <span class="text-muted">2016 - Stronghold </span></h2>
-                <p class="lead">Uses a dual-motor intake system paired with a servo trigger control to collect,
-                    transport, and eject 10" foam balls into goals. For maneuverability, uses large, rubber tires and
-                    custom (wooden) hubs to be able to cross "defenses" easily.</p><br>
-                <div><b>Tech Specs:</b>
-                    <ul>
-                        <li>
-                            <div><strong>Size:</strong> 28" W x 32" L x 12" H</div>
-                        </li>
-                    </ul>
-                </div>
-                <div><b>Awards:</b>
-                    <ul>
-                        <li>
-                            <div><strong>Tournament Finalists:</strong> CalGames</div>
-                        </li>
-                    </ul>
-                </div>
-                <div><b>Resources:</b>
-                    <ul>
-                        <li> <b>Code: </b><a target="_blank" href="https://github.com/BreakerBots/Madoc_2016">Madoc
-                                2016</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-5"> <img class="featurette-image img-fluid d-block" src="../images/robots/Madoc.webp">
-            </div>
-        </div>
-        <hr class="featurette-divider">
-        <!--Klaus-->
-        <div class="row featurette">
-            <div class="col-md-7">
-                <h2 class="featurette-heading" style="color: #666;">Klaus <span class="text-muted">2015 - Recycle Rush </span></h2>
-                <p class="lead">Uses a winch and pulley system to pick up, stack, and transport totes across the field.
-                    Also uses wheels to provide omni-directional driving.</p><br>
-                <div><b>Tech Specs:</b>
-                    <ul>
-                        <li>
-                            <div><strong>Size:</strong> 27" W x 29" L x 14" H</div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-5"> <img class="featurette-image img-fluid d-block" src="../images/robots/Klaus.webp">
-            </div>
-        </div>
-        <hr class="featurette-divider">
-        <div class="row featurette">
-            <div class="col-md-7 order-md-2">
-                <h2 class="featurette-heading" style="color: #666;">Felix <span class="text-muted">2014 - Aerial Assist </span></h2>
-                <p class="lead">Competed in Aerial Assist. The BreakerBots' first robot!</p><br>
-                <div> </div><b>Tech Specs:</b>
-                <ul>
-                    <li>
-                        <div><strong>Size:</strong> 23" W x 32" L x 28" H</div>
-                    </li>
-                </ul>
-                <div><b>Resources:</b>
-                    <ul>
-                        <li><b>Code: </b><a target="_blank" href="https://github.com/BreakerBots/Felix-2014">Felix
-                                2014</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-5"> <img class="featurette-image img-fluid d-block" src="../images/robots/Felix.webp">
-            </div>
-        </div>
-        <hr class="featurette-divider">
-    </div>
+            <hr class="featurette-divider">
 
-    <%- include('../includes/footer.html') %>
+            <div class="row featurette">
+                <div class="col-md-7">
+                    <!--Plop-->
+                    <h2 class="featurette-heading">Plop 2023 - Charged Up | Off season</span>
+                    </h2>
+                    <p class="lead">A development platform for next gen competition technologies and a learning platform
+                        for new mechanical strategies.
+                        Uses a combined elevator/wrist system to rapidly and precisely score cones and cubes in all
+                        levels of the grid autonomously, even during Teleop.
+                        Competed in the 2023 Madtown Throwdown Off-season competition.</p><br><br>
+                    <div><b>Tech Specs:</b>
+                        <ul>
+                            <li>
+                                <div><strong>Weight:</strong> 90 lbs</div>
+                            </li>
+                            <li>
+                                <div><strong>Size:</strong> 26" W x 26" L x 33.4" H</div>
+                            </li>
+                            <li>
+                                <div><strong>Hand:</strong> Falcon based everybot style intake with 2 Autonics beam
+                                    break sensors
+                                    for game piece detection and a PWF CAN ToF sensor for cone position compensation for
+                                    autonomous and teleop auto-alignment. Single falcon PID-FF actuator for wrist
+                                    movement.</div>
+                            </li>
+                            <li>
+                                <div><strong>Elevator:</strong> Duel falcon grey-t style elevator w/ motion magic
+                                    control</div>
+                            </li>
+                            <li>
+                                <div><strong>Drivetrain:</strong> SDS MK4i L1 swerve modules with Falcon 500 motors and
+                                    CTRE CANcoder encoders. Field centric and heading compensated control with cardinal
+                                    field angle snap. Powered by BreakerLib.</div>
+                            </li>
+                            <li>
+                                <div><strong>Vision:</strong> Quad Arducam OV9281 Global Shutter USB cameras, each
+                                    powered by its own Orange PI4 LTS running PhotonVision.
+                                    On-RIO pose filtering and odometry fusion powered by BreakerLib. </div>
+                            </li>
+                            <li>
+                                <div><strong>Autonomous: </strong> 1 and 2 game piece autos with autobalance. Pathing
+                                    based on Pathplanner. </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div><b>Resources:</b>
+                        <ul>
+                            <li><b>Code: </b><a target="_blank" href="https://github.com/BreakerBots/Plop_2023">Plop</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-5"> <img class="featurette-image img-fluid d-block" src="../images/robots/Plop.webp">
+                </div>
+            </div>
+            <hr class="featurette-divider">
+            <!--Cthulhu-->
+            <div class="row featurette">
+                <div class="col-md-7 order-md-2">
+                    <h2 class="featurette-heading">Cthulhu 2023 - Charged Up | MBR</span></h2>
+                    <p class="lead">Designed and built from the ground up in the two weeks between our CVR and MBR
+                        competitions, Cthulhu represents an evolution of the BreakerBots' 2023 design stratagem.
+                        Cthulhu features a more precise single jointed arm mounted low in the robot to more efficiently
+                        score both cones and (primarily) cubes in the hybrid and mid nodes of the scoring grid.
+                    </p><br><br>
+                    <div><b>Tech Specs:</b>
+                        <ul>
+                            <li>
+                                <div><strong>Weight:</strong> 100.8 lbs</div>
+                            </li>
+                            <li>
+                                <div><strong>Size:</strong> 26" W x 26" L x 27.7" H</div>
+                            </li>
+                            <li>
+                                <div><strong>Intake:</strong> Fixed, tri-roller, 3" compliant wheel based intake powered
+                                    by a 775 motor on a 40:1 reduction</div>
+                            </li>
+                            <li>
+                                <div><strong>Arm:</strong> Single jointed arm powered by a custom Duel falcon gearbox
+                                </div>
+                            </li>
+                            <li>
+                                <div><strong>Drivetrain:</strong> SDS MK4i L1 swerve modules with Falcon 500 motors and
+                                    CTRE CANcoder encoders. Powered by Breakerlib.</div>
+                            </li>
+                            <li>
+                                <div><strong>Autonomous:</strong> 1, 2, and 3 game piece autos with autobalance. Pathing
+                                    based on in-house PathPoint system.</div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div><b>Awards:</b>
+                        <ul>
+                            <li>
+                                <div><strong>Gracious Professionalism:</strong> Monterey Bay Regional</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div> <b>Resources:</b>
+                        <ul>
+                            <li><b>Code: </b><a target="_blank"
+                                    href="https://github.com/BreakerBots/Cthulhu_2023">Cthulhu</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-5"> <img class="featurette-image img-fluid d-block"
+                        src="../images/robots/Cthulhu.webp">
+                </div>
+            </div>
+            <hr class="featurette-divider">
+            <!--Kraken-->
+            <div class="row featurette">
+                <div class="col-md-7">
+                    <h2 class="featurette-heading">Kraken 2023 - Charged Up | CVR</span>
+                    </h2>
+                    <p class="lead">Uses a double jointed arm to score Cones and Cubes in all levels of the grid. The
+                        BreakerBot's first competition swerve drive robot.</p><br><br>
+                    <div><b>Tech Specs:</b>
+                        <ul>
+                            <li>
+                                <div><strong>Weight:</strong> 117 lbs</div>
+                            </li>
+                            <li>
+                                <div><strong>Size:</strong> 26" W x 26" L x 53.2" H</div>
+                            </li>
+                            <li>
+                                <div><strong>Arm:</strong> Double jointed arm powered by 2x custom single falcon
+                                    gearboxes with gas-shock suspension to counteract gravity</div>
+                            </li>
+                            <li>
+                                <div><strong>Intake:</strong> Duel 2" compliant wheel roller intake power by a 775 motor
+                                    on a 40:1 reduction. The Intake assembly is kept level to the ground by a direct
+                                    mechanical linkage to the robot chassis base.</div>
+                            </li>
+                            <li>
+                                <div><strong>Drivetrain:</strong> SDS MK4i L1 swerve modules with Falcon 500 motors and
+                                    CTRE CANcoder encoders. Powered by Breakerlib.</div>
+                            </li>
+                            <li>
+                                <div><strong>Autonomous:</strong> 1 and 2 game pice autos with autobalance. Pathing
+                                    based on in-house PathPoint system.</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div><b>Awards:</b>
+                        <ul>
+                            <li>
+                                <div><strong>Regional Finalists:</strong> Central Valley Regional</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-5"><img class="featurette-image img-fluid d-block"
+                        src="../images/robots/Kraken.webp">
+                </div>
+            </div>
+            <hr class="featurette-divider">
+            <!--Charybdis :)-->
+            <div class="row featurette">
+                <div class="col-md-7 order-md-2">
+                    <h2 class="featurette-heading"> Charybdis 2022 - Rapid React </span></h2>
+                    <p class="lead">Averages 9 cycles per match, scoring two cargo into the upper hub each cycle.
+                        The flywheel shooter has the ability to shoot to the upper hub or lower hub.
+                        With a consistent climb directly to the mid-rung in under 10 seconds. </p><br><br>
+                    <div><b>Tech Specs:</b>
+                        <ul>
+                            <li>
+                                <div><strong>Weight:</strong> 122.8 lbs</div>
+                            </li>
+                            <li>
+                                <div><strong>Size:</strong> 28" W x 32" L x 38.75" H</div>
+                            </li>
+                            <LI>
+                                <DIV><STRONG>Shooter:</STRONG> Dual flywheel, 6,000 rpm, 2 limelights for increased
+                                    driver vision </DIV>
+                            </LI>
+                            <li>
+                                <div><strong>Drivetrain:</strong> 6 falcon, WCP Flipped Gearbox (Single Speed, 3 Stages)
+                                </div>
+                            </li>
+                            <LI>
+                                <DIV><STRONG>Climb:</STRONG> WCP telescoping, mid, high, and traverse climb </DIV>
+                            </LI>
+                            <LI>
+                                <DIV><STRONG>Intake:</STRONG> 4-bar linkage deployable full width intake for consistent
+                                    cargo pickup </DIV>
+                            </LI>
+                            <li>
+                                <div><strong>Indexer:</strong> Centers cargo into hopper, with 18 flex wheels </div>
+                            </li>
+                            <li>
+                                <div><strong>Autonomous:</strong> 2 & 3 ball auto </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div><b>Awards:</b>
+                        <ul>
+                            <li>
+                                <div><strong>Regional Finalists:</strong> Monterey Bay Regional</div>
+                            </li>
+                            <li>
+                                <div><strong>Second Seed Alliance Captain:</strong> Monterey Bay Regional</div>
+                            </li>
+                            <li>
+                                <div><strong>Excellence In Engineering Award: </strong> Monterey Bay Regional</div>
+                            </li>
+                            <li>
+                                <div><strong>Regional Quarterfinalists:</strong> Port Hueneme</div>
+                            </li>
+                            <li>
+                                <div><strong>Sixth Seed Alliance Captain:</strong> Port Hueneme</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div> <b>Resources:</b>
+                        <ul>
+                            <li><b>Code: </b><a target="_blank"
+                                    href="https://github.com/BreakerBots/RAPID_REACT_2022_CMD">Charybdis</a>
+                            </li>
+                            <li><b>CAD: </b><a target="_blank" href="https://a360.co/3s4GerA">Charybdis</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-5"> <img class="featurette-image img-fluid d-block"
+                        src="../images/robots/charybdis.webp">
+                </div>
+            </div>
+            <hr class="featurette-divider">
+            <!--Tsunami :)-->
+            <div class="row featurette">
+                <div class="col-md-7">
+                    <h2 class="featurette-heading">Tsunami 2020 - Infinite Recharge</span></h2>
+                    <p class="lead">Capable of shooting power cells across the field into the lower, upper, and inner
+                        ports
+                        with automatic vision targeting. Uses a flywheel shooter with an adjustable hood and turret for
+                        precision aiming. Also capable of climbing the generator switch when over five feet high in
+                        under 8
+                        seconds, using a folding bar system.</p><br><br>
+                    <div><b>Tech Specs:</b>
+                        <ul>
+                            <li>
+                                <div><strong>Weight:</strong> 125 lbs</div>
+                            </li>
+                            <li>
+                                <div><strong>Size:</strong> 28" W x 32" L x 27.5" H</div>
+                            </li>
+                            <li>
+                                <div><strong>Shooter:</strong> 270d turret, 40d adj. hood, 9000rpm flywheel, limelight
+                                    for
+                                    vision tracking</div>
+                            </li>
+                            <li>
+                                <div><strong>Climber:</strong> folding arms w/ under 8 second full climb</div>
+                            </li>
+                            <li>
+                                <div><strong>Drivetrain:</strong> Custom falcon gearboxes w/ 11.5 ft/s max speed, 6"
+                                    wheels
+                                    with omnis in front</div>
+                            </li>
+                            <li>
+                                <div><strong>Hopper:</strong> snake hopper w/ versa rollers for movement</div>
+                            </li>
+                            <li>
+                                <div><strong>Intake:</strong> drop down folding deploy, printed mechanum wheels for
+                                    centering</div>
+                            </li>
+                            <li>
+                                <div><strong>Paneler:</strong> 3" flex wheels powered by a 775pro w/ vp encoder and rev
+                                    color sensor v3</div>
+                            </li>
+                            <li>
+                                <div><strong>Autonomous:</strong> 3, 6, and 8 ball autos</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div><b>Awards:</b>
+                        <ul>
+                            <li>
+                                Industrial Design Award
+                            </li>
+                        </ul>
+                    </div>
+                    <div><b>Resources:</b>
+                        <ul>
+                            <li><b>Code: </b><a target="_blank"
+                                    href="https://github.com/BreakerBots/Tsunami_2020">Tsunami</a></li>
+                            <li><b>CAD: </b><a target="_blank" href="https://a360.co/3gtMkKe">Tsunami</a></li>
+                            <li><b>Videos: </b><a target="_blank"
+                                    href="https://photos.app.goo.gl/UPLpZPuZrnwJ3dAy7">Auto,
+                                </a><a target="_blank" href="https://photos.app.goo.gl/gvFtA81bdxUfTx5GA">Climb</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-5"> <img class="featurette-image img-fluid d-block"
+                        src="../images/robots/Tsunami.webp">
+                </div>
+            </div>
+            <hr class="featurette-divider">
+            <!--Riptide-->
+            <div class="row featurette">
+                <div class="col-md-7 order-md-2">
+                    <h2 class="featurette-heading">Riptide 2019 - Off season </span></h2>
+                    <p class="lead">Built for team outreach and to make our robotics team better known in our school and
+                        community. Uses a two scuba tank system to fire t-shirts into the crowd at various events,
+                        including
+                        school rallies and football games.</p><br><br>
+                    <div><b>Tech Specs:</b>
+                        <ul>
+                            <li>
+                                <div><strong>Weight:</strong> ~160 lbs</div>
+                            </li>
+                            <li>
+                                <div><strong>Size:</strong> 28" W x 33" L x 24" H</div>
+                            </li>
+                            <li>
+                                <div><strong>Top Speed:</strong> 17 ft/s</div>
+                            </li>
+                            <li>
+                                <div><strong>Projectile Range:</strong> 100+ ft</div>
+                            </li>
+                            <li>
+                                <div><strong>Pneumatics:</strong> High pressure scuba tank at 3000psi, scuba tank
+                                    expansion
+                                    chamber at 0psi-120psi, MAC Solenoid Valve for firing</div>
+                            </li>
+                            <li>
+                                <div><strong>Control System:</strong> Since 2022 Riptide has used a standard PWM based
+                                    RC control system</div>
+                            </li>
+                            <li>
+                                <div><strong>Drivetrain:</strong> 4x CIM Motors w/ 3" Custom Gearboxes</div>
+                            </li>
+                            <li>
+                                <div><strong>Turret & Pitch:</strong> Powered by Bosch Seat Motors</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div> <b>Resources:</b>
+                        <ul>
+                            <li><b>Code: </b><a target="_blank"
+                                    href="https://github.com/BreakerBots/Riptide">Riptide</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-5"> <img class="featurette-image img-fluid d-block"
+                        src="../images/robots/Riptide.webp">
+                </div>
+            </div>
+            <hr class="featurette-divider">
+            <!--Nebula-->
+            <div class="row featurette">
+                <div class="col-md-7">
+                    <h2 class="featurette-heading">Nebula 2019 - Destination: Deep Space
+                        </span>
+                    </h2>
+                    <p class="lead">Capable of placing game pieces in the cargo ship and level one of the rocket. Uses a
+                        pneumatic system for handling hatches, a motorized arm and chute for cargo, and an additional
+                        pneumatic system for solo Hab-3 climb.</p><br><br>
+                    <div><b>Tech Specs:</b>
+                        <ul>
+                            <li>
+                                <div><strong>Weight:</strong> 117 lbs</div>
+                            </li>
+                            <li>
+                                <div><strong>Size:</strong> 28" W x 32" L x 47" H</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div><b>Awards:</b>
+                        <ul>
+                            <li>
+                                <div><strong>Second Seed Alliance Captain:</strong> Monterey Bay Regional</div>
+                            </li>
+                            <li>
+                                <div><strong>Regional Semifinalist:</strong> Monterey Bay Regional</div>
+                            </li>
+                            <li>
+                                <div><strong>Regional Semifinalist:</strong> Central Valley Regional</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div><b>Resources:</b>
+                        <ul>
+                            <li><b>Code: </b><a target="_blank"
+                                    href="https://github.com/BreakerBots/Nebula_2019">Nebula</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-5"><img class="featurette-image img-fluid d-block"
+                        src="../images/robots/Nebula.webp">
+                </div>
+            </div>
+            <hr class="featurette-divider">
+            <!--Athena-->
+            <div class="row featurette">
+                <div class="col-md-7 order-md-2">
+                    <h2 class="featurette-heading">Athena 2018 - Power Up </span></h2>
+                    <p class="lead">Uses a motorized intake and a single column cascading elevator to pick up,
+                        transport,
+                        and eject power cubes on the switch, scale, and vault. Also capable of climbing with a hook and
+                        winch.</p><br><br>
+                    <div><b>Tech Specs:</b>
+                        <ul>
+                            <li>
+                                <div><strong>Weight:</strong> 120 lbs</div>
+                            </li>
+                            <li>
+                                <div><strong>Size:</strong> 28" W x 33" L x 55" H</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div><b>Awards:</b>
+                        <ul>
+                            <li>
+                                <div><strong>Regional Finalist:</strong> Central Valley Regional</div>
+                            </li>
+                            <li>
+                                <div><strong>Eighth Seed Alliance Captain:</strong> Newton Division at Houston World
+                                    Championships</div>
+                            </li>
+                            <li>
+                                <div><strong>Tournament Semifinalists:</strong> CalGames</div>
+                            </li>
+                            <li>
+                                <div><strong>Tournament Quarterfinalists:</strong> MadTown Throwdown</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div><b>Resources:</b>
+                        <ul>
+                            <li> <b>Code: </b><a target="_blank"
+                                    href="https://github.com/BreakerBots/Power-Up-2018-Offseason">Power Up 2018
+                                    Off-season</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-5"> <img class="featurette-image img-fluid d-block"
+                        src="../images/robots/Athena.webp">
+                </div>
+            </div>
+            <hr class="featurette-divider">
+            <!--Archer-->
+            <div class="row featurette">
+                <div class="col-md-7">
+                    <h2 class="featurette-heading">Archer 2017 - Steamworks </span></h2>
+                    <p class="lead">Picks up, transports, and places gears using a passive funnel-style intake and
+                        pneumatic
+                        ejection. Uses a winch and rachet system to climb at the end of the match.</p><br>
+                    <div><b>Tech Specs:</b>
+                        <ul>
+                            <li>
+                                <div><strong>Weight:</strong> 115 lbs</div>
+                            </li>
+                            <li>
+                                <div><strong>Size:</strong> 40" W x 36" L x 24" H</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div><b>Awards:</b>
+                        <ul>
+                            <li>
+                                <div><strong>Regional Finalists:</strong> Central Valley Regional</div>
+                            </li>
+                            <li>
+                                <div><strong>Fourth Seed Alliance Captains:</strong> Turing Division at Houston World
+                                    Championships</div>
+                            </li>
+                            <li>
+                                <div><strong>Tournament Finalists:</strong> CalGames</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div><b>Resources:</b>
+                        <ul>
+                            <li> <b>Code: </b><a target="_blank"
+                                    href="https://github.com/BreakerBots/Archer_2017">Archer
+                                    2017</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-5"> <img class="featurette-image img-fluid d-block"
+                        src="../images/robots/Archer.webp">
+                </div>
+            </div>
+            <hr class="featurette-divider">
+            <!--Madoc-->
+            <div class="row featurette">
+                <div class="col-md-7 order-md-2">
+                    <h2 class="featurette-heading">Madoc 2016 - Stronghold </span></h2>
+                    <p class="lead">Uses a dual-motor intake system paired with a servo trigger control to collect,
+                        transport, and eject 10" foam balls into goals. For maneuverability, uses large, rubber tires
+                        and
+                        custom (wooden) hubs to be able to cross "defenses" easily.</p><br>
+                    <div><b>Tech Specs:</b>
+                        <ul>
+                            <li>
+                                <div><strong>Size:</strong> 28" W x 32" L x 12" H</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div><b>Awards:</b>
+                        <ul>
+                            <li>
+                                <div><strong>Tournament Finalists:</strong> CalGames</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div><b>Resources:</b>
+                        <ul>
+                            <li> <b>Code: </b><a target="_blank" href="https://github.com/BreakerBots/Madoc_2016">Madoc
+                                    2016</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-5"> <img class="featurette-image img-fluid d-block"
+                        src="../images/robots/Madoc.webp">
+                </div>
+            </div>
+            <hr class="featurette-divider">
+            <!--Klaus-->
+            <div class="row featurette">
+                <div class="col-md-7">
+                    <h2 class="featurette-heading">Klaus 2015 - Recycle Rush </span></h2>
+                    <p class="lead">Uses a winch and pulley system to pick up, stack, and transport totes across the
+                        field.
+                        Also uses wheels to provide omni-directional driving.</p><br>
+                    <div><b>Tech Specs:</b>
+                        <ul>
+                            <li>
+                                <div><strong>Size:</strong> 27" W x 29" L x 14" H</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-5"> <img class="featurette-image img-fluid d-block"
+                        src="../images/robots/Klaus.webp">
+                </div>
+            </div>
+            <hr class="featurette-divider">
+            <div class="row featurette">
+                <div class="col-md-7 order-md-2">
+                    <h2 class="featurette-heading">Felix 2014 - Aerial Assist </span></h2>
+                    <p class="lead">Competed in Aerial Assist. The BreakerBots' first robot!</p><br>
+                    <div> </div><b>Tech Specs:</b>
+                    <ul>
+                        <li>
+                            <div><strong>Size:</strong> 23" W x 32" L x 28" H</div>
+                        </li>
+                    </ul>
+                    <div><b>Resources:</b>
+                        <ul>
+                            <li><b>Code: </b><a target="_blank" href="https://github.com/BreakerBots/Felix-2014">Felix
+                                    2014</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-5"> <img class="featurette-image img-fluid d-block"
+                        src="../images/robots/Felix.webp">
+                </div>
+            </div>
+            <hr class="featurette-divider">
+        </div>
+
+        <%- include('../includes/footer.html') %>
 </body>
 
 </html>

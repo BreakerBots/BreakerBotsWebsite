@@ -99,6 +99,11 @@ export async function getHoursInjection() {
     return meeting;
   });
 
+  // Do not count hours for Thursday 2025-02-20.
+  meetings = meetings.filter((meeting) => {
+    return !meeting.start.isSame('2025-02-20', 'day');
+  });
+
   // Calculate total possible hours for all meetings in the 2 week window.
   let totalMinutes = 0;
   for (const { start, end } of meetings) {
