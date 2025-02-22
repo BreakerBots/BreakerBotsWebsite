@@ -3,10 +3,12 @@ import xlsx from 'node-xlsx';
 
 import { getHoursInjection } from './hoursService.js';
 
-export async function getHoursXlsx(season_start = dayjs('2024-12-29').tz()) {
+export async function getHoursXlsx(
+  season_start = dayjs('2024-12-30').tz().startOf('day')
+) {
   const promises = [];
   for (
-    let s = dayjs(season_start).tz();
+    let s = season_start;
     s.add(2, 'weeks').isBefore(dayjs().tz());
     s = s.add(1, 'week')
   ) {
