@@ -26,6 +26,131 @@
     <%- include('../includes/header.html') %>
 
         <div class="robots">
+
+            <!--Leviathan-->
+            <div class="row featurette">
+                <div class="col-md-7">
+                    <h2 class="featurette-heading">Leviathan 2025 - Reefscape</span></h2>
+                    <p class="lead">Leviathan represents the culmination of numerous years of research, development, and
+                        hard work. A robot not only capable
+                        of scoring in all four levels of the reef, but also doing so fully autonomously, from anywhere,
+                        and at any time. In
+                        fact, between its 4 localization cameras, ZED stereo camera, and 5 coprocessors, Leviathan can
+                        operate almost fully
+                        without human input, even in teleop.
+                    </p><br><br>
+                    <div><b>Tech Specs:</b>
+                        <ul>
+                            <li>
+                                <div><strong>Weight:</strong> 113.6 lbs</div>
+                            </li>
+                            <li>
+                                <div><strong>Size:</strong> 28" W x 28" L x 36" H</div>
+                            </li>
+                            <li>
+                                <div><strong>Intake:</strong> Over-the-bumper style ground coral intake using rubber
+                                    wrapped carbon-fibre rollers and compliant wheels. Automatically
+                                    orients coral and either passes them on to the indexer or stops them in place using
+                                    a 12khz hardware interrupt driven
+                                    beambreak. Coral stopped in the intake can be scored in L1.</div>
+                            </li>
+                            <li>
+                                <div><strong>Indexer:</strong> Semi-passive funnel type indexer used to center and
+                                    re-orient coral from the intake by 90 degrees. Uses the physical
+                                    deflection of its frame and walls to re-direct coral. Driven by a chain of compliant
+                                    wheels at its bottom run by a
+                                    Kraken x44.</div>
+                            </li>
+                            <li>
+                                <div><strong>Elevator:</strong> A custom 3-stage cascade rigged elevator driven by 2
+                                    Kraken x60 motors. Capable of extending up to 80 feet in less than
+                                    one second. Its carriage mass is couter-balanced by a pair of constant force
+                                    springs, leaving the total effective driven
+                                    mass at 8 lbs. Driven in part by fully 3D printed gears, the elevator was designed
+                                    specifically to allow our end
+                                    effector to traverse through the frame of our elevator to move coral from our
+                                    indexer/stow position to our scoring
+                                    locations.
+                                </div>
+                            </li>
+                            <li>
+                                <div><strong>Wrist:</strong> Controls the end effector's pitch angle using a minion
+                                    motor, custom tensioned chain drive, and 3d-printed chevron
+                                    gears. Capable of both exceptional speed and accuracy. The entire system was
+                                    designed to fit into less than 7 inches of
+                                    space while allowing more than 270 degrees of motion.
+                                </div>
+                            </li>
+                            <li>
+                                <div><strong>Finger:</strong> Thin polycarbonate extension surrounded by complaint
+                                    wheels designed to grip coral from the inside. Also driven in part
+                                    by fully 3D printed gears, it integrates a Minion motor to drive its wheels and
+                                    diffuse reflective presence detection
+                                    sensors. Leviathan can also use this to remove Algae from the Reef.</div>
+                            </li>
+                            <li>
+                                <div><strong>Climb:</strong> Levianthan’s climb was designed from the ground up by 5104
+                                    over numerous iterations. It features a polycarbonate
+                                    grappling-hook driven by a winch and spring. When unspooling its winch, the hook’s
+                                    arm is driven by spring tension to
+                                    extend, eventually releasing a mechanical lock which extends its ‘foot’. Leviathan
+                                    then uses its momentum to engage its
+                                    grappling hook with the bars of the Cage and its foot with the Cage's floor. Then it
+                                    re-spools its hook, using its foot
+                                    as a lever, Leviathan climbs the Cage.</div>
+                            </li>
+                            <li>
+                                <div><strong>Vision:</strong> Localization is handled by 4x Thrifycam Global Shutter
+                                    cameras connected to 4x OPi 5 Pro coprocessors. Vision data from
+                                    these cameras is processed by a real-time SLAM localizer running on our Nvidia
+                                    Jetson coprocessor. Alongside our SLAM,
+                                    the Jetson also runs a fully-custom CUDA accelerated stereo depth camera pipeline
+                                    used to track game pieces in true 3d
+                                    using a ZED 2i stereo camera.</div>
+                            </li>
+                            <li>
+                                <div><strong>Automation:</strong> Leviathan is highly focused automation, and can score
+                                    on any reef node, intake coral from the human station or ground
+                                    using stereo-depth cameras, and execute a full climb, all with single-button
+                                    automation. It selects optimal targets,
+                                    navigates obstacles, plans motion paths, and even auto-controls its orientation
+                                    during manual driving to reduce driver
+                                    workload, while still allowing semi-autonomous and manual operation.</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div><b>Awards:</b>
+                        <ul>
+                            <li>
+                                <div><strong>Judges' Award:</strong> Pinnacles Regional</div>
+                            </li>
+                            <li>
+                                <div><strong>Gracious Professionalism Award:</strong> San Fransisco Regional</div>
+                            </li>
+                            <li>
+                                <div><strong>Innovation in Control Award:</strong> Contra Costa Regional</div>
+                            </li>
+                            <li>
+                                <div><strong>Industrial Design Award:</strong> NorCal Invitational</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div> <b>Resources:</b>
+                        <ul>
+                            <li><b>Code: </b><a target="_blank"
+                                    href="https://github.com/BreakerBots/Leviathan_2025">Leviathan (Build
+                                    Season)</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-5"> <img class="featurette-image img-fluid d-block"
+                        src="../images/robots/Leviathan.webp">
+                </div>
+            </div>
+            <hr class="featurette-divider">
+
+
             <!--Typhoon-->
             <div class="row featurette">
                 <div class="col-md-7 order-md-2">
