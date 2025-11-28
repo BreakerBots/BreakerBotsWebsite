@@ -5,208 +5,275 @@
     <title>BreakerBots - Store</title>
     <%- include('../includes/head.html') %>
 
-    <style>
-        .sponsor {
-            margin: 4%;
-        }
+        <style>
+            .sponsor {
+                margin: 4%;
+            }
 
-        h1,
-        h3 {
-            text-align: center
-        }
+            h1,
+            h3 {
+                text-align: center
+            }
 
+            h4 {
+                color: #666;
+            }
 
-        h4 {
-            color: #666;
-        }
-        h2{
-            color: #666;
-        }
+            h2 {
+                color: #666;
+            }
 
-        .sponsor-us {
-            margin: 2%;
-            text-align: center
-        }
+            .sponsor-us {
+                margin: 2%;
+                text-align: center
+            }
 
-        .sustainer {
-            max-width: 200px;
-            max-height: 250px;
-            margin-top: 50px
-        }
+            .animal-story {
+                background: #f8f9fa;
+                border-left: 4px solid #AF1700;
+                padding: 15px;
+                margin: 20px 0;
+                border-radius: 4px;
+                text-align: left;
+                font-style: italic;
+                color: #555;
+            }
 
-        .platinum {
-            max-width: 200px;
-            max-height: 150px;
-            margin-top: 50px
-        }
+            .puzzle-item {
+                margin-bottom: 60px;
+            }
 
-        .gold {
-            max-width: 200px;
-            max-height: 100px;
-            margin-top: 50px
-        }
-    </style>
+            .sustainer {
+                max-width: 200px;
+                max-height: 250px;
+                margin-top: 50px
+            }
+
+            .platinum {
+                max-width: 200px;
+                max-height: 150px;
+                margin-top: 50px
+            }
+
+            .gold {
+                max-width: 200px;
+                max-height: 100px;
+                margin-top: 50px
+            }
+        </style>
 </head>
 
 <body>
     <%- include('../includes/header.html') %>
-    <div>
-    <div class="sponsor">
-        <div class="row featurette">
-            <h2 class="featurette-heading" style="width: 100%; text-align: center;">Puzzles!</h2>
-            <h6 class="featurette-heading" style="width: 100%; text-align: center;">
-                3D wooden puzzles, designed and created by the BreakerBots, 
-                allow you to put together pieces to create one of four 3D models.
-                Simply snap the pieces out of the ⅛ inch board and connect them with the pre-cut tabs to create a butterfly ornament, 
-                a standing butterfly, a shark, or a fox.  All models come with step-by-step instructions showing how to assemble.  
-                Glue is not required, but can be used to make the piece more sturdy.  
-                All proceeds support Pacific Grove High School’s robotics program.
-            </h6>
-            <div class="row sponsor-us">
-                <div class="col-md-4">
-                    <p><br></p>
-                    <h4>Fox</h4>
-                    <p>The fox is more challenging, but not difficult to assemble.
-                        It has 40 pieces and measures 4.5 inches long and 2 inches tall.
-                    </p>
-                    <p><br></p>
-                    <div id="carouselA" class="carousel slide">
-                        <ol class="carousel-indicators">
-                            <li data-target="#carouselA" data-slide-to="0" class="active"></li>
-                            <li data-target="#carouselA" data-slide-to="1"></li>
-                        </ol>
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                            <img class="d-block w-100" src="../images/store/fox.jpg" alt="First slide">
-                            </div>
-                            <div class="carousel-item">
-                            <img class="d-block w-100" src="../images/store/fox_card.jpg" alt="Second slide">
-                            </div>
-                        </div>
-                        <a class="carousel-control-prev" href="#carouselA" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carouselA" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </div>
-                    <p><br></p>
-                    <div>
-                        <a class="btn btn-primary btn-lg" href="https://docs.google.com/forms/d/e/1FAIpQLSft55_Vl96v8kMhwjt3-FAIq_WevXQAn45n8mTUTLILNm3JOw/viewform?usp=sf_link" role="button">Purchase</a>
-                        <a class="btn btn-secondary btn-lg" href="https://docs.google.com/presentation/d/13oj9Vza2kuoDWEOumWBe7n0ugdeWiBSeFnhAKJdIcj8/edit#slide=id.g318acea8c49_0_18" role="button">Instructions</a>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <p><br></p>
-                    <h4>Shark</h4>
-                    <p>The great white shark has 9 pieces and measures approximately 7 inches in length.  
-                    </p>
-                    <p><br></p>
-                    <div id="carouselB" class="carousel slide">
-                        <ol class="carousel-indicators">
-                            <li data-target="#carouselB" data-slide-to="0" class="active"></li>
-                            <li data-target="#carouselB" data-slide-to="1"></li>
-                        </ol>
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                            <img class="d-block w-100" src="../images/store/shark.jpg" alt="First slide">
-                            </div>
-                            <div class="carousel-item">
-                            <img class="d-block w-100" src="../images/store/shark_card.jpg" alt="Second slide">
-                            </div>
-                        </div>
-                        <a class="carousel-control-prev" href="#carouselB" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carouselB" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </div>
-                    <p><br></p>
-                    <div>
-                        <a class="btn btn-primary btn-lg" href="https://docs.google.com/forms/d/e/1FAIpQLSft55_Vl96v8kMhwjt3-FAIq_WevXQAn45n8mTUTLILNm3JOw/viewform?usp=sf_link" role="button">Purchase</a>
-                        <a class="btn btn-secondary btn-lg" href="https://docs.google.com/presentation/d/1HNmN7kVdvWZbghbqy9FVThbm-CMqZPvPLV1gAsBT87k/edit?usp=sharing" role="button">Instructions</a>
-                    </div>
-                </div>
-                
+        <div>
+            <div class="sponsor">
+                <div class="row featurette">
+                    <h2 class="featurette-heading" style="width: 100%; text-align: center;">Laser-cut Animal Puzzles!</h2>
+                    <h6 class="featurette-heading" style="width: 100%; text-align: center;">
+                        3D wooden puzzles, designed and created by the BreakerBots,
+                        allow you to put together pieces to create one of four 3D models.
+                        Simply snap the pieces out of the ⅛ inch board and connect them with the pre-cut tabs to create
+                        a butterfly ornament,
+                        a standing butterfly, a shark, or a fox. All models come with step-by-step instructions showing
+                        how to assemble.
+                        Glue is not required, but can be used to make the piece more sturdy.
+                        All proceeds support Pacific Grove High School's robotics program.
+                    </h6>
 
-                <div class="col-md-4">
-                    <p><br></p>
-                    <h4>Butterfly (Standing)<br></h4>
-                    <p>The standing butterfly has 13 pieces and stands on 6 legs.  It measures 3 inches tall and 3 inches long with a 4.5 inch wingspan.
-                    </p>
-                    <p><br></p>
-                    <div id="carouselC" class="carousel slide">
-                        <ol class="carousel-indicators">
-                          <li data-target="#carouselC" data-slide-to="0" class="active"></li>
-                          <li data-target="#carouselC" data-slide-to="1"></li>
-                        </ol>
-                        <div class="carousel-inner">
-                          <div class="carousel-item active">
-                            <img class="d-block w-100" src="../images/store/butterfly.jpg" alt="First slide">
-                          </div>
-                          <div class="carousel-item">
-                            <img class="d-block w-100" src="../images/store/butterfly_card.jpg" alt="Second slide">
-                          </div>
+                    <div class="row sponsor-us">
+                        <!-- Row 1 -->
+                        <div class="col-md-6 puzzle-item">
+                            <p><br></p>
+                            <h4>Pixel the Fox - $9</h4>
+                            <div class="animal-story">
+                                Meet Pixel, the clever fox who lives at the edge of the redwood forest. Pixel earned her name after discovering an old circuit board near the robotics workshop and spending hours figuring out how each component connected. Now she's obsessed with patterns, puzzles, and problem-solving—often rearranging pinecones into geometric designs and teaching the younger foxes about cause and effect. She believes the best adventures come from building things with your paws and your brain working together.
+                            </div>
+                            <p>The fox is more challenging, but not difficult to assemble.
+                                It has 40 pieces and measures 4.5 inches long and 2 inches tall.
+                            </p>
+                            <p><br></p>
+                            <div id="carouselA" class="carousel slide">
+                                <ol class="carousel-indicators">
+                                    <li data-target="#carouselA" data-slide-to="0" class="active"></li>
+                                    <li data-target="#carouselA" data-slide-to="1"></li>
+                                </ol>
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <img class="d-block w-100" src="../images/store/fox.jpg" alt="First slide">
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img class="d-block w-100" src="../images/store/fox_card.jpg"
+                                            alt="Second slide">
+                                    </div>
+                                </div>
+                                <a class="carousel-control-prev" href="#carouselA" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#carouselA" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                            <p><br></p>
+                            <div>
+                                <a class="btn btn-primary btn-lg"
+                                    href="https://breakerbots.square.site/product/pixel-the-fox/OOMP53NDOAQB6ID74YH3GKPT"
+                                    target="_blank"
+                                    role="button">Buy Now - $9</a>
+                                <a class="btn btn-secondary btn-lg"
+                                    href="https://docs.google.com/presentation/d/13oj9Vza2kuoDWEOumWBe7n0ugdeWiBSeFnhAKJdIcj8/edit#slide=id.g318acea8c49_0_18"
+                                    target="_blank"
+                                    role="button">Instructions</a>
+                            </div>
                         </div>
-                        <a class="carousel-control-prev" href="#carouselC" role="button" data-slide="prev">
-                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                          <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carouselC" role="button" data-slide="next">
-                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                          <span class="sr-only">Next</span>
-                        </a>
+
+                        <div class="col-md-6 puzzle-item">
+                            <p><br></p>
+                            <h4>Marina the Shark - $9</h4>
+                            <div class="animal-story">
+                                This is Marina, the great white who patrols Monterey Bay with curiosity instead of hunger. Marina got her start as an apprentice to the sea otters, watching them use rocks to crack open shells—her first lesson in tool use. Now she's fascinated by underwater currents, navigation, and how things move through water. She spends her days experimenting with hydrodynamics, racing alongside boats to study their wake patterns, and teaching young sharks that the ocean's biggest mysteries are solved by observation, not just instinct.
+                            </div>
+                            <p>The great white shark has 9 pieces and measures approximately 7 inches in length.
+                            </p>
+                            <p><br></p>
+                            <div id="carouselB" class="carousel slide">
+                                <ol class="carousel-indicators">
+                                    <li data-target="#carouselB" data-slide-to="0" class="active"></li>
+                                    <li data-target="#carouselB" data-slide-to="1"></li>
+                                </ol>
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <img class="d-block w-100" src="../images/store/shark.jpg" alt="First slide">
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img class="d-block w-100" src="../images/store/shark_card.jpg"
+                                            alt="Second slide">
+                                    </div>
+                                </div>
+                                <a class="carousel-control-prev" href="#carouselB" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#carouselB" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                            <p><br></p>
+                            <div>
+                                <a class="btn btn-primary btn-lg"
+                                    href="https://breakerbots.square.site/product/marina-the-shark/4BO3K4FZ5ICGS6FVLU74Q3ZD"
+                                    target="_blank"
+                                    role="button">Buy Now - $9</a>
+                                <a class="btn btn-secondary btn-lg"
+                                    href="https://docs.google.com/presentation/d/1HNmN7kVdvWZbghbqy9FVThbm-CMqZPvPLV1gAsBT87k/edit?usp=sharing"
+                                    target="_blank"
+                                    role="button">Instructions</a>
+                            </div>
+                        </div>
                     </div>
-                    <p><br></p>
-                    <div>
-                        <a class="btn btn-primary btn-lg" href="https://docs.google.com/forms/d/e/1FAIpQLSft55_Vl96v8kMhwjt3-FAIq_WevXQAn45n8mTUTLILNm3JOw/viewform?usp=sf_link" role="button">Purchase</a>
-                        <a class="btn btn-secondary btn-lg" href="https://docs.google.com/presentation/d/1LM1DRK7sRRF_RD-pg_37HHwlOm-DO1IqmmQKDzqHXo8/edit?usp=sharing" role="button">Instructions</a>
+
+                    <!-- Row 2 -->
+                    <div class="row sponsor-us">
+                        <div class="col-md-6 puzzle-item">
+                            <p><br></p>
+                            <h4>Cipher the Butterfly (Standing) - $9</h4>
+                            <div class="animal-story">
+                                Say hello to Cipher, the monarch butterfly with an engineering mind. After emerging from her chrysalis, Cipher became fascinated by the mathematics of her own transformation—how a caterpillar reorganizes itself into something completely new. She now studies flight mechanics, testing different wing angles and documenting which flowers provide the best aerodynamic landing pads. Cipher believes that nature is the greatest inventor, and every butterfly carries the blueprint for innovation in its wings.
+                            </div>
+                            <p>The standing butterfly has 13 pieces and stands on 6 legs. It measures 3 inches tall and 3
+                                inches long with a 4.5 inch wingspan.
+                            </p>
+                            <p><br></p>
+                            <div id="carouselC" class="carousel slide">
+                                <ol class="carousel-indicators">
+                                    <li data-target="#carouselC" data-slide-to="0" class="active"></li>
+                                    <li data-target="#carouselC" data-slide-to="1"></li>
+                                </ol>
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <img class="d-block w-100" src="../images/store/butterfly.jpg" alt="First slide">
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img class="d-block w-100" src="../images/store/butterfly_card.jpg"
+                                            alt="Second slide">
+                                    </div>
+                                </div>
+                                <a class="carousel-control-prev" href="#carouselC" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#carouselC" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                            <p><br></p>
+                            <div>
+                                <a class="btn btn-primary btn-lg"
+                                    href="https://breakerbots.square.site/product/cipher-the-monarch-butterfly/7JP7TILLRJOPNCXNJWBGS4QJ"
+                                    target="_blank"
+                                    role="button">Buy Now - $9</a>
+                                <a class="btn btn-secondary btn-lg"
+                                    href="https://docs.google.com/presentation/d/1LM1DRK7sRRF_RD-pg_37HHwlOm-DO1IqmmQKDzqHXo8/edit?usp=sharing"
+                                    target="_blank"
+                                    role="button">Instructions</a>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 puzzle-item">
+                            <p><br></p>
+                            <h4>Helix the Butterfly (Ornament) - $9</h4>
+                            <div class="animal-story">
+                                Meet Helix, Cipher's adventurous sibling who took a different path. While Cipher studied flight, Helix became obsessed with balance and suspension—how things hang in perfect equilibrium. After watching a spider engineer its web, Helix spent weeks experimenting with different materials to create the perfect hanging structure. Now Helix designs ornamental installations throughout the garden, proving that art and engineering are just two sides of the same creative wing.
+                            </div>
+                            <p>The butterfly ornament has 8 pieces and measures approximately 2.5 tall, 3 inches long, with
+                                a 4.5 inch wingspan. It has two hooks to put string or wire through to hang.
+                            </p>
+                            <p><br></p>
+                            <div id="carouselD" class="carousel slide">
+                                <ol class="carousel-indicators">
+                                    <li data-target="#carouselD" data-slide-to="0" class="active"></li>
+                                    <li data-target="#carouselD" data-slide-to="1"></li>
+                                </ol>
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <img class="d-block w-100" src="../images/store/butterfly_ornament.jpg"
+                                            alt="First slide">
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img class="d-block w-100" src="../images/store/butterfly_ornament_card.jpg"
+                                            alt="Second slide">
+                                    </div>
+                                </div>
+                                <a class="carousel-control-prev" href="#carouselD" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#carouselD" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                            <p><br></p>
+                            <div>
+                                <a class="btn btn-primary btn-lg"
+                                    href="https://breakerbots.square.site/product/helix-the-butterfly-ornament/CMGEXHCJQL6XNE2GQVXIYVHR"
+                                    target="_blank"
+                                    role="button">Buy Now - $9</a>
+                                <a class="btn btn-secondary btn-lg"
+                                    href="https://docs.google.com/presentation/d/1aozUGTvtWSSX9blddJj1GQueCFKXIYu_mLsShtAL_mo/edit?usp=sharing"
+                                    target="_blank"
+                                    role="button">Instructions</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <p><br></p>
-                    <h4>Butterfly (Ornament)</h4>
-                    <p>The butterfly ornament has 8 pieces and measures approximately 2.5 tall, 3 inches long, with a 4.5 inch wingspan. It has two hooks to put string or wire through to hang.  
-                    </p>
-                    <p><br></p>
-                    <div id="carouselD" class="carousel slide">
-                        <ol class="carousel-indicators">
-                            <li data-target="#carouselD" data-slide-to="0" class="active"></li>
-                            <li data-target="#carouselD" data-slide-to="1"></li>
-                        </ol>
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                            <img class="d-block w-100" src="../images/store/butterfly_ornament.jpg" alt="First slide">
-                            </div>
-                            <div class="carousel-item">
-                            <img class="d-block w-100" src="../images/store/butterfly_ornament_card.jpg" alt="Second slide">
-                            </div>
-                        </div>
-                        <a class="carousel-control-prev" href="#carouselD" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carouselD" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </div>
-                    <p><br></p>
-                    <div>
-                        <a class="btn btn-primary btn-lg" href="https://docs.google.com/forms/d/e/1FAIpQLSft55_Vl96v8kMhwjt3-FAIq_WevXQAn45n8mTUTLILNm3JOw/viewform?usp=sf_link" role="button">Purchase</a>
-                        <a class="btn btn-secondary btn-lg" href="https://docs.google.com/presentation/d/1aozUGTvtWSSX9blddJj1GQueCFKXIYu_mLsShtAL_mo/edit?usp=sharing" role="button">Instructions</a>
-                    </div>
             </div>
         </div>
-    </div>
-</div>
 
-    <%- include('../includes/footer.html') %>
+        <%- include('../includes/footer.html') %>
 </body>
 
 </html>
