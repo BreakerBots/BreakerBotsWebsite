@@ -46,6 +46,7 @@ const pages = {
   '/hours': ['hours/auth.html'],
   '/hours/home': ['hours/home.html', getHoursInjection],
   '/hours/people': ['hours/people.html', getPeopleInjection],
+  '/hours/admin': ['hours/admin.html'],
   '/thankyou': ['thankyou.html'],
   '/dashboard': ['dashboard2.html'],
   '/store': ['store.html'],
