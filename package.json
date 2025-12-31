@@ -14,17 +14,17 @@
   },
   "dependencies": {
     "@google-cloud/datastore": "^9.2.1",
-    "@googleapis/calendar": "^9.7.9",
-    "compression": "^1.7.5",
+    "@googleapis/calendar": "^9.8.0",
+    "compression": "^1.8.1",
     "cookie-parser": "^1.4.7",
-    "dayjs": "^1.11.13",
+    "dayjs": "^1.11.19",
     "ejs": "^3.1.10",
-    "express": "^4.21.2",
+    "express": "^4.22.1",
     "node-xlsx": "^0.24.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.16.0",
-    "eslint": "^9.18.0",
-    "globals": "^15.14.0"
+    "eslint": "^9.39.2",
+    "globals": "^15.15.0"
   }
 }
