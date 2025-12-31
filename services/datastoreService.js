@@ -44,3 +44,34 @@ export async function getCalendarAuthToken() {
   const query = datastore.createQuery('calendarAuthToken');
   return datastore.runQuery(query).then(([tokens]) => tokens[0].API_KEY);
 }
+
+/**
+ * Replaces or creates person entities in Datastore using the provided JSON data.
+ *
+ * @param {Object} peopleByName An object mapping person names to datastore entities.
+ */
+export async function importFromJson(peopleByName) {
+  if (!peopleByName || typeof peopleByName !== 'object') {
+    throw new Error('Invalid import payload');
+  }
+
+  const entities = Object.entries(peopleByName).map(([name, data]) => ({
+    key: datastore.key(['person', name]),
+    data,
+  }));
+
+  if (entities.length === 0) {
+    return;
+  }
+
+  return datastore.upsert(entities);
+}
+
+/**
+ * Exports all person entities (excluding the Meeting placeholder) as a JSON object.
+ *
+ * @returns {Promise<Object>} Object keyed by person name containing datastore entities.
+ */
+export async function exportToJson() {
+  return getPeople();
+}

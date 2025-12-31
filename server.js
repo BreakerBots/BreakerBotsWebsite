@@ -13,6 +13,8 @@ import hoursAuthMiddleware from './middleware/auth.js';
 import {
   getHoursInjection,
   getPeopleInjection,
+  getExport,
+  postImport,
   postPerson,
 } from './services/hoursService.js';
 import { getHoursXlsx } from './services/xlsxService.js';
@@ -73,6 +75,12 @@ app.get('/hours/download', async (req, res) => {
 
 //Hours Post Requests
 app.post('/hours/person', postPerson);
+
+// Import hours from JSON
+app.post('/hours/import', postImport);
+
+// Export hours to JSON
+app.get('/hours/export', getExport);
 
 //Serve Page
 app.get(Object.keys(pages), async (req, res) => {
