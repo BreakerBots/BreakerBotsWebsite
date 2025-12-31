@@ -78,10 +78,10 @@ app.get('/hours/download', async (req, res) => {
 app.post('/hours/person', postPerson);
 
 // Import hours from JSON
-app.post('/hours/import', postImport);
+app.post('/hours/admin/import', postImport);
 
 // Export hours to JSON
-app.get('/hours/export', getExport);
+app.get('/hours/admin/export', getExport);
 
 //Serve Page
 app.get(Object.keys(pages), async (req, res) => {

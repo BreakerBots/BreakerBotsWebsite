@@ -2,16 +2,99 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hours Admin</title>
+  <title>BreakerBots - Hours Admin</title>
+  <%- include('../../includes/head.html') %>
+    <style>
+      button {
+        margin-bottom: 40px;
+      }
+
+      .danger {
+        background: #c0392b;
+        border: none;
+        color: #fff;
+      }
+
+      .danger:hover {
+        background: #a93226;
+        color: #fff;
+      }
+    </style>
 </head>
 
-<body>
-  <main>
-    <h1>Hours Admin</h1>
-    <p>This page is intentionally blank.</p>
-  </main>
+<body class="hours">
+  <card>
+    <img src="/images/icon.png" alt="" />
+    <card-title>Hours Admin</card-title>
+    <card-subtitle>
+      JSON export (safe, read-only) / import (destructive, writes to database)
+    </card-subtitle>
+    <span>
+      <button id="export-json" class="btn btn-secondary">Export JSON</button>
+      <button id="import-json" class="btn danger">Import JSON (Danger)</button>
+      <input id="file-input" type="file" accept="application/json" style="display: none;" />
+    </span>
+    <p id="status" style="margin-top: 16px;"></p>
+  </card>
+  <script>
+    const statusEl = document.getElementById('status');
+    const fileInput = document.getElementById('file-input');
+
+    function setStatus(text, isError = false) {
+      statusEl.textContent = text;
+      statusEl.style.color = isError ? '#c0392b' : 'inherit';
+    }
+
+    document.getElementById('export-json').addEventListener('click', () => {
+      setStatus('Exporting...');
+      fetch('/hours/admin/export')
+        .then((res) => {
+          if (!res.ok) throw new Error('Export failed');
+          return res.blob();
+        })
+        .then((blob) => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'hours_export.json';
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          window.URL.revokeObjectURL(url);
+          setStatus('Export complete');
+        })
+        .catch((err) => setStatus(err.message, true));
+    });
+
+    document.getElementById('import-json').addEventListener('click', () => {
+      fileInput.click();
+    });
+
+    fileInput.addEventListener('change', async (event) => {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      try {
+        setStatus('Importing...');
+        const text = await file.text();
+        const json = JSON.parse(text);
+        const res = await fetch('/hours/admin/import', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(json),
+        });
+        if (!res.ok) {
+          const body = await res.json().catch(() => ({}));
+          throw new Error(body.error || 'Import failed');
+        }
+        setStatus('Import complete');
+      } catch (err) {
+        setStatus(err.message || 'Import failed', true);
+      } finally {
+        fileInput.value = '';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="/assets/bootstrap.js"></script>
 </body>
 
 </html>
