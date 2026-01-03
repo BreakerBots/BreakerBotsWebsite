@@ -13,6 +13,8 @@ import hoursAuthMiddleware from './middleware/auth.js';
 import {
   getHoursInjection,
   getPeopleInjection,
+  getExport,
+  postImport,
   postPerson,
 } from './services/hoursService.js';
 import { getHoursXlsx } from './services/xlsxService.js';
@@ -44,6 +46,7 @@ const pages = {
   '/hours': ['hours/auth.html'],
   '/hours/home': ['hours/home.html', getHoursInjection],
   '/hours/people': ['hours/people.html', getPeopleInjection],
+  '/hours/admin': ['hours/admin.html'],
   '/thankyou': ['thankyou.html'],
   '/dashboard': ['dashboard2.html'],
   '/store': ['store.html'],
@@ -73,6 +76,12 @@ app.get('/hours/download', async (req, res) => {
 
 //Hours Post Requests
 app.post('/hours/person', postPerson);
+
+// Import hours from JSON
+app.post('/hours/admin/import', postImport);
+
+// Export hours to JSON
+app.get('/hours/admin/export', getExport);
 
 //Serve Page
 app.get(Object.keys(pages), async (req, res) => {

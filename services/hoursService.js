@@ -1,6 +1,11 @@
 import dayjs from 'dayjs';
 
-import { getPeople, updatePerson } from './datastoreService.js';
+import {
+  exportToJson,
+  getPeople,
+  importFromJson,
+  updatePerson,
+} from './datastoreService.js';
 import { getMeetings, getMeetingsToday } from './calendarService.js';
 
 export async function postPerson(req, res) {
@@ -198,6 +203,35 @@ export async function getPeopleInjection() {
   }
 
   return { people: displayPeople, meeting: displayMeeting };
+}
+
+/**
+ * Imports people data from a JSON payload and writes it to the datastore.
+ */
+export async function postImport(req, res) {
+  try {
+    await importFromJson(req.body);
+    res.status(200).json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ success: false, error: err.message ?? err });
+  }
+}
+
+/**
+ * Exports people data from the datastore as a JSON attachment.
+ */
+export async function getExport(req, res) {
+  try {
+    const people = await exportToJson();
+    const filename = `hours_export_${dayjs().tz().format('YYYY-MM-DD')}.json`;
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).send(JSON.stringify(people, null, 2));
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: err });
+  }
 }
 
 function* validSignInOutHistory(name, history) {
