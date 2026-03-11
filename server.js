@@ -34,6 +34,7 @@ app.disable('x-powered-by');
 app.use(express.json());
 app.use('/images', express.static('src/images'));
 app.use('/assets', express.static('src/assets'));
+app.use('/bms', express.static('src/bms'));
 
 //Pages
 const pages = {
