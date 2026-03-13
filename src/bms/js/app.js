@@ -301,18 +301,18 @@ const App = {
     },
 
     async buildReport(matchKey, eventKey) {
-        const matchPromise = TBA.getMatch(matchKey);
-        const [match, oprsData, eventMatches, teamsAndStatus] = await Promise.all([
-            matchPromise,
-            TBA.getEventOPRs(eventKey),
-            TBA.getEventMatches(eventKey),
-            matchPromise.then(m => this.fetchTeamsAndStatus(m, eventKey))
-        ]);
-        const oprs = oprsData?.oprs || {};
-
+        const match = await TBA.getMatch(matchKey);
         const redTeams = (match.alliances?.red?.team_keys || []);
         const blueTeams = (match.alliances?.blue?.team_keys || []);
         const teamKeys = [...redTeams, ...blueTeams];
+
+        const [oprsData, eventMatches, teamsAndStatus, epas] = await Promise.all([
+            TBA.getEventOPRs(eventKey),
+            TBA.getEventMatches(eventKey),
+            this.fetchTeamsAndStatus(match, eventKey),
+            Statbotics.getEPAs(teamKeys, CONFIG.YEAR)
+        ]);
+        const oprs = oprsData?.oprs || {};
 
         const teamStats = this.computeTeamStatsFromMatches(eventMatches, teamKeys);
 
@@ -321,6 +321,7 @@ const App = {
             const t = teamsAndStatus[i];
             const alliance = redTeams.includes(tk) ? 'red' : 'blue';
             const opr = oprs[tk];
+            const epa = epas?.[tk];
             return {
                 key: tk,
                 teamNum: t.team?.team_number,
@@ -328,6 +329,7 @@ const App = {
                 location: t.team?.city || '',
                 alliance,
                 opr: opr != null ? Math.round(opr * 10) / 10 : 'N/A',
+                epa: epa != null ? epa : 'N/A',
                 eventWins: t.eventWins || 0,
                 eventLosses: t.eventLosses || 0,
                 rank: t.rank,
@@ -340,11 +342,15 @@ const App = {
             };
         });
 
-        let redOpr = 0, blueOpr = 0;
+        let redOpr = 0, blueOpr = 0, redEpa = 0, blueEpa = 0;
         teamData.forEach(t => {
             if (typeof t.opr === 'number') {
                 if (t.alliance === 'red') redOpr += t.opr;
                 else blueOpr += t.opr;
+            }
+            if (typeof t.epa === 'number') {
+                if (t.alliance === 'red') redEpa += t.epa;
+                else blueEpa += t.epa;
             }
         });
 
@@ -373,7 +379,7 @@ const App = {
             }
             const combinedStats = parts.join(' - ');
             const rankPart = t.rank != null ? `Rank ${t.rank} (${t.eventWins}-${t.eventLosses})` : `${t.eventWins}-${t.eventLosses} @ event`;
-            const statRow = `${rankPart} -- OPR: ${t.opr}`;
+            const statRow = `${rankPart} -- OPR: ${t.opr} | EPA: ${t.epa}`;
             const teamNum = (t.key || '').replace('frc', '') || t.teamNum;
             const tbaTeamUrl = `https://www.thebluealliance.com/team/${teamNum}/${CONFIG.YEAR}`;
             return `
@@ -408,6 +414,7 @@ const App = {
             <div class="prediction-block">
                 <h2>Match Prediction</h2>
                 <div class="stat-row">RED OPR: ${redOpr.toFixed(1)} vs BLUE OPR: ${blueOpr.toFixed(1)}</div>
+                ${(redEpa > 0 || blueEpa > 0) ? `<div class="stat-row">RED EPA: ${redEpa.toFixed(1)} vs BLUE EPA: ${blueEpa.toFixed(1)}</div>` : ''}
                 <div class="winner ${predWinner}">Prediction: ${predWinner.toUpperCase()} victory (${confidence}% confidence)</div>
                 ${resultHtml}
             </div>
