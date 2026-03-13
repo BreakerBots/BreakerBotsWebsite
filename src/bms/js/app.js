@@ -1,4 +1,36 @@
 /**
+ * Statbotics API client for EPA (Expected Points Added) data
+ * API docs: https://www.statbotics.io/docs/rest
+ */
+const Statbotics = {
+    BASE: 'https://api.statbotics.io/v3',
+    async getTeamYear(teamKey, year) {
+        const teamNum = (teamKey || '').replace(/^frc/i, '');
+        if (!teamNum) return null;
+        try {
+            const res = await fetch(`${this.BASE}/team_year/${teamNum}/${year}`, {
+                headers: { Accept: 'application/json' }
+            });
+            if (!res.ok) return null;
+            return await res.json();
+        } catch {
+            return null;
+        }
+    },
+    async getEPAs(teamKeys, year) {
+        const results = await Promise.all(
+            teamKeys.map(async (tk) => {
+                const data = await this.getTeamYear(tk, year);
+                const epa = data?.epa;
+                const value = epa?.norm ?? epa?.unit_epa ?? epa;
+                return { key: tk, epa: typeof value === 'number' ? Math.round(value * 10) / 10 : null };
+            })
+        );
+        return Object.fromEntries(results.map(r => [r.key, r.epa]));
+    }
+};
+
+/**
  * Breaker Match Scouter — Main app logic
  */
 const App = {
