@@ -54,6 +54,7 @@ body {
 
 .header-compact {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 12px;
     text-align: left;
@@ -63,6 +64,23 @@ body {
     flex: 1;
     margin: 0;
     font-size: 1.25rem;
+}
+
+.event-links {
+    flex: 0 0 100%;
+    margin: 6px 0 0;
+    font-size: 0.9rem;
+    order: 10;
+}
+
+.event-links .link-white {
+    color: #fff;
+    text-decoration: none;
+}
+
+.event-links .link-white:hover {
+    color: var(--accent-secondary);
+    text-decoration: underline;
 }
 
 .back-btn {

@@ -1,14 +1,15 @@
 /**
  * Statbotics API client for EPA (Expected Points Added) data
  * API docs: https://www.statbotics.io/docs/rest
+ * Uses team_event endpoint for event-specific EPA (matches statbotics.io/event/...)
  */
 const Statbotics = {
     BASE: 'https://api.statbotics.io/v3',
-    async getTeamYear(teamKey, year) {
+    async getTeamEvent(teamKey, eventKey) {
         const teamNum = (teamKey || '').replace(/^frc/i, '');
-        if (!teamNum) return null;
+        if (!teamNum || !eventKey) return null;
         try {
-            const res = await fetch(`${this.BASE}/team_year/${teamNum}/${year}`, {
+            const res = await fetch(`${this.BASE}/team_event/${teamNum}/${eventKey}`, {
                 headers: { Accept: 'application/json' }
             });
             if (!res.ok) return null;
@@ -17,12 +18,12 @@ const Statbotics = {
             return null;
         }
     },
-    async getEPAs(teamKeys, year) {
+    async getEPAs(teamKeys, eventKey) {
         const results = await Promise.all(
             teamKeys.map(async (tk) => {
-                const data = await this.getTeamYear(tk, year);
+                const data = await this.getTeamEvent(tk, eventKey);
                 const epa = data?.epa;
-                const value = epa?.norm ?? epa?.unit_epa ?? epa;
+                const value = epa?.total_points?.mean ?? epa?.norm ?? epa?.unitless;
                 return { key: tk, epa: typeof value === 'number' ? Math.round(value * 10) / 10 : null };
             })
         );
@@ -131,6 +132,7 @@ const App = {
         this.currentEvent = eventKey;
         document.getElementById('view-event').style.display = 'flex';
         document.getElementById('event-title').textContent = 'Loading…';
+        document.getElementById('event-links').style.display = 'none';
 
         const loading = document.getElementById('matches-loading');
         const error = document.getElementById('matches-error');
@@ -148,6 +150,12 @@ const App = {
             ]);
 
             document.getElementById('event-title').textContent = event.name || eventKey;
+
+            const tbaEventUrl = `https://www.thebluealliance.com/event/${eventKey}`;
+            const statboticsEventUrl = `https://www.statbotics.io/event/${eventKey}#insights`;
+            const linksEl = document.getElementById('event-links');
+            linksEl.innerHTML = `<a href="${tbaEventUrl}" target="_blank" rel="noopener" class="link-white">The Blue Alliance</a> · <a href="${statboticsEventUrl}" target="_blank" rel="noopener" class="link-white">Statbotics</a>`;
+            linksEl.style.display = 'block';
 
             if (!matches || matches.length === 0) {
                 loading.style.display = 'none';
@@ -342,7 +350,7 @@ const App = {
             TBA.getEventOPRs(eventKey),
             TBA.getEventMatches(eventKey),
             this.fetchTeamsAndStatus(match, eventKey),
-            Statbotics.getEPAs(teamKeys, CONFIG.YEAR)
+            Statbotics.getEPAs(teamKeys, eventKey)
         ]);
         const oprs = oprsData?.oprs || {};
 
@@ -386,9 +394,14 @@ const App = {
             }
         });
 
-        const predWinner = redOpr >= blueOpr ? 'red' : 'blue';
-        const margin = Math.abs(redOpr - blueOpr);
-        const confidence = Math.min(99, Math.round(100 / (1 + Math.exp(-0.05 * (margin - 30)))));
+        const hasOpr = redOpr > 0 || blueOpr > 0;
+        const hasEpa = redEpa > 0 || blueEpa > 0;
+        // Scale-invariant: treat each metric as a "Red win probability" (0–1), then average
+        const redOprProb = hasOpr && (redOpr + blueOpr) > 0 ? redOpr / (redOpr + blueOpr) : 0.5;
+        const redEpaProb = hasEpa && (redEpa + blueEpa) > 0 ? redEpa / (redEpa + blueEpa) : 0.5;
+        const redProb = hasOpr && hasEpa ? (redOprProb + redEpaProb) / 2 : hasEpa ? redEpaProb : redOprProb;
+        const predWinner = redProb >= 0.5 ? 'red' : 'blue';
+        const confidence = Math.min(99, Math.round(Math.max(redProb, 1 - redProb) * 100));
 
         let resultHtml = '';
         if (match.score_breakdown) {
@@ -447,6 +460,7 @@ const App = {
                 <h2>Match Prediction</h2>
                 <div class="stat-row">RED OPR: ${redOpr.toFixed(1)} vs BLUE OPR: ${blueOpr.toFixed(1)}</div>
                 ${(redEpa > 0 || blueEpa > 0) ? `<div class="stat-row">RED EPA: ${redEpa.toFixed(1)} vs BLUE EPA: ${blueEpa.toFixed(1)}</div>` : ''}
+                ${hasOpr && hasEpa ? '<div class="stat-row stat-label">Prediction uses combined OPR + EPA</div>' : ''}
                 <div class="winner ${predWinner}">Prediction: ${predWinner.toUpperCase()} victory (${confidence}% confidence)</div>
                 ${resultHtml}
             </div>
