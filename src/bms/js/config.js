@@ -11,7 +11,7 @@ const CONFIG = (() => {
     // Optional CORS proxy if direct TBA requests fail (requires header forwarding for TBA auth)
     CORS_PROXY: '',
     // Test mode: use Half Moon Bay (2026cahal) and adopt frc971's schedule while our matches aren't posted
-    TEST_MODE: true,
+    TEST_MODE: false,
     TEST_EVENTS: ['2026cahal', '2026capoh'],
     TEST_SCHEDULE_TEAM: 'frc971',
     // When true, load BreakerBots main.css as base (for deployment on breakerbots.com)
