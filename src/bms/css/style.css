@@ -66,6 +66,22 @@ body {
     font-size: 1.25rem;
 }
 
+.header-logo {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--accent-secondary);
+    flex-shrink: 0;
+}
+
+.header-bms {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    margin-right: 4px;
+}
+
 .back-btn {
     background: rgba(255, 255, 255, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.3);
@@ -98,7 +114,7 @@ body {
 
 .subtitle {
     margin: 0;
-    color: var(--text-muted);
+    color: var(--accent-secondary);
     font-size: 0.9rem;
 }
 
@@ -142,6 +158,38 @@ body {
 
 .error {
     color: var(--red);
+}
+
+.alert-dialog {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent-secondary);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 16px 0;
+    text-align: center;
+    color: var(--text);
+}
+
+.alert-dialog p {
+    margin: 0 0 12px;
+    color: var(--text);
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.alert-dialog p:last-child {
+    margin-bottom: 0;
+}
+
+.alert-dialog a {
+    color: var(--accent-secondary);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.alert-dialog a:hover {
+    text-decoration: underline;
 }
 
 .error .link-white {

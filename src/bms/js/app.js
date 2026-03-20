@@ -25,18 +25,28 @@ const Statbotics = {
             return null;
         }
     },
-    async getTeamEvent(teamKey, eventKey) {
+    async getTeamEvent(teamKey, eventKey, maxRetries = 8) {
         const teamNum = (teamKey || '').replace(/^frc/i, '');
         if (!teamNum || !eventKey) return null;
-        try {
-            const res = await this.fetchWithTimeout(`${this.BASE}/team_event/${teamNum}/${eventKey}`, 20000);
-            if (!res.ok) return null;
-            const ct = res.headers.get('content-type');
-            if (!ct?.includes('application/json')) return null;
-            return await res.json();
-        } catch {
-            return null;
+        for (let attempt = 0; attempt < maxRetries; attempt++) {
+            try {
+                const res = await this.fetchWithTimeout(`${this.BASE}/team_event/${teamNum}/${eventKey}`, 25000);
+                if (!res.ok) {
+                    if (attempt < maxRetries - 1) await new Promise(r => setTimeout(r, 500 + attempt * 300));
+                    continue;
+                }
+                const ct = res.headers.get('content-type');
+                if (!ct?.includes('application/json')) {
+                    if (attempt < maxRetries - 1) await new Promise(r => setTimeout(r, 500 + attempt * 300));
+                    continue;
+                }
+                const data = await res.json();
+                if (data && typeof data === 'object' && !data.error) return data;
+            } catch {
+                if (attempt < maxRetries - 1) await new Promise(r => setTimeout(r, 500 + attempt * 300));
+            }
         }
+        return null;
     },
     async getEPAs(teamKeys, eventKey) {
         const results = await Promise.all(
@@ -99,25 +109,25 @@ const Statbotics = {
         }
     },
 
-    async getTeamYear(teamKey, year, retries = 1) {
+    async getTeamYear(teamKey, year, maxRetries = 8) {
         const teamNum = (teamKey || '').replace(/^frc/i, '');
         if (!teamNum) return null;
-        for (let attempt = 0; attempt <= retries; attempt++) {
+        for (let attempt = 0; attempt < maxRetries; attempt++) {
             try {
-                const res = await this.fetchWithTimeout(`${this.BASE}/team_year/${teamNum}/${year}`, 20000);
+                const res = await this.fetchWithTimeout(`${this.BASE}/team_year/${teamNum}/${year}`, 25000);
                 if (!res.ok) {
-                    if (attempt < retries) await new Promise(r => setTimeout(r, 300));
+                    if (attempt < maxRetries - 1) await new Promise(r => setTimeout(r, 500 + attempt * 300));
                     continue;
                 }
                 const ct = res.headers.get('content-type');
                 if (!ct?.includes('application/json')) {
-                    if (attempt < retries) await new Promise(r => setTimeout(r, 300));
+                    if (attempt < maxRetries - 1) await new Promise(r => setTimeout(r, 500 + attempt * 300));
                     continue;
                 }
                 const data = await res.json();
                 if (data && typeof data === 'object' && !data.error) return data;
             } catch {
-                if (attempt < retries) await new Promise(r => setTimeout(r, 300));
+                if (attempt < maxRetries - 1) await new Promise(r => setTimeout(r, 500 + attempt * 300));
             }
         }
         return null;
@@ -279,7 +289,7 @@ const App = {
             if (!matches || matches.length === 0) {
                 loading.style.display = 'none';
                 const tbaUrl = `https://www.thebluealliance.com/event/${eventKey}`;
-                error.innerHTML = `No matches found${CONFIG.TEST_MODE ? ' for test schedule' : ' for team 5104'} at this event. Check back once the schedule is posted on <a href="${this.escapeHtml(tbaUrl)}" target="_blank" rel="noopener" class="link-white">TBA</a>.`;
+                error.innerHTML = `<div class="alert-dialog"><p>No matches found${CONFIG.TEST_MODE ? ' for test schedule' : ' for team 5104'} at this event.</p><p>Check back once the schedule is posted on <a href="${this.escapeHtml(tbaUrl)}" target="_blank" rel="noopener">TBA</a>.</p></div>`;
                 error.style.display = 'block';
                 const teamsRankingEl = document.getElementById('event-teams-ranking');
                 teamsRankingEl.innerHTML = '<div class="loading"><div class="spinner" aria-hidden="true"></div></div>';
@@ -381,7 +391,7 @@ const App = {
         if (!teams || teams.length === 0) return '';
 
         const CACHE_KEY = `bms_teams_${eventKey}`;
-        const CACHE_VERSION = 2;
+        const CACHE_VERSION = 5;
         const CACHE_TTL_MS = 60 * 60 * 1000;
         let epaData, yearData2026, yearData2025, sbTeams;
 
@@ -416,6 +426,22 @@ const App = {
                 batch(teamKeys, tk => Statbotics.getTeamYear(tk, CONFIG.YEAR - 1)),
                 Statbotics.getTeamsBatched(teamKeys)
             ]);
+            for (let pass = 0; pass < 6; pass++) {
+                let missing = false;
+                for (let i = 0; i < teamKeys.length; i++) {
+                    if (!yearData2025[i]) {
+                        yearData2025[i] = await Statbotics.getTeamYear(teamKeys[i], CONFIG.YEAR - 1);
+                        if (!yearData2025[i]) missing = true;
+                        await delay(500);
+                    }
+                    if (!yearData2026[i]) {
+                        yearData2026[i] = await Statbotics.getTeamYear(teamKeys[i], CONFIG.YEAR);
+                        if (!yearData2026[i]) missing = true;
+                        await delay(500);
+                    }
+                }
+                if (!missing) break;
+            }
             try {
                 localStorage.setItem(CACHE_KEY, JSON.stringify({
                     data: { epaData, yearData2026, yearData2025, sbTeams },
