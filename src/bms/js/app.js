@@ -1,10 +1,12 @@
 /**
  * Statbotics API client for EPA (Expected Points Added) data
  * API docs: https://www.statbotics.io/docs/rest
- * Uses team_event endpoint for event-specific EPA (matches statbotics.io/event/...)
+ * Uses team_events bulk endpoint when possible (1 call for entire event)
  */
 const Statbotics = {
     BASE: 'https://api.statbotics.io/v3',
+    TEAM_EVENTS_CACHE_TTL_MS: 10 * 60 * 1000,
+
     fetchWithTimeout(url, ms = 15000) {
         const ctrl = new AbortController();
         const t = setTimeout(() => ctrl.abort(), ms);
@@ -30,7 +32,7 @@ const Statbotics = {
         if (!teamNum || !eventKey) return null;
         for (let attempt = 0; attempt < maxRetries; attempt++) {
             try {
-                const res = await this.fetchWithTimeout(`${this.BASE}/team_event/${teamNum}/${eventKey}`, 25000);
+                const res = await this.fetchWithTimeout(`${this.BASE}/team_event/${teamNum}/${eventKey}`, 12000);
                 if (!res.ok) {
                     if (attempt < maxRetries - 1) await new Promise(r => setTimeout(r, 300 + attempt * 200));
                     continue;
@@ -70,7 +72,59 @@ const Statbotics = {
         return Object.fromEntries(results.map(r => [r.key, r]));
     },
 
+    async getTeamEventsBulk(eventKey) {
+        const cacheKey = `bms_sb_team_events_${eventKey}`;
+        try {
+            const cached = localStorage.getItem(cacheKey);
+            if (cached) {
+                const { data, ts } = JSON.parse(cached);
+                if (data && ts && Date.now() - ts < this.TEAM_EVENTS_CACHE_TTL_MS) return data;
+            }
+        } catch (_) {}
+        try {
+            const res = await this.fetchWithTimeout(`${this.BASE}/team_events?event=${encodeURIComponent(eventKey)}&limit=100`, 15000);
+            if (!res.ok) return null;
+            const ct = res.headers.get('content-type');
+            if (!ct?.includes('application/json')) return null;
+            const arr = await res.json();
+            if (!Array.isArray(arr)) return null;
+            const round = (n) => typeof n === 'number' ? Math.round(n * 10) / 10 : null;
+            const data = {};
+            for (const d of arr) {
+                const key = 'frc' + (d.team || '');
+                const epa = d.epa;
+                const value = epa?.total_points?.mean ?? epa?.norm ?? epa?.unitless ?? epa?.unit_epa;
+                const breakdown = epa?.breakdown;
+                const rec = d.record?.total ?? d.record?.qual ?? d.record;
+                data[key] = {
+                    key,
+                    epa: typeof value === 'number' ? round(value) : null,
+                    breakdown: breakdown ? {
+                        auto: round(breakdown.auto_points),
+                        teleop: round(breakdown.teleop_points),
+                        endgame: round(breakdown.endgame_points)
+                    } : null,
+                    record: rec?.wins != null && rec?.losses != null ? `${rec.wins}-${rec.losses}` : null
+                };
+            }
+            try {
+                localStorage.setItem(cacheKey, JSON.stringify({ data, ts: Date.now() }));
+            } catch (_) {}
+            return data;
+        } catch {
+            return null;
+        }
+    },
+
     async getEPAsBatched(teamKeys, eventKey, batchSize = 8) {
+        const bulk = await this.getTeamEventsBulk(eventKey);
+        if (bulk) {
+            return Object.fromEntries(teamKeys.map(tk => {
+                const d = bulk[tk];
+                if (d) return [tk, d];
+                return [tk, { key: tk, epa: null, breakdown: null, record: null }];
+            }));
+        }
         const delay = (ms) => new Promise(r => setTimeout(r, ms));
         const results = [];
         for (let i = 0; i < teamKeys.length; i += batchSize) {
@@ -114,7 +168,7 @@ const Statbotics = {
         if (!teamNum) return null;
         for (let attempt = 0; attempt < maxRetries; attempt++) {
             try {
-                const res = await this.fetchWithTimeout(`${this.BASE}/team_year/${teamNum}/${year}`, 20000);
+                const res = await this.fetchWithTimeout(`${this.BASE}/team_year/${teamNum}/${year}`, 12000);
                 if (!res.ok) {
                     if (attempt < maxRetries - 1) await new Promise(r => setTimeout(r, 300 + attempt * 200));
                     continue;
@@ -134,15 +188,21 @@ const Statbotics = {
     },
 
     async getTeamYearsBatched(teamKeys, year, fallbackYear = null) {
+        const fetchOne = async (tk) => {
+            let data = await this.getTeamYear(tk, year);
+            if (!data && fallbackYear) {
+                await new Promise(r => setTimeout(r, 150));
+                data = await this.getTeamYear(tk, fallbackYear);
+            }
+            return data;
+        };
+        if (teamKeys.length <= 8) {
+            return Promise.all(teamKeys.map(fetchOne));
+        }
         const delay = (ms) => new Promise(r => setTimeout(r, ms));
         const results = [];
         for (let i = 0; i < teamKeys.length; i++) {
-            let data = await this.getTeamYear(teamKeys[i], year);
-            if (!data && fallbackYear) {
-                await delay(150);
-                data = await this.getTeamYear(teamKeys[i], fallbackYear);
-            }
-            results.push(data);
+            results.push(await fetchOne(teamKeys[i]));
             if (i < teamKeys.length - 1) await delay(100);
         }
         return results;
@@ -670,7 +730,7 @@ const App = {
         const [oprsData, teamsAndStatus, epas, yearData] = await Promise.all([
             TBA.getEventOPRs(eventKey),
             this.fetchTeamsAndStatus(match, eventKey),
-            Statbotics.getEPAsBatched(teamKeys, eventKey, 4),
+            Statbotics.getEPAsBatched(teamKeys, eventKey, 6),
             Statbotics.getTeamYearsBatched(teamKeys, CONFIG.YEAR, CONFIG.YEAR - 1)
         ]);
         const oprs = oprsData?.oprs || {};
