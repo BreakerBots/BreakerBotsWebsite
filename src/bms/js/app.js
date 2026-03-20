@@ -5,7 +5,7 @@
  */
 const Statbotics = {
     BASE: 'https://api.statbotics.io/v3',
-    fetchWithTimeout(url, ms = 10000) {
+    fetchWithTimeout(url, ms = 15000) {
         const ctrl = new AbortController();
         const t = setTimeout(() => ctrl.abort(), ms);
         return fetch(url, { headers: { Accept: 'application/json' }, signal: ctrl.signal })
@@ -29,7 +29,7 @@ const Statbotics = {
         const teamNum = (teamKey || '').replace(/^frc/i, '');
         if (!teamNum || !eventKey) return null;
         try {
-            const res = await this.fetchWithTimeout(`${this.BASE}/team_event/${teamNum}/${eventKey}`);
+            const res = await this.fetchWithTimeout(`${this.BASE}/team_event/${teamNum}/${eventKey}`, 20000);
             if (!res.ok) return null;
             const ct = res.headers.get('content-type');
             if (!ct?.includes('application/json')) return null;
@@ -104,7 +104,7 @@ const Statbotics = {
         if (!teamNum) return null;
         for (let attempt = 0; attempt <= retries; attempt++) {
             try {
-                const res = await this.fetchWithTimeout(`${this.BASE}/team_year/${teamNum}/${year}`);
+                const res = await this.fetchWithTimeout(`${this.BASE}/team_year/${teamNum}/${year}`, 20000);
                 if (!res.ok) {
                     if (attempt < retries) await new Promise(r => setTimeout(r, 300));
                     continue;
@@ -282,7 +282,7 @@ const App = {
                 error.innerHTML = `No matches found${CONFIG.TEST_MODE ? ' for test schedule' : ' for team 5104'} at this event. Check back once the schedule is posted on <a href="${this.escapeHtml(tbaUrl)}" target="_blank" rel="noopener" class="link-white">TBA</a>.`;
                 error.style.display = 'block';
                 const teamsRankingEl = document.getElementById('event-teams-ranking');
-                teamsRankingEl.innerHTML = '<div class="loading">Loading teams…</div>';
+                teamsRankingEl.innerHTML = '<div class="loading"><div class="spinner" aria-hidden="true"></div></div>';
                 teamsRankingEl.style.display = 'block';
                 try {
                     const teamsTable = await this.buildEventTeamsTable(eventKey);
@@ -380,23 +380,48 @@ const App = {
         const teams = await TBA.getEventTeams(eventKey);
         if (!teams || teams.length === 0) return '';
 
-        const teamKeys = teams.map(t => t.key);
-        const delay = (ms) => new Promise(r => setTimeout(r, ms));
-        const batch = async (items, fn, size = 8) => {
-            const results = [];
-            for (let i = 0; i < items.length; i += size) {
-                const chunk = items.slice(i, i + size);
-                results.push(...await Promise.all(chunk.map(fn)));
-                if (i + size < items.length) await delay(150);
+        const CACHE_KEY = `bms_teams_${eventKey}`;
+        const CACHE_TTL_MS = 60 * 60 * 1000;
+        let epaData, yearData2026, yearData2025, sbTeams;
+
+        try {
+            const cached = localStorage.getItem(CACHE_KEY);
+            if (cached) {
+                const { data, ts } = JSON.parse(cached);
+                if (data && ts && Date.now() - ts < CACHE_TTL_MS) {
+                    epaData = data.epaData;
+                    yearData2026 = data.yearData2026;
+                    yearData2025 = data.yearData2025;
+                    sbTeams = data.sbTeams;
+                }
             }
-            return results;
-        };
-        const [epaData, yearData2026, yearData2025, sbTeams] = await Promise.all([
-            Statbotics.getEPAsBatched(teamKeys, eventKey),
-            batch(teamKeys, tk => Statbotics.getTeamYear(tk, CONFIG.YEAR)),
-            batch(teamKeys, tk => Statbotics.getTeamYear(tk, CONFIG.YEAR - 1)),
-            Statbotics.getTeamsBatched(teamKeys)
-        ]);
+        } catch (_) {}
+
+        if (!epaData) {
+            const teamKeys = teams.map(t => t.key);
+            const delay = (ms) => new Promise(r => setTimeout(r, ms));
+            const batch = async (items, fn, size = 8) => {
+                const results = [];
+                for (let i = 0; i < items.length; i += size) {
+                    const chunk = items.slice(i, i + size);
+                    results.push(...await Promise.all(chunk.map(fn)));
+                    if (i + size < items.length) await delay(150);
+                }
+                return results;
+            };
+            [epaData, yearData2026, yearData2025, sbTeams] = await Promise.all([
+                Statbotics.getEPAsBatched(teamKeys, eventKey),
+                batch(teamKeys, tk => Statbotics.getTeamYear(tk, CONFIG.YEAR)),
+                batch(teamKeys, tk => Statbotics.getTeamYear(tk, CONFIG.YEAR - 1)),
+                Statbotics.getTeamsBatched(teamKeys)
+            ]);
+            try {
+                localStorage.setItem(CACHE_KEY, JSON.stringify({
+                    data: { epaData, yearData2026, yearData2025, sbTeams },
+                    ts: Date.now()
+                }));
+            } catch (_) {}
+        }
 
         const round = (n) => typeof n === 'number' ? Math.round(n * 10) / 10 : null;
         const extractEpa = (ty, eventData) => {
@@ -435,7 +460,7 @@ const App = {
             const location = t.city || '–';
             return {
                 teamNum: t.team_number,
-                name: t.nickname || t.name || 'N/A',
+                name: this.shortenTeamName(t.nickname || t.name || 'N/A'),
                 location,
                 epa2026,
                 record2026,
@@ -637,7 +662,7 @@ const App = {
             return {
                 key: tk,
                 teamNum: t.team?.team_number,
-                name: t.team?.nickname || 'N/A',
+                name: this.shortenTeamName(t.team?.nickname || 'N/A'),
                 location: t.team?.city || '',
                 alliance,
                 opr: opr != null ? Math.round(opr * 10) / 10 : 'N/A',
@@ -778,6 +803,14 @@ const App = {
         const div = document.createElement('div');
         div.textContent = s;
         return div.innerHTML;
+    },
+
+    shortenTeamName(name) {
+        if (!name || typeof name !== 'string') return name || 'N/A';
+        let s = name;
+        const idx = s.toLowerCase().indexOf('robotics');
+        if (idx !== -1) s = s.slice(0, idx).trim();
+        return s.replace(/\bHigh School\b/gi, 'HS');
     }
 };
 
