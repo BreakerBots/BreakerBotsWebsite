@@ -409,7 +409,7 @@ body {
 
 /* Report */
 .report {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     line-height: 1.5;
 }
 
@@ -446,7 +446,7 @@ body {
 .alliance-heading {
     font-size: 0.9rem;
     font-weight: 600;
-    margin: 0 0 4px;
+    margin: 12px 0 10px;
 }
 
 .alliance-column.red .alliance-heading {
@@ -476,6 +476,9 @@ body {
 .team-block h3.team-block-title {
     margin: 0 0 6px;
     font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .team-block .team-link {

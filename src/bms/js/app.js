@@ -381,14 +381,15 @@ const App = {
         if (!teams || teams.length === 0) return '';
 
         const CACHE_KEY = `bms_teams_${eventKey}`;
+        const CACHE_VERSION = 2;
         const CACHE_TTL_MS = 60 * 60 * 1000;
         let epaData, yearData2026, yearData2025, sbTeams;
 
         try {
             const cached = localStorage.getItem(CACHE_KEY);
             if (cached) {
-                const { data, ts } = JSON.parse(cached);
-                if (data && ts && Date.now() - ts < CACHE_TTL_MS) {
+                const { data, ts, v } = JSON.parse(cached);
+                if (data && ts && v === CACHE_VERSION && Date.now() - ts < CACHE_TTL_MS) {
                     epaData = data.epaData;
                     yearData2026 = data.yearData2026;
                     yearData2025 = data.yearData2025;
@@ -418,7 +419,8 @@ const App = {
             try {
                 localStorage.setItem(CACHE_KEY, JSON.stringify({
                     data: { epaData, yearData2026, yearData2025, sbTeams },
-                    ts: Date.now()
+                    ts: Date.now(),
+                    v: CACHE_VERSION
                 }));
             } catch (_) {}
         }
@@ -442,21 +444,16 @@ const App = {
             const losses = r?.losses ?? ty?.record?.losses ?? null;
             return wins != null && losses != null ? `${wins}-${losses}` : '–';
         };
-        const recordFromTeam = (t) => {
-            const r = t?.record;
-            return r?.wins != null && r?.losses != null ? `${r.wins}-${r.losses}` : '–';
-        };
 
         const rows = teams.map((t, i) => {
             const tk = t.key;
             const eventData = epaData[tk];
             const ty2026 = yearData2026[i];
             const ty2025 = yearData2025[i];
-            const team = sbTeams[i];
             const epa2026 = extractEpa(ty2026, eventData);
             const epa2025 = extractEpa(ty2025, null);
-            const record2026 = extractRecord(ty2026) !== '–' ? extractRecord(ty2026) : (eventData?.record ?? recordFromTeam(team));
-            const record2025 = extractRecord(ty2025) !== '–' ? extractRecord(ty2025) : recordFromTeam(team);
+            const record2026 = extractRecord(ty2026);
+            const record2025 = extractRecord(ty2025);
             const location = t.city || '–';
             return {
                 teamNum: t.team_number,
@@ -620,6 +617,20 @@ const App = {
 
     async buildReport(matchKey, eventKey) {
         const match = await TBA.getMatch(matchKey);
+        const hasOccurred = match.post_result_time != null || match.score_breakdown != null;
+
+        if (hasOccurred) {
+            const CACHE_KEY = `bms_match_${matchKey}`;
+            const CACHE_TTL_MS = 60 * 60 * 1000;
+            try {
+                const cached = localStorage.getItem(CACHE_KEY);
+                if (cached) {
+                    const { html, ts } = JSON.parse(cached);
+                    if (html && ts && Date.now() - ts < CACHE_TTL_MS) return html;
+                }
+            } catch (_) {}
+        }
+
         const redTeams = (match.alliances?.red?.team_keys || []);
         const blueTeams = (match.alliances?.blue?.team_keys || []);
         const teamKeys = [...redTeams, ...blueTeams];
@@ -712,9 +723,11 @@ const App = {
         const renderTeamBlock = (t) => {
             const teamNum = (t.key || '').replace('frc', '') || t.teamNum;
             const tbaTeamUrl = `https://www.thebluealliance.com/team/${teamNum}/${CONFIG.YEAR}`;
+            const epa = typeof t.epa === 'number' ? t.epa : null;
+            const epaEmoji = t.key === CONFIG.TEAM_KEY ? '' : (epa != null && epa >= 100 ? ' 🦄' : epa != null && epa >= 50 ? ' 💪' : '');
             const titleLine = t.location
-                ? `${teamNum}${t.key === CONFIG.TEAM_KEY ? ' ⭐' : ''}: ${this.escapeHtml(t.name)} <span class="team-location">· ${this.escapeHtml(t.location)}</span>`
-                : `${teamNum}${t.key === CONFIG.TEAM_KEY ? ' ⭐' : ''}: ${this.escapeHtml(t.name)}`;
+                ? `${teamNum}${t.key === CONFIG.TEAM_KEY ? ' ⭐' : ''}${epaEmoji}: ${this.escapeHtml(t.name)} <span class="team-location">· ${this.escapeHtml(t.location)}</span>`
+                : `${teamNum}${t.key === CONFIG.TEAM_KEY ? ' ⭐' : ''}${epaEmoji}: ${this.escapeHtml(t.name)}`;
             const rankLine = t.rank != null
                 ? `Rank ${t.rank} (${t.eventWins}-${t.eventLosses} event, ${t.seasonWins}-${t.seasonLosses} season)`
                 : `${t.eventWins}-${t.eventLosses} event, ${t.seasonWins}-${t.seasonLosses} season`;
@@ -739,7 +752,7 @@ const App = {
         const blueColumn = blueTeamData.map(renderTeamBlock).join('');
 
         const tbaMatchUrl = `https://www.thebluealliance.com/match/${matchKey}`;
-        return `
+        const html = `
             <div class="report-section">
                 <div class="alliances-grid">
                     <div class="alliance-column red">
@@ -762,6 +775,12 @@ const App = {
             </div>
             <p class="tba-match-link"><a href="${tbaMatchUrl}" target="_blank" rel="noopener">The Blue Alliance</a> · <a href="https://www.statbotics.io/match/${matchKey}" target="_blank" rel="noopener">Statbotics</a></p>
         `;
+        if (hasOccurred) {
+            try {
+                localStorage.setItem(`bms_match_${matchKey}`, JSON.stringify({ html, ts: Date.now() }));
+            } catch (_) {}
+        }
+        return html;
     },
 
     async fetchTeamsAndStatus(match, eventKey) {
