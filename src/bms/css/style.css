@@ -132,7 +132,7 @@ body {
 .main {
     flex: 1;
     padding: 16px;
-    max-width: 600px;
+    max-width: 660px;
     margin: 0 auto;
     width: 100%;
 }
@@ -273,23 +273,21 @@ body {
 .match-table th:nth-child(3),
 .match-table th:nth-child(4),
 .match-table th:nth-child(5),
-.match-table th:nth-child(6),
 .match-table td:nth-child(2),
 .match-table td:nth-child(3),
 .match-table td:nth-child(4),
-.match-table td:nth-child(5),
-.match-table td:nth-child(6) {
+.match-table td:nth-child(5) {
     text-align: right;
-}
-
-.match-table .win-prob {
-    font-variant-numeric: tabular-nums;
 }
 
 .teams-table th:nth-child(4),
 .teams-table th:nth-child(5),
+.teams-table th:nth-child(6),
+.teams-table th:nth-child(7),
 .teams-table td:nth-child(4),
-.teams-table td:nth-child(5) {
+.teams-table td:nth-child(5),
+.teams-table td:nth-child(6),
+.teams-table td:nth-child(7) {
     text-align: right;
 }
 
@@ -304,8 +302,19 @@ body {
     margin-top: 1.5rem;
 }
 
+.teams-table .team-name-link {
+    color: var(--text);
+    text-decoration: none;
+}
+
+.teams-table .team-name-link:hover {
+    color: var(--accent-secondary);
+    text-decoration: underline;
+}
+
 .match-table .outcome {
     font-weight: 600;
+    font-variant-numeric: tabular-nums;
 }
 
 .match-table .outcome-known.outcome-w {
@@ -425,7 +434,7 @@ body {
     gap: 16px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 660px) {
     .alliances-grid {
         grid-template-columns: 1fr;
     }

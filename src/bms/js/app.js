@@ -40,6 +40,33 @@ const Statbotics = {
         return Object.fromEntries(results.map(r => [r.key, r]));
     },
 
+    async getEPAsBatched(teamKeys, eventKey, batchSize = 8) {
+        const delay = (ms) => new Promise(r => setTimeout(r, ms));
+        const results = [];
+        for (let i = 0; i < teamKeys.length; i += batchSize) {
+            const chunk = teamKeys.slice(i, i + batchSize);
+            const chunkResults = await Promise.all(chunk.map(async (tk) => {
+                const data = await this.getTeamEvent(tk, eventKey);
+                const epa = data?.epa;
+                const value = epa?.total_points?.mean ?? epa?.norm ?? epa?.unitless;
+                const breakdown = epa?.breakdown;
+                const round = (n) => typeof n === 'number' ? Math.round(n * 10) / 10 : null;
+                return {
+                    key: tk,
+                    epa: typeof value === 'number' ? round(value) : null,
+                    breakdown: breakdown ? {
+                        auto: round(breakdown.auto_points),
+                        teleop: round(breakdown.teleop_points),
+                        endgame: round(breakdown.endgame_points)
+                    } : null
+                };
+            }));
+            results.push(...chunkResults);
+            if (i + batchSize < teamKeys.length) await delay(150);
+        }
+        return Object.fromEntries(results.map(r => [r.key, r]));
+    },
+
     async getMatch(matchKey) {
         try {
             const res = await fetch(`${this.BASE}/match/${matchKey}`, {
@@ -60,7 +87,9 @@ const Statbotics = {
                 headers: { Accept: 'application/json' }
             });
             if (!res.ok) return null;
-            return await res.json();
+            const data = await res.json();
+            if (data && typeof data === 'object' && !data.error) return data;
+            return null;
         } catch {
             return null;
         }
@@ -303,46 +332,88 @@ const App = {
         if (!teams || teams.length === 0) return '';
 
         const teamKeys = teams.map(t => t.key);
-        const epaData = await Statbotics.getEPAs(teamKeys, eventKey);
-        const yearData = await Promise.all(teamKeys.map(tk => Statbotics.getTeamYear(tk, CONFIG.YEAR)));
+        const delay = (ms) => new Promise(r => setTimeout(r, ms));
+        const batch = async (items, fn, size = 8) => {
+            const results = [];
+            for (let i = 0; i < items.length; i += size) {
+                const chunk = items.slice(i, i + size);
+                results.push(...await Promise.all(chunk.map(fn)));
+                if (i + size < items.length) await delay(150);
+            }
+            return results;
+        };
+        const [epaData, yearData2026, yearData2025] = await Promise.all([
+            Statbotics.getEPAsBatched(teamKeys, eventKey),
+            batch(teamKeys, tk => Statbotics.getTeamYear(tk, CONFIG.YEAR)),
+            batch(teamKeys, tk => Statbotics.getTeamYear(tk, CONFIG.YEAR - 1))
+        ]);
+
+        const round = (n) => typeof n === 'number' ? Math.round(n * 10) / 10 : null;
+        const extractEpa = (ty, eventData) => {
+            const epaEvent = eventData?.epa ?? null;
+            let epaYear = null;
+            if (ty?.epa) {
+                const e = ty.epa;
+                epaYear = round(e.total_points?.mean) ?? round(e.norm) ?? round(e.unitless) ?? round(e.unit_epa);
+            } else if (ty?.norm_epa) {
+                const n = ty.norm_epa;
+                epaYear = round(typeof n === 'number' ? n : (n?.current ?? n?.mean));
+            }
+            return epaEvent ?? epaYear ?? null;
+        };
+        const extractRecord = (ty) => {
+            const r = ty?.record?.total ?? ty?.record ?? ty?.qual_record;
+            const wins = r?.wins ?? null;
+            const losses = r?.losses ?? null;
+            return wins != null && losses != null ? `${wins}-${losses}` : '–';
+        };
 
         const rows = teams.map((t, i) => {
             const tk = t.key;
-            const epa = epaData[tk]?.epa ?? null;
-            const ty = yearData[i];
-            const record = ty?.record?.total ?? ty?.record ?? ty?.qual_record;
-            const wins = record?.wins ?? null;
-            const losses = record?.losses ?? null;
-            const recordStr = wins != null && losses != null ? `${wins}-${losses}` : '–';
+            const eventData = epaData[tk];
+            const ty2026 = yearData2026[i];
+            const ty2025 = yearData2025[i];
+            const epa2026 = extractEpa(ty2026, eventData);
+            const epa2025 = extractEpa(ty2025, null);
+            const record2026 = extractRecord(ty2026);
+            const record2025 = extractRecord(ty2025);
+            const location = [t.city, t.state_prov].filter(Boolean).join(', ') || '–';
             return {
                 teamNum: t.team_number,
-                name: t.nickname || 'N/A',
-                city: t.city || '',
-                epa: epa != null ? epa : null,
-                record: recordStr,
-                isUs: tk === CONFIG.TEAM_KEY
+                name: t.nickname || t.name || 'N/A',
+                location,
+                epa2026,
+                record2026,
+                epa2025,
+                record2025,
+                isUs: tk === CONFIG.TEAM_KEY,
+                statboticsUrl: `https://www.statbotics.io/team/${t.team_number}`
             };
         });
 
-        rows.sort((a, b) => (b.epa ?? -1) - (a.epa ?? -1));
+        rows.sort((a, b) => (b.epa2026 ?? -1) - (a.epa2026 ?? -1));
 
         const thead = `
             <thead>
                 <tr>
                     <th>Team</th>
                     <th>Team Name</th>
-                    <th>City</th>
-                    <th class="epa-col">EPA</th>
-                    <th>Record</th>
+                    <th>Location</th>
+                    <th class="epa-col">EPA '26</th>
+                    <th>Record '26</th>
+                    <th class="epa-col">EPA '25</th>
+                    <th>Record '25</th>
                 </tr>
             </thead>`;
         const tbody = rows.map(r => `
             <tr>
-                <td>${r.teamNum}${r.isUs ? ' ⭐' : ''}</td>
-                <td>${this.escapeHtml(r.name)}</td>
-                <td>${this.escapeHtml(r.city)}</td>
-                <td class="epa-col">${r.epa != null ? r.epa.toFixed(1) : '–'}</td>
-                <td>${r.record}</td>
+                <td>${r.teamNum}</td>
+                <td><a href="${r.statboticsUrl}" target="_blank" rel="noopener" class="team-name-link">${r.isUs ? '⭐ ' : ''}${this.escapeHtml(r.name)}</a></td>
+                <td>${this.escapeHtml(r.location)}</td>
+                <td class="epa-col">${r.epa2026 != null ? r.epa2026.toFixed(1) : '–'}</td>
+                <td>${r.record2026}</td>
+                <td class="epa-col">${r.epa2025 != null ? r.epa2025.toFixed(1) : '–'}</td>
+                <td>${r.record2025}</td>
             </tr>
         `).join('');
 
@@ -395,7 +466,6 @@ const App = {
                                 <th>Blue Alliance</th>
                                 <th class="scores">Scores</th>
                                 <th>W/L</th>
-                                <th>Win Prob</th>
                             </tr>
                         </thead>
             `;
@@ -425,18 +495,17 @@ const App = {
         const label = this.getMatchLabel(m);
         const outcome = this.getMatchOutcome(m, scheduleTeam);
         const isKnown = m.post_result_time != null;
-        const outcomeClass = outcome === '?' ? 'unknown' : outcome.toLowerCase();
-        const knownClass = isKnown ? 'outcome-known' : 'outcome-predicted';
         const winProb = winProbs[m.key];
-        const winProbDisplay = !isKnown && winProb != null ? `${Math.round(winProb * 100)}%` : '–';
+        const wlDisplay = isKnown ? outcome : (winProb != null ? `${Math.round(winProb * 100)}%` : '?');
+        const outcomeClass = isKnown ? (outcome === '?' ? 'unknown' : outcome.toLowerCase()) : 'unknown';
+        const knownClass = isKnown ? 'outcome-known' : 'outcome-predicted';
         return `
             <tr>
                 <td><a href="#match/${m.key}" class="match-link">${label}</a></td>
                 <td class="alliance-red">${redTeams.map(n => `<span class="team-num">${n}</span>`).join(' ')}</td>
                 <td class="alliance-blue">${blueTeams.map(n => `<span class="team-num">${n}</span>`).join(' ')}</td>
                 <td class="scores"><span class="red-score">${redScore}</span> <span class="blue-score">${blueScore}</span></td>
-                <td class="outcome outcome-${outcomeClass} ${knownClass}">${outcome}</td>
-                <td class="win-prob">${winProbDisplay}</td>
+                <td class="outcome outcome-${outcomeClass} ${knownClass}">${wlDisplay}</td>
             </tr>
         `;
     },
@@ -475,20 +544,38 @@ const App = {
         const blueTeams = (match.alliances?.blue?.team_keys || []);
         const teamKeys = [...redTeams, ...blueTeams];
 
-        const [oprsData, teamsAndStatus, epas] = await Promise.all([
+        const [oprsData, teamsAndStatus, epas, yearData] = await Promise.all([
             TBA.getEventOPRs(eventKey),
             this.fetchTeamsAndStatus(match, eventKey),
-            Statbotics.getEPAs(teamKeys, eventKey)
+            Statbotics.getEPAs(teamKeys, eventKey),
+            Promise.all(teamKeys.map(tk => Statbotics.getTeamYear(tk, CONFIG.YEAR)))
         ]);
         const oprs = oprsData?.oprs || {};
+
+        const round = (n) => typeof n === 'number' ? Math.round(n * 10) / 10 : null;
+        const extractEpa = (ty) => {
+            if (!ty?.epa) return null;
+            const e = ty.epa;
+            return round(e.total_points?.mean) ?? round(e.norm) ?? round(e.unitless) ?? round(e.unit_epa);
+        };
+        const extractBreakdown = (ty) => {
+            const b = ty?.epa?.breakdown;
+            if (!b) return null;
+            return {
+                auto: round(b.auto_points),
+                teleop: round(b.teleop_points),
+                endgame: round(b.endgame_points)
+            };
+        };
 
         const teamData = teamKeys.map((tk, i) => {
             const t = teamsAndStatus[i];
             const alliance = redTeams.includes(tk) ? 'red' : 'blue';
             const opr = oprs[tk];
             const epaData = epas?.[tk];
-            const epa = epaData?.epa;
-            const epaBreakdown = epaData?.breakdown;
+            const ty = yearData[i];
+            const epa = epaData?.epa ?? extractEpa(ty);
+            const epaBreakdown = epaData?.breakdown ?? extractBreakdown(ty);
             return {
                 key: tk,
                 teamNum: t.team?.team_number,
