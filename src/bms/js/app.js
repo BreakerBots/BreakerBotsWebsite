@@ -5,14 +5,34 @@
  */
 const Statbotics = {
     BASE: 'https://api.statbotics.io/v3',
+    fetchWithTimeout(url, ms = 10000) {
+        const ctrl = new AbortController();
+        const t = setTimeout(() => ctrl.abort(), ms);
+        return fetch(url, { headers: { Accept: 'application/json' }, signal: ctrl.signal })
+            .finally(() => clearTimeout(t));
+    },
+    async getTeam(teamKey) {
+        const teamNum = (teamKey || '').replace(/^frc/i, '');
+        if (!teamNum) return null;
+        try {
+            const res = await this.fetchWithTimeout(`${this.BASE}/team/${teamNum}`);
+            if (!res.ok) return null;
+            const ct = res.headers.get('content-type');
+            if (!ct?.includes('application/json')) return null;
+            const data = await res.json();
+            return data && typeof data === 'object' && !data.error ? data : null;
+        } catch {
+            return null;
+        }
+    },
     async getTeamEvent(teamKey, eventKey) {
         const teamNum = (teamKey || '').replace(/^frc/i, '');
         if (!teamNum || !eventKey) return null;
         try {
-            const res = await fetch(`${this.BASE}/team_event/${teamNum}/${eventKey}`, {
-                headers: { Accept: 'application/json' }
-            });
+            const res = await this.fetchWithTimeout(`${this.BASE}/team_event/${teamNum}/${eventKey}`);
             if (!res.ok) return null;
+            const ct = res.headers.get('content-type');
+            if (!ct?.includes('application/json')) return null;
             return await res.json();
         } catch {
             return null;
@@ -23,7 +43,7 @@ const Statbotics = {
             teamKeys.map(async (tk) => {
                 const data = await this.getTeamEvent(tk, eventKey);
                 const epa = data?.epa;
-                const value = epa?.total_points?.mean ?? epa?.norm ?? epa?.unitless;
+                const value = epa?.total_points?.mean ?? epa?.norm ?? epa?.unitless ?? epa?.unit_epa;
                 const breakdown = epa?.breakdown;
                 const round = (n) => typeof n === 'number' ? Math.round(n * 10) / 10 : null;
                 return {
@@ -48,8 +68,9 @@ const Statbotics = {
             const chunkResults = await Promise.all(chunk.map(async (tk) => {
                 const data = await this.getTeamEvent(tk, eventKey);
                 const epa = data?.epa;
-                const value = epa?.total_points?.mean ?? epa?.norm ?? epa?.unitless;
+                const value = epa?.total_points?.mean ?? epa?.norm ?? epa?.unitless ?? epa?.unit_epa;
                 const breakdown = epa?.breakdown;
+                const rec = data?.record?.total ?? data?.record?.qual ?? data?.record;
                 const round = (n) => typeof n === 'number' ? Math.round(n * 10) / 10 : null;
                 return {
                     key: tk,
@@ -58,7 +79,8 @@ const Statbotics = {
                         auto: round(breakdown.auto_points),
                         teleop: round(breakdown.teleop_points),
                         endgame: round(breakdown.endgame_points)
-                    } : null
+                    } : null,
+                    record: rec?.wins != null && rec?.losses != null ? `${rec.wins}-${rec.losses}` : null
                 };
             }));
             results.push(...chunkResults);
@@ -69,9 +91,7 @@ const Statbotics = {
 
     async getMatch(matchKey) {
         try {
-            const res = await fetch(`${this.BASE}/match/${matchKey}`, {
-                headers: { Accept: 'application/json' }
-            });
+            const res = await this.fetchWithTimeout(`${this.BASE}/match/${matchKey}`);
             if (!res.ok) return null;
             return await res.json();
         } catch {
@@ -79,20 +99,53 @@ const Statbotics = {
         }
     },
 
-    async getTeamYear(teamKey, year) {
+    async getTeamYear(teamKey, year, retries = 1) {
         const teamNum = (teamKey || '').replace(/^frc/i, '');
         if (!teamNum) return null;
-        try {
-            const res = await fetch(`${this.BASE}/team_year/${teamNum}/${year}`, {
-                headers: { Accept: 'application/json' }
-            });
-            if (!res.ok) return null;
-            const data = await res.json();
-            if (data && typeof data === 'object' && !data.error) return data;
-            return null;
-        } catch {
-            return null;
+        for (let attempt = 0; attempt <= retries; attempt++) {
+            try {
+                const res = await this.fetchWithTimeout(`${this.BASE}/team_year/${teamNum}/${year}`);
+                if (!res.ok) {
+                    if (attempt < retries) await new Promise(r => setTimeout(r, 300));
+                    continue;
+                }
+                const ct = res.headers.get('content-type');
+                if (!ct?.includes('application/json')) {
+                    if (attempt < retries) await new Promise(r => setTimeout(r, 300));
+                    continue;
+                }
+                const data = await res.json();
+                if (data && typeof data === 'object' && !data.error) return data;
+            } catch {
+                if (attempt < retries) await new Promise(r => setTimeout(r, 300));
+            }
         }
+        return null;
+    },
+
+    async getTeamYearsBatched(teamKeys, year, fallbackYear = null) {
+        const delay = (ms) => new Promise(r => setTimeout(r, ms));
+        const results = [];
+        for (let i = 0; i < teamKeys.length; i++) {
+            let data = await this.getTeamYear(teamKeys[i], year);
+            if (!data && fallbackYear) {
+                await delay(250);
+                data = await this.getTeamYear(teamKeys[i], fallbackYear);
+            }
+            results.push(data);
+            if (i < teamKeys.length - 1) await delay(300);
+        }
+        return results;
+    },
+
+    async getTeamsBatched(teamKeys) {
+        const delay = (ms) => new Promise(r => setTimeout(r, ms));
+        const results = [];
+        for (let i = 0; i < teamKeys.length; i++) {
+            results.push(await this.getTeam(teamKeys[i]));
+            if (i < teamKeys.length - 1) await delay(200);
+        }
+        return results;
     }
 };
 
@@ -197,7 +250,6 @@ const App = {
         this.currentEvent = eventKey;
         document.getElementById('view-event').style.display = 'flex';
         document.getElementById('event-title').textContent = 'Loading…';
-        document.getElementById('event-links').style.display = 'none';
         document.getElementById('event-schedule-links').style.display = 'none';
         document.getElementById('event-teams-ranking').style.display = 'none';
 
@@ -220,10 +272,7 @@ const App = {
 
             const tbaEventUrl = `https://www.thebluealliance.com/event/${eventKey}`;
             const statboticsEventUrl = `https://www.statbotics.io/event/${eventKey}#insights`;
-            const headerLinksHtml = `<a href="${tbaEventUrl}" target="_blank" rel="noopener" class="link-white">The Blue Alliance</a> · <a href="${statboticsEventUrl}" target="_blank" rel="noopener" class="link-white">Statbotics</a>`;
             const footerLinksHtml = `<a href="${tbaEventUrl}" target="_blank" rel="noopener">The Blue Alliance</a> · <a href="${statboticsEventUrl}" target="_blank" rel="noopener">Statbotics</a>`;
-            document.getElementById('event-links').innerHTML = headerLinksHtml;
-            document.getElementById('event-links').style.display = 'block';
             document.getElementById('event-schedule-links').innerHTML = footerLinksHtml;
             document.getElementById('event-schedule-links').style.display = 'block';
 
@@ -342,10 +391,11 @@ const App = {
             }
             return results;
         };
-        const [epaData, yearData2026, yearData2025] = await Promise.all([
+        const [epaData, yearData2026, yearData2025, sbTeams] = await Promise.all([
             Statbotics.getEPAsBatched(teamKeys, eventKey),
             batch(teamKeys, tk => Statbotics.getTeamYear(tk, CONFIG.YEAR)),
-            batch(teamKeys, tk => Statbotics.getTeamYear(tk, CONFIG.YEAR - 1))
+            batch(teamKeys, tk => Statbotics.getTeamYear(tk, CONFIG.YEAR - 1)),
+            Statbotics.getTeamsBatched(teamKeys)
         ]);
 
         const round = (n) => typeof n === 'number' ? Math.round(n * 10) / 10 : null;
@@ -362,10 +412,14 @@ const App = {
             return epaEvent ?? epaYear ?? null;
         };
         const extractRecord = (ty) => {
-            const r = ty?.record?.total ?? ty?.record ?? ty?.qual_record;
-            const wins = r?.wins ?? null;
-            const losses = r?.losses ?? null;
+            const r = ty?.record?.total ?? ty?.record?.qual ?? ty?.record ?? ty?.qual_record;
+            const wins = r?.wins ?? ty?.record?.wins ?? null;
+            const losses = r?.losses ?? ty?.record?.losses ?? null;
             return wins != null && losses != null ? `${wins}-${losses}` : '–';
+        };
+        const recordFromTeam = (t) => {
+            const r = t?.record;
+            return r?.wins != null && r?.losses != null ? `${r.wins}-${r.losses}` : '–';
         };
 
         const rows = teams.map((t, i) => {
@@ -373,11 +427,12 @@ const App = {
             const eventData = epaData[tk];
             const ty2026 = yearData2026[i];
             const ty2025 = yearData2025[i];
+            const team = sbTeams[i];
             const epa2026 = extractEpa(ty2026, eventData);
             const epa2025 = extractEpa(ty2025, null);
-            const record2026 = extractRecord(ty2026);
-            const record2025 = extractRecord(ty2025);
-            const location = [t.city, t.state_prov].filter(Boolean).join(', ') || '–';
+            const record2026 = extractRecord(ty2026) !== '–' ? extractRecord(ty2026) : (eventData?.record ?? recordFromTeam(team));
+            const record2025 = extractRecord(ty2025) !== '–' ? extractRecord(ty2025) : recordFromTeam(team);
+            const location = t.city || '–';
             return {
                 teamNum: t.team_number,
                 name: t.nickname || t.name || 'N/A',
@@ -547,25 +602,28 @@ const App = {
         const [oprsData, teamsAndStatus, epas, yearData] = await Promise.all([
             TBA.getEventOPRs(eventKey),
             this.fetchTeamsAndStatus(match, eventKey),
-            Statbotics.getEPAs(teamKeys, eventKey),
-            Promise.all(teamKeys.map(tk => Statbotics.getTeamYear(tk, CONFIG.YEAR)))
+            Statbotics.getEPAsBatched(teamKeys, eventKey, 4),
+            Statbotics.getTeamYearsBatched(teamKeys, CONFIG.YEAR, CONFIG.YEAR - 1)
         ]);
         const oprs = oprsData?.oprs || {};
 
         const round = (n) => typeof n === 'number' ? Math.round(n * 10) / 10 : null;
         const extractEpa = (ty) => {
-            if (!ty?.epa) return null;
+            if (!ty) return null;
             const e = ty.epa;
-            return round(e.total_points?.mean) ?? round(e.norm) ?? round(e.unitless) ?? round(e.unit_epa);
+            const fromEpa = e ? (round(e.total_points?.mean) ?? round(e.norm) ?? round(e.unitless) ?? round(e.unit_epa)) : null;
+            if (fromEpa != null) return fromEpa;
+            const n = ty.norm_epa;
+            return n != null ? round(typeof n === 'number' ? n : (n?.current ?? n?.mean ?? n?.recent)) : null;
         };
         const extractBreakdown = (ty) => {
             const b = ty?.epa?.breakdown;
             if (!b) return null;
-            return {
-                auto: round(b.auto_points),
-                teleop: round(b.teleop_points),
-                endgame: round(b.endgame_points)
-            };
+            const auto = round(b.auto_points) ?? round(b.auto);
+            const teleop = round(b.teleop_points) ?? round(b.teleop);
+            const endgame = round(b.endgame_points) ?? round(b.endgame);
+            if (auto == null && teleop == null && endgame == null) return null;
+            return { auto, teleop, endgame };
         };
 
         const teamData = teamKeys.map((tk, i) => {

@@ -66,23 +66,6 @@ body {
     font-size: 1.25rem;
 }
 
-.event-links {
-    flex: 0 0 100%;
-    margin: 6px 0 0;
-    font-size: 0.9rem;
-    order: 10;
-}
-
-.event-links .link-white {
-    color: #fff;
-    text-decoration: none;
-}
-
-.event-links .link-white:hover {
-    color: var(--accent-secondary);
-    text-decoration: underline;
-}
-
 .back-btn {
     background: rgba(255, 255, 255, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.3);
