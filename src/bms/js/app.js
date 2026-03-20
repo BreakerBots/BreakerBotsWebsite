@@ -25,25 +25,25 @@ const Statbotics = {
             return null;
         }
     },
-    async getTeamEvent(teamKey, eventKey, maxRetries = 8) {
+    async getTeamEvent(teamKey, eventKey, maxRetries = 5) {
         const teamNum = (teamKey || '').replace(/^frc/i, '');
         if (!teamNum || !eventKey) return null;
         for (let attempt = 0; attempt < maxRetries; attempt++) {
             try {
                 const res = await this.fetchWithTimeout(`${this.BASE}/team_event/${teamNum}/${eventKey}`, 25000);
                 if (!res.ok) {
-                    if (attempt < maxRetries - 1) await new Promise(r => setTimeout(r, 500 + attempt * 300));
+                    if (attempt < maxRetries - 1) await new Promise(r => setTimeout(r, 300 + attempt * 200));
                     continue;
                 }
                 const ct = res.headers.get('content-type');
                 if (!ct?.includes('application/json')) {
-                    if (attempt < maxRetries - 1) await new Promise(r => setTimeout(r, 500 + attempt * 300));
+                    if (attempt < maxRetries - 1) await new Promise(r => setTimeout(r, 300 + attempt * 200));
                     continue;
                 }
                 const data = await res.json();
                 if (data && typeof data === 'object' && !data.error) return data;
             } catch {
-                if (attempt < maxRetries - 1) await new Promise(r => setTimeout(r, 500 + attempt * 300));
+                if (attempt < maxRetries - 1) await new Promise(r => setTimeout(r, 300 + attempt * 200));
             }
         }
         return null;
@@ -109,25 +109,25 @@ const Statbotics = {
         }
     },
 
-    async getTeamYear(teamKey, year, maxRetries = 8) {
+    async getTeamYear(teamKey, year, maxRetries = 5) {
         const teamNum = (teamKey || '').replace(/^frc/i, '');
         if (!teamNum) return null;
         for (let attempt = 0; attempt < maxRetries; attempt++) {
             try {
-                const res = await this.fetchWithTimeout(`${this.BASE}/team_year/${teamNum}/${year}`, 25000);
+                const res = await this.fetchWithTimeout(`${this.BASE}/team_year/${teamNum}/${year}`, 20000);
                 if (!res.ok) {
-                    if (attempt < maxRetries - 1) await new Promise(r => setTimeout(r, 500 + attempt * 300));
+                    if (attempt < maxRetries - 1) await new Promise(r => setTimeout(r, 300 + attempt * 200));
                     continue;
                 }
                 const ct = res.headers.get('content-type');
                 if (!ct?.includes('application/json')) {
-                    if (attempt < maxRetries - 1) await new Promise(r => setTimeout(r, 500 + attempt * 300));
+                    if (attempt < maxRetries - 1) await new Promise(r => setTimeout(r, 300 + attempt * 200));
                     continue;
                 }
                 const data = await res.json();
                 if (data && typeof data === 'object' && !data.error) return data;
             } catch {
-                if (attempt < maxRetries - 1) await new Promise(r => setTimeout(r, 500 + attempt * 300));
+                if (attempt < maxRetries - 1) await new Promise(r => setTimeout(r, 300 + attempt * 200));
             }
         }
         return null;
@@ -139,11 +139,11 @@ const Statbotics = {
         for (let i = 0; i < teamKeys.length; i++) {
             let data = await this.getTeamYear(teamKeys[i], year);
             if (!data && fallbackYear) {
-                await delay(250);
+                await delay(150);
                 data = await this.getTeamYear(teamKeys[i], fallbackYear);
             }
             results.push(data);
-            if (i < teamKeys.length - 1) await delay(300);
+            if (i < teamKeys.length - 1) await delay(100);
         }
         return results;
     },
@@ -391,9 +391,9 @@ const App = {
         if (!teams || teams.length === 0) return '';
 
         const CACHE_KEY = `bms_teams_${eventKey}`;
-        const CACHE_VERSION = 5;
+        const CACHE_VERSION = 6;
         const CACHE_TTL_MS = 60 * 60 * 1000;
-        let epaData, yearData2026, yearData2025, sbTeams;
+        let epaData, yearData2026, yearData2025;
 
         try {
             const cached = localStorage.getItem(CACHE_KEY);
@@ -403,7 +403,6 @@ const App = {
                     epaData = data.epaData;
                     yearData2026 = data.yearData2026;
                     yearData2025 = data.yearData2025;
-                    sbTeams = data.sbTeams;
                 }
             }
         } catch (_) {}
@@ -420,31 +419,31 @@ const App = {
                 }
                 return results;
             };
-            [epaData, yearData2026, yearData2025, sbTeams] = await Promise.all([
+            [epaData, yearData2026, yearData2025] = await Promise.all([
                 Statbotics.getEPAsBatched(teamKeys, eventKey),
                 batch(teamKeys, tk => Statbotics.getTeamYear(tk, CONFIG.YEAR)),
-                batch(teamKeys, tk => Statbotics.getTeamYear(tk, CONFIG.YEAR - 1)),
-                Statbotics.getTeamsBatched(teamKeys)
+                batch(teamKeys, tk => Statbotics.getTeamYear(tk, CONFIG.YEAR - 1))
             ]);
-            for (let pass = 0; pass < 6; pass++) {
-                let missing = false;
-                for (let i = 0; i < teamKeys.length; i++) {
-                    if (!yearData2025[i]) {
-                        yearData2025[i] = await Statbotics.getTeamYear(teamKeys[i], CONFIG.YEAR - 1);
-                        if (!yearData2025[i]) missing = true;
-                        await delay(500);
+            for (let pass = 0; pass < 3; pass++) {
+                const missing2025 = teamKeys.map((tk, i) => (!yearData2025[i] ? tk : null)).filter(Boolean);
+                const missing2026 = teamKeys.map((tk, i) => (!yearData2026[i] ? tk : null)).filter(Boolean);
+                if (missing2025.length === 0 && missing2026.length === 0) break;
+                const fill = async (keys, year) => {
+                    for (let j = 0; j < keys.length; j += 4) {
+                        const chunk = keys.slice(j, j + 4);
+                        const results = await Promise.all(chunk.map(tk => Statbotics.getTeamYear(tk, year)));
+                        chunk.forEach((tk, k) => {
+                            const i = teamKeys.indexOf(tk);
+                            if (i !== -1 && results[k]) (year === CONFIG.YEAR ? yearData2026 : yearData2025)[i] = results[k];
+                        });
+                        if (j + 4 < keys.length) await delay(200);
                     }
-                    if (!yearData2026[i]) {
-                        yearData2026[i] = await Statbotics.getTeamYear(teamKeys[i], CONFIG.YEAR);
-                        if (!yearData2026[i]) missing = true;
-                        await delay(500);
-                    }
-                }
-                if (!missing) break;
+                };
+                await Promise.all([fill(missing2025, CONFIG.YEAR - 1), fill(missing2026, CONFIG.YEAR)]);
             }
             try {
                 localStorage.setItem(CACHE_KEY, JSON.stringify({
-                    data: { epaData, yearData2026, yearData2025, sbTeams },
+                    data: { epaData, yearData2026, yearData2025 },
                     ts: Date.now(),
                     v: CACHE_VERSION
                 }));
@@ -533,15 +532,22 @@ const App = {
     },
 
     async fetchWinProbabilities(matches, scheduleTeam) {
-        const results = await Promise.all(matches.map(async (m) => {
-            const data = await Statbotics.getMatch(m.key);
-            const pred = data?.pred;
-            if (pred?.red_win_prob == null) return { key: m.key, winProb: null };
-            const inRed = (m.alliances?.red?.team_keys || []).includes(scheduleTeam);
-            const inBlue = (m.alliances?.blue?.team_keys || []).includes(scheduleTeam);
-            const ourProb = inRed ? pred.red_win_prob : inBlue ? (1 - pred.red_win_prob) : null;
-            return { key: m.key, winProb: ourProb };
-        }));
+        const delay = (ms) => new Promise(r => setTimeout(r, ms));
+        const results = [];
+        for (let i = 0; i < matches.length; i += 6) {
+            const chunk = matches.slice(i, i + 6);
+            const chunkResults = await Promise.all(chunk.map(async (m) => {
+                const data = await Statbotics.getMatch(m.key);
+                const pred = data?.pred;
+                if (pred?.red_win_prob == null) return { key: m.key, winProb: null };
+                const inRed = (m.alliances?.red?.team_keys || []).includes(scheduleTeam);
+                const inBlue = (m.alliances?.blue?.team_keys || []).includes(scheduleTeam);
+                const ourProb = inRed ? pred.red_win_prob : inBlue ? (1 - pred.red_win_prob) : null;
+                return { key: m.key, winProb: ourProb };
+            }));
+            results.push(...chunkResults);
+            if (i + 6 < matches.length) await delay(150);
+        }
         return Object.fromEntries(results.map(r => [r.key, r.winProb]));
     },
 
@@ -688,12 +694,17 @@ const App = {
             return { auto, teleop, endgame };
         };
 
+        const getSeasonRecord = (ty) => {
+            const r = ty?.record?.total ?? ty?.record?.qual ?? ty?.record;
+            return { wins: r?.wins ?? 0, losses: r?.losses ?? 0 };
+        };
         const teamData = teamKeys.map((tk, i) => {
             const t = teamsAndStatus[i];
+            const ty = yearData[i];
+            const season = getSeasonRecord(ty);
             const alliance = redTeams.includes(tk) ? 'red' : 'blue';
             const opr = oprs[tk];
             const epaData = epas?.[tk];
-            const ty = yearData[i];
             const epa = epaData?.epa ?? extractEpa(ty);
             const epaBreakdown = epaData?.breakdown ?? extractBreakdown(ty);
             return {
@@ -708,8 +719,8 @@ const App = {
                 eventWins: t.eventWins || 0,
                 eventLosses: t.eventLosses || 0,
                 rank: t.rank,
-                seasonWins: t.seasonWins || 0,
-                seasonLosses: t.seasonLosses || 0
+                seasonWins: season.wins,
+                seasonLosses: season.losses
             };
         });
 
@@ -826,19 +837,7 @@ const App = {
                 eventLosses = (r.record?.losses || 0) + (status.playoff?.record?.losses || 0);
                 rank = r.rank;
             }
-            let seasonWins = 0, seasonLosses = 0;
-            try {
-                const events = await TBA.getTeamEvents(tk, CONFIG.YEAR);
-                for (const ev of events || []) {
-                    if (ev.division_keys?.length) continue;
-                    const st = await TBA.getTeamStatus(tk, ev.key);
-                    if (st?.qual?.ranking) {
-                        seasonWins += (st.qual.ranking.record?.wins || 0) + (st.playoff?.record?.wins || 0);
-                        seasonLosses += (st.qual.ranking.record?.losses || 0) + (st.playoff?.record?.losses || 0);
-                    }
-                }
-            } catch (_) {}
-            return { team, eventWins, eventLosses, rank, seasonWins, seasonLosses };
+            return { team, eventWins, eventLosses, rank };
         }));
         return results;
     },

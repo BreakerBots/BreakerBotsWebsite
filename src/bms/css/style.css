@@ -63,7 +63,7 @@ body {
 .header-compact h1 {
     flex: 1;
     margin: 0;
-    font-size: 1.25rem;
+    font-size: 1rem;
 }
 
 .header-logo {
@@ -76,7 +76,7 @@ body {
 }
 
 .header-bms {
-    font-size: 1rem;
+    font-size: 1.15rem;
     font-weight: 600;
     color: #fff;
     margin-right: 4px;
