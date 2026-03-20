@@ -19,6 +19,10 @@ const TBA = {
         return this.fetch(`/event/${eventKey}`);
     },
 
+    async getEventTeams(eventKey) {
+        return this.fetch(`/event/${eventKey}/teams`);
+    },
+
     async getEventMatches(eventKey) {
         return this.fetch(`/event/${eventKey}/matches`);
     },

@@ -273,11 +273,35 @@ body {
 .match-table th:nth-child(3),
 .match-table th:nth-child(4),
 .match-table th:nth-child(5),
+.match-table th:nth-child(6),
 .match-table td:nth-child(2),
 .match-table td:nth-child(3),
 .match-table td:nth-child(4),
-.match-table td:nth-child(5) {
+.match-table td:nth-child(5),
+.match-table td:nth-child(6) {
     text-align: right;
+}
+
+.match-table .win-prob {
+    font-variant-numeric: tabular-nums;
+}
+
+.teams-table th:nth-child(4),
+.teams-table th:nth-child(5),
+.teams-table td:nth-child(4),
+.teams-table td:nth-child(5) {
+    text-align: right;
+}
+
+.teams-table th:nth-child(2),
+.teams-table th:nth-child(3),
+.teams-table td:nth-child(2),
+.teams-table td:nth-child(3) {
+    text-align: left;
+}
+
+.event-teams-ranking {
+    margin-top: 1.5rem;
 }
 
 .match-table .outcome {
@@ -344,7 +368,9 @@ body {
 }
 
 .match-table th.scores,
-.match-table td.scores {
+.match-table td.scores,
+.match-table th.epa-col,
+.match-table td.epa-col {
     background: rgba(255, 255, 255, 0.06);
 }
 
@@ -441,9 +467,9 @@ body {
     border-left: 4px solid var(--blue);
 }
 
-.team-block h3 {
-    margin: 0 0 8px;
-    font-size: 1rem;
+.team-block h3.team-block-title {
+    margin: 0 0 6px;
+    font-size: 0.9rem;
 }
 
 .team-block .team-link {
@@ -460,31 +486,33 @@ body {
     font-weight: 600;
 }
 
-.tba-match-link {
+.tba-match-link,
+.event-schedule-links {
     margin: 16px 0 0;
     font-size: 0.9rem;
     text-align: center;
 }
 
-.tba-match-link a {
+.tba-match-link a,
+.event-schedule-links a {
     color: var(--text);
     text-decoration: none;
 }
 
-.tba-match-link a:hover {
+.tba-match-link a:hover,
+.event-schedule-links a:hover {
     color: var(--accent-secondary);
     text-decoration: underline;
 }
 
-.team-block .team-meta {
+.team-block .team-location {
     color: var(--text-muted);
-    font-size: 0.85rem;
-    margin-bottom: 8px;
+    font-weight: 400;
 }
 
 .team-block .stat-row {
-    font-size: 0.85rem;
-    margin: 4px 0;
+    font-size: 0.8rem;
+    margin: 3px 0;
 }
 
 .team-block .stat-label {

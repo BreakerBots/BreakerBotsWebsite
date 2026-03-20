@@ -24,10 +24,46 @@ const Statbotics = {
                 const data = await this.getTeamEvent(tk, eventKey);
                 const epa = data?.epa;
                 const value = epa?.total_points?.mean ?? epa?.norm ?? epa?.unitless;
-                return { key: tk, epa: typeof value === 'number' ? Math.round(value * 10) / 10 : null };
+                const breakdown = epa?.breakdown;
+                const round = (n) => typeof n === 'number' ? Math.round(n * 10) / 10 : null;
+                return {
+                    key: tk,
+                    epa: typeof value === 'number' ? round(value) : null,
+                    breakdown: breakdown ? {
+                        auto: round(breakdown.auto_points),
+                        teleop: round(breakdown.teleop_points),
+                        endgame: round(breakdown.endgame_points)
+                    } : null
+                };
             })
         );
-        return Object.fromEntries(results.map(r => [r.key, r.epa]));
+        return Object.fromEntries(results.map(r => [r.key, r]));
+    },
+
+    async getMatch(matchKey) {
+        try {
+            const res = await fetch(`${this.BASE}/match/${matchKey}`, {
+                headers: { Accept: 'application/json' }
+            });
+            if (!res.ok) return null;
+            return await res.json();
+        } catch {
+            return null;
+        }
+    },
+
+    async getTeamYear(teamKey, year) {
+        const teamNum = (teamKey || '').replace(/^frc/i, '');
+        if (!teamNum) return null;
+        try {
+            const res = await fetch(`${this.BASE}/team_year/${teamNum}/${year}`, {
+                headers: { Accept: 'application/json' }
+            });
+            if (!res.ok) return null;
+            return await res.json();
+        } catch {
+            return null;
+        }
     }
 };
 
@@ -133,6 +169,8 @@ const App = {
         document.getElementById('view-event').style.display = 'flex';
         document.getElementById('event-title').textContent = 'Loading…';
         document.getElementById('event-links').style.display = 'none';
+        document.getElementById('event-schedule-links').style.display = 'none';
+        document.getElementById('event-teams-ranking').style.display = 'none';
 
         const loading = document.getElementById('matches-loading');
         const error = document.getElementById('matches-error');
@@ -153,18 +191,34 @@ const App = {
 
             const tbaEventUrl = `https://www.thebluealliance.com/event/${eventKey}`;
             const statboticsEventUrl = `https://www.statbotics.io/event/${eventKey}#insights`;
-            const linksEl = document.getElementById('event-links');
-            linksEl.innerHTML = `<a href="${tbaEventUrl}" target="_blank" rel="noopener" class="link-white">The Blue Alliance</a> · <a href="${statboticsEventUrl}" target="_blank" rel="noopener" class="link-white">Statbotics</a>`;
-            linksEl.style.display = 'block';
+            const headerLinksHtml = `<a href="${tbaEventUrl}" target="_blank" rel="noopener" class="link-white">The Blue Alliance</a> · <a href="${statboticsEventUrl}" target="_blank" rel="noopener" class="link-white">Statbotics</a>`;
+            const footerLinksHtml = `<a href="${tbaEventUrl}" target="_blank" rel="noopener">The Blue Alliance</a> · <a href="${statboticsEventUrl}" target="_blank" rel="noopener">Statbotics</a>`;
+            document.getElementById('event-links').innerHTML = headerLinksHtml;
+            document.getElementById('event-links').style.display = 'block';
+            document.getElementById('event-schedule-links').innerHTML = footerLinksHtml;
+            document.getElementById('event-schedule-links').style.display = 'block';
 
             if (!matches || matches.length === 0) {
                 loading.style.display = 'none';
                 const tbaUrl = `https://www.thebluealliance.com/event/${eventKey}`;
                 error.innerHTML = `No matches found${CONFIG.TEST_MODE ? ' for test schedule' : ' for team 5104'} at this event. Check back once the schedule is posted on <a href="${this.escapeHtml(tbaUrl)}" target="_blank" rel="noopener" class="link-white">TBA</a>.`;
                 error.style.display = 'block';
+                const teamsRankingEl = document.getElementById('event-teams-ranking');
+                teamsRankingEl.innerHTML = '<div class="loading">Loading teams…</div>';
+                teamsRankingEl.style.display = 'block';
+                try {
+                    const teamsTable = await this.buildEventTeamsTable(eventKey);
+                    teamsRankingEl.innerHTML = teamsTable || '';
+                    if (!teamsTable) teamsRankingEl.style.display = 'none';
+                } catch {
+                    teamsRankingEl.innerHTML = '';
+                    teamsRankingEl.style.display = 'none';
+                }
             } else {
                 const sorted = this.sortMatches(matches);
-                list.innerHTML = this.renderMatchesTable(sorted, scheduleTeam);
+                const unplayed = sorted.filter(m => m.post_result_time == null);
+                const winProbs = await this.fetchWinProbabilities(unplayed, scheduleTeam);
+                list.innerHTML = this.renderMatchesTable(sorted, scheduleTeam, winProbs);
                 list.style.display = 'block';
                 loading.style.display = 'none';
             }
@@ -244,11 +298,83 @@ const App = {
         return weWon ? 'W' : 'L';
     },
 
-    renderMatchesTable(matches, scheduleTeam) {
+    async buildEventTeamsTable(eventKey) {
+        const teams = await TBA.getEventTeams(eventKey);
+        if (!teams || teams.length === 0) return '';
+
+        const teamKeys = teams.map(t => t.key);
+        const epaData = await Statbotics.getEPAs(teamKeys, eventKey);
+        const yearData = await Promise.all(teamKeys.map(tk => Statbotics.getTeamYear(tk, CONFIG.YEAR)));
+
+        const rows = teams.map((t, i) => {
+            const tk = t.key;
+            const epa = epaData[tk]?.epa ?? null;
+            const ty = yearData[i];
+            const record = ty?.record?.total ?? ty?.record ?? ty?.qual_record;
+            const wins = record?.wins ?? null;
+            const losses = record?.losses ?? null;
+            const recordStr = wins != null && losses != null ? `${wins}-${losses}` : '–';
+            return {
+                teamNum: t.team_number,
+                name: t.nickname || 'N/A',
+                city: t.city || '',
+                epa: epa != null ? epa : null,
+                record: recordStr,
+                isUs: tk === CONFIG.TEAM_KEY
+            };
+        });
+
+        rows.sort((a, b) => (b.epa ?? -1) - (a.epa ?? -1));
+
+        const thead = `
+            <thead>
+                <tr>
+                    <th>Team</th>
+                    <th>Team Name</th>
+                    <th>City</th>
+                    <th class="epa-col">EPA</th>
+                    <th>Record</th>
+                </tr>
+            </thead>`;
+        const tbody = rows.map(r => `
+            <tr>
+                <td>${r.teamNum}${r.isUs ? ' ⭐' : ''}</td>
+                <td>${this.escapeHtml(r.name)}</td>
+                <td>${this.escapeHtml(r.city)}</td>
+                <td class="epa-col">${r.epa != null ? r.epa.toFixed(1) : '–'}</td>
+                <td>${r.record}</td>
+            </tr>
+        `).join('');
+
+        return `
+            <section class="match-section">
+                <h2 class="match-section-title">Teams by EPA</h2>
+                <div class="match-table-wrap">
+                    <table class="match-table teams-table">
+                        ${thead}
+                        <tbody>${tbody}</tbody>
+                    </table>
+                </div>
+            </section>`;
+    },
+
+    async fetchWinProbabilities(matches, scheduleTeam) {
+        const results = await Promise.all(matches.map(async (m) => {
+            const data = await Statbotics.getMatch(m.key);
+            const pred = data?.pred;
+            if (pred?.red_win_prob == null) return { key: m.key, winProb: null };
+            const inRed = (m.alliances?.red?.team_keys || []).includes(scheduleTeam);
+            const inBlue = (m.alliances?.blue?.team_keys || []).includes(scheduleTeam);
+            const ourProb = inRed ? pred.red_win_prob : inBlue ? (1 - pred.red_win_prob) : null;
+            return { key: m.key, winProb: ourProb };
+        }));
+        return Object.fromEntries(results.map(r => [r.key, r.winProb]));
+    },
+
+    renderMatchesTable(matches, scheduleTeam, winProbs = {}) {
         const sections = this.groupMatchesBySection(matches);
         let html = '';
         let inPlayoffs = false;
-        let isFirstTable = true;
         sections.forEach(s => {
             if (s.parent === 'Playoff Results') {
                 if (!inPlayoffs) {
@@ -261,7 +387,7 @@ const App = {
                 inPlayoffs = false;
                 html += `<section class="match-section"><h2 class="match-section-title">${s.title}</h2>`;
             }
-            const thead = isFirstTable ? `
+            const thead = `
                         <thead>
                             <tr>
                                 <th>Match</th>
@@ -269,27 +395,27 @@ const App = {
                                 <th>Blue Alliance</th>
                                 <th class="scores">Scores</th>
                                 <th>W/L</th>
+                                <th>Win Prob</th>
                             </tr>
                         </thead>
-            ` : '';
+            `;
             html += `
                 <div class="match-table-wrap">
                     <table class="match-table">
                         ${thead}
                         <tbody>
-                            ${s.matches.map(m => this.renderMatchRow(m, scheduleTeam)).join('')}
+                            ${s.matches.map(m => this.renderMatchRow(m, scheduleTeam, winProbs)).join('')}
                         </tbody>
                     </table>
                 </div>
             `;
-            isFirstTable = false;
         });
         if (inPlayoffs) html += '</section>';
         else if (sections.length) html += '</section>';
         return html;
     },
 
-    renderMatchRow(m, scheduleTeam) {
+    renderMatchRow(m, scheduleTeam, winProbs = {}) {
         const red = m.alliances?.red || {};
         const blue = m.alliances?.blue || {};
         const redTeams = (red.team_keys || []).map(t => t.replace('frc', ''));
@@ -301,6 +427,8 @@ const App = {
         const isKnown = m.post_result_time != null;
         const outcomeClass = outcome === '?' ? 'unknown' : outcome.toLowerCase();
         const knownClass = isKnown ? 'outcome-known' : 'outcome-predicted';
+        const winProb = winProbs[m.key];
+        const winProbDisplay = !isKnown && winProb != null ? `${Math.round(winProb * 100)}%` : '–';
         return `
             <tr>
                 <td><a href="#match/${m.key}" class="match-link">${label}</a></td>
@@ -308,6 +436,7 @@ const App = {
                 <td class="alliance-blue">${blueTeams.map(n => `<span class="team-num">${n}</span>`).join(' ')}</td>
                 <td class="scores"><span class="red-score">${redScore}</span> <span class="blue-score">${blueScore}</span></td>
                 <td class="outcome outcome-${outcomeClass} ${knownClass}">${outcome}</td>
+                <td class="win-prob">${winProbDisplay}</td>
             </tr>
         `;
     },
@@ -346,22 +475,20 @@ const App = {
         const blueTeams = (match.alliances?.blue?.team_keys || []);
         const teamKeys = [...redTeams, ...blueTeams];
 
-        const [oprsData, eventMatches, teamsAndStatus, epas] = await Promise.all([
+        const [oprsData, teamsAndStatus, epas] = await Promise.all([
             TBA.getEventOPRs(eventKey),
-            TBA.getEventMatches(eventKey),
             this.fetchTeamsAndStatus(match, eventKey),
             Statbotics.getEPAs(teamKeys, eventKey)
         ]);
         const oprs = oprsData?.oprs || {};
 
-        const teamStats = this.computeTeamStatsFromMatches(eventMatches, teamKeys);
-
         const teamData = teamKeys.map((tk, i) => {
-            const ts = teamStats[tk] || {};
             const t = teamsAndStatus[i];
             const alliance = redTeams.includes(tk) ? 'red' : 'blue';
             const opr = oprs[tk];
-            const epa = epas?.[tk];
+            const epaData = epas?.[tk];
+            const epa = epaData?.epa;
+            const epaBreakdown = epaData?.breakdown;
             return {
                 key: tk,
                 teamNum: t.team?.team_number,
@@ -370,15 +497,12 @@ const App = {
                 alliance,
                 opr: opr != null ? Math.round(opr * 10) / 10 : 'N/A',
                 epa: epa != null ? epa : 'N/A',
+                epaBreakdown,
                 eventWins: t.eventWins || 0,
                 eventLosses: t.eventLosses || 0,
                 rank: t.rank,
                 seasonWins: t.seasonWins || 0,
-                seasonLosses: t.seasonLosses || 0,
-                towerPct: ts.towerPct || 0,
-                fuelPerMatch: ts.fuelPerMatch ?? null,
-                foulsPerMatch: ts.foulsPerMatch ?? null,
-                totalMatches: ts.totalMatches || 0
+                seasonLosses: t.seasonLosses || 0
             };
         });
 
@@ -416,23 +540,25 @@ const App = {
         }
 
         const renderTeamBlock = (t) => {
-            const parts = [];
-            parts.push(t.fuelPerMatch != null ? `Avg Fuel: ${t.fuelPerMatch.toFixed(1)}` : 'Avg Fuel: N/A');
-            parts.push(t.foulsPerMatch != null ? `Fouls: ${t.foulsPerMatch.toFixed(1)}` : 'Fouls: N/A');
-            if (t.totalMatches > 0 && t.towerPct >= 35) {
-                parts.push(`Climb? (${t.towerPct.toFixed(0)}%)`);
-            }
-            const combinedStats = parts.join(' - ');
-            const rankPart = t.rank != null ? `Rank ${t.rank} (${t.eventWins}-${t.eventLosses})` : `${t.eventWins}-${t.eventLosses} @ event`;
-            const statRow = `${rankPart} -- OPR: ${t.opr} | EPA: ${t.epa}`;
             const teamNum = (t.key || '').replace('frc', '') || t.teamNum;
             const tbaTeamUrl = `https://www.thebluealliance.com/team/${teamNum}/${CONFIG.YEAR}`;
+            const titleLine = t.location
+                ? `${teamNum}${t.key === CONFIG.TEAM_KEY ? ' ⭐' : ''}: ${this.escapeHtml(t.name)} <span class="team-location">· ${this.escapeHtml(t.location)}</span>`
+                : `${teamNum}${t.key === CONFIG.TEAM_KEY ? ' ⭐' : ''}: ${this.escapeHtml(t.name)}`;
+            const rankLine = t.rank != null
+                ? `Rank ${t.rank} (${t.eventWins}-${t.eventLosses} event, ${t.seasonWins}-${t.seasonLosses} season)`
+                : `${t.eventWins}-${t.eventLosses} event, ${t.seasonWins}-${t.seasonLosses} season`;
+            const oprEpaLine = `OPR: ${t.opr}, EPA: ${t.epa}`;
+            const breakdown = t.epaBreakdown;
+            const breakdownLine = breakdown && (breakdown.auto != null || breakdown.teleop != null || breakdown.endgame != null)
+                ? `Auto: ${breakdown.auto ?? '–'}, Teleop: ${breakdown.teleop ?? '–'}, Endgame: ${breakdown.endgame ?? '–'}`
+                : null;
             return `
                 <div class="team-block ${t.alliance}">
-                    <h3><a href="${tbaTeamUrl}" target="_blank" rel="noopener" class="team-link"><span class="team-name">${t.teamNum}${t.key === CONFIG.TEAM_KEY ? ' ⭐' : ''}</span>: ${this.escapeHtml(t.name)}</a></h3>
-                    <div class="team-meta">${this.escapeHtml(t.location)}</div>
-                    <div class="stat-row">${statRow}</div>
-                    <div class="stat-row stat-label">${combinedStats}</div>
+                    <h3 class="team-block-title"><a href="${tbaTeamUrl}" target="_blank" rel="noopener" class="team-link">${titleLine}</a></h3>
+                    <div class="stat-row">${rankLine}</div>
+                    <div class="stat-row">${oprEpaLine}</div>
+                    ${breakdownLine ? `<div class="stat-row stat-label">${breakdownLine}</div>` : ''}
                 </div>
             `;
         };
@@ -464,46 +590,8 @@ const App = {
                 <div class="winner ${predWinner}">Prediction: ${predWinner.toUpperCase()} victory (${confidence}% confidence)</div>
                 ${resultHtml}
             </div>
-            <p class="tba-match-link"><a href="${tbaMatchUrl}" target="_blank" rel="noopener">View match on The Blue Alliance →</a></p>
+            <p class="tba-match-link"><a href="${tbaMatchUrl}" target="_blank" rel="noopener">The Blue Alliance</a> · <a href="https://www.statbotics.io/match/${matchKey}" target="_blank" rel="noopener">Statbotics</a></p>
         `;
-    },
-
-    computeTeamStatsFromMatches(eventMatches, teamKeys) {
-        const stats = {};
-        teamKeys.forEach(tk => {
-            stats[tk] = {
-                towerPct: 0,
-                totalMatches: 0,
-                totalAllianceFuel: 0,
-                totalOpponentFouls: 0
-            };
-        });
-        for (const m of eventMatches || []) {
-            if (!m.score_breakdown) continue;
-            const sb = m.score_breakdown;
-            for (const tk of teamKeys) {
-                const alliance = m.alliances?.red?.team_keys?.includes(tk) ? 'red' : m.alliances?.blue?.team_keys?.includes(tk) ? 'blue' : null;
-                if (!alliance) continue;
-                const bd = sb[alliance] || {};
-                const oppAlliance = alliance === 'red' ? 'blue' : 'red';
-                const oppBd = sb[oppAlliance] || {};
-                stats[tk].totalMatches++;
-                const tower = (bd.autoTowerPoints || 0) + (bd.endGameTowerPoints || 0);
-                if (tower > 0) stats[tk].towerPct++;
-                const hub = bd.hubScore;
-                const fuel = hub?.totalPoints ?? ((hub?.autoPoints || 0) + (hub?.endgamePoints || 0));
-                stats[tk].totalAllianceFuel += fuel;
-                stats[tk].totalOpponentFouls += oppBd.foulPoints || 0;
-            }
-        }
-        for (const tk of teamKeys) {
-            const s = stats[tk];
-            const n = s.totalMatches;
-            s.towerPct = n > 0 ? (s.towerPct / n * 100) : 0;
-            s.fuelPerMatch = n > 0 ? (s.totalAllianceFuel / n / 3) : null;
-            s.foulsPerMatch = n > 0 ? (s.totalOpponentFouls / n / 3) : null;
-        }
-        return stats;
     },
 
     async fetchTeamsAndStatus(match, eventKey) {
