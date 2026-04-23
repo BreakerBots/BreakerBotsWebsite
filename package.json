@@ -14,13 +14,14 @@
   },
   "dependencies": {
     "@google-cloud/datastore": "^9.2.1",
-    "@googleapis/calendar": "^9.8.0",
+    "@googleapis/calendar": "^14.2.0",
     "compression": "^1.8.1",
     "cookie-parser": "^1.4.7",
     "dayjs": "^1.11.19",
     "ejs": "^3.1.10",
     "express": "^4.22.1",
-    "node-xlsx": "^0.24.0"
+    "node-xlsx": "^0.24.0",
+    "npm": "^11.13.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.16.0",
