@@ -15,6 +15,7 @@
             } */
 
             .featurette-image {
+                border: 5px ridge #b90013;
                 object-fit: contain;
                 width: auto;
                 height: auto;
@@ -26,6 +27,102 @@
     <%- include('../includes/header.html') %>
 
         <div class="robots">
+
+            <!--Nausicaa-->
+            <div class="row featurette">
+                <div class="col-md-7 order-md-2">
+                    <h2 class="featurette-heading">Nausicaa 2026 - Rebuilt</span></h2>
+                    <p class="lead">Nausicaa, our 2026 robot, highlights the efforts of our
+                        team in every subsystem. Our robot is capable of intaking from
+                        the ground and human player station, traversing under
+                        the trench and over the bump, passing fuel from the opposing
+                        alliance zone/neutral zone into the alliance zone, and
+                        scoring from anywhere in our alliance zone.
+                    </p><br><br>
+                    <div><b>Tech Specs:</b>
+                        <ul>
+                            <li>
+                                <div><strong>Weight:</strong> 114.7 lbs</div>
+                            </li>
+                            <li>
+                                <div><strong>Size:</strong> 27" W x 25" L x 21.5" H</div>
+                            </li>
+                            <li>
+                                <div><strong>Drive/Bumpers:</strong> Swerve drive train controlled by
+                                    BreakerLib’s swerve drive code, with a bumper opening on the
+                                    robot’s left enabling the (now nonfunctional) climb elevator to
+                                    enclose the side of the tower.</div>
+                            </li>
+                            <li>
+                                <div><strong>Intake:</strong> Over-the-bumper full width intake
+                                    with a metal bar to protect important components in collisions,
+                                    using one motor to pivot the intake over the bumper and one motor
+                                    to spin the rollers.</div>
+                            </li>
+                            <li>
+                                <div><strong>Hopper:</strong> Extendable/retractable polycarb
+                                    enclosure that can hold 34 fuel with a vinyl display of our sponsors
+                                    and our title on the outside, hooks into extrusions from the hood
+                                    and deploys on initialization of the autonomous period.</div>
+                                <ul>
+                                    <li>
+                                        <div><strong>Indexer:</strong> Six belts on the edges of
+                                            three channels separated by metal plates that guide fuel
+                                            into one of our three groups of shooter flywheels.</div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <div><strong>Shooter:</strong> Three groups of flywheels with two colson
+                                    wheels and one brass flywheel each, in addition to four slower wheels in each
+                                    group that increase the speed of the fuel before it is fed into the main wheels.
+                                </div>
+                                <ul>
+                                    <li>
+                                        <div><strong>Hood:</strong> Three curved plates that emerge
+                                            from three pockets of a similar size, connected by belts on
+                                            both sides; one side is powered by a motor and the other connects
+                                            to an encoder allowing for precise aiming of the shooter’s output.</div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <div><strong>Vision and Automation:</strong> This year, we used three
+                                    Limelight 4 cameras that allowed us to have full-field localization with
+                                    MegaTag. We also use some of our own vision methods to rotate to the hub
+                                    and interpolate between data points to find accurate shooting angles
+                                    for our hood. This allowed us to decrease the driver’s need for precision
+                                    in favor of consistently fast cycles.</div>
+                            </li>
+                            <li>
+                                <div><strong>Autonomous:</strong> Our robot can go under the trench to the
+                                    neutral zone, intake fuel, and come back to the alliance zone, emptying the
+                                    hopper into the hub. Later, we also added on to this auto by adding another
+                                    half a cycle to end the autonomous period with a full hopper, allowing us to
+                                    immediately shoot again in the transition period.</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div><b>Awards:</b>
+                        <ul>
+                            <li>
+                                <div><strong>Industrial Design Award:</strong> San Francisco District</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div> <b>Resources:</b>
+                        <ul>
+                            <li><b>Code: </b><a target=”_blank”
+                                    href=”https://github.com/BreakerBots/Nausicaa_2026”>Nausicaa</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-5"> <img class="featurette-image img-fluid d-block"
+                        src="../images/robots/Nausicaa.webp">
+                </div>
+            </div>
+            <hr class="featurette-divider">
 
             <!--Minnow-->
             <div class="row featurette">
